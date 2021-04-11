@@ -1,0 +1,127 @@
+.container {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  height: 100px;
+}
+
+.container .search {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: grey solid 1px;
+  transition: all 1s;
+  z-index: 4;
+}
+
+.container .search:hover {
+  cursor: pointer;
+  border: none;
+}
+
+.container .search:focus {
+  cursor: pointer;
+  border: none;
+}
+
+.container .search::before {
+  content: '';
+  position: absolute;
+  margin: auto;
+  top: 12px;
+  right: 0;
+  bottom: 0;
+  left: 10px;
+  width: 12px;
+  height: 2px;
+  background: grey;
+  border: grey solid 1px;
+  transform: rotate(45deg);
+  transition: all 0.5s;
+}
+
+.container .search::after {
+  content: '';
+  position: absolute;
+  margin: auto;
+  top: -5px;
+  right: 0;
+  bottom: 0;
+  left: -5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid grey;
+  transition: all 0.5s;
+}
+
+.container input {
+  font-family: 'Poppins', serif;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  outline: none;
+  background: #ffffff54;
+  color: #000000fa;
+  padding: 0 80px 0 20px;
+  border-radius: 30px;
+  border: 1px solid grey;
+  transition: all 1s;
+  opacity: 0;
+  z-index: 5;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.container input:hover {
+  cursor: pointer;
+}
+
+.container input:focus {
+  width: 300px;
+  opacity: 1;
+  cursor: text;
+}
+
+.container input:focus ~ .search {
+  right: -250px;
+  background: transparent;
+  z-index: 6;
+}
+
+.container input:focus ~ .search::before {
+  top: 0;
+  left: 0;
+  width: 18px;
+}
+
+.container input:focus ~ .search::after {
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  border: none;
+  background: gray;
+  border-radius: 0%;
+  transform: rotate(-45deg);
+}
+
+.container input::placeholder {
+  color: gray;
+  opacity: 0.5;
+}
