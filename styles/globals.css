@@ -1,0 +1,53 @@
+:root {
+  --light: 300;
+  --regular: 400;
+  --medium: 500;
+  --bold: 600;
+  --extra-bold: 700;
+  font-family: 'Poppins', serif;
+}
+
+body {
+  line-height: 1.35 !important;
+  font-family: 'Poppins', serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 14px;
+}
