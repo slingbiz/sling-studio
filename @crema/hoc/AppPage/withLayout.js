@@ -6,7 +6,6 @@ import useStyles from '../../../shared/jss/common/common.style';
 const withLayout = (ComposedComponent) => (props) => {
   useStyles();
   const {navStyle} = useContext(AppContext);
-  console.log(navStyle, '@navStyle')
   const AppLayout = Layouts[navStyle];
   return (
     <AppLayout>

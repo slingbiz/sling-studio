@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux';
 
 import InfoView from '../../../@crema/core/InfoView';
 import {onJwtSignIn, onSignInAuth0User} from '../../../redux/actions';
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -193,13 +193,15 @@ const SigninJwtAuth = (props) => {
                     <IntlMessages id='common.dontHaveAccount' />
                   </Box>
                   <Box component='span'>
-                    <Link
-                      href='/signup'
-                      >
-                      <a className={clsx(
-                        classes.underlineNone,
-                        classes.colorTextPrimary,
-                      )}> <IntlMessages id='common.signup' /></a>
+                    <Link href='/signup'>
+                      <a
+                        className={clsx(
+                          classes.underlineNone,
+                          classes.colorTextPrimary,
+                        )}>
+                        {' '}
+                        <IntlMessages id='common.signup' />
+                      </a>
                     </Link>
                   </Box>
                 </Box>

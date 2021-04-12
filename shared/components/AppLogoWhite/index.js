@@ -33,6 +33,9 @@ const AppLogoWhite = () => {
           alt='crema-logo'
         />
       </Hidden>
+      <Box color='white' fontSize={16} fontWeight={500} mt={4} mb={3}>
+        FE
+      </Box>
     </Box>
   );
 };
