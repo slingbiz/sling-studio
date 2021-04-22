@@ -22,6 +22,7 @@ export const onGetEcommerceData = (filterData) => {
     })
       .then((data) => {
         if (data.status === 200) {
+          console.log(data, '@onGetEcommerceData, actions');
           dispatch({type: FETCH_SUCCESS});
           dispatch({type: GET_ECOMMERCE_LIST, payload: data.data});
         } else {

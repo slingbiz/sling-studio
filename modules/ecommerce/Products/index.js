@@ -6,7 +6,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import AppsContainer from '../../../@crema/core/AppsContainer';
 import ProductsSidebar from './ProductsSidebar';
 
-const Products = () => {
+const Products = (props) => {
+  console.log(props, 'props@ [Product/index.js]');
   const {messages} = useIntl();
   return (
     <AppsContainer

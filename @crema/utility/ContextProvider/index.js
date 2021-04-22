@@ -4,23 +4,25 @@ import AppContext from '../AppContext';
 import PropTypes from 'prop-types';
 import {contextReducer, ThemeSetting} from './ContextReducer';
 
-export const ContextState = {
-  theme: defaultConfig.theme,
-  footer: defaultConfig.footer,
-  footerType: defaultConfig.footerType,
-  themeMode: defaultConfig.themeMode,
-  headerMode: defaultConfig.headerMode,
-  themeStyle: defaultConfig.themeStyle,
-  layoutType: defaultConfig.layoutType,
-  isRTL: defaultConfig.theme.direction === 'rtl',
-  locale: defaultConfig.locale,
-  navStyle: defaultConfig.navStyle,
-  rtAnim: defaultConfig.rtAnim,
-  primary: defaultConfig.theme.palette.primary.main,
-  sidebarColor: defaultConfig.theme.palette.sidebar.bgColor,
-  secondary: defaultConfig.theme.palette.secondary.main,
-};
-const ContextProvider = ({children}) => {
+const ContextProvider = ({children, initConfig}) => {
+
+  const ContextState = {
+    theme: initConfig.theme,
+    footer: initConfig.footer,
+    footerType: initConfig.footerType,
+    themeMode: initConfig.themeMode,
+    headerMode: initConfig.headerMode,
+    themeStyle: initConfig.themeStyle,
+    layoutType: initConfig.layoutType,
+    isRTL: initConfig.theme.direction === 'rtl',
+    locale: initConfig.locale,
+    navStyle: initConfig.navStyle,
+    rtAnim: initConfig.rtAnim,
+    primary: initConfig.theme.palette.primary.main,
+    sidebarColor: initConfig.theme.palette.sidebar.bgColor,
+    secondary: initConfig.theme.palette.secondary.main,
+  };
+
   const [state, dispatch] = useReducer(
     contextReducer,
     ContextState,
@@ -86,7 +88,7 @@ const ContextProvider = ({children}) => {
       value={{
         ...state,
         updateLayoutStyle,
-        rtlLocale: defaultConfig.rtlLocale,
+        rtlLocale: initConfig.rtlLocale,
         setRTL,
         updateSidebarColor,
         setFooter,
@@ -110,4 +112,5 @@ export default ContextProvider;
 
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  initConfig: PropTypes.object,
 };

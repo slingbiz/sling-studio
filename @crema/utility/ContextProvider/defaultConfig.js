@@ -11,6 +11,7 @@ import {
 } from '../../../shared/constants/AppEnums';
 
 const breakpoints = createBreakpoints({});
+console.log("breakpoints.down('md')", breakpoints.down('md'));
 const cardRadius = ThemeStyleRadius.STANDARD;
 const defaultConfig = {
   theme: {

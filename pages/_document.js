@@ -1,7 +1,6 @@
-import React from "react";
-import Document, { Head, Html, Main, NextScript } from "next/document";
-import { ServerStyleSheets } from "@material-ui/core/styles";
-import defaultConfig from "../@crema/utility/ContextProvider/defaultConfig";
+import React from 'react';
+import Document, {Head, Html, Main, NextScript} from 'next/document';
+import {ServerStyleSheets} from '@material-ui/core/styles';
 
 export default class MyDocument extends Document {
   render() {
@@ -10,21 +9,23 @@ export default class MyDocument extends Document {
         <Head>
           <link rel='icon' href='/favicon.ico' />
           {/* PWA primary color */}
-          <meta
-            name='theme-color'
-            content={defaultConfig.theme.palette.primary.main}
+          {/*<meta*/}
+          {/*  name='theme-color'*/}
+          {/*  content={defaultConfig.theme.palette.primary.main}*/}
+          {/*/>*/}
+          <link
+            href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap'
+            rel='stylesheet'
           />
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap"
-                rel="stylesheet" />
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
         </Head>
         <body>
-        <div id='root' />
-        <Main />
-        <NextScript />
+          <div id='root' />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );
@@ -62,7 +63,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />)
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -72,7 +73,7 @@ MyDocument.getInitialProps = async (ctx) => {
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [
       ...React.Children.toArray(initialProps.styles),
-      sheets.getStyleElement()
-    ]
+      sheets.getStyleElement(),
+    ],
   };
 };

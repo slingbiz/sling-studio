@@ -15,19 +15,19 @@ import ChatApp from './ChatApp';
 import Wall from './Wall';
 
 const reducers = combineReducers({
-    settings: Settings,
-    auth: Auth,
-    mailApp: MailApp,
-    dashboard: Dashboard,
-    common: Common,
-    editors: Editors,
-    todoApp: ToDoApp,
-    gallery: Gallery,
-    userList: UserList,
-    ecommerce: Ecommerce,
-    contactApp: ContactApp,
-    scrumboardApp: ScrumboardApp,
-    chatApp: ChatApp,
-    wall: Wall,
-  });
+  settings: Settings,
+  auth: Auth,
+  mailApp: MailApp,
+  dashboard: Dashboard,
+  common: Common,
+  editors: Editors,
+  todoApp: ToDoApp,
+  gallery: Gallery,
+  userList: UserList,
+  ecommerce: Ecommerce,
+  contactApp: ContactApp,
+  scrumboardApp: ScrumboardApp,
+  chatApp: ChatApp,
+  wall: Wall,
+});
 export default reducers;

@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductListing = () => {
+const ProductListing = (props) => {
+  console.log(props, 'props @ProductListing');
   const {viewType} = useSelector(({ecommerce}) => ecommerce);
   const dispatch = useDispatch();
   const classes = useStyles();
