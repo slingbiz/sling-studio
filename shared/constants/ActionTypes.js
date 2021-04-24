@@ -145,3 +145,7 @@ export const UPDATE_CUSTOM_DATA = 'update_custom_data';
 
 //GALLERY
 export const GET_GALLERY_PHOTO = 'get_gallery_photo';
+
+//LAYOUT
+export const GET_LAYOUT = 'GET_LAYOUT';
+export const SET_LAYOUT = 'SET_LAYOUT';

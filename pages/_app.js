@@ -13,11 +13,12 @@ import AuthRoutes from '../@crema/utility/AuthRoutes';
 import PageMeta from '../@crema/core/PageMeta';
 import App from 'next/app';
 import {default as defaultStaticConfig} from '../@crema/utility/ContextProvider/defaultConfig';
+import {useRouter} from "next/router";
 
 // eslint-disable-next-line react/prop-types
 const MyApp = ({Component, pageProps, user, initConfig, layoutConfig}) => {
-  const store = useStore(pageProps);
-  console.log(pageProps, '@pageprops @myapp');
+  const store = useStore({...pageProps, layout: layoutConfig});
+  // console.log(pageProps, '@pageprops @myapp');
   // console.log(pageProps.initialReduxState, " @pageprops @Myapp")
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -37,7 +38,7 @@ const MyApp = ({Component, pageProps, user, initConfig, layoutConfig}) => {
               <LocaleProvider>
                 <AuthRoutes>
                   <CssBaseline />
-                  <Component {...pageProps} {...layoutConfig} />
+                  <Component />
                 </AuthRoutes>
               </LocaleProvider>
             </CremaStyleProvider>
@@ -51,7 +52,7 @@ const MyApp = ({Component, pageProps, user, initConfig, layoutConfig}) => {
 MyApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   let response = {};
-  const {ctx} = appContext;
+  const {ctx, Component} = appContext;
   const {pathname, query, asPath} = ctx;
   console.log('Running _app.js api call');
   try {
@@ -71,8 +72,6 @@ MyApp.getInitialProps = async (appContext) => {
   }
 
   const {initConfigData, layoutConfig} = response;
-  appContext.ctx.layoutConfig = 234;
-  // const appProps = await App.getInitialProps(appContext);
 
   return {initConfig: initConfigData, layoutConfig};
 };

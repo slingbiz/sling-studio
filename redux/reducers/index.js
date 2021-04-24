@@ -13,6 +13,7 @@ import ScrumboardApp from './ScrumboardApp';
 import Auth from './Auth';
 import ChatApp from './ChatApp';
 import Wall from './Wall';
+import Layout from './Layout';
 
 const reducers = combineReducers({
   settings: Settings,
@@ -29,5 +30,6 @@ const reducers = combineReducers({
   scrumboardApp: ScrumboardApp,
   chatApp: ChatApp,
   wall: Wall,
+  layout: Layout,
 });
 export default reducers;
