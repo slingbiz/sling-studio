@@ -6,7 +6,7 @@ import {
 } from '../../../redux/actions/ContactApp';
 import ContactListing from './ContactListing';
 import {useIntl} from 'react-intl';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@crema/wrappers/AppsContainer';
 import SideBarContent from './ContactSideBar';
 
 const Contact = () => {

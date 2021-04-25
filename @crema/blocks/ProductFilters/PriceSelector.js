@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from '@material-ui/core/Slider';
 import {Box, withStyles} from '@material-ui/core';
-import {Fonts} from '../../../../shared/constants/AppEnums';
+import {Fonts} from '../../../shared/constants/AppEnums';
 
 const ThumbBoxShadow =
   '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';

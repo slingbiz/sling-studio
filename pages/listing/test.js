@@ -14,7 +14,7 @@ import Api from '../../@crema/services/ApiConfig';
 export default ProductListing;
 
 export async function getServerSideProps(ctx) {
-  console.log(ctx.layoutConfig, '@getServerSideProps - props')
+  console.log(ctx.layoutConfig, '@getServerSideProps - props');
   console.log('Running getServerSideProps.js api call(test.js)');
 
   // console.log('@onGetEcommerceData START');
@@ -23,7 +23,21 @@ export async function getServerSideProps(ctx) {
   });
   if (data.status === 200) {
     // console.log(data.data, 'data.data');
-    return {props: {ecommerce: {ecommerceList: data.data}}};
+    return {
+      props: {
+        ecommerce: {
+          ecommerceList: data.data,
+          filterData: {
+            title: '',
+            brand: [],
+            ideaFor: [],
+            discount: [],
+            color: [],
+            rating: [],
+          },
+        },
+      },
+    };
   } else {
     return {props: {}};
   }

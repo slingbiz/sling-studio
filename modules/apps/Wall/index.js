@@ -11,7 +11,7 @@ import WhoToFollow from './WhoToFollow';
 import Suggestions from './Suggestions';
 import CreatePost from './CreatePost';
 import PostsList from './PostsList';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@crema/wrappers/AppsContainer';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {useIntl} from 'react-intl';
 

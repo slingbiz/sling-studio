@@ -11,9 +11,9 @@ import {
 import {Hidden} from '@material-ui/core';
 import AppsPagination from '../../../../@crema/core/AppsPagination';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
-import AppsFooter from '../../../../@crema/core/AppsContainer/AppsFooter';
+import AppsContent from '../../../../@crema/wrappers/AppsContent';
+import AppsHeader from '../../../../@crema/wrappers/AppsHeader';
+import AppsFooter from '../../../../@crema/wrappers/AppsFooter';
 import AppList from '../../../../@crema/core/AppList';
 import ListEmptyResult from '../../../../@crema/core/AppList/ListEmptyResult';
 import EmailListSkeleton from '../../../../@crema/core/Skeleton/EmailListSkeleton';

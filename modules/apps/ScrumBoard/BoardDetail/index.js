@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsContainer from '../../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../../@crema/wrappers/AppsContainer';
 import BoardDetailView from './BoardDetailView';
 import {useRouter} from 'next/router';
 import {

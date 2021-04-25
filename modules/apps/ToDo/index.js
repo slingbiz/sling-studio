@@ -12,7 +12,7 @@ import {
 } from '../../../redux/actions';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@crema/wrappers/AppsContainer';
 import {withRouter} from 'next/router';
 
 const ToDo = props => {

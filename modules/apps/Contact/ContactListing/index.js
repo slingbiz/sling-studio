@@ -14,9 +14,9 @@ import {Hidden} from '@material-ui/core';
 import ContactViewContent from './ContactViewContent';
 import ContactDetail from '../ContactDetail';
 import AppsPagination from '../../../../@crema/core/AppsPagination';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
-import AppsFooter from '../../../../@crema/core/AppsContainer/AppsFooter';
+import AppsHeader from '../../../../@crema/wrappers/AppsHeader';
+import AppsContent from '../../../../@crema/wrappers/AppsContent';
+import AppsFooter from '../../../../@crema/wrappers/AppsFooter';
 
 const ContactListing = () => {
   const dispatch = useDispatch();

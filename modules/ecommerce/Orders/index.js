@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import OrderTable from './OrderTable';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@crema/wrappers/AppsContainer';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRecentOrders} from '../../../redux/actions/Ecommerce';
 import {Button, Hidden} from '@material-ui/core';
-import AppsHeader from '../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../@crema/core/AppsContainer/AppsContent';
+import AppsHeader from '../../../@crema/wrappers/AppsHeader';
+import AppsContent from '../../../@crema/wrappers/AppsContent';
 import AppsPagination from '../../../@crema/core/AppsPagination';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';

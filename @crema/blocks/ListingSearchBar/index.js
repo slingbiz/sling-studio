@@ -3,20 +3,25 @@ import {Box} from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from '@material-ui/core/IconButton';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppSearch from '../../core/SearchBar';
-import {setViewType} from '../../../redux/actions/Ecommerce';
+import {setFilters, setViewType} from '../../../redux/actions/Ecommerce';
 import {VIEW_TYPE} from '../../../redux/reducers/Ecommerce';
 
 const ListingSearchBar = ({parentProps}) => {
   const dispatch = useDispatch();
-  const {viewType, onChange} = parentProps;
+  const {viewType} = parentProps;
+  const {filterData} = useSelector(({ecommerce}) => ecommerce);
+
+  const searchProduct = (title) => {
+    dispatch(setFilters({...filterData, title}));
+  };
 
   return (
     <Box display='flex' alignItems='center'>
       <AppSearch
         placeholder='Search here'
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => searchProduct(e.target.value)}
       />
       <IconButton onClick={() => dispatch(setViewType(VIEW_TYPE.LIST))}>
         <ListIcon color={viewType === VIEW_TYPE.LIST ? 'primary' : 'inherit'} />

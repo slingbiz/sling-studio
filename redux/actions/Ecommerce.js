@@ -15,6 +15,7 @@ import {
 import Api from '../../@crema/services/ApiConfig';
 
 export const onGetEcommerceData = (filterData) => {
+  console.log('adfadfasfas');
   return (dispatch) => {
     dispatch({type: FETCH_START});
     Api.get('/api/ecommerce/list', {

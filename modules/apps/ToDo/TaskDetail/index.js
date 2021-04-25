@@ -4,8 +4,8 @@ import TaskDetailBody from './TaskDetailBody';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetSelectedTask} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
+import AppsHeader from '../../../../@crema/wrappers/AppsHeader';
+import AppsContent from '../../../../@crema/wrappers/AppsContent';
 
 const TaskDetail = () => {
   const dispatch = useDispatch();

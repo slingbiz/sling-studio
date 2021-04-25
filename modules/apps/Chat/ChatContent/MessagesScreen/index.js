@@ -19,9 +19,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import grey from '@material-ui/core/colors/grey';
-import AppsHeader from '../../../../../@crema/core/AppsContainer/AppsHeader';
-import {useAppsContentStyles} from '../../../../../@crema/core/AppsContainer/AppsContent';
-import AppsFooter from '../../../../../@crema/core/AppsContainer/AppsFooter';
+import AppsHeader from '../../../../../@crema/wrappers/AppsHeader';
+import {useAppsContentStyles} from '../../../../../@crema/wrappers/AppsContent';
+import AppsFooter from '../../../../../@crema/wrappers/AppsFooter';
 import {MessageType} from '../../../../../@crema/services/db/apps/chat/connectionList';
 
 const useStyles = makeStyles((theme) => ({
