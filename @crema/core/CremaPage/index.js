@@ -10,13 +10,13 @@ const SITE_URL =
 const defaultTitle = 'Crema React Admin Template';
 const defaultDescription =
   'Pure React hooks base admin template with material-ui.';
-const defaultImage = `/images/logo-with-name.jpg`;
+const defaultImage = `/images/sling-fe.jpg`;
 const defaultSep = ' | ';
-
 const CremaPage = ({children, id, className, ...rest}) => {
   const {pathname} = useRouter();
 
   const {title, description, image, contentType} = rest;
+  console.log(image, '@imagge@', defaultImage);
 
   const theTitle = title
     ? (title + defaultSep + defaultTitle).substring(0, 60)

@@ -38,7 +38,7 @@ const CremaLayout = ({children}) => {
   const {navStyle} = useContext(AppContext);
   const {user} = useSelector(({auth}) => auth);
   const AppLayout = Layouts[navStyle];
-
+console.log(nav)
   const classes = useStyle();
   return (
     <>

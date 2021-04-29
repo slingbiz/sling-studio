@@ -38,8 +38,8 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/logo-white-with-name.png'
-              : '/images/logo-with-name.png'
+              ? '/images/sling-fe.png'
+              : '/images/sling-fe.png'
           }
           alt='crema-logo'
         />

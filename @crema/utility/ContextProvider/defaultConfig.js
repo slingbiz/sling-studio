@@ -133,7 +133,7 @@ const defaultConfig = {
   },
   themeStyle: ThemeStyle.STANDARD,
   themeMode: ThemeMode.SEMI_DARK,
-  navStyle: NavStyle.STANDARD,
+  navStyle: NavStyle.MINI_SIDEBAR_TOGGLE,
   layoutType: LayoutType.FULL_WIDTH,
   footerType: FooterType.FLUID,
   headerType: HeaderType.DARK,
