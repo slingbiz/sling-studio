@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GridItem = (props) => {
+const Item = (props) => {
   const {item} = props;
   const dispatch = useDispatch();
   const router = useRouter();
@@ -140,8 +140,8 @@ const GridItem = (props) => {
   );
 };
 
-export default GridItem;
+export default Item;
 
-GridItem.propTypes = {
+Item.propTypes = {
   item: PropTypes.object.isRequired,
 };

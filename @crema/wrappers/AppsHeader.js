@@ -6,6 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles((theme) => ({
   appHeader: {
     height: 120,
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     borderBottom: `1px solid ${grey[300]}`,

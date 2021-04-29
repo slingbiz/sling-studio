@@ -7,13 +7,31 @@ import Card from '@material-ui/core/Card';
 import {Box} from '@material-ui/core';
 import useStyles from './AppsContainer/index.style';
 import {useDispatch} from 'react-redux';
+import {makeStyles} from '@material-ui/core/styles';
 
 const AppSidebar = (props) => {
-  const {isAppDrawerOpen, footer, navStyle, fullView, sidebarContent, children} = props;
-  const dispatch = useDispatch();
+  const {
+    isAppDrawerOpen,
+    footer,
+    navStyle,
+    fullView,
+    style,
+    sidebarContent,
+    children,
+  } = props;
+
   const classes = useStyles({footer, navStyle, fullView});
+  const useStylesBase = makeStyles({
+    root: {
+      ...style,
+    },
+  });
+  const classesBase = useStylesBase();
+  const className = clsx(classes.appsSidebar, classesBase.root);
+
+  const dispatch = useDispatch();
   return (
-    <Box className={classes.appsSidebar}>
+    <Box className={className}>
       <Hidden lgUp>
         <Drawer
           open={isAppDrawerOpen}

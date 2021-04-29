@@ -27,7 +27,9 @@ const useStyles = makeStyles({
     marginTop: 16,
   },
 });
-const ProductSidebar = () => {
+const ProductSidebar = (props) => {
+  const {payload} = props;
+  const {style} = payload || {};
   const classes = useStyles();
   const dispatch = useDispatch();
   const {filterData} = useSelector(({ecommerce}) => ecommerce);
@@ -105,7 +107,8 @@ const ProductSidebar = () => {
     <AppSidebar
       isAppDrawerOpen={isAppDrawerOpen}
       footer={footer}
-      navStyle={navStyle}>
+      navStyle={navStyle}
+      style={style}>
       <Scrollbar className='scroll-app-sidebar'>
         <Box p={6}>
           <Box component='h5' mb={2} fontWeight={Fonts.MEDIUM}>

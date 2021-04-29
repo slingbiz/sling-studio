@@ -143,7 +143,7 @@ const GridView = ({
   );
 };
 
-export default withWidth()(GridView);
+export default (GridView);
 GridView.propTypes = {
   border: PropTypes.bool,
   column: PropTypes.number,

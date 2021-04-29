@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box} from '@material-ui/core';
+import {Box, Card} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {VIEW_TYPE} from '../../../redux/reducers/Ecommerce';
 import ProductGrid from '../../../modules/ecommerce/Products/ProductListing/ProductGrid';
