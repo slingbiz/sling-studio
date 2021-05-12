@@ -86,7 +86,7 @@ const HorUserInfo = ({bgType = 'colored'}) => {
           <Box ml={3} className={classes.userName}>
             {user.displayName ? user.displayName : user.email}
             <Box fontSize={13} fontWeight={Fonts.LIGHT}>
-              System Manager
+              sd Manager
             </Box>
           </Box>
         </Hidden>

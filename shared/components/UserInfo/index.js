@@ -134,7 +134,7 @@ const UserInfo = (props) => {
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>System Manager</Box>
+          <Box className={classes.designation}>Admin</Box>
         </Box>
       </Box>
     </Box>

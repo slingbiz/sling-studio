@@ -67,31 +67,31 @@ const defaultConfig = {
     overrides: {
       MuiTypography: {
         h1: {
-          fontSize: 22,
-        },
-        h2: {
-          fontSize: 20,
-        },
-        h3: {
           fontSize: 18,
         },
-        h4: {
+        h2: {
           fontSize: 16,
         },
-        h5: {
+        h3: {
           fontSize: 14,
+        },
+        h4: {
+          fontSize: 14,
+        },
+        h5: {
+          fontSize: 12,
         },
         h6: {
           fontSize: 14,
         },
         subtitle1: {
-          fontSize: 14,
+          fontSize: 12,
         },
         subtitle2: {
-          fontSize: 16,
+          fontSize: 14,
         },
         body1: {
-          fontSize: 14,
+          fontSize: 12,
         },
         body2: {
           fontSize: 12,
@@ -133,7 +133,7 @@ const defaultConfig = {
   },
   themeStyle: ThemeStyle.STANDARD,
   themeMode: ThemeMode.SEMI_DARK,
-  navStyle: NavStyle.MINI_SIDEBAR_TOGGLE,
+  navStyle: NavStyle.HEADER_USER_MINI,
   layoutType: LayoutType.FULL_WIDTH,
   footerType: FooterType.FLUID,
   headerType: HeaderType.DARK,

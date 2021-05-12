@@ -10,7 +10,7 @@ import AppContext from '../../../utility/AppContext';
 import {useSelector} from 'react-redux';
 import {checkPermission} from '../../../utility/Utils';
 
-const VerticalNavGroup = ({item, level}) => {
+const VerticalNavGroup = ({item, level, pages}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
   const {user} = useSelector(({auth}) => auth);
@@ -38,7 +38,7 @@ const VerticalNavGroup = ({item, level}) => {
               )}
 
               {item.type === 'collapse' && (
-                <VerticalCollapse item={item} level={level} />
+                <VerticalCollapse item={item} level={level} pages={pages} />
               )}
 
               {item.type === 'item' && (

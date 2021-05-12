@@ -3,14 +3,14 @@ import 'firebase/auth';
 import 'firebase/firestore';
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyAzL_2jiVBhmiIUFGs2z6-cDR-Hgoedh3k',
-  authDomain: 'crema-react.firebaseapp.com',
-  databaseURL: 'https://crema-react.firebaseio.com',
-  projectId: 'crema-react',
-  storageBucket: 'crema-react.appspot.com',
-  messagingSenderId: '369173776768',
-  appId: '1:369173776768:web:895ded916749deebd31965',
-  measurementId: 'G-976YVMRB4R',
+  apiKey: 'AIzaSyB3a2pmgl_fTrpUDk2bef8Xh8ujHfq3-gA',
+  authDomain: 'my-project-1518948515247.firebaseapp.com',
+  databaseURL: 'https://my-project-1518948515247.firebaseio.com',
+  projectId: 'my-project-1518948515247',
+  storageBucket: 'my-project-1518948515247.appspot.com',
+  messagingSenderId: '320051739797',
+  appId: '1:320051739797:web:38770bb5360d0a17da2f9c',
+  measurementId: 'G-GHKN2H5QN2',
 };
 
 if (!firebase.apps.length) {

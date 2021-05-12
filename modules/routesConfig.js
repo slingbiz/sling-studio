@@ -6,6 +6,14 @@ const routesConfig = [
     type: 'group',
     children: [
       {
+        id: 'pages',
+        title: 'Pages',
+        messageId: 'sidebar.app.pages',
+        type: 'collapse',
+        icon: 'insert_chart',
+        url: '/pages/',
+      },
+      {
         id: 'dashboards',
         title: 'Dashboards',
         messageId: 'sidebar.app.dashboard',
@@ -878,7 +886,7 @@ const routesConfig = [
     ],
   },
   {
-    id: 'pages',
+    id: 'pages2',
     title: 'Pages',
     messageId: 'sidebar.pages',
     type: 'group',

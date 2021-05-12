@@ -111,7 +111,7 @@ const HeaderUser = (props) => {
                   fontSize={13}
                   fontWeight={Fonts.LIGHT}
                   color='text.secondary'>
-                  System Manager
+                  Admin
                 </Box>
               </Box>
             </Hidden>

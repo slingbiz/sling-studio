@@ -1,5 +1,11 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {Collapse, Icon, IconButton, ListItem, ListItemText,} from '@material-ui/core';
+import {
+  Collapse,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import VerticalItem from './VerticalItem';
@@ -9,7 +15,7 @@ import IntlMessages from '../../../utility/IntlMessages';
 import useStyles from './VerticalCollapase.style';
 import {useSelector} from 'react-redux';
 import {checkPermission} from '../../../utility/Utils';
-import {withRouter} from "next/router";
+import {withRouter} from 'next/router';
 
 const needsToBeOpened = (pathname, item) => {
   return pathname && isUrlInChildren(item, pathname);
@@ -38,13 +44,13 @@ const isUrlInChildren = (parent, url) => {
   return false;
 };
 
-const VerticalCollapse = ({item, level, router }) => {
+const VerticalCollapse = ({item, level, router, pages}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
   const {theme} = useContext(AppContext);
-  const {pathname} = router ;
+  const {pathname} = router;
   const [open, setOpen] = useState(() => needsToBeOpened(pathname, item));
-
+  console.log(pages, item.id, 'item.id, pages@@');
   useEffect(() => {
     if (needsToBeOpened(pathname, item)) {
       setOpen(true);
@@ -65,6 +71,20 @@ const VerticalCollapse = ({item, level, router }) => {
     return null;
   }
 
+  if (item.id === 'pages') {
+    console.log(item, 'item', pages);
+    item.children = pages?.map((v) => {
+      return {
+        id: v,
+        title: v.replaceAll(v, '-'),
+        messageId: `sidebar.pages.${v}`,
+        type: 'item',
+        icon: 'timeline',
+        url: `/pages/${v}`,
+      };
+    });
+  }
+
   return (
     <>
       <ListItem
@@ -83,7 +103,7 @@ const VerticalCollapse = ({item, level, router }) => {
         )}
         <ListItemText
           classes={{primary: clsx('nav-item-text', classes.listItemText)}}
-          primary={<IntlMessages id={item.messageId}/>}
+          primary={<IntlMessages id={item.messageId} />}
         />
         <Box p={0} clone>
           <IconButton disableRipple>
@@ -91,8 +111,8 @@ const VerticalCollapse = ({item, level, router }) => {
               {open
                 ? 'expand_more'
                 : theme.direction === 'ltr'
-                  ? 'chevron_right'
-                  : 'chevron_left'}
+                ? 'chevron_right'
+                : 'chevron_left'}
             </Icon>
           </IconButton>
         </Box>
@@ -105,13 +125,14 @@ const VerticalCollapse = ({item, level, router }) => {
               {item.type === 'collapse' && (
                 <VerticalCollapse
                   item={item}
+                  pages={pages}
                   level={level + 1}
-                  router ={router }
+                  router={router}
                 />
               )}
 
               {item.type === 'item' && (
-                <VerticalItem item={item} level={level + 1}/>
+                <VerticalItem item={item} level={level + 1} />
               )}
             </React.Fragment>
           ))}

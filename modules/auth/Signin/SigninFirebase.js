@@ -131,8 +131,8 @@ const SigninFirebase = (props) => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            email: 'crema.demo@gmail.com',
-            password: 'Pass@1!@all',
+            email: 'hello@slingfe.com',
+            password: 'slingfe',
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {

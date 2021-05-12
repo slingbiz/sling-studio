@@ -7,6 +7,7 @@ const withLayout = (ComposedComponent) => (props) => {
   useStyles();
   const {navStyle} = useContext(AppContext);
   const AppLayout = Layouts[navStyle];
+  console.log(navStyle, '@navstyle');
   return (
     <AppLayout>
       <ComposedComponent {...props} />
