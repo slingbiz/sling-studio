@@ -15,7 +15,7 @@ import {useIntl} from 'react-intl';
 import AppsContainer from '../../../@crema/core/AppsContainer';
 import {withRouter} from 'next/router';
 
-const ToDo = props => {
+const ToDo = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

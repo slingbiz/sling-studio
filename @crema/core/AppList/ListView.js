@@ -74,6 +74,7 @@ ListView.propTypes = {
   border: PropTypes.bool,
   animation: PropTypes.string,
   containerStyle: PropTypes.object,
+  pageClasses: PropTypes.object,
   ListEmptyComponent: PropTypes.node,
   ListFooterComponent: PropTypes.node,
   data: PropTypes.array.isRequired,

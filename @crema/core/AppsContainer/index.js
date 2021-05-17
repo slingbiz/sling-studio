@@ -17,9 +17,10 @@ const AppsContainer = (props) => {
   const dispatch = useDispatch();
   const {isAppDrawerOpen} = useSelector(({common}) => common);
   const {footer, navStyle} = useContext(AppContext);
-  const {title, sidebarContent, fullView, children} = props;
+  const {title, sidebarContent, fullView, children, pagesClasses} = props;
   const classes = useStyles({footer, navStyle, fullView});
 
+  console.log(pagesClasses, 'pagesClasses@appscontainer');
   return (
     <Box pt={{xl: 4}} flex={1} display='flex' flexDirection='column'>
       <Box
@@ -47,11 +48,11 @@ const AppsContainer = (props) => {
           {title}
         </Box>
       </Box>
-
       <Box className={classes.appsContainer}>
         {sidebarContent ? (
           <AppSidebar
             isAppDrawerOpen={isAppDrawerOpen}
+            pagesClasses={pagesClasses}
             footer={footer}
             fullView={fullView}
             navStyle={navStyle}

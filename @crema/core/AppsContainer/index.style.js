@@ -64,6 +64,15 @@ const useStyles = makeStyles((theme) => ({
       width: '20rem',
     },
   },
+  pagesSideBar: {
+    height: '100%',
+    [theme.breakpoints.up('lg')]: {
+      width: '14rem',
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: '15rem',
+    },
+  },
   appsMainContent: (props) => ({
     width: '100%',
     display: 'flex',
@@ -84,6 +93,8 @@ const useStyles = makeStyles((theme) => ({
     height: 35,
   },
   appSidebarDrawer: {
+    margin: '0',
+    padding: '0',
     width: '19rem',
     '& .listItem': {
       zIndex: 1305,

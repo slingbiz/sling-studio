@@ -23,6 +23,7 @@ export default AppList;
 AppList.propTypes = {
   border: PropTypes.bool,
   containerStyle: PropTypes.object,
+  pageClasses: PropTypes.object,
   ListEmptyComponent: PropTypes.node,
   ListFooterComponent: PropTypes.node,
   data: PropTypes.array.isRequired,

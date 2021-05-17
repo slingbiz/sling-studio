@@ -9,13 +9,17 @@ import Icon from '@material-ui/core/Icon';
 import Link from 'next/link';
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
+import grey from '@material-ui/core/colors/grey';
 
-const useStyle = makeStyles(theme => ({
+const useStyle = makeStyles((theme) => ({
   listItem: {
+    display: 'flex',
     paddingLeft: '10px',
     paddingRight: '0',
-    paddingTop: '5px',
-    paddingBottom: '5px',
+    paddingTop: '25px',
+    paddingBottom: '25px',
+    borderBottom: `1px solid ${grey[300]}`,
+    boxShadow: '0 1px 1px rgb(0 0 0 / 10%)',
 
     '& .MuiListItemText-root': {
       [theme.breakpoints.down('lg')]: {
@@ -63,7 +67,7 @@ const useStyle = makeStyles(theme => ({
   },
 }));
 
-const WrappedIcon = props => <Icon {...props} />;
+const WrappedIcon = (props) => <Icon {...props} />;
 
 const AppsSideBarFolderItem = ({item, path}) => {
   const classes = useStyle();
@@ -73,16 +77,16 @@ const AppsSideBarFolderItem = ({item, path}) => {
     return data[data.length - 1];
   };
   return (
-    <Link href={path}>
+    <Link href={path} >
       <ListItem
         button
         key={item.id}
         className={clsx(classes.listItem, {
           active: getSelectedRoute() === query.all[1],
         })}>
-        <Box component='span' mr={{xs: 4, xl: 5}}>
-          <ListItemIcon className={classes.listItemIcon}>
             <WrappedIcon>{item.icon}</WrappedIcon>
+        <Box mr={{xs: 4, xl: 5}}>
+          <ListItemIcon className={classes.listItemIcon}>
           </ListItemIcon>
         </Box>
         <ListItemText primary={item.name} className={classes.listItemText} />
