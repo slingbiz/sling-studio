@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('lg')]: {
-      width: `calc(100% - ${props.fullView ? 0 : 17}rem)`,
+      width: `calc(100% - ${props.fullView ? 0 : 13}rem)`,
       paddingLeft: props.fullView ? 0 : 40,
     },
     [theme.breakpoints.up('xl')]: {

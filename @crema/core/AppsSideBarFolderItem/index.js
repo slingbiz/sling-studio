@@ -18,7 +18,6 @@ const useStyle = makeStyles((theme) => ({
     paddingRight: '0',
     paddingTop: '25px',
     paddingBottom: '25px',
-    borderBottom: `1px solid ${grey[300]}`,
     boxShadow: '0 1px 1px rgb(0 0 0 / 10%)',
 
     '& .MuiListItemText-root': {
@@ -77,17 +76,16 @@ const AppsSideBarFolderItem = ({item, path}) => {
     return data[data.length - 1];
   };
   return (
-    <Link href={path} >
+    <Link href={path}>
       <ListItem
         button
         key={item.id}
         className={clsx(classes.listItem, {
           active: getSelectedRoute() === query.all[1],
         })}>
-            <WrappedIcon>{item.icon}</WrappedIcon>
+        <WrappedIcon>{item.icon}</WrappedIcon>
         <Box mr={{xs: 4, xl: 5}}>
-          <ListItemIcon className={classes.listItemIcon}>
-          </ListItemIcon>
+          <ListItemIcon className={classes.listItemIcon}></ListItemIcon>
         </Box>
         <ListItemText primary={item.name} className={classes.listItemText} />
       </ListItem>
