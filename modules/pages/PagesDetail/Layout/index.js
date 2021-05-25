@@ -2,9 +2,13 @@ import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {useIntl} from 'react-intl';
-import {red} from '@material-ui/core/colors';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import DragMe from './DragMe';
+import ListItemText from '@material-ui/core/ListItemText';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
+import EditLayout from './EditLayout';
+import LayoutView from './LayoutView';
 
 // fake data generator
 const getItems = (count) =>
@@ -14,10 +18,31 @@ const getItems = (count) =>
   }));
 
 const Layout = (props) => {
+  const {titleKey} = props;
   const [headerBlocks, setHeaderBlocks] = useState(getItems(3));
   const [bodyBlocks, setBodyBlocks] = useState(getItems(2));
   const [footerBlocks, setFooterBlocks] = useState(getItems(4));
+  const [open, setOpen] = useState(false);
   const useStyles = makeStyles((theme) => ({
+    [theme.breakpoints.down('md')]: {
+      wrapper: {
+        flexDirection: 'column',
+      },
+      layoutBox: {
+        width: '100%',
+      },
+    },
+    [theme.breakpoints.up('md')]: {
+      layoutBox: {
+        width: '60%',
+      },
+    },
+    fab: {
+      margin: theme.spacing(1),
+    },
+    extendedIcon: {
+      marginRight: theme.spacing(1),
+    },
     selectBox: {
       cursor: 'pointer',
       '& .MuiOutlinedInput-input': {
@@ -60,57 +85,66 @@ const Layout = (props) => {
       padding: 8,
       cursor: 'pointer',
     },
-    button: {
-      backgroundColor: red[500],
-      color: theme.palette.primary.contrastText,
-      fontWeight: Fonts.LIGHT,
-      paddingRight: 20,
-      paddingLeft: 20,
-      '&:hover, &:focus': {
-        backgroundColor: red[700],
-        color: theme.palette.secondary.contrastText,
-      },
-    },
   }));
 
   const classes = useStyles(props);
-
   const {messages} = useIntl();
 
   return (
     <Box
       px={6}
-      py={8}
-      style={{display: 'flex', justifyContent: 'space-evenly'}}>
+      py={6}
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        'overflow-y': 'auto',
+      }}
+      className={classes.wrapper}>
       <Box
-        m={5}
-        style={{display: 'flex', flexDirection: 'column', width: '75%'}}>
-        <Box style={{margin: '10px 0'}}>
-          <DragMe
-            parentItems={headerBlocks}
-            setParentItems={setHeaderBlocks}
-            typeLabel={'Header Blocks'}
-          />
-        </Box>
-        <Box style={{margin: '10px 0'}}>
-          <DragMe
-            parentItems={bodyBlocks}
-            setParentItems={setBodyBlocks}
-            typeLabel={'Body Blocks'}
-          />
-        </Box>
-        <Box style={{margin: '10px 0'}}>
-          <DragMe
-            parentItems={footerBlocks}
-            setParentItems={setFooterBlocks}
-            typeLabel={'Body Blocks'}
-          />
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          'overflow-y': 'auto',
+        }}
+        className={classes.layoutBox}>
+        <Fab style={{position: 'absolute', right: '0px'}}>
+          <EditIcon />
+        </Fab>
+        <LayoutView
+          headerBlocks={headerBlocks}
+          bodyBlocks={bodyBlocks}
+          footerBlocks={footerBlocks}
+          setHeaderBlocks={setHeaderBlocks}
+          setFooterBlocks={setFooterBlocks}
+          setBodyBlocks={setBodyBlocks}
+        />
+        <Box p={6} mb={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => setOpen(true)}
+            className={classes.button}>
+            Edit
+          </Button>
+          <EditLayout setOpen={setOpen} open={open} titleKey={titleKey} />
         </Box>
       </Box>
       <Box
-        style={{width: '30%', display: 'flex', justifyContent: 'center'}}
+        xs
+        style={{
+          width: '30%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
         m={5}>
-        Preview
+        <ListItemText style={{flex: 0}}>Preview</ListItemText>
+        <Box
+          style={{
+            width: '100%',
+            height: '500px',
+            backgroundColor: 'lightgrey',
+          }}
+        />
       </Box>
     </Box>
   );

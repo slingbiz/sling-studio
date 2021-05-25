@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Basic from './Basic';
 import Layout from './Layout';
 
-const PagesDetail = () => {
+const PagesDetail = (props) => {
   const dispatch = useDispatch();
 
   const {query} = useRouter();
@@ -20,8 +20,8 @@ const PagesDetail = () => {
 
   return (
     <>
-      <Box>
-        <RenderSection></RenderSection>
+      <Box style={{'overflow-y': 'auto'}}>
+        <RenderSection {...props}></RenderSection>
       </Box>
     </>
   );

@@ -63,7 +63,7 @@ const Index = (props) => {
       props.router.query.all,
     );
     if (props.router.query.all.length > 1) {
-      return <TaskDetail />;
+      return <TaskDetail titleKey={getTitle()} />;
     } else {
       return <TasksList />;
     }
@@ -71,7 +71,10 @@ const Index = (props) => {
 
   const getTitle = () => {
     const titleKey = props.router.query.all.join('.');
-    return messages[titleKey] || capitalize(titleKey);
+    return (
+      messages[titleKey] ||
+      props.router.query.all.map((v) => capitalize(v)).join(' / ')
+    );
   };
 
   const {messages} = useIntl();

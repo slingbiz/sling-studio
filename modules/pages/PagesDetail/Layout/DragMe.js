@@ -17,20 +17,22 @@ const reorder = (list, startIndex, endIndex) => {
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
+  width: '100%',
   padding: grid * 2,
   margin: `0 ${grid}px 0 0`,
-
+  color: 'white',
+  fontWeight: 'bold',
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
+  background: isDragging ? 'lightgreen' : '#1c55a0',
 
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: isDraggingOver ? 'lightblue' : '#b0c4df',
   display: 'flex',
-  padding: grid,
+  padding: grid * 3,
   overflow: 'auto',
   justifyContent: 'space-between',
 });
@@ -40,7 +42,6 @@ const DragMe = (props) => {
   const [items, setItems] = useState(initItems);
 
   const onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -55,7 +56,6 @@ const DragMe = (props) => {
   };
   return (
     <>
-      <ListItemText>{typeLabel}</ListItemText>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable' direction='horizontal'>
           {(provided, snapshot) => (
