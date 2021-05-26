@@ -20,7 +20,7 @@ const PagesDetail = (props) => {
 
   return (
     <>
-      <Box style={{'overflow-y': 'auto'}}>
+      <Box style={{overflowY: 'auto'}}>
         <RenderSection {...props}></RenderSection>
       </Box>
     </>

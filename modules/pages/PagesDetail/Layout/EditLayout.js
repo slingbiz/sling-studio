@@ -1,19 +1,30 @@
-import React from 'react';
-import Modal from '@material-ui/core/Modal';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import LayoutView from './LayoutView';
+import LayoutSettings from './LayoutSettings';
+
+// fake data generator // To be deleted
+const getItems = (count) =>
+  Array.from({length: count}, (v, k) => k).map((k) => ({
+    id: `item-${k}`,
+    content: `item ${k}`,
+  }));
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -21,6 +32,36 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+  },
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+  textTruncate: {
+    padding: '10px 0',
+  },
+  componentBox: {
+    height: '8em',
+    width: '100%',
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    margin: '0.5em',
+    flex: '40%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 }));
 
@@ -30,7 +71,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const EditLayout = ({open, setOpen, titleKey}) => {
   const classes = useStyles();
-
+  const [headerBlocks, setHeaderBlocks] = useState(getItems(3));
+  const [bodyBlocks, setBodyBlocks] = useState(getItems(2));
+  const [footerBlocks, setFooterBlocks] = useState(getItems(4));
   const handleClose = () => {
     setOpen(false);
   };
@@ -57,18 +100,82 @@ const EditLayout = ({open, setOpen, titleKey}) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List>
-        <ListItem button>
-          <ListItemText primary='Phone ringtone' secondary='Titania' />
-        </ListItem>
-        <Divider />
-        <ListItem button>
-          <ListItemText
-            primary='Default notification ringtone'
-            secondary='Tethys'
+      <Box display={'flex'}>
+        <Card
+          style={{
+            height: '100%',
+            display: 'flex',
+            width: '25%',
+            flexDirection: 'column',
+            padding: '1.5em',
+            marginTop: '1.5em',
+          }}>
+          <Box
+            component='h4'
+            className={classes.textTruncate}
+            color='text.primary'
+            alignSelf='flex-start'
+            fontWeight={Fonts.BOLD}>
+            {'Components'}
+          </Box>
+          <Paper className={classes.root}>
+            <InputBase
+              className={classes.input}
+              placeholder='Search Components'
+              inputProps={{'aria-label': 'search google maps'}}
+            />
+            <IconButton className={classes.iconButton} aria-label='search'>
+              <SearchIcon />
+            </IconButton>
+            <Divider className={classes.divider} orientation='vertical' />
+          </Paper>
+          <Divider style={{marginTop: 15, marginBottom: 15}} />
+          <Box>
+            {/*<Box*/}
+            {/*  component='h6'*/}
+            {/*  className={classes.textTruncate}*/}
+            {/*  color='text.primary'*/}
+            {/*  alignSelf='flex-start'*/}
+            {/*  fontWeight={Fonts.BOLD}>*/}
+            {/*  {'All'}*/}
+            {/*</Box>*/}
+            <Box style={{display: 'flex', flexWrap: 'wrap'}}>
+              <Box className={classes.componentBox}>
+                <SearchIcon />
+                <Box
+                  component='h6'
+                  className={classes.textTruncate}
+                  color='text.primary'
+                  fontWeight={Fonts.BOLD}>
+                  {'All'}
+                </Box>
+              </Box>
+              <Box className={classes.componentBox}>2</Box>
+              <Box className={classes.componentBox}>3</Box>
+              <Box className={classes.componentBox}>4</Box>
+              <Box className={classes.componentBox}>5</Box>
+            </Box>
+          </Box>
+        </Card>
+        <Box style={{width: '50%', padding: '1.5em'}}>
+          <LayoutView
+            headerBlocks={headerBlocks}
+            bodyBlocks={bodyBlocks}
+            footerBlocks={footerBlocks}
+            setHeaderBlocks={setHeaderBlocks}
+            setFooterBlocks={setFooterBlocks}
+            setBodyBlocks={setBodyBlocks}
           />
-        </ListItem>
-      </List>
+        </Box>
+        <Card
+          style={{
+            width: '25%',
+            padding: '1.5em',
+            marginTop: '1.5em',
+          }}>
+          <LayoutSettings />
+        </Card>
+      </Box>
     </Dialog>
   );
 };

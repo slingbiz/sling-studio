@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PagesSideBar from './PagesSideBar/index';
 import TasksList from './TasksList';
-import TaskDetail from './PagesDetail';
+import PagesDetail from './PagesDetail';
 import {useDispatch} from 'react-redux';
 import {capitalize} from '@material-ui/core/utils';
 
@@ -63,7 +63,7 @@ const Index = (props) => {
       props.router.query.all,
     );
     if (props.router.query.all.length > 1) {
-      return <TaskDetail titleKey={getTitle()} />;
+      return <PagesDetail titleKey={getTitle()} />;
     } else {
       return <TasksList />;
     }

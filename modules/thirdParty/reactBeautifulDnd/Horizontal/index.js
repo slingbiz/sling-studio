@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import simpleListData from "../../../../@crema/services/db/extraPages/dndData/simpleListData";
-import Box from "@material-ui/core/Box";
-import { Fonts } from "../../../../shared/constants/AppEnums";
-import { withStyles } from "@material-ui/core";
+import React, {Component} from 'react';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import simpleListData from '../../../../@crema/services/db/extraPages/dndData/simpleListData';
+import Box from '@material-ui/core/Box';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import {withStyles} from '@material-ui/core';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -23,24 +23,24 @@ const grid = 8;
 const styles = (theme) => {
   return {
     rootList: {
-      backgroundColor: theme.palette.background.paper
-    }
+      backgroundColor: theme.palette.background.paper,
+    },
   };
 };
 
 const getListStyle = (isDraggingOver) => ({
   // background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  border: "5px solid #E0E0E0",
-  display: "flex",
+  border: '5px solid #E0E0E0',
+  display: 'flex',
   padding: grid,
-  overflow: "auto"
+  overflow: 'auto',
 });
 
 class Horizontal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: simpleListData.slice(0, 6)
+      items: simpleListData.slice(0, 6),
     };
     this.onDragEnd = this.onDragEnd.bind(this);
   }
@@ -54,18 +54,18 @@ class Horizontal extends Component {
     const items = reorder(
       this.state.items,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
 
     this.setState({
-      items
+      items,
     });
   }
 
   // Normally you would want to split things out into separate core.
   // But in this example everything is just done in one place for simplicity
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId='droppable' direction='horizontal'>
