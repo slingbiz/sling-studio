@@ -147,7 +147,7 @@ const EditLayout = ({open, setOpen, titleKey}) => {
                   className={classes.textTruncate}
                   color='text.primary'
                   fontWeight={Fonts.BOLD}>
-                  {'All'}
+                  {'Search Bar'}
                 </Box>
               </Box>
               <Box className={classes.componentBox}>2</Box>

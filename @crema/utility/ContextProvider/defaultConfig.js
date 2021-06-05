@@ -62,7 +62,7 @@ const defaultConfig = {
     },
     divider: 'rgba(0, 0, 0, 0.12)',
     typography: {
-      fontFamily: ['Poppins', 'sans-serif'].join(','),
+      fontFamily: ['Open Sans', 'sans-serif'].join(','),
     },
     overrides: {
       MuiTypography: {
