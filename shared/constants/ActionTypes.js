@@ -41,6 +41,10 @@ export const GET_METRICS_DATA = 'get_metrics_data';
 //WIDGETS_DASHBOARD
 export const GET_WIDGETS_DATA = 'get_widgets_data';
 
+//LAYOUT-CONFIG
+export const GET_LAYOUT_DATA = 'get_layout_data';
+export const SET_LAYOUT_DATA = 'SET_LAYOUT_DATA';
+
 //MAIL-APP
 export const GET_MAIL_LIST = 'get_mail_list';
 export const GET_FOLDER_LIST = 'get_folder_list';

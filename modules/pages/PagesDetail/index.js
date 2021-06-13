@@ -7,7 +7,6 @@ import Layout from './Layout';
 
 const PagesDetail = (props) => {
   const dispatch = useDispatch();
-
   const {query} = useRouter();
   const id = query.all[1];
 

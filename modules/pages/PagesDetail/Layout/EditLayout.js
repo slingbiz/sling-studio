@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef, useRef, useImperativeHandle} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,13 +17,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import LayoutView from './LayoutView';
 import LayoutSettings from './LayoutSettings';
-
-// fake data generator // To be deleted
-const getItems = (count) =>
-  Array.from({length: count}, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -69,13 +62,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const EditLayout = ({open, setOpen, titleKey}) => {
+const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
-  const [headerBlocks, setHeaderBlocks] = useState(getItems(3));
-  const [bodyBlocks, setBodyBlocks] = useState(getItems(2));
-  const [footerBlocks, setFooterBlocks] = useState(getItems(4));
+  const childRef = useRef();
+
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleRootSave = () => {
+    childRef.current.saveLayoutConfig();
+    handleClose();
   };
   return (
     <Dialog
@@ -95,7 +91,7 @@ const EditLayout = ({open, setOpen, titleKey}) => {
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
-          <Button autoFocus color='inherit' onClick={handleClose}>
+          <Button autoFocus color='inherit' onClick={handleRootSave}>
             save
           </Button>
         </Toolbar>
@@ -159,12 +155,10 @@ const EditLayout = ({open, setOpen, titleKey}) => {
         </Card>
         <Box style={{width: '50%', padding: '1.5em'}}>
           <LayoutView
-            headerBlocks={headerBlocks}
-            bodyBlocks={bodyBlocks}
-            footerBlocks={footerBlocks}
-            setHeaderBlocks={setHeaderBlocks}
-            setFooterBlocks={setFooterBlocks}
-            setBodyBlocks={setBodyBlocks}
+            ref={childRef}
+            pageKey={pageKey}
+            isEditable={true}
+            key={'edit'}
           />
         </Box>
         <Card

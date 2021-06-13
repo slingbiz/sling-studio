@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import {useIntl} from 'react-intl';
-import DragMe from './DragMe';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,19 +8,10 @@ import Button from '@material-ui/core/Button';
 import EditLayout from './EditLayout';
 import LayoutView from './LayoutView';
 
-// fake data generator
-const getItems = (count) =>
-  Array.from({length: count}, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
-
 const Layout = (props) => {
-  const {titleKey} = props;
-  const [headerBlocks, setHeaderBlocks] = useState(getItems(3));
-  const [bodyBlocks, setBodyBlocks] = useState(getItems(2));
-  const [footerBlocks, setFooterBlocks] = useState(getItems(4));
+  const {titleKey, pageKey} = props;
   const [open, setOpen] = useState(false);
+
   const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       wrapper: {
@@ -88,8 +77,6 @@ const Layout = (props) => {
   }));
 
   const classes = useStyles(props);
-  const {messages} = useIntl();
-
   return (
     <Box
       px={6}
@@ -107,17 +94,12 @@ const Layout = (props) => {
           'overflow-y': 'auto',
         }}
         className={classes.layoutBox}>
-        <Fab style={{position: 'absolute', right: '0px'}}>
+        <Fab
+          onClick={() => setOpen(true)}
+          style={{position: 'absolute', right: '0px'}}>
           <EditIcon />
         </Fab>
-        <LayoutView
-          headerBlocks={headerBlocks}
-          bodyBlocks={bodyBlocks}
-          footerBlocks={footerBlocks}
-          setHeaderBlocks={setHeaderBlocks}
-          setFooterBlocks={setFooterBlocks}
-          setBodyBlocks={setBodyBlocks}
-        />
+        <LayoutView pageKey={pageKey} isEditable={false} />
         <Box p={6} mb={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Button
             variant='contained'
@@ -126,7 +108,12 @@ const Layout = (props) => {
             className={classes.button}>
             Edit
           </Button>
-          <EditLayout setOpen={setOpen} open={open} titleKey={titleKey} />
+          <EditLayout
+            setOpen={setOpen}
+            open={open}
+            titleKey={titleKey}
+            pageKey={pageKey}
+          />
         </Box>
       </Box>
       <Box

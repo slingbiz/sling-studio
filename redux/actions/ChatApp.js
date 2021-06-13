@@ -187,7 +187,6 @@ export const onSelectUser = (user) => {
   };
 };
 
-
 export const onToggleChatDrawer = () => {
   return (dispatch) => {
     dispatch({type: TOGGLE_CHAT_DRAWER});

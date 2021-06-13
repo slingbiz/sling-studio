@@ -12,8 +12,62 @@ import {
   GET_HC_DATA,
   GET_METRICS_DATA,
   GET_WIDGETS_DATA,
+  GET_LAYOUT_DATA,
+  SET_LAYOUT_DATA,
 } from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@crema/utility/IntlMessages';
+import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
+
+//Set Layout Config
+export const setLayoutConfig = (pageKey, root) => {
+  return async (dispatch) => {
+    try {
+      //Pass user info in the header.
+      const data = await Api.post(`${SET_CONFIG}`, {
+        type: 'layout',
+        pageKey,
+        root,
+      });
+
+      if (data.status === 200) {
+        dispatch({type: FETCH_SUCCESS});
+        dispatch(fetchLayoutConfig());
+      } else {
+        console.log('@setLayoutConfig Error', data);
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.somethingWentWrong' />,
+        });
+      }
+    } catch (error) {
+      console.log(error, '@error @actions/dashboard/fetchconfig');
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
+  };
+};
+
+//Fetch Layout Config
+export const fetchLayoutConfig = () => {
+  return async (dispatch) => {
+    try {
+      const data = await Api.get(`${INIT_CONFIG}`);
+      console.log('data@fetchConfig', data);
+      if (data.status === 200) {
+        dispatch({type: FETCH_SUCCESS});
+        dispatch({type: GET_LAYOUT_DATA, payload: data.data});
+      } else {
+        console.log('data@fetchConfig Error', data);
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.somethingWentWrong' />,
+        });
+      }
+    } catch (error) {
+      console.log(error, '@error @actions/dashboard/fetchconfig');
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
+  };
+};
 
 export const onGetAnalyticsData = () => {
   return (dispatch) => {

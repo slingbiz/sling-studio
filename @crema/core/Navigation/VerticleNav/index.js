@@ -1,46 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import List from '@material-ui/core/List';
 
 import routesConfig from '../../../../modules/routesConfig';
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';
 import VerticalNavGroup from './VerticalNavGroup';
-import {INIT_CONFIG} from '../../../../shared/constants/Services';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchLayoutConfig} from '../../../../redux/actions';
 
 const Navigation = () => {
-  const [pages, setPages] = useState([]);
+  const dispatch = useDispatch();
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  const {layoutConfig} = layoutData || {};
+  const pages = Object.keys(layoutConfig || {});
 
   useEffect(() => {
-    async function fetchConfig() {
-      let response = await fetch(`${INIT_CONFIG}`);
-      response = await response.json();
-      setPages(Object.keys(response?.layoutConfig || []));
-    }
+    dispatch(fetchLayoutConfig());
+  }, [dispatch]);
 
-    fetchConfig();
-  }, []);
-
-  console.log(pages, '@pages@pages@@@2indexjs');
-  // const children = [];
-  // children.push(
-  //   pages.map((v) => {
-  //     return {
-  //       id: v,
-  //       title: v.replaceAll(v, '-'),
-  //       messageId: `sidebar.pages.${v}`,
-  //       type: 'item',
-  //       icon: 'timeline',
-  //       url: `/${v}`,
-  //     };
-  //   }),
-  // );
   return (
     <List>
       {routesConfig.map((item) => {
         if (item.id === 'pages') {
-          console.log(item, '@items');
+          // console.log(item, '@items');
         } else {
-          console.log(item.id, 'item.id');
+          // console.log(item.id, 'item.id');
         }
         return (
           <React.Fragment key={item.id}>

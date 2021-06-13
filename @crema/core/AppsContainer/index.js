@@ -20,7 +20,6 @@ const AppsContainer = (props) => {
   const {title, sidebarContent, fullView, children, pagesClasses} = props;
   const classes = useStyles({footer, navStyle, fullView});
 
-  console.log(pagesClasses, 'pagesClasses@appscontainer');
   return (
     <Box pt={{xl: 4}} flex={1} display='flex' flexDirection='column'>
       <Box

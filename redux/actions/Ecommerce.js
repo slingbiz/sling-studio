@@ -36,6 +36,8 @@ export const onGetEcommerceData = (filterData) => {
       });
   };
 };
+
+
 export const getProductDetail = (id) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});

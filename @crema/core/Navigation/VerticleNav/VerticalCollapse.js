@@ -20,6 +20,7 @@ import {withRouter} from 'next/router';
 const needsToBeOpened = (pathname, item) => {
   return pathname && isUrlInChildren(item, pathname);
 };
+const capitalize = s => s && s[0].toUpperCase() + s.slice(1)
 
 const isUrlInChildren = (parent, url) => {
   if (!parent.children) {
@@ -50,7 +51,6 @@ const VerticalCollapse = ({item, level, router, pages}) => {
   const {theme} = useContext(AppContext);
   const {pathname} = router;
   const [open, setOpen] = useState(() => needsToBeOpened(pathname, item));
-  console.log(pages, item.id, 'item.id, pages@@');
   useEffect(() => {
     if (needsToBeOpened(pathname, item)) {
       setOpen(true);
@@ -72,12 +72,11 @@ const VerticalCollapse = ({item, level, router, pages}) => {
   }
 
   if (item.id === 'pages') {
-    console.log(item, 'item', pages);
     item.children = pages?.map((v) => {
       return {
         id: v,
         title: v.replaceAll(v, '-'),
-        messageId: `sidebar.pages.${v}`,
+        messageId: `${capitalize(v)}`,
         type: 'item',
         icon: 'timeline',
         url: `/pages/${v}`,

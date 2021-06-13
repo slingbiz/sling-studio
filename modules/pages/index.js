@@ -63,7 +63,12 @@ const Index = (props) => {
       props.router.query.all,
     );
     if (props.router.query.all.length > 1) {
-      return <PagesDetail titleKey={getTitle()} />;
+      return (
+        <PagesDetail
+          titleKey={getTitle()}
+          pageKey={props.router.query.all[0]}
+        />
+      );
     } else {
       return <TasksList />;
     }
