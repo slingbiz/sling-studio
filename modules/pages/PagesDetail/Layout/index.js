@@ -23,7 +23,7 @@ const Layout = (props) => {
     },
     [theme.breakpoints.up('md')]: {
       layoutBox: {
-        width: '60%',
+        width: '100%',
       },
     },
     fab: {
@@ -116,23 +116,23 @@ const Layout = (props) => {
           />
         </Box>
       </Box>
-      <Box
-        xs
-        style={{
-          width: '30%',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-        m={5}>
-        <ListItemText style={{flex: 0}}>Preview</ListItemText>
-        <Box
-          style={{
-            width: '100%',
-            height: '500px',
-            backgroundColor: 'lightgrey',
-          }}
-        />
-      </Box>
+      {/*<Box*/}
+      {/*  xs*/}
+      {/*  style={{*/}
+      {/*    width: '30%',*/}
+      {/*    display: 'flex',*/}
+      {/*    flexDirection: 'column',*/}
+      {/*  }}*/}
+      {/*  m={5}>*/}
+      {/*  <ListItemText style={{flex: 0}}>Preview</ListItemText>*/}
+      {/*  <Box*/}
+      {/*    style={{*/}
+      {/*      width: '100%',*/}
+      {/*      height: '500px',*/}
+      {/*      backgroundColor: 'lightgrey',*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</Box>*/}
     </Box>
   );
 };

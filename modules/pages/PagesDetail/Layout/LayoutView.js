@@ -1,25 +1,33 @@
 import React, {
-  useEffect,
-  useState,
   forwardRef,
+  useEffect,
   useImperativeHandle,
+  useState,
 } from 'react';
 import Box from '@material-ui/core/Box';
 import DragMe from './DragMe';
 import ListItemText from '@material-ui/core/ListItemText';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLayoutConfig} from '../../../../redux/actions';
+import {makeStyles} from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import NewRowModal from './NewRowModal';
 
 const LayoutView = forwardRef((props, ref) => {
   const {pageKey, isEditable} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
   const [bodyBlocks, setBodyBlocks] = useState([]);
   const [footerBlocks, setFooterBlocks] = useState([]);
+  const [openNewRow, setNewRowModal] = useState(false);
+  const [newRowSection, setNewRowSection] = useState('');
+
   const [root, setRoot] = useState([]);
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
   const dispatch = useDispatch();
 
+  //To call onSave from parent EditLayout
   useImperativeHandle(ref, () => ({
     saveLayoutConfig() {
       alert('Saving Root');
@@ -28,6 +36,7 @@ const LayoutView = forwardRef((props, ref) => {
     },
   }));
 
+  //Update root on any change in head,body or footer.
   useEffect(() => {
     console.log('Calling Root save on body change', root);
     setRoot({
@@ -38,6 +47,7 @@ const LayoutView = forwardRef((props, ref) => {
     });
   }, [headerBlocks, bodyBlocks, footerBlocks]);
 
+  //Update root and child elements
   useEffect(() => {
     if (layoutConfig) {
       const root = layoutConfig[pageKey].root;
@@ -49,6 +59,7 @@ const LayoutView = forwardRef((props, ref) => {
     }
   }, [layoutConfig]);
 
+  //Save child wrapper with new re ordered layout.
   const setItemToParent = (rowKey, parentKey, items) => {
     bodyBlocks.rows.map((v, k) => {
       //If parentKey is empty, find and update the root body object.
@@ -77,11 +88,54 @@ const LayoutView = forwardRef((props, ref) => {
     setBodyBlocks({...bodyBlocks});
   };
 
+  //Styles
+  const useStyles = makeStyles((theme) => ({
+    [theme.breakpoints.down('md')]: {
+      wrapper: {
+        flexDirection: 'column',
+      },
+      layoutBox: {
+        width: '100%',
+      },
+    },
+    tinyBtn: {
+      backgroundColor: '#b0c4df',
+      fontSize: '12px',
+      marginTop: '10px',
+      width: '36px',
+      height: '36px',
+    },
+  }));
+  const classes = useStyles(props);
+
+  //Handle onClose of New Row popup
+  const handleCloseNewRow = () => {
+    setNewRowModal(false);
+  };
+
+  //Handle onSave of new Rule
+  const handleSaveNewRow = () => {
+    setNewRowModal(false);
+  };
+
+  //Handle open New Row
+  const handleOpenNewRow = (section) => {
+    setNewRowSection(section);
+    setNewRowModal(true);
+  };
+
   return (
     <>
-      <Box p={6} mb={6} style={{backgroundColor: '#f0f4f9'}}>
+      <Box
+        p={6}
+        mb={6}
+        style={{
+          backgroundColor: '#f0f4f9',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
         <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
-        {headerBlocks?.rows?.map((row) => {
+        {headerBlocks?.rows?.map((row, k) => {
           return (
             <>
               <DragMe
@@ -97,9 +151,19 @@ const LayoutView = forwardRef((props, ref) => {
                 setParentItems={setHeaderBlocks}
                 typeLabel={'Header Blocks'}
               />
+              {(k && <Box m={6} />) || ''}
             </>
           );
         })}
+        {isEditable && (
+          <>
+            <Fab
+              onClick={() => handleOpenNewRow('header')}
+              className={classes.tinyBtn}>
+              <Add />
+            </Fab>
+          </>
+        )}
       </Box>
       <Box p={6} mb={6} style={{backgroundColor: '#f0f4f9'}}>
         <Box style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -141,6 +205,11 @@ const LayoutView = forwardRef((props, ref) => {
           typeLabel={'Footer Blocks'}
         />
       </Box>{' '}
+      <NewRowModal
+        openNewRow={openNewRow}
+        section={newRowSection}
+        handleCloseNewRow={handleCloseNewRow}
+      />
     </>
   );
 });

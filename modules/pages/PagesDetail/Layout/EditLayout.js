@@ -1,4 +1,4 @@
-import React, {useState, forwardRef, useRef, useImperativeHandle} from 'react';
+import React, {useRef} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,8 +17,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import LayoutView from './LayoutView';
 import LayoutSettings from './LayoutSettings';
+import Hidden from '@material-ui/core/Hidden';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
+  boxLayoutView: {padding: '1.5em'},
+  // [theme.breakpoints.down('md')]: {
+  //   boxLayoutView: {
+  //     width: '70%',
+  //   },
+  // },
   appBar: {
     position: 'relative',
   },
@@ -91,85 +99,94 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
+          <Button autoFocus color='inherit' onClick={handleClose}>
+            Cancel
+          </Button>
           <Button autoFocus color='inherit' onClick={handleRootSave}>
             save
           </Button>
         </Toolbar>
       </AppBar>
-      <Box display={'flex'}>
-        <Card
-          style={{
-            height: '100%',
-            display: 'flex',
-            width: '25%',
-            flexDirection: 'column',
-            padding: '1.5em',
-            marginTop: '1.5em',
-          }}>
-          <Box
-            component='h4'
-            className={classes.textTruncate}
-            color='text.primary'
-            alignSelf='flex-start'
-            fontWeight={Fonts.BOLD}>
-            {'Components'}
-          </Box>
-          <Paper className={classes.root}>
-            <InputBase
-              className={classes.input}
-              placeholder='Search Components'
-              inputProps={{'aria-label': 'search google maps'}}
-            />
-            <IconButton className={classes.iconButton} aria-label='search'>
-              <SearchIcon />
-            </IconButton>
-            <Divider className={classes.divider} orientation='vertical' />
-          </Paper>
-          <Divider style={{marginTop: 15, marginBottom: 15}} />
-          <Box>
-            {/*<Box*/}
-            {/*  component='h6'*/}
-            {/*  className={classes.textTruncate}*/}
-            {/*  color='text.primary'*/}
-            {/*  alignSelf='flex-start'*/}
-            {/*  fontWeight={Fonts.BOLD}>*/}
-            {/*  {'All'}*/}
-            {/*</Box>*/}
-            <Box style={{display: 'flex', flexWrap: 'wrap'}}>
-              <Box className={classes.componentBox}>
-                <SearchIcon />
-                <Box
-                  component='h6'
-                  className={classes.textTruncate}
-                  color='text.primary'
-                  fontWeight={Fonts.BOLD}>
-                  {'Search Bar'}
+      <Grid container spacing={3}>
+        <Grid item md={3}>
+          <Hidden mdDown>
+            <Card
+              style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '1.5em',
+                marginTop: '1.5em',
+              }}>
+              <Box
+                component='h4'
+                className={classes.textTruncate}
+                color='text.primary'
+                alignSelf='flex-start'
+                fontWeight={Fonts.BOLD}>
+                {'Components'}
+              </Box>
+              <Paper className={classes.root}>
+                <InputBase
+                  className={classes.input}
+                  placeholder='Search Components'
+                  inputProps={{'aria-label': 'search components'}}
+                />
+                <IconButton className={classes.iconButton} aria-label='search'>
+                  <SearchIcon />
+                </IconButton>
+                <Divider className={classes.divider} orientation='vertical' />
+              </Paper>
+              <Divider style={{marginTop: 15, marginBottom: 15}} />
+              <Box>
+                {/*<Box*/}
+                {/*  component='h6'*/}
+                {/*  className={classes.textTruncate}*/}
+                {/*  color='text.primary'*/}
+                {/*  alignSelf='flex-start'*/}
+                {/*  fontWeight={Fonts.BOLD}>*/}
+                {/*  {'All'}*/}
+                {/*</Box>*/}
+                <Box style={{display: 'flex', flexWrap: 'wrap'}}>
+                  <Box className={classes.componentBox}>
+                    <SearchIcon />
+                    <Box
+                      component='h6'
+                      className={classes.textTruncate}
+                      color='text.primary'
+                      fontWeight={Fonts.BOLD}>
+                      {'Search Bar'}
+                    </Box>
+                  </Box>
+                  <Box className={classes.componentBox}>2</Box>
+                  <Box className={classes.componentBox}>3</Box>
+                  <Box className={classes.componentBox}>4</Box>
+                  <Box className={classes.componentBox}>5</Box>
                 </Box>
               </Box>
-              <Box className={classes.componentBox}>2</Box>
-              <Box className={classes.componentBox}>3</Box>
-              <Box className={classes.componentBox}>4</Box>
-              <Box className={classes.componentBox}>5</Box>
-            </Box>
+            </Card>
+          </Hidden>
+        </Grid>
+        <Grid item sm={8} lg={6}>
+          <Box className={classes.boxLayoutView}>
+            <LayoutView
+              ref={childRef}
+              pageKey={pageKey}
+              isEditable={true}
+              key={'edit'}
+            />
           </Box>
-        </Card>
-        <Box style={{width: '50%', padding: '1.5em'}}>
-          <LayoutView
-            ref={childRef}
-            pageKey={pageKey}
-            isEditable={true}
-            key={'edit'}
-          />
-        </Box>
-        <Card
-          style={{
-            width: '25%',
-            padding: '1.5em',
-            marginTop: '1.5em',
-          }}>
-          <LayoutSettings />
-        </Card>
-      </Box>
+        </Grid>
+        <Grid item sm={3}>
+          <Card
+            style={{
+              padding: '1.5em',
+              marginTop: '1.5em',
+            }}>
+            <LayoutSettings />
+          </Card>
+        </Grid>
+      </Grid>
     </Dialog>
   );
 };
