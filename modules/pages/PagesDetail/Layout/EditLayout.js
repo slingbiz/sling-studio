@@ -107,8 +107,8 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <Grid container spacing={3}>
-        <Grid item md={3}>
+      <Grid container>
+        <Grid item lg={3}>
           <Hidden mdDown>
             <Card
               style={{
@@ -167,7 +167,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             </Card>
           </Hidden>
         </Grid>
-        <Grid item sm={8} lg={6}>
+        <Grid item sm={9} lg={6}>
           <Box className={classes.boxLayoutView}>
             <LayoutView
               ref={childRef}
