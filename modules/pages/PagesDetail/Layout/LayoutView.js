@@ -12,8 +12,8 @@ import {setLayoutConfig} from '../../../../redux/actions';
 import {makeStyles} from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import NewRowModal from './NewRowModal';
-
+import NewCellModal from './NewCellModal';
+import cloneDeep from 'lodash';
 const LayoutView = forwardRef((props, ref) => {
   const {pageKey, isEditable} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
@@ -22,6 +22,11 @@ const LayoutView = forwardRef((props, ref) => {
   const [openNewRow, setNewRowModal] = useState(false);
   const [newRowSection, setNewRowSection] = useState('');
 
+  const sectionBlocksMap = {
+    headerBlocks,
+    bodyBlocks,
+    footerBlocks,
+  };
   const [root, setRoot] = useState([]);
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
@@ -60,27 +65,28 @@ const LayoutView = forwardRef((props, ref) => {
   }, [layoutConfig]);
 
   //Save child wrapper with new re ordered layout.
-  const setItemToParent = (rowKey, parentKey, items) => {
-    bodyBlocks.rows.map((v, k) => {
+  const setItemToParent = (rowKey, parentKey, items, section) => {
+    const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
+    sectionBlocks.rows.map((v, k) => {
       //If parentKey is empty, find and update the root body object.
       if (!parentKey) {
         //If row matches
         if (rowKey === k) {
           console.log(items, '@items@itemsitemsitemsitems');
-          bodyBlocks.rows[k].cells = items.map((subObj) => {
+          sectionBlocks.rows[k].cells = items.map((subObj) => {
             return subObj.contents;
           });
         }
       } else {
         //Loop across all cells in each row and find the matching key with parentKey
-        bodyBlocks.rows[k].cells.map((c, j) => {
+        sectionBlocks.rows[k].cells.map((c, j) => {
           if (c.key === parentKey) {
             //if matching parent key found, update the child document
-            const cellInfo = bodyBlocks.rows[k].cells[j];
+            const cellInfo = sectionBlocks.rows[k].cells[j];
             cellInfo.rows[rowKey].cells = items.map((subObj) => {
               return subObj.contents;
             });
-            bodyBlocks.rows[k].cells[j] = cellInfo;
+            sectionBlocks.rows[k].cells[j] = cellInfo;
           }
         });
       }
@@ -109,12 +115,27 @@ const LayoutView = forwardRef((props, ref) => {
   const classes = useStyles(props);
 
   //Handle onClose of New Row popup
-  const handleCloseNewRow = () => {
+  const handleCloseNewCell = () => {
     setNewRowModal(false);
   };
 
   //Handle onSave of new Rule
-  const handleSaveNewRow = () => {
+  const handleSaveNewCell = (section, config) => {
+    console.log(section, config, 'section-config');
+
+    if (section == 'header') {
+      const cells = headerBlocks.rows?.[0]?.cells || [];
+      const cell = {
+        key: config?.key || 'Default' + ((cells.length || 0) + 1),
+        payload: {muiWidths: config},
+      };
+      cells.push(cell);
+      headerBlocks.rows[0].cells = cells;
+      setHeaderBlocks({...headerBlocks});
+    }
+    // case 'body':
+    // case 'footer':
+    // default:
     setNewRowModal(false);
   };
 
@@ -135,23 +156,24 @@ const LayoutView = forwardRef((props, ref) => {
           flexDirection: 'column',
         }}>
         <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
-        {headerBlocks?.rows?.map((row, k) => {
+        {headerBlocks.rows?.map((row, k) => {
           return (
             <>
               <DragMe
-                key={'header'}
+                section={'header'}
+                key={'header' + k}
+                rowNo={k}
                 isDragDisabled={!isEditable}
                 parentItems={
                   row?.cells?.map((v, k) => {
-                    const label = v.rows?.length ? `Row ${k}` : `Item ${v.key}`;
-                    const id = v.rows?.length ? `Row-${k}` : v.key;
+                    const label = v.key ? `Item ${v.key}` : `Row ${k}`;
+                    const id = v.key ? v.key : `Row-${k}`;
                     return {id, label, contents: v};
                   }) || []
                 }
-                setParentItems={setHeaderBlocks}
-                typeLabel={'Header Blocks'}
+                setItemToParent={setItemToParent}
+                typeLabel={'Body Blocks'}
               />
-              {(k && <Box m={6} />) || ''}
             </>
           );
         })}
@@ -175,6 +197,7 @@ const LayoutView = forwardRef((props, ref) => {
           return (
             <>
               <DragMe
+                section={'body'}
                 key={'body' + k}
                 rowNo={k}
                 isDragDisabled={!isEditable}
@@ -198,6 +221,7 @@ const LayoutView = forwardRef((props, ref) => {
           {'Footer Blocks'}
         </ListItemText>
         <DragMe
+          section={'footer'}
           key={'footer'}
           isDragDisabled={!isEditable}
           parentItems={footerBlocks}
@@ -205,10 +229,11 @@ const LayoutView = forwardRef((props, ref) => {
           typeLabel={'Footer Blocks'}
         />
       </Box>{' '}
-      <NewRowModal
+      <NewCellModal
         openNewRow={openNewRow}
         section={newRowSection}
-        handleCloseNewRow={handleCloseNewRow}
+        handleSaveNewCell={handleSaveNewCell}
+        handleCloseNewCell={handleCloseNewCell}
       />
     </>
   );
