@@ -23,16 +23,20 @@ const getItemStyle = (isDragging, draggableStyle, item) => ({
   padding: grid * 2,
   margin: `0 ${grid}px 0 0`,
   color: 'white',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
   fontWeight: 'bold',
   // change background colour if dragging
   background: isDragging ? 'lightgreen' : '#1c55a0',
-
+  // background: isDragging ? 'lightgreen' : '#b0c4df',
+  borderRadius: '3px',
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : '#b0c4df',
+  background: isDraggingOver ? 'lightblue' : '#f0f4f9',
   display: 'flex',
   padding: grid * 3,
   overflow: 'auto',

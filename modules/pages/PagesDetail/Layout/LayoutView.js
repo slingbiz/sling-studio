@@ -105,7 +105,7 @@ const LayoutView = forwardRef((props, ref) => {
       },
     },
     tinyBtn: {
-      backgroundColor: '#b0c4df',
+      backgroundColor: '#f2f3f5',
       fontSize: '12px',
       marginTop: '10px',
       width: '36px',
@@ -147,15 +147,15 @@ const LayoutView = forwardRef((props, ref) => {
 
   return (
     <>
+      <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
       <Box
         p={6}
         mb={6}
         style={{
-          backgroundColor: '#f0f4f9',
+          backgroundColor: '#b0c4df',
           display: 'flex',
           flexDirection: 'column',
         }}>
-        <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
         {headerBlocks.rows?.map((row, k) => {
           return (
             <>
@@ -187,7 +187,7 @@ const LayoutView = forwardRef((props, ref) => {
           </>
         )}
       </Box>
-      <Box p={6} mb={6} style={{backgroundColor: '#f0f4f9'}}>
+      <Box p={6} mb={6} style={{backgroundColor: '#b0c4df'}}>
         <Box style={{display: 'flex', justifyContent: 'space-between'}}>
           <ListItemText style={{marginTop: '0px'}}>
             {'Body Blocks'}
