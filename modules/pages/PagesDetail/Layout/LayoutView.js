@@ -13,20 +13,57 @@ import {makeStyles} from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
-import cloneDeep from 'lodash';
+import clsx from 'clsx';
+
+//Styles
+const useStyles = makeStyles((theme) => ({
+  [theme.breakpoints.down('md')]: {
+    wrapper: {
+      flexDirection: 'column',
+    },
+    layoutBox: {
+      width: '100%',
+    },
+  },
+  tinyBtn: {
+    backgroundColor: '#f2f3f5',
+    fontSize: '12px',
+    width: '36px',
+    height: '36px',
+  },
+  divDragWrap: {
+    position: 'relative',
+  },
+  floatingRight: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    padding: 1,
+  },
+  boxSection: {
+    backgroundColor: '#b0c4df',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}));
 const LayoutView = forwardRef((props, ref) => {
   const {pageKey, isEditable} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
   const [bodyBlocks, setBodyBlocks] = useState([]);
   const [footerBlocks, setFooterBlocks] = useState([]);
-  const [openNewRow, setNewRowModal] = useState(false);
-  const [newRowSection, setNewRowSection] = useState('');
+  const [openNewCell, setNewCellModal] = useState(false);
+  const [newCellSection, setNewCellSection] = useState('');
+  const [newCellRowIndex, setNewCellRowIndex] = useState('');
 
   const sectionBlocksMap = {
     headerBlocks,
+    setHeaderBlocks,
     bodyBlocks,
+    setBodyBlocks,
     footerBlocks,
+    setFooterBlocks,
   };
+
   const [root, setRoot] = useState([]);
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
@@ -94,74 +131,60 @@ const LayoutView = forwardRef((props, ref) => {
     setBodyBlocks({...bodyBlocks});
   };
 
-  //Styles
-  const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.down('md')]: {
-      wrapper: {
-        flexDirection: 'column',
-      },
-      layoutBox: {
-        width: '100%',
-      },
-    },
-    tinyBtn: {
-      backgroundColor: '#f2f3f5',
-      fontSize: '12px',
-      marginTop: '10px',
-      width: '36px',
-      height: '36px',
-    },
-  }));
   const classes = useStyles(props);
 
   //Handle onClose of New Row popup
   const handleCloseNewCell = () => {
-    setNewRowModal(false);
+    setNewCellModal(false);
   };
 
   //Handle onSave of new Rule
-  const handleSaveNewCell = (section, config) => {
-    console.log(section, config, 'section-config');
+  const handleSaveNewCell = (rowIndex, section, config) => {
+    console.log(rowIndex, section, config, 'section-config');
+    const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
+    const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
+    const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
 
-    if (section == 'header') {
-      const cells = headerBlocks.rows?.[0]?.cells || [];
-      const cell = {
-        key: config?.key || 'Default' + ((cells.length || 0) + 1),
-        payload: {muiWidths: config},
-      };
-      cells.push(cell);
-      headerBlocks.rows[0].cells = cells;
-      setHeaderBlocks({...headerBlocks});
-    }
-    // case 'body':
-    // case 'footer':
-    // default:
-    setNewRowModal(false);
+    const cells = sectionBlocks.rows?.[rowIndex]?.cells || [];
+    const cell = {
+      key: config?.key || `${sectionFn}` + ((cells.length || 0) + 1),
+      payload: {muiWidths: config},
+    };
+    cells.push(cell);
+    sectionBlocks.rows[rowIndex].cells = cells;
+    setSectionBlocks({...sectionBlocks});
+
+    //Close Cell Modal
+    setNewCellModal(false);
   };
 
-  //Handle open New Row
-  const handleOpenNewRow = (section) => {
-    setNewRowSection(section);
-    setNewRowModal(true);
+  //Handle open Add new Cell
+  const handleAddCell = (section, rowIndex) => {
+    setNewCellSection(section);
+    setNewCellRowIndex(rowIndex);
+    setNewCellModal(true);
+  };
+
+  //Handle open Add new Row
+  const handleAddNewRow = (section) => {
+    const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
+    const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
+    const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
+    sectionBlocks.rows.push({cells: []});
+    console.log(setSectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
+    setSectionBlocks({...sectionBlocks});
   };
 
   return (
     <>
       <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
-      <Box
-        p={6}
-        mb={6}
-        style={{
-          backgroundColor: '#b0c4df',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+      <Box p={6} mb={6} className={classes.boxSection}>
         {headerBlocks.rows?.map((row, k) => {
           return (
-            <>
+            <div key={'header-div' + k} className={classes.divDragWrap}>
               <DragMe
-                section={'header'}
                 key={'header' + k}
+                section={'header'}
                 rowNo={k}
                 isDragDisabled={!isEditable}
                 parentItems={
@@ -172,30 +195,32 @@ const LayoutView = forwardRef((props, ref) => {
                   }) || []
                 }
                 setItemToParent={setItemToParent}
-                typeLabel={'Body Blocks'}
+                typeLabel={'Header Blocks'}
               />
-            </>
+              <Box m={6} />
+              {isEditable && (
+                <Fab
+                  onClick={() => handleAddCell('header', k)}
+                  className={clsx(classes.tinyBtn, classes.floatingRight)}>
+                  <Add />
+                </Fab>
+              )}
+            </div>
           );
         })}
         {isEditable && (
-          <>
-            <Fab
-              onClick={() => handleOpenNewRow('header')}
-              className={classes.tinyBtn}>
-              <Add />
-            </Fab>
-          </>
+          <Fab
+            onClick={() => handleAddNewRow('header')}
+            className={clsx(classes.tinyBtn)}>
+            <Add />
+          </Fab>
         )}
       </Box>
-      <Box p={6} mb={6} style={{backgroundColor: '#b0c4df'}}>
-        <Box style={{display: 'flex', justifyContent: 'space-between'}}>
-          <ListItemText style={{marginTop: '0px'}}>
-            {'Body Blocks'}
-          </ListItemText>
-        </Box>
+      <ListItemText style={{marginTop: '0px'}}>{'Body Blocks'}</ListItemText>
+      <Box p={6} mb={6} className={classes.boxSection}>
         {bodyBlocks?.rows?.map((row, k) => {
           return (
-            <>
+            <div key={'body-div' + k} className={classes.divDragWrap}>
               <DragMe
                 section={'body'}
                 key={'body' + k}
@@ -212,26 +237,67 @@ const LayoutView = forwardRef((props, ref) => {
                 typeLabel={'Body Blocks'}
               />
               <Box m={6} />
-            </>
+              {isEditable && (
+                <Fab
+                  onClick={() => handleAddCell('body', k)}
+                  className={clsx(classes.tinyBtn, classes.floatingRight)}>
+                  <Add />
+                </Fab>
+              )}
+            </div>
           );
         })}
+        {isEditable && (
+          <Fab
+            onClick={() => handleAddNewRow('body')}
+            className={clsx(classes.tinyBtn)}>
+            <Add />
+          </Fab>
+        )}
       </Box>
-      <Box p={6} mb={6} style={{backgroundColor: '#f0f4f9'}}>
-        <ListItemText style={{marginTop: '0px'}}>
-          {'Footer Blocks'}
-        </ListItemText>
-        <DragMe
-          section={'footer'}
-          key={'footer'}
-          isDragDisabled={!isEditable}
-          parentItems={footerBlocks}
-          setParentItems={setFooterBlocks}
-          typeLabel={'Footer Blocks'}
-        />
-      </Box>{' '}
+      <ListItemText style={{marginTop: '0px'}}>{'Footer Blocks'}</ListItemText>
+      <Box p={6} mb={6} className={classes.boxSection}>
+        {footerBlocks?.rows?.map((row, k) => {
+          return (
+            <div key={'footer-div' + k} className={classes.divDragWrap}>
+              <DragMe
+                section={'footer'}
+                key={'footer' + k}
+                rowNo={k}
+                isDragDisabled={!isEditable}
+                parentItems={
+                  row?.cells?.map((v, k) => {
+                    const label = v.key ? `Item ${v.key}` : `Row ${k}`;
+                    const id = v.key ? v.key : `Row-${k}`;
+                    return {id, label, contents: v};
+                  }) || []
+                }
+                setItemToParent={setItemToParent}
+                typeLabel={'Footer Blocks'}
+              />
+              <Box m={6} />
+              {isEditable && (
+                <Fab
+                  onClick={() => handleAddCell('footer', k)}
+                  className={clsx(classes.tinyBtn, classes.floatingRight)}>
+                  <Add />
+                </Fab>
+              )}
+            </div>
+          );
+        })}
+        {isEditable && (
+          <Fab
+            onClick={() => handleAddNewRow('footer')}
+            className={clsx(classes.tinyBtn)}>
+            <Add />
+          </Fab>
+        )}
+      </Box>
       <NewCellModal
-        openNewRow={openNewRow}
-        section={newRowSection}
+        openNewRow={openNewCell}
+        section={newCellSection}
+        newCellRowIndex={newCellRowIndex}
         handleSaveNewCell={handleSaveNewCell}
         handleCloseNewCell={handleCloseNewCell}
       />

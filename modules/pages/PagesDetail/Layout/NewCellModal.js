@@ -27,18 +27,18 @@ const mtBreakPoints = [
   // {title: 'xl', id: 'xl'},
 ];
 const mtColumns = [
-  {title: '1', id: '1'},
-  {title: '2', id: '2'},
-  {title: '3', id: '3'},
-  {title: '4', id: '4'},
-  {title: '5', id: '5'},
-  {title: '6', id: '6'},
-  {title: '7', id: '7'},
-  {title: '8', id: '8'},
-  {title: '9', id: '9'},
-  {title: '10', id: '10'},
-  {title: '11', id: '11'},
-  {title: '12', id: '12'},
+  {title: 1, id: 1},
+  {title: 2, id: 2},
+  {title: 3, id: 3},
+  {title: 4, id: 4},
+  {title: 5, id: 5},
+  {title: 6, id: 6},
+  {title: 7, id: 7},
+  {title: 8, id: 8},
+  {title: 9, id: 9},
+  {title: 10, id: 10},
+  {title: 11, id: 11},
+  {title: 12, id: 12},
 ];
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -57,7 +57,13 @@ export const initialWidth = {
 };
 
 const NewCellModal = (props) => {
-  const {openNewRow, handleCloseNewCell, handleSaveNewCell, section} = props;
+  const {
+    openNewRow,
+    handleCloseNewCell,
+    handleSaveNewCell,
+    section,
+    newCellRowIndex,
+  } = props;
   const classes = useStyles();
   const [layoutWidth, setLayoutWidth] = useState(initialWidth);
 
@@ -203,7 +209,7 @@ const NewCellModal = (props) => {
         <Button
           autoFocus
           onClick={() => {
-            handleSaveNewCell(section, layoutWidth);
+            handleSaveNewCell(newCellRowIndex, section, layoutWidth);
           }}
           color='primary'>
           Save changes

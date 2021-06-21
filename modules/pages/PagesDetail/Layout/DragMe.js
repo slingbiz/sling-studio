@@ -64,6 +64,7 @@ const DragMe = (props) => {
 
   console.log(items, initItems, 'items = inititems');
   const onDragEnd = (result) => {
+    console.log(result, 'onDragEnd @dragme, ', key);
     if (!result.destination) {
       return;
     }
@@ -85,6 +86,7 @@ const DragMe = (props) => {
         return (
           <>
             <DragMe
+              section={section}
               key={parentKey + '_body_' + k}
               rowNo={k}
               isDragDisabled={isDragDisabled}

@@ -19,6 +19,7 @@ import LayoutView from './LayoutView';
 import LayoutSettings from './LayoutSettings';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -70,6 +71,60 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
+// fake data generator
+const getItems = (count, offset = 0) =>
+  Array.from({length: count}, (v, k) => k).map((k) => ({
+    id: `item-${k + offset}`,
+    content: `item ${k + offset}`,
+  }));
+
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+/**
+ * Moves an item from one list to another list.
+ */
+const move = (source, destination, droppableSource, droppableDestination) => {
+  const sourceClone = Array.from(source);
+  const destClone = Array.from(destination);
+  const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+  destClone.splice(droppableDestination.index, 0, removed);
+
+  const result = {};
+  result[droppableSource.droppableId] = sourceClone;
+  result[droppableDestination.droppableId] = destClone;
+
+  return result;
+};
+
+const grid = 8;
+//Widget ITem
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+
+  // change background colour if dragging
+  background: isDragging ? 'lightgreen' : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+//Widget GetList style
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  padding: grid,
+  width: 250,
+});
+
 const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const childRef = useRef();
@@ -81,6 +136,33 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
     childRef.current.saveLayoutConfig();
     handleClose();
   };
+
+  const onDragEnd = (result) => {
+    const {source, destination} = result;
+    console.log(result, 'onDragEnd @dragme, ');
+
+    // dropped outside the list
+    if (!destination) {
+      return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      return;
+    } else {
+      const result = move(
+        this.getList(source.droppableId),
+        this.getList(destination.droppableId),
+        source,
+        destination,
+      );
+
+      this.setState({
+        items: result.droppable,
+        selected: result.droppable2,
+      });
+    }
+  };
+
   return (
     <Dialog
       fullScreen
@@ -147,6 +229,36 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
                 {/*  fontWeight={Fonts.BOLD}>*/}
                 {/*  {'All'}*/}
                 {/*</Box>*/}
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId='droppable-widgets'>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}>
+                        {getItems(10).map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}>
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={getItemStyle(
+                                  snapshot.isDragging,
+                                  provided.draggableProps.style,
+                                )}>
+                                {item.content}
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
                 <Box style={{display: 'flex', flexWrap: 'wrap'}}>
                   <Box className={classes.componentBox}>
                     <SearchIcon />
