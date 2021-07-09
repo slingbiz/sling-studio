@@ -6,9 +6,9 @@
     ".next/cache"
   ],
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 4087",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start -p 4087",
     "heroku-postbuild": "npm run build",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "lint:fix": "eslint --fix",
