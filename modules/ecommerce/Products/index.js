@@ -9,13 +9,7 @@ import ProductsSidebar from '../../../@crema/blocks/ProductFilters';
 const Products = (props) => {
   console.log(props, 'props@ [Product/index.js]');
   const {messages} = useIntl();
-  return (
-    <AppsContainer
-      title={messages['sidebar.ecommerce.products']}
-      sidebarContent={<ProductsSidebar />}>
-      <ProductListing />
-    </AppsContainer>
-  );
+  return <ProductListing />;
 };
 
 export default Products;
