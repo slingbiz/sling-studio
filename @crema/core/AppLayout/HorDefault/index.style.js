@@ -43,10 +43,10 @@ const useStyles = makeStyles((theme) => {
         paddingLeft: 16,
         paddingRight: 16,
         [theme.breakpoints.up('lg')]: {
-          maxWidth: 1140,
+          // maxWidth: 1140,
         },
         [theme.breakpoints.up('xl')]: {
-          maxWidth: 1720,
+          maxWidth: 1140,
         },
       },
     },

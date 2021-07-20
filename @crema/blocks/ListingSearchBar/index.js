@@ -18,7 +18,7 @@ const ListingSearchBar = ({parentProps}) => {
   };
 
   return (
-    <Box display='flex' alignItems='center'>
+    <Box display='flex' alignItems='center' justifyContent={'flex-end'}>
       <AppSearch
         placeholder='Search here'
         onChange={(e) => searchProduct(e.target.value)}

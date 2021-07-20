@@ -85,15 +85,15 @@ const ThemeSetting = (props) => {
   return (
     <Box className={clsx(classes.customizerOption, 'customizerOption')}>
       <Box className={classes.customizerButton}>
-        <IconButton onClick={() => setCustomizerStatus(!open)}>
-          <i
-            className={clsx(
-              classes.textWhite,
-              'material-icons animated infinite pulse',
-            )}>
-            settings
-          </i>
-        </IconButton>
+        {/*<IconButton onClick={() => setCustomizerStatus(!open)}>*/}
+        {/*  <i*/}
+        {/*    className={clsx(*/}
+        {/*      classes.textWhite,*/}
+        {/*      'material-icons animated infinite pulse',*/}
+        {/*    )}>*/}
+        {/*    settings*/}
+        {/*  </i>*/}
+        {/*</IconButton>*/}
       </Box>
       <Drawer
         anchor='right'

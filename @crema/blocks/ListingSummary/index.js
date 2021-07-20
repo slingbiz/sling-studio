@@ -1,10 +1,12 @@
 import React from 'react';
 import {Box, Hidden} from '@material-ui/core';
-import {Fonts} from "../../../shared/constants/AppEnums";
+import {Fonts} from '../../../shared/constants/AppEnums';
+import Grid from '@material-ui/core/Grid';
 
-const ListingSummary = ({parentProps}) => {
+const ListingSummary = ({payload}) => {
+  const {muiWidths, style} = payload;
   return (
-    <Box display='flex' flex={1}>
+    <Box p={4}>
       <Box fontWeight={Fonts.BOLD} mr={3}>
         Watches
       </Box>

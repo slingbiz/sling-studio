@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
+    padding: 0,
     backgroundColor: theme.palette.grey[100],
     height: theme.spacing(3),
     color: theme.palette.grey[800],
@@ -25,16 +26,21 @@ const StyledBreadcrumb = withStyles((theme) => ({
 
 function handleClick(event) {
   event.preventDefault();
-  alert('You clicked a breadcrumb.');
+  console.log('Breadcrumb Clicked. Act on!')
+  // alert('You clicked a breadcrumb.');
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0),
+    margin: -theme.spacing(3),
+    marginBottom: theme.spacing(2),
+    background: '#f5f7fe',
   },
   avatar: {
     background: 'none',
-    marginRight: -theme.spacing(1.5),
+    // marginRight: -theme.spacing(1.5),
+    padding: 0,
   },
   linkRoot: {
     backgroundColor: 'transparent',
@@ -57,11 +63,11 @@ export default function CustomizedBreadcrumbs() {
           className={classes.linkRoot}
           href='#'
           label='Home'
-          avatar={
-            <Avatar className={classes.avatar}>
-              <HomeIcon />
-            </Avatar>
-          }
+          // avatar={
+          //   <Avatar className={classes.avatar}>
+          //     <HomeIcon />
+          //   </Avatar>
+          // }
           onClick={handleClick}
         />
         <StyledBreadcrumb
@@ -74,9 +80,9 @@ export default function CustomizedBreadcrumbs() {
         <StyledBreadcrumb
           label='Accessories'
           className={classes.linkRoot}
-          deleteIcon={<ExpandMoreIcon />}
+          // deleteIcon={<ExpandMoreIcon />}
           onClick={handleClick}
-          onDelete={handleClick}
+          // onDelete={handleClick}
         />
       </Breadcrumbs>
     </Paper>

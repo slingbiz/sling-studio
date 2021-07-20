@@ -48,13 +48,14 @@ const AppFooter = (props) => {
             className='footerContainer'
             alignItems='center'
             flexDirection='row'
+            justifyContent='center'
             display='flex'>
-            <Box>Copy right @crema 2020</Box>
-            <Box ml='auto'>
-              <Button className={classes.btnRoot} color='primary'>
-                Buy Now
-              </Button>
-            </Box>
+            <Box>© 2021 Brewed Passionately in Dubai. All Rights Reserved.</Box>
+            {/*<Box ml='auto'>*/}
+            {/*  <Button className={classes.btnRoot} color='primary'>*/}
+            {/*    Buy Now*/}
+            {/*  </Button>*/}
+            {/*</Box>*/}
           </Box>
         </Box>
       ) : null}

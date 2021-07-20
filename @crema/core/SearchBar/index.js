@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     backgroundColor: theme.palette.common.white,
-    width: 162,
+    width: 250,
     height: 35,
     borderRadius: 4,
     boxSizing: 'border-box',

@@ -41,7 +41,7 @@ export default function ContactUs(props) {
           alignItems='center'
           flexDirection='row'
           display='flex'>
-          <Box>Copy right @crema 2020</Box>
+          <Box>© 2021 Brewed Passionately in Dubai. All Rights Reserved.</Box>
           <Box ml='auto'>
             <Button color='primary'>Buy Now</Button>
           </Box>

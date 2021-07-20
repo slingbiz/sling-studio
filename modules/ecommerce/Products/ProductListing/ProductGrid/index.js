@@ -5,11 +5,10 @@ import ListEmptyResult from '../../../../../@crema/core/AppList/ListEmptyResult'
 
 const ProductGrid = ({ecommerceList, loading}) => (
   <AppGrid
-    delay={200}
     responsive={{
       xs: 1,
-      sm: 2,
-      xl: 3,
+      sm: 6,
+      xl: 6,
     }}
     data={ecommerceList}
     renderRow={(item) => <GridItem item={item} key={item.id} />}

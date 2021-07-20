@@ -64,7 +64,7 @@ const GridItem = (props) => {
         router.push('/ecommerce/product_detail/' + item.id);
       }}
       clone>
-      <Card>
+      <Card style={{width: '100%'}}>
         <Box mt={2} mb={5} display='flex' justifyContent='space-between'>
           <Box
             component='span'

@@ -3,17 +3,18 @@ import Scrollbar from '../core/Scrollbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {fade} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 export const useAppsContentStyles = makeStyles((theme) => ({
   appsContentContainer: (props) => ({
     display: 'flex',
     flexDirection: 'column',
-    height: `calc(100% - ${props.isDetailView ? 60 : 115}px)`,
+    // height: `calc(100% - ${props.isDetailView ? 60 : 115}px)`,
     [theme.breakpoints.up('sm')]: {
-      height: `calc(100% - ${props.fullView ? 0 : 60}px)`,
+      // height: `calc(100% - ${props.fullView ? 0 : 60}px)`,
     },
     [theme.breakpoints.up('xl')]: {
-      height: `calc(100% - ${props.fullView ? 0 : 77}px)`,
+      // height: `calc(100% - ${props.fullView ? 0 : 77}px)`,
     },
     '& .scrum-absolute': {
       position: 'absolute',
@@ -24,7 +25,7 @@ export const useAppsContentStyles = makeStyles((theme) => ({
     '& .scrum-row': {
       display: 'inline-flex',
       minWidth: '100%',
-      height: '100%',
+      // height: '100%',
       marginLeft: '-10px',
       marginRight: '-10px',
     },
@@ -35,14 +36,14 @@ export const useAppsContentStyles = makeStyles((theme) => ({
       marginRight: '10px',
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
       backgroundColor: fade(theme.palette.background.paper, 0.45),
-      height: '100% !important',
+      // height: '100% !important',
       [theme.breakpoints.up('md')]: {
         minWidth: '354px',
         maxWidth: '354px',
       },
     },
     '& .scroll-scrum-item': {
-      height: 'auto !important',
+      // height: 'auto !important',
     },
   }),
 }));
@@ -50,11 +51,17 @@ export const useAppsContentStyles = makeStyles((theme) => ({
 const DefaultContent = (props) => {
   const classes = useAppsContentStyles(props);
   return (
-    <Scrollbar className={classes.appsContentContainer} style={props.style}>
-      <Box alignItems='baseline' flexDirection='row' display='flex'>
-        {props.children}
-      </Box>
-    </Scrollbar>
+    // <Scrollbar className={classes.appsContentContainer} style={props.style}>
+    <Grid
+      container
+      spacing={2}
+      justifyContent={'center'}
+      width={'auto'}
+      alignItems='baseline'
+      flexDirection='row'>
+      {props.children}
+    </Grid>
+    // </Scrollbar>
   );
 };
 

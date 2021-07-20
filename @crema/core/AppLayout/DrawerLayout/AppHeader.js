@@ -2,12 +2,10 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import LanguageSwitcher from '../../LanguageSwitcher';
-import {toggleNavCollapsed} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import Box from '@material-ui/core/Box';
 import SearchBar from '../../SearchBar';
@@ -15,6 +13,9 @@ import useStyles from './AppHeader.style';
 import HeaderMessages from '../../HeaderMessages';
 import Notifications from '../../Notifications';
 import AppLogo from '../../../../shared/components/AppLogo';
+import NotificationBar from '../HorDefault/NotificationBar';
+import HorizontalNav from '../../Navigation/HorizontalNav';
+import Hidden from '@material-ui/core/Hidden';
 
 const AppHeader = () => {
   const classes = useStyles();
@@ -54,15 +55,17 @@ const AppHeader = () => {
   return (
     <>
       <AppBar className='app-bar' color='inherit'>
+        <NotificationBar />
+
         <Toolbar className={classes.appToolbar}>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='open drawer'
-            onClick={() => dispatch(toggleNavCollapsed())}>
-            <MenuIcon className={classes.menuIconRoot} />
-          </IconButton>
+          {/*<IconButton*/}
+          {/*  edge='start'*/}
+          {/*  className={classes.menuButton}*/}
+          {/*  color='inherit'*/}
+          {/*  aria-label='open drawer'*/}
+          {/*  onClick={() => dispatch(toggleNavCollapsed())}>*/}
+          {/*  <MenuIcon className={classes.menuIconRoot} />*/}
+          {/*</IconButton>*/}
 
           <AppLogo />
           <Box className={classes.grow} />
@@ -83,6 +86,14 @@ const AppHeader = () => {
             </IconButton>
           </Box>
         </Toolbar>
+        <Hidden mdDown>
+          <Box className={classes.headerNav}>
+            <Box className={classes.headerContainer}>
+              {/*<HorizontalNav />*/}
+              {/*TODO: Add Category Menu here*/}
+            </Box>
+          </Box>
+        </Hidden>
       </AppBar>
       {renderMobileMenu}
     </>

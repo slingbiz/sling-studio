@@ -8,6 +8,7 @@ import AppFixedFooter from './AppFixedFooter';
 import clsx from 'clsx';
 import AppContext from '../../../utility/AppContext';
 import {LayoutType} from '../../../../shared/constants/AppEnums';
+import NotificationBar from '../HorDarkLayout/NotificationBar';
 
 const DrawerLayout = (props) => {
   const {footer, layoutType, footerType} = useContext(AppContext);
@@ -23,6 +24,7 @@ const DrawerLayout = (props) => {
           appMainFixedFooter: footer && footerType === 'fixed',
         },
       )}>
+
       <AppHeader />
       <AppSidebar />
       <Box className={classes.mainContent}>

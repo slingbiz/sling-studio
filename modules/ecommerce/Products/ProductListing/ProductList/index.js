@@ -6,7 +6,6 @@ import ListEmptyResult from '../../../../../@crema/core/AppList/ListEmptyResult'
 const ProductList = ({ecommerceList, loading}) => {
   return (
     <AppList
-      delay={200}
       data={ecommerceList}
       renderRow={(item) => <ListItem item={item} key={item.id} />}
       ListEmptyComponent={

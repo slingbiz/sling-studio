@@ -48,10 +48,18 @@ const settings = {
 const SimilarProduct = () => {
   const {theme} = useContext(AppContext);
   return (
-    <Box bgcolor={fade(theme.palette.background.default, 0.6)}>
+    <Box
+      p={5}
+      marginTop={10}
+      bgcolor={fade(theme.palette.background.default, 0.6)}>
+      <Box fontSize={18} mt={2}>
+        <b> Customer Also Viewed </b>
+      </Box>
       <Slider {...settings}>
         {ecommerce.map((item, index) => (
-          <GridItem key={index} item={item} />
+          <Box p={5} key={index}>
+            <GridItem key={index} item={item} />
+          </Box>
         ))}
       </Slider>
     </Box>

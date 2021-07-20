@@ -2,17 +2,18 @@ import React from 'react';
 import {Box} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Grid from '@material-ui/core/Grid';
+import NotificationBar from '../core/AppLayout/HorDefault/NotificationBar';
 
 const useStyles = makeStyles((theme) => ({
   appHeader: {
-    height: 120,
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     borderBottom: `1px solid ${grey[300]}`,
-    [theme.breakpoints.up('xl')]: {
-      height: 77,
-    },
+    // [theme.breakpoints.up('xl')]: {
+    //   height: 77,
+    // },
   },
   checkboxRoot: {
     marginRight: 8,
@@ -25,9 +26,20 @@ const useStyles = makeStyles((theme) => ({
 const AppsHeader = ({children}) => {
   const classes = useStyles();
   return (
-    <Box px={6} py={{xs: 1, xl: 3}} className={classes.appHeader}>
-      {children}
-    </Box>
+    <>
+      <Grid
+        container
+        spacing={2}
+        justifyContent={'center'}
+        width={'auto'}
+        asdf={'asdf'}
+        alignItems='baseline'
+        flexDirection='row'
+        px={6}
+        className={classes.appHeader}>
+        {children}
+      </Grid>
+    </>
   );
 };
 

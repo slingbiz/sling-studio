@@ -29,7 +29,8 @@ const useStyles = makeStyles({
 });
 const ProductSidebar = (props) => {
   const {payload} = props;
-  const {style} = payload || {};
+  const {style, muiWidths} = payload || {};
+  console.log(payload, '@@@payloaddddd');
   const classes = useStyles();
   const dispatch = useDispatch();
   const {filterData} = useSelector(({ecommerce}) => ecommerce);
@@ -107,101 +108,98 @@ const ProductSidebar = (props) => {
     <AppSidebar
       isAppDrawerOpen={isAppDrawerOpen}
       footer={footer}
-      navStyle={navStyle}
-      style={style}>
-      <Scrollbar className='scroll-app-sidebar'>
-        <Box p={6}>
-          <Box component='h5' mb={2} fontWeight={Fonts.MEDIUM}>
-            Filter By
-          </Box>
-          <Box color='text.secondary' mb={4} fontWeight={Fonts.MEDIUM}>
-            CATEGORIES
-          </Box>
-          <ProductsCategory />
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            PRICE
-          </Box>
-          <PriceSelector />
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            BRAND
-            <AppList
-              data={BrandData}
-              renderRow={(data) => (
-                <CheckedCell
-                  key={data.id}
-                  data={data}
-                  onChange={onSelectBrand}
-                  selected={selectedBrand}
-                />
-              )}
-            />
-          </Box>
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            IDEAL FOR
-            <AppList
-              data={IdealFor}
-              renderRow={(data) => (
-                <CheckedCell
-                  key={data.id}
-                  data={data}
-                  onChange={onSelectFor}
-                  selected={selectedFor}
-                />
-              )}
-            />
-          </Box>
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            DISCOUNT
-            <AppList
-              data={DiscountList}
-              renderRow={(data) => (
-                <CheckedCell
-                  key={data.id}
-                  data={data}
-                  onChange={onSelectDiscount}
-                  selected={selectedDiscount}
-                />
-              )}
-            />
-          </Box>
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            COLOR
-            <AppGrid
-              data={Object.values(ProductColors)}
-              column={6}
-              itemPadding={10}
-              renderRow={(data, index) => (
-                <ColorCell
-                  key={'color-' + index}
-                  data={data}
-                  selected={selectedColor}
-                  onChange={onSelectColor}
-                />
-              )}
-            />
-          </Box>
-          <Divider className={classes.divider} />
-          <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
-            CUSTOMER RATINGS
-            <AppList
-              data={[5, 4, 3, 2, 1]}
-              renderRow={(data) => (
-                <RatingCell
-                  key={data}
-                  data={data}
-                  onChange={onSelectRating}
-                  selected={customerRating}
-                />
-              )}
-            />
-          </Box>
+      navStyle={navStyle}>
+      <Box p={6}>
+        <Box component='h5' mb={2} fontWeight={Fonts.MEDIUM}>
+          Filter By
         </Box>
-      </Scrollbar>
+        <Box color='text.secondary' mb={4} fontWeight={Fonts.MEDIUM}>
+          CATEGORIES
+        </Box>
+        <ProductsCategory />
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          PRICE
+        </Box>
+        <PriceSelector />
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          BRAND
+          <AppList
+            data={BrandData}
+            renderRow={(data) => (
+              <CheckedCell
+                key={data.id}
+                data={data}
+                onChange={onSelectBrand}
+                selected={selectedBrand}
+              />
+            )}
+          />
+        </Box>
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          IDEAL FOR
+          <AppList
+            data={IdealFor}
+            renderRow={(data) => (
+              <CheckedCell
+                key={data.id}
+                data={data}
+                onChange={onSelectFor}
+                selected={selectedFor}
+              />
+            )}
+          />
+        </Box>
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          DISCOUNT
+          <AppList
+            data={DiscountList}
+            renderRow={(data) => (
+              <CheckedCell
+                key={data.id}
+                data={data}
+                onChange={onSelectDiscount}
+                selected={selectedDiscount}
+              />
+            )}
+          />
+        </Box>
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          COLOR
+          <AppGrid
+            data={Object.values(ProductColors)}
+            column={6}
+            itemPadding={10}
+            renderRow={(data, index) => (
+              <ColorCell
+                key={'color-' + index}
+                data={data}
+                selected={selectedColor}
+                onChange={onSelectColor}
+              />
+            )}
+          />
+        </Box>
+        <Divider className={classes.divider} />
+        <Box color='text.secondary' my={4} fontWeight={Fonts.MEDIUM}>
+          CUSTOMER RATINGS
+          <AppList
+            data={[5, 4, 3, 2, 1]}
+            renderRow={(data) => (
+              <RatingCell
+                key={data}
+                data={data}
+                onChange={onSelectRating}
+                selected={customerRating}
+              />
+            )}
+          />
+        </Box>
+      </Box>
     </AppSidebar>
   );
 };

@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Blocks from '../../blocks/index';
 import Wrappers from '../../wrappers/index';
+import Grid from '@material-ui/core/Grid';
 
 const RenderTree = (props) => {
   const {layout} = props;
@@ -19,25 +20,37 @@ const RenderTree = (props) => {
             <Wrapper>
               {cells?.map((cell) => {
                 const {rows, key, payload} = cell;
+                const {style, muiWidths} = payload;
                 if (key && Blocks[key]) {
                   const CellComponent = Blocks[cell.key];
                   return (
-                    <CellComponent
-                      parentProps={props}
-                      key={key}
-                      payload={payload}
-                    />
+                    <Grid item display={'flex'} flex={1} {...muiWidths}>
+                      <CellComponent
+                        parentProps={props}
+                        key={key}
+                        payload={payload}
+                      />
+                    </Grid>
                   );
                 }
                 if (rows) {
                   console.log(rows, '@rows inside cells');
                   return (
-                    <Box
+                    <Grid
+                      item
+                      {...muiWidths}
                       display={'flex'}
                       flexDirection={'column'}
+                      justifyContent={'center'}
                       alignItems={'center'}>
-                      {processRows(rows)}
-                    </Box>
+                      <Box
+                        // container
+                        spacing={2}
+                        justifyContent={'center'}
+                        width={'auto'}>
+                        {processRows(rows)}
+                      </Box>
+                    </Grid>
                   );
                 }
               })}

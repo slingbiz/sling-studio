@@ -16,7 +16,7 @@ const AppLogo = () => {
     },
     logo: {
       height: 36,
-      marginRight: 10,
+      // marginRight: 10,
     },
   }));
   const classes = useStyles();
@@ -27,8 +27,8 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/logo-white.png'
-              : '/images/logo.png'
+              ? '/images/sling-fe.png'
+              : '/images/sling-fe.png'
           }
           alt='crema-logo'
         />
@@ -38,14 +38,14 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/logo-white-with-name.png'
-              : '/images/logo-with-name.png'
+              ? '/images/sling-fe.png'
+              : '/images/sling-fe.png'
           }
-          alt='crema-logo'
+          alt='Sling Frontend Demo'
         />
       </Hidden>
       <Box color='text.secondary' fontSize={16} fontWeight={500} mt={4} mb={3}>
-        FE
+        Demo
       </Box>
     </Box>
   );

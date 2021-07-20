@@ -5,6 +5,9 @@ import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    margin: theme.spacing(5),
+    justifyContent: 'center',
     '& > * + *': {
       marginTop: theme.spacing(2),
     },
@@ -20,7 +23,7 @@ export default function PaginationControlled() {
 
   return (
     <div className={classes.root}>
-      <Typography>Page: {page}</Typography>
+      {/*<Typography>Page: {page}</Typography>*/}
       <Pagination count={10} page={page} onChange={handleChange} />
     </div>
   );

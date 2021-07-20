@@ -8,6 +8,7 @@ import {Box} from '@material-ui/core';
 import useStyles from './AppsContainer/index.style';
 import {useDispatch} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 const AppSidebar = (props) => {
   const {
@@ -18,6 +19,7 @@ const AppSidebar = (props) => {
     style,
     sidebarContent,
     children,
+    muiWidths,
   } = props;
 
   const classes = useStyles({footer, navStyle, fullView});
@@ -31,7 +33,7 @@ const AppSidebar = (props) => {
 
   const dispatch = useDispatch();
   return (
-    <Box className={className}>
+    <Box className={className} {...muiWidths}>
       <Hidden lgUp>
         <Drawer
           open={isAppDrawerOpen}
@@ -44,7 +46,7 @@ const AppSidebar = (props) => {
         </Drawer>
       </Hidden>
       <Hidden mdDown>
-        <Card style={{height: '100%'}}>{sidebarContent || children}</Card>
+        <Card>{sidebarContent || children}</Card>
       </Hidden>
     </Box>
   );

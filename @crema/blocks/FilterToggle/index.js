@@ -4,11 +4,15 @@ import {useDispatch} from 'react-redux';
 import {Box} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Filter';
+// import FilterAltIcon from '@material-ui/icons/FilterAlt';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {AppContext} from '../../index';
 import {makeStyles} from '@material-ui/core/styles';
 import {NavStyle} from '../../../shared/constants/AppEnums';
+import Grid from '@material-ui/core/Grid';
 
 const getHeaderHeight = (navStyle, screenSize) => {
   if (
@@ -24,48 +28,48 @@ const getHeaderHeight = (navStyle, screenSize) => {
 
 const useStyles = makeStyles((theme) => ({
   appsContainer: (props) => ({
-    height: `calc(100vh - ${
-      55 + // AppContainerHeader Height
-      20 + //Container Padding
-      getHeaderHeight(props.navStyle, 0) +
-      (props.footer ? 70 : 10) // 50 Header Height + 20 Margin Top
-    }px) !important`,
+    // height: `calc(100vh - ${
+    //   55 + // AppContainerHeader Height
+    //   20 + //Container Padding
+    //   getHeaderHeight(props.navStyle, 0) +
+    //   (props.footer ? 70 : 10) // 50 Header Height + 20 Margin Top
+    // }px) !important`,
     [theme.breakpoints.up('sm')]: {
-      height: `calc(100vh - ${
-        55 + // AppContainerHeader Height
-        20 + //Container Padding
-        getHeaderHeight(props.navStyle, 600) +
-        (props.footer ? 70 : 10)
-      }px) !important`,
+      // height: `calc(100vh - ${
+      //   55 + // AppContainerHeader Height
+      //   20 + //Container Padding
+      //   getHeaderHeight(props.navStyle, 600) +
+      //   (props.footer ? 70 : 10)
+      // }px) !important`,
     },
     [theme.breakpoints.up('md')]: {
-      height: `calc(100vh - ${
-        55 + // AppContainerHeader Height
-        30 + //Container Padding
-        getHeaderHeight(props.navStyle, 960) +
-        (props.footer ? 80 : 10) // 50 Header Height + 30 Margin Top
-      }px) !important`,
+      // height: `calc(100vh - ${
+      //   55 + // AppContainerHeader Height
+      //   30 + //Container Padding
+      //   getHeaderHeight(props.navStyle, 960) +
+      //   (props.footer ? 80 : 10) // 50 Header Height + 30 Margin Top
+      // }px) !important`,
     },
     [theme.breakpoints.up('lg')]: {
-      height: `calc(100vh - ${
-        43 + // AppContainerHeader Height
-        30 + //Container Padding
-        getHeaderHeight(props.navStyle, 1280) +
-        (props.footer ? 80 : 10)
-      }px) !important`,
+      // height: `calc(100vh - ${
+      //   43 + // AppContainerHeader Height
+      //   30 + //Container Padding
+      //   getHeaderHeight(props.navStyle, 1280) +
+      //   (props.footer ? 80 : 10)
+      // }px) !important`,
     },
     [theme.breakpoints.up('xl')]: {
-      height: `calc(100vh - ${
-        64 + // AppContainerHeader Height
-        30 + //Container Padding
-        getHeaderHeight(props.navStyle, 1920) +
-        (props.footer ? 86 : 10) // 56 Header Height + 30 Margin Top
-      }px) !important`,
+      // height: `calc(100vh - ${
+      //   64 + // AppContainerHeader Height
+      //   30 + //Container Padding
+      //   getHeaderHeight(props.navStyle, 1920) +
+      //   (props.footer ? 86 : 10) // 56 Header Height + 30 Margin Top
+      // }px) !important`,
     },
     display: 'flex',
   }),
   appsSidebar: {
-    height: '100%',
+    // height: '100%',
     [theme.breakpoints.up('lg')]: {
       width: '17rem',
     },
@@ -124,7 +128,7 @@ const FilterToggle = (props) => {
             color='inherit'
             aria-label='open drawer'
             onClick={() => dispatch(onToggleAppDrawer())}>
-            <MenuIcon className={classes.menuIcon} />
+            <FilterListIcon className={classes.menuIcon} />
           </IconButton>
         </Hidden>
       )}
@@ -133,7 +137,7 @@ const FilterToggle = (props) => {
         color='text.primary'
         fontWeight={Fonts.BOLD}
         fontSize={16}>
-        {title} -Products-
+        {title} Products
       </Box>
     </Box>
   );

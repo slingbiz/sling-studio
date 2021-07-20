@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
   }),
   appsSidebar: {
     height: '100%',
-    [theme.breakpoints.up('lg')]: {
-      width: '17rem',
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: '20rem',
-    },
+    // [theme.breakpoints.up('lg')]: {
+    //   width: '17rem',
+    // },
+    // [theme.breakpoints.up('xl')]: {
+    //   width: '20rem',
+    // },
   },
   appsMainContent: (props) => ({
     width: '100%',
