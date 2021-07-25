@@ -4,12 +4,12 @@ import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
 const useStyles = makeStyles((theme) => {
   return {
     navItem: {
-      height: 40,
+      height: 60,
       marginTop: 2,
       marginBottom: 2,
       cursor: 'pointer',
       textDecoration: 'none !important',
-      width: 'calc(100% - 16px)',
+      width: 'calc(100% - 0px)',
       borderRadius: '0 30px 30px 0',
       paddingLeft:
         theme.direction === 'ltr' ? (props) => 24 + 40 * props.level : 12,

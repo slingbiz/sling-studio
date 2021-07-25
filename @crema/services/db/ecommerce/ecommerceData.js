@@ -46,7 +46,7 @@ export const IdealFor = [
 export const addresses = [
   {
     id: 1,
-    name: 'Crema User',
+    name: 'Sling User',
     mobile: '+1 508-966-0591',
     addressLine: '777 Brockton Avenue',
     city: 'Abington MA',
@@ -54,7 +54,7 @@ export const addresses = [
   },
   {
     id: 2,
-    name: 'Crema User',
+    name: 'Sling User',
     mobile: '+1 508-966-0592',
     addressLine: '250 Hartford Avenue',
     city: 'Bellingham MA',
@@ -62,7 +62,7 @@ export const addresses = [
   },
   {
     id: 3,
-    name: 'Crema User',
+    name: 'sling User',
     mobile: '+1 508-966-0593',
     addressLine: '700 Oak Street',
     city: 'Brockton MA',

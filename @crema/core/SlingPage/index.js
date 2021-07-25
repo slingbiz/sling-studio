@@ -5,11 +5,10 @@ import Head from 'next/head';
 const SITE_URL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : 'https://crema-next.herokuapp.com';
+    : 'https://sling.biz/demo/dashboard';
 
-const defaultTitle = 'Crema React Admin Template';
-const defaultDescription =
-  'Pure React hooks base admin template with material-ui.';
+const defaultTitle = 'Sling Dashboard Demo';
+const defaultDescription = '';
 const defaultImage = `/images/sling-fe.jpg`;
 const defaultSep = ' | ';
 const CremaPage = ({children, id, className, ...rest}) => {

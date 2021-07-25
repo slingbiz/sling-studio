@@ -55,10 +55,11 @@ const useStyles = makeStyles((theme) => {
       },
 
       '& .nav-item': {
-        width: 48,
-        paddingLeft: 11,
-        marginLeft: 6,
-        borderRadius: '50%',
+        // width: 48,
+        paddingLeft: 17,
+        // marginLeft: ,
+
+        // borderRadius: '50%',
 
         [theme.breakpoints.up('xl')]: {
           height: 48,
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => {
 
       '&:hover': {
         [theme.breakpoints.up('lg')]: {
-          width: '21.6rem',
+          width: '14.6rem',
 
           '& .nav-item-text, & .nav-item-icon-arrow': {
             opecity: 1,
@@ -127,6 +128,7 @@ const useStyles = makeStyles((theme) => {
           : '#313541',
     },
     scrollAppSidebar: {
+      borderRight: '1px solid #eae8e8',
       paddingTop: 8,
       paddingBottom: 20,
     },

@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => {
           },
 
           '& .nav-item': {
-            width: 'calc(100% - 16px)',
+            width: 'calc(100% - 0px)',
             paddingLeft: 17,
             marginLeft: 0,
             borderRadius: '0 30px 30px 0',

@@ -5,9 +5,12 @@ import {makeStyles} from '@material-ui/core';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {useIntl} from 'react-intl';
-import {red} from '@material-ui/core/colors';
+import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import TextField from '@material-ui/core/TextField';
+import ListItemText from '@material-ui/core/ListItemText';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const Basic = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -54,36 +57,75 @@ const Basic = (props) => {
       cursor: 'pointer',
     },
     button: {
-      backgroundColor: red[500],
+      backgroundColor: orange[500],
       color: theme.palette.primary.contrastText,
-      fontWeight: Fonts.LIGHT,
+      fontWeight: Fonts.BOLD,
       paddingRight: 20,
       paddingLeft: 20,
       '&:hover, &:focus': {
-        backgroundColor: red[700],
+        backgroundColor: orange[700],
         color: theme.palette.secondary.contrastText,
       },
+    },
+    basicFormTxt: {
+      margin: 10,
     },
   }));
 
   const classes = useStyles(props);
 
   const {messages} = useIntl();
-
+  const {titleKey} = props;
   return (
     <Box px={6} py={8}>
+      <ListItemText style={{marginTop: '0px'}}>{'Meta Tags & SEO'}</ListItemText>
+      <Box p={6} mb={6} className={classes.boxSection}>
+        <TextField
+          id='standard-full-width'
+          label='Page Name'
+          className={classes.basicFormTxt}
+          value={`${titleKey}`}
+          // helperText=''
+          fullWidth
+          margin='normal'
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          id='standard-full-width'
+          label='Page Title'
+          className={classes.basicFormTxt}
+          helperText='Best selling products in your {{city}}}.'
+          // helperText=''
+          fullWidth
+          margin='normal'
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          id='standard-full-width'
+          label='Meta Description'
+          className={classes.basicFormTxt}
+          // placeholder='Placeholder'
+          helperText='Found {{count}} products matching your search.'
+          fullWidth
+          margin='normal'
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <FormControlLabel
+          control={<Switch value='checkedC' />}
+          label='Allow Bots'
+        />
+      </Box>
+
       <Divider className={classes.divider} />
 
-      <TextField
-        multiline
-        className={classes.textArea}
-        rows='6'
-        variant='outlined'
-        placeholder={messages['common.writeComment']}
-        value={'comment'}
-      />
       <Button className={classes.button} onClick={() => {}}>
-        <IntlMessages id='todo.submitComment' />
+        Save
       </Button>
     </Box>
   );

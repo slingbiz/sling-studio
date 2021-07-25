@@ -7,6 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import EditLayout from './EditLayout';
 import LayoutView from './LayoutView';
+import orange from '@material-ui/core/colors/orange';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import Divider from '@material-ui/core/Divider';
 
 const Layout = (props) => {
   const {titleKey, pageKey} = props;
@@ -63,8 +66,8 @@ const Layout = (props) => {
       marginTop: 0,
     },
     divider: {
-      marginTop: 20,
-      marginBottom: 20,
+      marginTop: 5,
+      marginBottom: 5,
     },
     textArea: {
       width: '100%',
@@ -73,6 +76,17 @@ const Layout = (props) => {
     option: {
       padding: 8,
       cursor: 'pointer',
+    },
+    button: {
+      backgroundColor: orange[500],
+      color: theme.palette.primary.contrastText,
+      fontWeight: Fonts.BOLD,
+      paddingRight: 20,
+      paddingLeft: 20,
+      '&:hover, &:focus': {
+        backgroundColor: orange[700],
+        color: theme.palette.secondary.contrastText,
+      },
     },
   }));
 
@@ -100,7 +114,11 @@ const Layout = (props) => {
           <EditIcon />
         </Fab>
         <LayoutView pageKey={pageKey} isEditable={false} />
-        <Box p={6} mb={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <Divider className={classes.divider} />
+        <Box
+          pt={4}
+          mb={6}
+          style={{display: 'flex', justifyContent: 'flex-start'}}>
           <Button
             variant='contained'
             color='primary'

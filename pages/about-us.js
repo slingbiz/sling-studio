@@ -9,24 +9,18 @@ export default function ContactUs(props) {
   return (
     <div className={styles.container}>
 
-      <PageMeta title="About Crema React" />
+      <PageMeta title="About Sling " />
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Crema Next.js!</a>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{" "}
           <code className={styles.code}>pages/about-us.js</code>
         </p>
 
         <div className={styles.grid}>
-          Presenting Crema, the all in one package which uses React Hooks to write components more intuitively without
-          using classes. Crema is purely based on Material UI components and follows Google’s Material Design
-          guidelines. It is integrated with Redux and Context API for state management hence making it fast and
-          reliable. It is fully RTL supported and multi-lingual. It uses fake API creator ‘axios-mock-adaptor’ to fetch
-          Data hence making it very easy to integrate with real Server. Crema has integration of Storybook to write the
-          story with Material-UI
+         Sling - Dashboard Admin Demo
         </div>
         <Box mt={4}>
          <strong>Todo Title :--- </strong>
@@ -39,12 +33,7 @@ export default function ContactUs(props) {
           alignItems='center'
           flexDirection='row'
           display='flex'>
-          <Box>Copy right @crema 2020</Box>
-          <Box ml='auto'>
-            <Button color='primary'>
-              Buy Now
-            </Button>
-          </Box>
+          <Box>Copy right @Sling 2021</Box>
         </Box>
       </Box>
     </div>

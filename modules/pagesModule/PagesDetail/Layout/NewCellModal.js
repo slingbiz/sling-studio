@@ -12,34 +12,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import {makeStyles} from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import SelectBreakpoints from './SelectBreakpoints';
 
 const {log} = console;
-const mtBreakPoints = [
-  // {title: 'xs', id: 'xs'},
-  {title: 'sm', id: 'sm'},
-  {title: 'md', id: 'md'},
-  {title: 'lg', id: 'lg'},
-  // {title: 'xl', id: 'xl'},
-];
-const mtColumns = [
-  {title: 1, id: 1},
-  {title: 2, id: 2},
-  {title: 3, id: 3},
-  {title: 4, id: 4},
-  {title: 5, id: 5},
-  {title: 6, id: 6},
-  {title: 7, id: 7},
-  {title: 8, id: 8},
-  {title: 9, id: 9},
-  {title: 10, id: 10},
-  {title: 11, id: 11},
-  {title: 12, id: 12},
-];
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -47,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  layoutBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -100,44 +81,11 @@ const NewCellModal = (props) => {
               gutterBottom>
               {/*Pick width*/}
             </Typography>
-            <Box
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              {mtBreakPoints.map((bp) => {
-                return (
-                  <FormControl
-                    key={`select-${bp.id}`}
-                    className={classes.formControl}>
-                    <InputLabel shrink id={`${bp.id}-label`}>
-                      {bp.title}
-                    </InputLabel>
-                    <Select
-                      labelId={`${bp.id}-label`}
-                      id={`${bp.id}`}
-                      name={`${bp.id}`}
-                      value={layoutWidth[bp.id]}
-                      onChange={handleWidth}
-                      displayEmpty
-                      className={classes.selectEmpty}>
-                      <MenuItem value=''>
-                        <em>None</em>
-                      </MenuItem>
-                      {mtColumns.map((v) => {
-                        return (
-                          <MenuItem key={v.id} value={v.id}>
-                            {v.id}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                    {/*<FormHelperText>sm info. </FormHelperText>*/}
-                  </FormControl>
-                );
-              })}
-            </Box>
+            <SelectBreakpoints
+              classes={classes}
+              handleWidth={handleWidth}
+              layoutWidth={layoutWidth}
+            />
           </Grid>
           <Grid
             item
@@ -149,10 +97,10 @@ const NewCellModal = (props) => {
                 <CardActionArea>
                   <CardMedia
                     component='img'
-                    alt='Contemplative Reptile'
+                    alt='Material UI ref'
                     height='140'
                     image='/images/mtRef.png'
-                    title='Contemplative Reptile'
+                    title='Material UI Breakpoints reference'
                   />
                   <CardContent>
                     <Typography gutterBottom>

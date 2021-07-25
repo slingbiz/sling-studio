@@ -48,6 +48,7 @@ const defaultConfig = {
         A200: '#aaaaaa',
         A400: '#303030',
         A700: '#616161',
+        AP100: '#eae8e8',
       },
       text: {
         primary: '#495057',
@@ -91,10 +92,10 @@ const defaultConfig = {
           fontSize: 14,
         },
         body1: {
-          fontSize: 12,
+          fontSize: 14,
         },
         body2: {
-          fontSize: 12,
+          fontSize: 14,
         },
       },
       MuiToggleButton: {
@@ -132,7 +133,7 @@ const defaultConfig = {
     },
   },
   themeStyle: ThemeStyle.STANDARD,
-  themeMode: ThemeMode.SEMI_DARK,
+  themeMode: ThemeMode.LIGHT,
   navStyle: NavStyle.HEADER_USER_MINI,
   layoutType: LayoutType.FULL_WIDTH,
   footerType: FooterType.FLUID,

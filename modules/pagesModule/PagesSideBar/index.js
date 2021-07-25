@@ -16,6 +16,7 @@ import ListEmptyResult from '../../../@crema/core/AppList/ListEmptyResult';
 import SidebarPlaceholder from '../../../@crema/core/Skeleton/SidebarListSkeleton';
 import folderList from '../../../@crema/services/db/apps/default/folderList';
 import {useRouter} from 'next/router';
+import StorageIcon from '@material-ui/icons/Storage';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {

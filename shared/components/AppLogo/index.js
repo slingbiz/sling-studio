@@ -16,7 +16,7 @@ const AppLogo = () => {
     },
     logo: {
       height: 36,
-      marginRight: 10,
+      // marginRight: 10,
     },
   }));
   const classes = useStyles();

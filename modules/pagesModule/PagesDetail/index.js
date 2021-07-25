@@ -4,6 +4,7 @@ import {useRouter} from 'next/router';
 import Box from '@material-ui/core/Box';
 import Basic from './Basic';
 import Layout from './Layout';
+import DataSource from './DataSource';
 
 const PagesDetail = (props) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const PagesDetail = (props) => {
   const sectionMapper = {
     basic: Basic,
     layout: Layout,
+    data: DataSource,
   };
 
   const RenderSection = sectionMapper[id] || Basic;

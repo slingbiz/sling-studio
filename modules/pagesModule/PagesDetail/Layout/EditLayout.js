@@ -20,6 +20,7 @@ import LayoutSettings from './LayoutSettings';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {Highlight} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   //     width: '70%',
   //   },
   // },
+
   appBar: {
     position: 'relative',
   },
@@ -48,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
   },
   divider: {
-    height: 28,
-    margin: 4,
+    marginTop: 5,
+    marginBottom: 5,
   },
   textTruncate: {
     padding: '10px 0',
@@ -57,7 +59,9 @@ const useStyles = makeStyles((theme) => ({
   componentBox: {
     height: '8em',
     width: '100%',
-    backgroundColor: 'lightgrey',
+    // backgroundColor: 'lightgrey',
+    border: '1px solid #d6d3d3',
+    borderRadius: '4px',
     justifyContent: 'center',
     margin: '0.5em',
     flex: '40%',
@@ -72,11 +76,28 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 // fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({length: count}, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`,
-  }));
+const getItems = (count, offset = 0, classes) =>
+  Array.from({length: count}, (v, k) => k).map((k) => {
+    let content = `Widget ${k + offset}`;
+    if (k == 0) {
+      content = (
+        <>
+          <SearchIcon />
+          <Box
+            component='h6'
+            className={classes.textTruncate}
+            color='text.primary'
+            fontWeight={Fonts.BOLD}>
+            {'Search Bar'}
+          </Box>
+        </>
+      );
+    }
+    return {
+      id: `item-${k + offset}`,
+      content,
+    };
+  });
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -232,49 +253,46 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
                 <DragDropContext onDragEnd={onDragEnd}>
                   <Droppable droppableId='droppable-widgets'>
                     {(provided, snapshot) => (
-                      <div
+                      <Box
                         ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}>
-                        {getItems(10).map((item, index) => (
+                        style={{display: 'flex', flexWrap: 'wrap'}}>
+                        {getItems(10, 0, classes).map((item, index) => (
                           <Draggable
                             key={item.id}
                             draggableId={item.id}
                             index={index}>
                             {(provided, snapshot) => (
                               <div
+                                className={classes.componentBox}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={getItemStyle(
-                                  snapshot.isDragging,
-                                  provided.draggableProps.style,
-                                )}>
+                                {...provided.dragHandleProps}>
                                 {item.content}
                               </div>
                             )}
                           </Draggable>
                         ))}
                         {provided.placeholder}
-                      </div>
+                      </Box>
                     )}
                   </Droppable>
                 </DragDropContext>
-                <Box style={{display: 'flex', flexWrap: 'wrap'}}>
-                  <Box className={classes.componentBox}>
-                    <SearchIcon />
-                    <Box
-                      component='h6'
-                      className={classes.textTruncate}
-                      color='text.primary'
-                      fontWeight={Fonts.BOLD}>
-                      {'Search Bar'}
-                    </Box>
-                  </Box>
-                  <Box className={classes.componentBox}>2</Box>
-                  <Box className={classes.componentBox}>3</Box>
-                  <Box className={classes.componentBox}>4</Box>
-                  <Box className={classes.componentBox}>5</Box>
-                </Box>
+                {/*<Box style={{display: 'flex', flexWrap: 'wrap'}}>*/}
+                {/*  <Box className={classes.componentBox}>*/}
+                {/*    <SearchIcon />*/}
+                {/*    <Box*/}
+                {/*      component='h6'*/}
+                {/*      className={classes.textTruncate}*/}
+                {/*      color='text.primary'*/}
+                {/*      fontWeight={Fonts.BOLD}>*/}
+                {/*      {'Search Bar'}*/}
+                {/*    </Box>*/}
+                {/*  </Box>*/}
+                {/*  <Box className={classes.componentBox}>2</Box>*/}
+                {/*  <Box className={classes.componentBox}>3</Box>*/}
+                {/*  <Box className={classes.componentBox}>4</Box>*/}
+                {/*  <Box className={classes.componentBox}>5</Box>*/}
+                {/*</Box>*/}
               </Box>
             </Card>
           </Hidden>
