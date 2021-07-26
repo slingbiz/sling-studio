@@ -17,6 +17,7 @@ import SidebarPlaceholder from '../../../@crema/core/Skeleton/SidebarListSkeleto
 import folderList from '../../../@crema/services/db/apps/default/folderList';
 import {useRouter} from 'next/router';
 import StorageIcon from '@material-ui/icons/Storage';
+import AppsSideBarFolderItemCustom from '../../../@crema/core/AppsSideBarFolderItem/custom';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -60,7 +61,7 @@ const PagesSideBar = ({basePath}) => {
                   />
                 }
                 renderRow={(item) => (
-                  <AppsSideBarFolderItem
+                  <AppsSideBarFolderItemCustom
                     key={item.id}
                     item={item}
                     path={`${basePath}/${item.alias}`}

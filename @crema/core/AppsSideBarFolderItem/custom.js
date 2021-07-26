@@ -83,9 +83,8 @@ const AppsSideBarFolderItemCustom = ({item, path}) => {
         className={clsx(classes.listItem, {
           active: getSelectedRoute() === query.all[1],
         })}>
-        <WrappedIcon>{item.icon}</WrappedIcon>
-        <Box mr={{xs: 4, xl: 5}}>
-          <ListItemIcon className={classes.listItemIcon}></ListItemIcon>
+        <Box ml={5} mr={{xs: 4, xl: 5}}>
+          <WrappedIcon>{item.icon}</WrappedIcon>
         </Box>
         <ListItemText primary={item.name} className={classes.listItemText} />
       </ListItem>

@@ -60,12 +60,12 @@ const routesConfig = [
     url: '/pages/',
   },
   {
-    id: 'apis',
+    id: 'backend-apis',
     title: 'Apis',
-    messageId: 'sidebar.app.apis',
+    messageId: 'sidebar.app.backendApis',
     type: 'item',
     icon: 'storage',
-    url: '/apis',
+    url: '/backend-apis',
   },
   {
     id: 'routes',
