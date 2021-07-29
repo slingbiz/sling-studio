@@ -13,6 +13,7 @@ import grey from '@material-ui/core/colors/grey';
 
 const useStyle = makeStyles((theme) => ({
   listItem: {
+    color: theme.palette.grey['600'],
     display: 'flex',
     paddingLeft: '10px',
     paddingRight: '0',
@@ -29,7 +30,7 @@ const useStyle = makeStyles((theme) => ({
 
     '& .MuiTypography-body1': {
       fontSize: 15,
-      fontWeight: Fonts.MEDIUM,
+      fontWeight: Fonts.BOLD,
     },
 
     '& svg': {
@@ -64,11 +65,16 @@ const useStyle = makeStyles((theme) => ({
   listItemText: {
     fontFamily: 'inherit',
   },
+  sideMenuIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
 const WrappedIcon = (props) => <Icon {...props} />;
 
-const AppsSideBarFolderItemCustom = ({item, path}) => {
+const AppsSideBarFolderItemCustom = ({item, path, noSubChild}) => {
   const classes = useStyle();
   const {query} = useRouter();
   const getSelectedRoute = () => {
@@ -81,9 +87,11 @@ const AppsSideBarFolderItemCustom = ({item, path}) => {
         button
         key={item.id}
         className={clsx(classes.listItem, {
-          active: getSelectedRoute() === query.all[1],
+          active: noSubChild
+            ? getSelectedRoute() === query?.all?.[0]
+            : getSelectedRoute() === query?.all?.[1],
         })}>
-        <Box ml={5} mr={{xs: 4, xl: 5}}>
+        <Box ml={4} mr={{xs: 4, xl: 5}} className={classes.sideMenuIcon}>
           <WrappedIcon>{item.icon}</WrappedIcon>
         </Box>
         <ListItemText primary={item.name} className={classes.listItemText} />

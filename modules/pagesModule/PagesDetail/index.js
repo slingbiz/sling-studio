@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import Basic from './Basic';
 import Layout from './Layout';
 import DataSource from './DataSource';
+import TasksList from '../TasksList';
 
 const PagesDetail = (props) => {
   const dispatch = useDispatch();
@@ -17,15 +18,16 @@ const PagesDetail = (props) => {
     data: DataSource,
   };
 
-  const RenderSection = sectionMapper[id] || Basic;
-
-  return (
-    <>
-      <Box style={{overflowY: 'auto'}}>
+  const RenderSection = sectionMapper[id];
+  if (RenderSection) {
+    return (
+      <Box style={{height: '100%'}}>
         <RenderSection {...props}></RenderSection>
       </Box>
-    </>
-  );
+    );
+  }
+
+  return <TasksList {...props}></TasksList>;
 };
 
 export default PagesDetail;

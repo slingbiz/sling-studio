@@ -389,7 +389,7 @@
   "sidebar.app.buildDeploy": "Build & Deploy",
   "sidebar.app.routes": "Routes",
   "sidebar.app.apis": "Apis",
-  "sidebar.app.backendApis": "Backend Apis",
+  "sidebar.app.backendApis": "Apis",
   "sidebar.app.dashboard.crm": "CRM",
   "sidebar.app.dashboard.crypto": "Crypto",
   "sidebar.app.metrics": "Metrics",

@@ -44,7 +44,7 @@ const AppsContainer = (props) => {
           color='text.primary'
           fontWeight={Fonts.BOLD}
           fontSize={16}>
-          {title}
+          {title.split('-').join(' ')}
         </Box>
       </Box>
       <Box className={classes.appsContainer}>

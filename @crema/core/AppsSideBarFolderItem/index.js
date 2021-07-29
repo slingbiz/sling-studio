@@ -81,7 +81,7 @@ const AppsSideBarFolderItemCustom = ({item, path}) => {
         button
         key={item.id}
         className={clsx(classes.listItem, {
-          active: getSelectedRoute() === query.all[1],
+          active: getSelectedRoute() === query?.all?.[1],
         })}>
         <WrappedIcon>{item.icon}</WrappedIcon>
         <Box mr={{xs: 4, xl: 5}}>

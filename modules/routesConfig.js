@@ -4,7 +4,7 @@ const routesConfig = [
     title: 'Home',
     messageId: 'sidebar.app.home',
     type: 'item',
-    icon: 'dashboard',
+    icon: 'home',
     url: '/dashboards/analytics',
     // children: [
     //   {
@@ -60,12 +60,12 @@ const routesConfig = [
     url: '/pages/',
   },
   {
-    id: 'backend-apis',
+    id: 'headless-apis',
     title: 'Apis',
     messageId: 'sidebar.app.backendApis',
     type: 'item',
     icon: 'storage',
-    url: '/backend-apis',
+    url: '/headless-apis',
   },
   {
     id: 'routes',

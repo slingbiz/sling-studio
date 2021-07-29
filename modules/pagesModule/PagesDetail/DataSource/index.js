@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import ApiCheckList from './ApiCheckList';
 import orange from '@material-ui/core/colors/orange';
+import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
 
 const DataSource = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -50,29 +51,34 @@ const DataSource = (props) => {
   const {titleKey} = props;
 
   return (
-    <Box px={6} py={8}>
-      <Box fontWeight={Fonts.BOLD} component='h3' mb={2}>
-        Data Source
-      </Box>
-      <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
-        Pick list of Data Apis to be fetched in the server side rendered page.
-      </Box>
-      <Box p={6} mb={0} className={classes.boxSection}>
-        <ApiCheckList classes={classes} />
-      </Box>
-      <Box p={6} pt={0} pb={0} mb={0} className={classes.boxSection}>
-        <FormControlLabel
-          control={<Switch value='checkedC' />}
-          label='Cache Api response'
-        />
-      </Box>
+    <>
+      <AppsHeader>
+        <Box fontWeight={Fonts.BOLD} component='h3'>
+          Data Source
+        </Box>
+      </AppsHeader>
+      <Box px={6} py={8}>
+        <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
+          Pick list of your Headless Data Apis to be fetched in the server side
+          rendered page.
+        </Box>
+        <Box p={6} mb={0} className={classes.boxSection}>
+          <ApiCheckList classes={classes} />
+        </Box>
+        <Box p={6} pt={0} pb={0} mb={0} className={classes.boxSection}>
+          <FormControlLabel
+            control={<Switch value='checkedC' />}
+            label='Cache Api response'
+          />
+        </Box>
 
-      <Divider className={classes.divider} />
+        <Divider className={classes.divider} />
 
-      <Button className={classes.button} onClick={() => {}}>
-        Save
-      </Button>
-    </Box>
+        <Button className={classes.button} onClick={() => {}}>
+          Save
+        </Button>
+      </Box>
+    </>
   );
 };
 

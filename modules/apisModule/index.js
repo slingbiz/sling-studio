@@ -1,7 +1,7 @@
 import React from 'react';
-import PagesSideBar from './PagesSideBar/index';
-import TasksList from './TasksList';
-import PagesDetail from './PagesDetail';
+import ApisSideBar from './ApisSideBar/index';
+import ApisList from './ApisList';
+import ApisDetail from './ApisDetail';
 import {useDispatch} from 'react-redux';
 import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
@@ -27,37 +27,34 @@ const useStyle = makeStyles((theme) => ({
 const Index = (props) => {
   const dispatch = useDispatch();
   const classes = useStyle();
-
+  const query = props.router.query || {};
+  const {all} = query;
   const onGetMainComponent = () => {
-    console.log(
-      props.router.query.all.length,
-      'props.router.query.all.length',
-      props.router.query.all,
-    );
-    let pageKey = props.router.query.all[0];
-    if (props.router.query.all.length > 1) {
-      return <PagesDetail titleKey={getTitle()} pageKey={pageKey} />;
+    let pageKey = all?.[0] || 'guide';
+    console.log(all?.length, '@@@@all?.length@@@@');
+    if (all?.length >= 1) {
+      return <ApisDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {
-      return <TasksList titleKey={getTitle()} pageKey={pageKey} />;
+      return <ApisList titleKey={getTitle()} pageKey={pageKey} />;
     }
   };
 
   const getTitle = () => {
-    const titleKey = props.router.query.all.join('.');
-    return (
-      messages[titleKey] ||
-      props.router.query.all.map((v) => capitalize(v)).join(' / ')
-    );
+    const titleKey = all?.join('.') || 'guide';
+    return messages[titleKey] || all?.map((v) => capitalize(v)).join(' / ');
   };
 
   const {messages} = useIntl();
-  const basePath = `/pages/${props.router.query.all[0]}`;
-
+  const basePath = all ? `` : `headless-apis/`;
+  console.log(all, '@@@@@@@@@@@all@@@@@@@@@@@@@');
+  if (!all) {
+    // return <ApisList />;
+  }
   return (
     <AppsContainer
       pagesClasses={classes}
       title={getTitle()}
-      sidebarContent={<PagesSideBar basePath={basePath} />}>
+      sidebarContent={<ApisSideBar basePath={basePath} noSubChild={true} />}>
       {onGetMainComponent()}
     </AppsContainer>
   );

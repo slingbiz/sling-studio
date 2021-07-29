@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
-// import AddNewTask from '../AddNewTask';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {makeStyles} from '@material-ui/core/styles';
@@ -11,11 +10,15 @@ import SidebarPlaceholder from '../../../@crema/core/Skeleton/SidebarListSkeleto
 import AppsSideBarFolderItemCustom from '../../../@crema/core/AppsSideBarFolderItem/custom';
 
 export const folderList = [
-  {id: 120, name: 'Basic', alias: 'basic', icon: 'border_color'},
-  {id: 121, name: 'Layout', alias: 'layout', icon: 'view_quilt'},
-  // {id: 122, name: 'Routes', alias: 'routes', icon: 'mail'},
-  {id: 123, name: 'Preview', alias: 'preview', icon: 'pageview-icon'},
-  {id: 124, name: 'Data', alias: 'data', icon: 'storage-icon'},
+  {id: 120, name: 'All Apis', alias: 'api-list', icon: 'playlist_add'},
+  {
+    id: 121,
+    name: 'Sling Mapping',
+    alias: 'sling-mappings',
+    icon: 'account_tree',
+  },
+  {id: 123, name: 'Auto Sync', alias: 'auto-sync', icon: 'sync'},
+  {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
   {id: 125, name: 'Guide', alias: 'guide', icon: 'help'},
 ];
 
@@ -40,9 +43,9 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const PagesSideBar = ({basePath}) => {
+const ApisSideBar = ({basePath, noSubChild}) => {
   const [isAddTaskOpen, setAddTaskOpen] = React.useState(false);
-
+  console.log(basePath, 'basePath@ApisSideBar');
   const classes = useStyle();
 
   return (
@@ -63,8 +66,9 @@ const PagesSideBar = ({basePath}) => {
                 renderRow={(item) => (
                   <AppsSideBarFolderItemCustom
                     key={item.id}
+                    noSubChild={noSubChild}
                     item={item}
-                    path={`${basePath}/${item.alias}`}
+                    path={`${basePath}${item.alias}`}
                   />
                 )}
               />
@@ -102,4 +106,4 @@ const PagesSideBar = ({basePath}) => {
   );
 };
 
-export default PagesSideBar;
+export default ApisSideBar;

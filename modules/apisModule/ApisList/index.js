@@ -1,23 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {onGetTaskList, onUpdateTaskStarredStatus} from '../../../redux/actions';
-import TaskContentHeader from './TaskContentHeader';
-import TaskListItem from './TaskListItem';
-import {useRouter} from 'next/router';
+import React from 'react';
 // import AddNewTask from '../AddNewTask';
-import {Hidden, makeStyles} from '@material-ui/core';
-import AppsPagination from '../../../@crema/core/AppsPagination';
+import {makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import AppsHeader from '../../../@crema/core/AppsContainer/AppsHeader';
 import AppsContent from '../../../@crema/core/AppsContainer/AppsContent';
-import AppsFooter from '../../../@crema/core/AppsContainer/AppsFooter';
-import ListEmptyResult from '../../../@crema/core/AppList/ListEmptyResult';
-import TodoListSkeleton from '../../../@crema/core/Skeleton/TodoListSkeleton';
-import AppList from '../../../@crema/core/AppList';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -69,7 +58,7 @@ const TasksList = ({titleKey, pageKey}) => {
 
   return (
     <>
-      <AppsHeader>Editing Pages Guide</AppsHeader>
+      <AppsHeader>Headless Api Integration Guide</AppsHeader>
       <AppsContent>
         <Paper className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
@@ -109,9 +98,9 @@ const TasksList = ({titleKey, pageKey}) => {
                 </CardActionArea>
                 <CardActions>
                   <Link href={`${pageKey}/basic`} passHref>
-                  <Button size='small' color='primary'>
-                    Edit Basics
-                  </Button>
+                    <Button size='small' color='primary'>
+                      Edit Basics
+                    </Button>
                   </Link>
                   {/*<Button size='small' color='primary'>*/}
                   {/*  Learn More*/}

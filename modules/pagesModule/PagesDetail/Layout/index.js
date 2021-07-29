@@ -10,6 +10,7 @@ import LayoutView from './LayoutView';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
+import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
 
 const Layout = (props) => {
   const {titleKey, pageKey} = props;
@@ -92,66 +93,75 @@ const Layout = (props) => {
 
   const classes = useStyles(props);
   return (
-    <Box
-      px={6}
-      py={6}
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        'overflow-y': 'auto',
-      }}
-      className={classes.wrapper}>
+    <>
+      <AppsHeader>
+        <Box fontWeight={Fonts.BOLD} component='h3'>
+          Page Layout
+        </Box>
+      </AppsHeader>
       <Box
+        px={6}
+        py={6}
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'space-between',
           'overflow-y': 'auto',
+          height: '100%'
         }}
-        className={classes.layoutBox}>
-        <Fab
-          onClick={() => setOpen(true)}
-          style={{position: 'absolute', right: '0px'}}>
-          <EditIcon />
-        </Fab>
-        <LayoutView pageKey={pageKey} isEditable={false} />
-        <Divider className={classes.divider} />
+        className={classes.wrapper}>
         <Box
-          pt={4}
-          mb={6}
-          style={{display: 'flex', justifyContent: 'flex-start'}}>
-          <Button
-            variant='contained'
-            color='primary'
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            'overflow-y': 'auto',
+            height: '100%'
+          }}
+          className={classes.layoutBox}>
+          <Fab
             onClick={() => setOpen(true)}
-            className={classes.button}>
-            Edit
-          </Button>
-          <EditLayout
-            setOpen={setOpen}
-            open={open}
-            titleKey={titleKey}
-            pageKey={pageKey}
-          />
+            style={{position: 'absolute', right: '0px'}}>
+            <EditIcon />
+          </Fab>
+          <LayoutView pageKey={pageKey} isEditable={false} />
+          <Divider className={classes.divider} />
+          <Box
+            pt={4}
+            mb={6}
+            style={{display: 'flex', justifyContent: 'flex-start'}}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => setOpen(true)}
+              className={classes.button}>
+              Edit
+            </Button>
+            <EditLayout
+              setOpen={setOpen}
+              open={open}
+              titleKey={titleKey}
+              pageKey={pageKey}
+            />
+          </Box>
         </Box>
+        {/*<Box*/}
+        {/*  xs*/}
+        {/*  style={{*/}
+        {/*    width: '30%',*/}
+        {/*    display: 'flex',*/}
+        {/*    flexDirection: 'column',*/}
+        {/*  }}*/}
+        {/*  m={5}>*/}
+        {/*  <ListItemText style={{flex: 0}}>Preview</ListItemText>*/}
+        {/*  <Box*/}
+        {/*    style={{*/}
+        {/*      width: '100%',*/}
+        {/*      height: '500px',*/}
+        {/*      backgroundColor: 'lightgrey',*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</Box>*/}
       </Box>
-      {/*<Box*/}
-      {/*  xs*/}
-      {/*  style={{*/}
-      {/*    width: '30%',*/}
-      {/*    display: 'flex',*/}
-      {/*    flexDirection: 'column',*/}
-      {/*  }}*/}
-      {/*  m={5}>*/}
-      {/*  <ListItemText style={{flex: 0}}>Preview</ListItemText>*/}
-      {/*  <Box*/}
-      {/*    style={{*/}
-      {/*      width: '100%',*/}
-      {/*      height: '500px',*/}
-      {/*      backgroundColor: 'lightgrey',*/}
-      {/*    }}*/}
-      {/*  />*/}
-      {/*</Box>*/}
-    </Box>
+    </>
   );
 };
 

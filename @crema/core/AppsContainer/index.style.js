@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appsMainContent: (props) => ({
     width: '100%',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('lg')]: {
