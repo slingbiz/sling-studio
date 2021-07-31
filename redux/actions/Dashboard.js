@@ -1,5 +1,5 @@
 import React from 'react';
-import Api from '../../@crema/services/ApiConfig';
+import Api from '../../@sling/services/ApiConfig';
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -13,7 +13,7 @@ import {
   GET_METRICS_DATA,
   GET_WIDGETS_DATA,
 } from '../../shared/constants/ActionTypes';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 
 export const onGetAnalyticsData = () => {
   return (dispatch) => {

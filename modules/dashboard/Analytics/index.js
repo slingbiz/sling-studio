@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {Box, Grid} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
-import GridContainer from '../../../@crema/core/GridContainer';
-import InfoView from '../../../@crema/core/InfoView';
+import GridContainer from '../../../@sling/core/GridContainer';
+import InfoView from '../../../@sling/core/InfoView';
 
 import {onGetAnalyticsData} from '../../../redux/actions';
 import WelcomeCard from './WelcomeCard/index';
@@ -17,7 +17,7 @@ import PageVisits from './PageVisits';
 import OrderNTransaction from './OrderNTransaction';
 import TrafficSource from './TrafficSource';
 import InfoWidget from './InfoWidget';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const CRM = () => {
   const dispatch = useDispatch();

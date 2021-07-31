@@ -9,7 +9,7 @@ import {
   GET_ECOMMERCE_LIST,
   SET_PRODUCT_DATA,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
+import Api from '../../@sling/services/ApiConfig';
 
 export default ProductListing;
 

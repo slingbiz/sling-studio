@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppGrid from '../../../../@crema/core/AppGrid';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppGrid from '../../../../@sling/core/AppGrid';
 import Box from '@material-ui/core/Box';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core';
-import MediaViewer from '../../../../@crema/core/MedialViewer';
+import MediaViewer from '../../../../@sling/core/MedialViewer';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({

@@ -9,14 +9,14 @@ import {
   onUpdateStarredStatus,
 } from '../../../../redux/actions';
 import {Hidden} from '@material-ui/core';
-import AppsPagination from '../../../../@crema/core/AppsPagination';
+import AppsPagination from '../../../../@sling/core/AppsPagination';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsContent from '../../../../@crema/wrappers/AppsContent';
-import AppsHeader from '../../../../@crema/wrappers/AppsHeader';
-import AppsFooter from '../../../../@crema/wrappers/AppsFooter';
-import AppList from '../../../../@crema/core/AppList';
-import ListEmptyResult from '../../../../@crema/core/AppList/ListEmptyResult';
-import EmailListSkeleton from '../../../../@crema/core/Skeleton/EmailListSkeleton';
+import AppsContent from '../../../../@sling/wrappers/AppsContent';
+import AppsHeader from '../../../../@sling/wrappers/AppsHeader';
+import AppsFooter from '../../../../@sling/wrappers/AppsFooter';
+import AppList from '../../../../@sling/core/AppList';
+import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
+import EmailListSkeleton from '../../../../@sling/core/Skeleton/EmailListSkeleton';
 
 const useStyles = makeStyles(theme => ({
   paddingY: {

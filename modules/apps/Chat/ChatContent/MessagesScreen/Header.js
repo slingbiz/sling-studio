@@ -3,12 +3,12 @@ import UserInfo from '../../ChatSideBar/UserInfo';
 import Box from '@material-ui/core/Box';
 import {Checkbox, IconButton, makeStyles} from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
-import ConfirmationDialog from '../../../../../@crema/core/ConfirmationDialog';
+import ConfirmationDialog from '../../../../../@sling/core/ConfirmationDialog';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
 

@@ -3,7 +3,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import Document from '@ckeditor/ckeditor5-build-decoupled-document';
 import {useDispatch, useSelector} from 'react-redux';
 
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 import {
   onGetDocumentData,
   onUpdateDocumentData,

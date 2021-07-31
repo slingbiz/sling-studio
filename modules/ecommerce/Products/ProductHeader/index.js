@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Hidden} from '@material-ui/core';
-import AppSearch from '../../../../@crema/core/SearchBar';
+import AppSearch from '../../../../@sling/core/SearchBar';
 import ListIcon from '@material-ui/icons/List';
 import AppsIcon from '@material-ui/icons/Apps';
 import {useDispatch} from 'react-redux';

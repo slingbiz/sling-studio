@@ -1,10 +1,10 @@
 import React from 'react';
 import ChatItem from './ChatItem';
 import PropTypes from 'prop-types';
-import AppList from '../../../../../../@crema/core/AppList';
-import ListEmptyResult from '../../../../../../@crema/core/AppList/ListEmptyResult';
+import AppList from '../../../../../../@sling/core/AppList';
+import ListEmptyResult from '../../../../../../@sling/core/AppList/ListEmptyResult';
 import {useIntl} from 'react-intl';
-import ChatListSkeleton from '../../../../../../@crema/core/Skeleton/ChatListSkeleton';
+import ChatListSkeleton from '../../../../../../@sling/core/Skeleton/ChatListSkeleton';
 import {useSelector} from 'react-redux';
 
 const ChatList = ({chatListData, loading}) => {

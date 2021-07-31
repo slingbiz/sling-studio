@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {useDropzone} from 'react-dropzone';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 import Button from '@material-ui/core/Button';
 import PhotoIcon from '@material-ui/icons/Photo';
 import VideocamIcon from '@material-ui/icons/Videocam';

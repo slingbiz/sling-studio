@@ -9,7 +9,7 @@ import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import IconButton from '@material-ui/core/IconButton';
 import {useDispatch} from 'react-redux';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import {
   onSignInFirebaseUser,
   signInUserWithFacebook,
@@ -20,7 +20,7 @@ import {
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -131,7 +131,7 @@ const SigninFirebase = (props) => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            email: 'crema.demo@gmail.com',
+            email: 'sling.demo@gmail.com',
             password: 'Pass@1!@all',
           }}
           validationSchema={validationSchema}

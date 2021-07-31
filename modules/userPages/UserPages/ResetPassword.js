@@ -4,11 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -88,8 +88,8 @@ const ResetPassword = () => {
               <img
                 className={classes.logo}
                 src={'/images/logo-icon-large.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Box>
             <Box mb={1.5} fontWeight={Fonts.BOLD} fontSize={20}>

@@ -17,9 +17,9 @@ import {
   UPDATE_STARRED_STATUS,
   UPDATED_MAIL_DETAIL,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
-import {mailListMessages} from '../../@crema/services/db/apps/mail/folderList';
-import {appIntl} from '../../@crema/utility/Utils';
+import Api from '../../@sling/services/ApiConfig';
+import {mailListMessages} from '../../@sling/services/db/apps/mail/folderList';
+import {appIntl} from '../../@sling/utility/Utils';
 
 export const onGetMailList = (type, name, currentPage) => {
   const {messages} = appIntl();

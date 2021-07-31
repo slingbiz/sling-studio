@@ -1,10 +1,10 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

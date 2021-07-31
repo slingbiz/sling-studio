@@ -17,8 +17,8 @@ import {
   UPDATE_TASK_LABEL,
   UPDATE_TASK_STARRED_STATUS,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
-import {appIntl} from '../../@crema/utility/Utils';
+import Api from '../../@sling/services/ApiConfig';
+import {appIntl} from '../../@sling/utility/Utils';
 
 export const onGetTaskList = (type, name, currentPage) => {
   const {messages} = appIntl();

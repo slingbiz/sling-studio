@@ -5,9 +5,9 @@ import Box from '@material-ui/core/Box';
 import ConnectionList from './ConnectionList';
 import ChatList from './ChatList';
 import {makeStyles} from '@material-ui/core';
-import Scrollbar from '../../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../../@sling/core/Scrollbar';
 import PropTypes from 'prop-types';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
 
 const tabs = [

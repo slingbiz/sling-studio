@@ -7,15 +7,15 @@ import {
 } from '../../../../redux/actions/ScrumboardApp';
 import { useRouter } from 'next/router'
 import AddNewBoard from './AddNewBoard';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import GridContainer from '../../../../@sling/core/GridContainer';
 import BoardItem from './BoardItem';
 import AddBoardButton from './AddBoardButton';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {grey, red} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 
 const useStyles = makeStyles((theme) => ({
   boardStyle: {

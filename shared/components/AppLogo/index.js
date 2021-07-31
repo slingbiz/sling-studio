@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppContext from '../../../@crema/utility/AppContext';
+import AppContext from '../../../@sling/utility/AppContext';
 import {ThemeMode} from '../../constants/AppEnums';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -30,7 +30,7 @@ const AppLogo = () => {
               ? '/images/sling-fe.png'
               : '/images/sling-fe.png'
           }
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Hidden>
       <Hidden xsDown>

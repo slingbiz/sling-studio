@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Gallery from 'react-photo-gallery';
-import photos from '../../../@crema/services/db/gallery/photos';
+import photos from '../../../@sling/services/db/gallery/photos';
 import {makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   galleryPhoto: {

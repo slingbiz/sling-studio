@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
-import ContextProvider from '../@crema/utility/ContextProvider';
-import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
-import CremaStyleProvider from '../@crema/utility/CremaStyleProvider';
-import LocaleProvider from '../@crema/utility/LocaleProvider';
+import ContextProvider from '../@sling/utility/ContextProvider';
+import SlingThemeProvider from '../@sling/utility/SlingThemeProvider';
+import SlingStyleProvider from '../@sling/utility/SlingStyleProvider';
+import LocaleProvider from '../@sling/utility/LocaleProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
-import '../@crema/services/index';
-import AuthRoutes from '../@crema/utility/AuthRoutes';
-import PageMeta from '../@crema/core/PageMeta';
+import '../@sling/services/index';
+import AuthRoutes from '../@sling/utility/AuthRoutes';
+import PageMeta from '../@sling/core/PageMeta';
 import App from 'next/app';
-import {default as defaultStaticConfig} from '../@crema/utility/ContextProvider/defaultConfig';
+import {default as defaultStaticConfig} from '../@sling/utility/ContextProvider/defaultConfig';
 import {useRouter} from "next/router";
 
 // eslint-disable-next-line react/prop-types
@@ -33,16 +33,16 @@ const MyApp = ({Component, pageProps, user, initConfig, layoutConfig}) => {
       <PageMeta />
       <ContextProvider initConfig={initConfig}>
         <Provider store={store}>
-          <CremaThemeProvider>
-            <CremaStyleProvider>
+          <SlingThemeProvider>
+            <SlingStyleProvider>
               <LocaleProvider>
                 <AuthRoutes>
                   <CssBaseline />
                   <Component />
                 </AuthRoutes>
               </LocaleProvider>
-            </CremaStyleProvider>
-          </CremaThemeProvider>
+            </SlingStyleProvider>
+          </SlingThemeProvider>
         </Provider>
       </ContextProvider>
     </React.Fragment>

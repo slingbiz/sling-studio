@@ -9,12 +9,12 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import IconButton from '@material-ui/core/IconButton';
 import * as yup from 'yup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 import {grey} from '@material-ui/core/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -102,8 +102,8 @@ const Signin = (props) => {
               <img
                 className={classes.logo}
                 src={'/images/logo-icon-large.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Box>
             <Box mb={1.5} fontWeight={Fonts.BOLD} fontSize={20}>

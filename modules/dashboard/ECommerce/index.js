@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetECommerceData} from '../../../redux/actions';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import {Box, Grid} from '@material-ui/core';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import SalesState from './SalesState';
 import SaleStatics from './SaleStatics';
 import Application from './Application';
@@ -16,7 +16,7 @@ import NewCustomers from './NewCustomers';
 import PopularProducts from './PopularProducts';
 import Browser from './Browser';
 import SiteVisitors from './SiteVisitors';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const ECommerce = () => {
   const dispatch = useDispatch();

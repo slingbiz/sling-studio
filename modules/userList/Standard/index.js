@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetUserList} from '../../../redux/actions';
 import ListItem from './ListItem';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
-import AppList from '../../../@crema/core/AppList';
+import AppList from '../../../@sling/core/AppList';
 
 const Standard = () => {
   const dispatch = useDispatch();

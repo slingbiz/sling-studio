@@ -5,12 +5,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PropTypes from 'prop-types';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
-import AppList from '../../../../@crema/core/AppList';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
+import AppList from '../../../../@sling/core/AppList';
 import clsx from 'clsx';
 
 const getData = (data) => {

@@ -4,14 +4,14 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Tooltip from "@material-ui/core/Tooltip/index";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import IntlMessages from "../../../../../@crema/utility/IntlMessages";
+import IntlMessages from "../../../../../@sling/utility/IntlMessages";
 import Box from "@material-ui/core/Box";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import CheckedMailActions from "./CheckedMailActions";
 import MoreOptions from "./MoreOptions";
-import AppsPagination from "../../../../../@crema/core/AppsPagination";
+import AppsPagination from "../../../../../@sling/core/AppsPagination";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({

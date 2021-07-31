@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {makeStyles} from '@material-ui/core';
-import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
+import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Hidden from '@material-ui/core/Hidden';
 

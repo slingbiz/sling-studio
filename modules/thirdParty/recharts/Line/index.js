@@ -25,9 +25,9 @@ import SynchronizedLineChart from './Components/SynchronizedLineChart';
 import SynchronizedLineChartSource from '!raw-loader!./Components/SynchronizedLineChart';
 import Grid from '@material-ui/core/Grid';
 
-import ComponentCard from '../../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import ComponentCard from '../../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../../@sling/core/GridContainer';
 
 const LineChart = ({match}) => {
   return (

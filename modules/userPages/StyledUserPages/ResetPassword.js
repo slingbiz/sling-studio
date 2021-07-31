@@ -5,11 +5,11 @@ import Button from '@material-ui/core/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import Grid from '@material-ui/core/Grid';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   styledImg: {
@@ -101,8 +101,8 @@ const ResetPassword = () => {
                 <img
                   className={classes.styledImg}
                   src={'/images/userPageImages/ResetPassword.png'}
-                  alt='crema'
-                  title='crema'
+                  alt='sling'
+                  title='sling'
                 />
               </Box>
             </Grid>

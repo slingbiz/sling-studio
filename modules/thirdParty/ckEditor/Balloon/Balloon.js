@@ -3,7 +3,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import Balloon from '@ckeditor/ckeditor5-build-balloon/build/ckeditor';
 import {useDispatch, useSelector} from 'react-redux';
 
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 import {
   onGetBalloonData,
   onUpdateBalloonData,

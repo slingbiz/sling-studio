@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, makeStyles} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
 

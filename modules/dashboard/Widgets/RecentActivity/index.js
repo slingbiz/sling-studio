@@ -1,12 +1,12 @@
 import React from 'react';
 import {Box, makeStyles} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import NotificationItem from '../../../../@crema/core/Notifications/NotificationItem';
+import NotificationItem from '../../../../@sling/core/Notifications/NotificationItem';
 import PropTypes from 'prop-types';
-import AppList from '../../../../@crema/core/AppList';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppList from '../../../../@sling/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const useStyles = makeStyles((theme) => ({
   pointer: {

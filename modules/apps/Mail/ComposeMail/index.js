@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import {onComposeMail} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
@@ -9,12 +9,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import { useRouter } from 'next/router'
 import Chip from '@material-ui/core/Chip';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {InfoView} from '../../../../@crema';
+import {useAuthUser} from '../../../../@sling/utility/AppHooks';
+import {InfoView} from '../../../../@sling';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -154,8 +154,8 @@ const ComposeMail = (props) => {
               isReplied: false,
               label: {
                 id: 211,
-                name: 'Crema',
-                alias: 'crema',
+                name: 'Sling',
+                alias: 'sling',
                 color: red[500],
                 icon: <WorkIcon />,
               },

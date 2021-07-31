@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
-import {Scrollbar} from '../../../../../../@crema';
+import {Scrollbar} from '../../../../../../@sling';
 import {
   onAddNewCard,
   onDeleteSelectedCard,
@@ -10,9 +10,9 @@ import {
 } from '../../../../../../redux/actions/ScrumboardApp';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
-import ConfirmationDialog from '../../../../../../@crema/core/ConfirmationDialog';
-import {useAuthUser} from '../../../../../../@crema/utility/AppHooks';
-import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
+import ConfirmationDialog from '../../../../../../@sling/core/ConfirmationDialog';
+import {useAuthUser} from '../../../../../../@sling/utility/AppHooks';
+import IntlMessages from '../../../../../../@sling/utility/IntlMessages';
 import CardHeader from './CardHeader';
 import PropTypes from 'prop-types';
 import AddCardForm from './AddCardForm';

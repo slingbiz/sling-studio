@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles/index';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
 
 const SocialVisitorsGraph = ({data}) => {
   const useStyle = makeStyles((theme) => ({

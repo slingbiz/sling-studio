@@ -6,7 +6,7 @@ import VisitorsGraph from './VisitorsGraph';
 import {green, red} from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useIntl} from 'react-intl';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

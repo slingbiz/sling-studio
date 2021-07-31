@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import AppList from '../../../../../../@crema/core/AppList';
+import AppList from '../../../../../../@sling/core/AppList';
 import CommentItem from './CommentItem';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../../../shared/constants/AppEnums';

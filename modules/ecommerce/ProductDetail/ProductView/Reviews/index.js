@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from '@material-ui/core';
-import AppList from '../../../../../@crema/core/AppList';
+import AppList from '../../../../../@sling/core/AppList';
 import ReviewCell from './ReviewCell';
 import Divider from '@material-ui/core/Divider';
 import ReviewInfo from './ReviewInfo';

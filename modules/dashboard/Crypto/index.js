@@ -10,10 +10,10 @@ import LatestNews from './LatestNews';
 import CryptoMarketActivity from './CryptoMarketActivity';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetCryptoData} from '../../../redux/actions';
-import GridContainer from '../../../@crema/core/GridContainer';
-import InfoView from '../../../@crema/core/InfoView';
+import GridContainer from '../../../@sling/core/GridContainer';
+import InfoView from '../../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const Crypto = () => {
   const dispatch = useDispatch();

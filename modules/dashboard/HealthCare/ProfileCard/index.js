@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import Avatar from '@material-ui/core/Avatar';
 import {Box, makeStyles} from '@material-ui/core';
 

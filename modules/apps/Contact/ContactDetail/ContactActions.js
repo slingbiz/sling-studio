@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
-import AppsStarredIcon from '../../../../@crema/core/AppsStarredIcon';
+import AppsStarredIcon from '../../../../@sling/core/AppsStarredIcon';
 import {makeStyles} from '@material-ui/core/styles';
 
 const ContactActions = (props) => {

@@ -6,7 +6,7 @@ import {
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER
 } from "../../shared/constants/ActionTypes";
-import jwtAxios from "../../@crema/services/auth/jwt-auth/jwt-api";
+import jwtAxios from "../../@sling/services/auth/jwt-auth/jwt-api";
 import { fetchError, fetchStart, fetchSuccess } from "./Common";
 import { AuthType } from "../../shared/constants/AppEnums";
 import { defaultUser } from "../../shared/constants/AppConst";

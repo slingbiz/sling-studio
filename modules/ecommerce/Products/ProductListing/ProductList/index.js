@@ -1,7 +1,7 @@
 import React from 'react';
 import ListItem from './ListItem';
-import AppList from '../../../../../@crema/core/AppList';
-import ListEmptyResult from '../../../../../@crema/core/AppList/ListEmptyResult';
+import AppList from '../../../../../@sling/core/AppList';
+import ListEmptyResult from '../../../../../@sling/core/AppList/ListEmptyResult';
 
 const ProductList = ({ecommerceList, loading}) => {
   return (

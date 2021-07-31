@@ -1,8 +1,8 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import KBItem from './KBItem';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../shared/constants/AppEnums';
 

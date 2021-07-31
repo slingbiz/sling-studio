@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppContext from '../../../../@crema/utility/AppContext';
+import AppContext from '../../../../@sling/utility/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   avatarRoot: {

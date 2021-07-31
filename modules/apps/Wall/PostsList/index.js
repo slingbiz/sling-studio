@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetPostsList} from '../../../../redux/actions/Wall';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 import PostItem from './PostItem';
 
 const PostsList = () => {

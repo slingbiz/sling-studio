@@ -4,7 +4,7 @@ import ChatSideBar from './ChatSideBar';
 import ChatContent from './ChatContent';
 import {getConnectionList} from '../../../redux/actions/ChatApp';
 import {useIntl} from 'react-intl';
-import AppsContainer from '../../../@crema/wrappers/AppsContainer';
+import AppsContainer from '../../../@sling/wrappers/AppsContainer';
 
 const Chat = () => {
   const dispatch = useDispatch();

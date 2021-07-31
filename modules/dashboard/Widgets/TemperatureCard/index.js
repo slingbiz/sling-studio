@@ -1,13 +1,13 @@
 import React from 'react';
 import {Box, makeStyles} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import PropTypes from 'prop-types';
 import DayTemperature from './DayTemperature';
 import {teal} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import clsx from 'clsx';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const useStyles = makeStyles((theme) => ({
   pointer: {

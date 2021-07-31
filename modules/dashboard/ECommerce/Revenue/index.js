@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
+import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
 
 const Revenue = () => {
   const {messages} = useIntl();

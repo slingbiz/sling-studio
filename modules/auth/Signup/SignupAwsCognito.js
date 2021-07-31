@@ -8,16 +8,16 @@ import * as yup from 'yup';
 import IconButton from '@material-ui/core/IconButton';
 import {useDispatch} from 'react-redux';
 import {Auth} from 'aws-amplify';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import {onSignUpCognitoUser} from '../../../redux/actions';
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {GridContainer} from '../../../@crema';
+import {GridContainer} from '../../../@sling';
 import Grid from '@material-ui/core/Grid';
 import grey from '@material-ui/core/colors/grey';
 

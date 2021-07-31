@@ -17,8 +17,8 @@ import {
   GET_SCRUM_LABEL_LIST,
   SHOW_MESSAGE,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
-import {appIntl} from '../../@crema/utility/Utils';
+import Api from '../../@sling/services/ApiConfig';
+import {appIntl} from '../../@sling/utility/Utils';
 
 export const onGetBoardList = () => {
   const {messages} = appIntl();

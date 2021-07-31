@@ -1,7 +1,7 @@
 import React from 'react';
-import AppPage from '../../@crema/hoc/AppPage';
-import asyncComponent from '../../@crema/utility/asyncComponent';
-import PageMeta from '../../@crema/core/PageMeta';
+import AppPage from '../../@sling/hoc/AppPage';
+import asyncComponent from '../../@sling/utility/asyncComponent';
+import PageMeta from '../../@sling/core/PageMeta';
 
 const HealthCare = asyncComponent(() =>
   import('../../modules/dashboard/HealthCare'),
@@ -10,7 +10,7 @@ export default AppPage((props) => {
   console.log('props: ', props);
   return (
     <React.Fragment>
-      <PageMeta title='Health Care | Crema ' />
+      <PageMeta title='Health Care | Sling ' />
       <HealthCare data={props.todo} />
     </React.Fragment>
   );

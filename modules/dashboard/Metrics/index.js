@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetMetricsData} from '../../../redux/actions';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 import StatsCard from './StatsCard';
 import StatsCardWithGraph from './StatsCardWithGraph';
@@ -19,14 +19,14 @@ import WorkViews from './WorkViews';
 import SocialDataCard from './SocialDataCard';
 import Stats from './Stats';
 import SocialVisitors from './SocialVisitors';
-import InfoView from '../../../@crema/core/InfoView';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import InfoView from '../../../@sling/core/InfoView';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import Subscriptions from './Subscriptions';
 import Share from './Share';
 import {blue, green, grey, indigo, red} from '@material-ui/core/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const Metrics = () => {
   const dispatch = useDispatch();

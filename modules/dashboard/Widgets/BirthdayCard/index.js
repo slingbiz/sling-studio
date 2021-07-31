@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {blue} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const useStyles = makeStyles((theme) => ({
   textBase: {

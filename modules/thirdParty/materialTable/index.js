@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ComponentHeader from '../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../@crema/core/GridContainer';
+import ComponentHeader from '../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Simple from './Simple';
 
 import Actions from './Actions';

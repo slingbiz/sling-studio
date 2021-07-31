@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Typography} from '@material-ui/core';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const SalesState = (props) => {
   const {bgColor, icon, type, value} = props.state;

@@ -4,7 +4,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableHeading from './TableHeading';
 import TableItem from './TableItem';
-import AppTableContainer from '../../../../@crema/core/AppTableContainer';
+import AppTableContainer from '../../../../@sling/core/AppTableContainer';
 
 const CartTable = ({cartItems}) => {
   return (

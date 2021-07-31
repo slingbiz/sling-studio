@@ -3,8 +3,8 @@ import ProductListing from './ProductListing';
 import {useIntl} from 'react-intl';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import AppsContainer from '../../../@crema/wrappers/AppsContainer';
-import ProductsSidebar from '../../../@crema/blocks/ProductFilters';
+import AppsContainer from '../../../@sling/wrappers/AppsContainer';
+import ProductsSidebar from '../../../@sling/blocks/ProductFilters';
 
 const Products = (props) => {
   console.log(props, 'props@ [Product/index.js]');

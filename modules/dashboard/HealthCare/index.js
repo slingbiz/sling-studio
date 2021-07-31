@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetHCData} from '../../../redux/actions';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import {Box, Grid} from '@material-ui/core';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import DrCard from './DrCard';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 import HealthStatics from './HealthStatics';
 import NewPatients from './NewPatients';
 import CancelVisits from './CancelVisits';

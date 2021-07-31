@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppList from '../../../../@crema/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppList from '../../../../@sling/core/AppList';
 import NewsItem from './NewsItem';
 import {useIntl} from 'react-intl';
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import ProductCell from './ProductCell';
-import AppGrid from '../../../../@crema/core/AppGrid';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import AppGrid from '../../../../@sling/core/AppGrid';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const PopularProducts = ({popularProducts}) => {
   const {messages} = useIntl();

@@ -1,9 +1,9 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import {KeyboardDatePicker} from '@material-ui/pickers';
-import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../@sling/utility/IntlMessages';
 import {Form, useField} from 'formik';
-import GridContainer from '../../../../../../@crema/core/GridContainer';
+import GridContainer from '../../../../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete/Autocomplete';
 import TextField from '@material-ui/core/TextField';

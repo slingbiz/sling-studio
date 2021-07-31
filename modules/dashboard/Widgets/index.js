@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetWidgetsData} from '../../../redux/actions';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 import WallPaper from './WallPaper';
 import TemperatureCard from './TemperatureCard';
@@ -20,19 +20,19 @@ import CountryMap from './CountryMap';
 import Colors from './Colors';
 import AddTags from './AddTags';
 import Reviews from './Reviews';
-import CremaCard from './CremaCard';
+import SlingCard from './SlingCard';
 import Formats from './Formats';
 import Price from './Price';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import InfoView from '../../../@crema/core/InfoView';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import InfoView from '../../../@sling/core/InfoView';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import CityInfo from './CityInfo';
 import {blue, indigo} from '@material-ui/core/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import DateSelector from './DatePicker';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const Widgets = () => {
   const dispatch = useDispatch();
@@ -143,7 +143,7 @@ const Widgets = () => {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <CremaCard
+                <SlingCard
                   data={widgetsData.mateInfo.facebookInfo}
                   bgColor={indigo[600]}
                   color='white'
@@ -156,7 +156,7 @@ const Widgets = () => {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <CremaCard
+                <SlingCard
                   data={widgetsData.mateInfo.twitterInfo}
                   bgColor={blue[600]}
                   color='white'

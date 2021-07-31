@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Introduction from './Introduction';
 import Team from './Team';
-import {aboutUsData} from '../../../@crema/services/db/extraPages/aboutUs';
+import {aboutUsData} from '../../../@sling/services/db/extraPages/aboutUs';
 import Sections from './Sections';
 import Box from '@material-ui/core/Box';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const AboutUs = () => {
   const brandingData = aboutUsData.find((about) => about.alias === 'branding');

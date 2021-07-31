@@ -3,7 +3,7 @@ import EarningGraph from './EarningGraph';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Categories from './Categories';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const EarningInMonth = ({data}) => {

@@ -13,9 +13,9 @@ import ComposedChartWithAxisLabels from './Components/ComposedChartWithAxisLabel
 import ComposedChartWithAxisLabelsSource from '!raw-loader!./Components/ComposedChartWithAxisLabels';
 import Grid from '@material-ui/core/Grid';
 
-import ComponentCard from '../../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import ComponentCard from '../../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../../@sling/core/GridContainer';
 
 const ComposedChart = ({match}) => {
   return (

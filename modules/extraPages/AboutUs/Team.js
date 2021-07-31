@@ -4,10 +4,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import clsx from 'clsx';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {teamData} from '../../../@crema/services/db/extraPages/aboutUs';
+import {teamData} from '../../../@sling/services/db/extraPages/aboutUs';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
 const settings = {

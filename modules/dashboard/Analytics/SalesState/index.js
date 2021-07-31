@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import GridContainer from '../../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 import ReactSvgPieChart from 'react-svg-piechart';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
-import AppSelect from '../../../../@crema/core/AppSelect';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
+import AppSelect from '../../../../@sling/core/AppSelect';
 import {useIntl} from 'react-intl';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 import Avatar from '@material-ui/core/Avatar';
 
 const SalesState = ({salesState, chartData}) => {

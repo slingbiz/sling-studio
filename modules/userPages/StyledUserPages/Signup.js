@@ -6,11 +6,11 @@ import {Checkbox, makeStyles} from '@material-ui/core';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import Grid from '@material-ui/core/Grid';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {grey} from '@material-ui/core/colors/index';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   styledImg: {
@@ -102,8 +102,8 @@ const Signup = () => {
               <img
                 className={classes.styledImg}
                 src={'/images/userPageImages/Signup.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Grid>
 

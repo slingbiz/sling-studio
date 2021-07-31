@@ -8,7 +8,7 @@ import {
   XAxis,
 } from 'recharts';
 import PropTypes from 'prop-types';
-import AppContext from '../../../../../@crema/utility/AppContext';
+import AppContext from '../../../../../@sling/utility/AppContext';
 
 const StatGraphs = ({data}) => {
   const {theme} = useContext(AppContext);

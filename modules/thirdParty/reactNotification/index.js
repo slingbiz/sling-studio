@@ -2,9 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import 'react-notifications-component/dist/theme.css';
 
-import ComponentCard from '../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../@crema/core/GridContainer';
+import ComponentCard from '../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../@sling/core/GridContainer';
 import AnimationEntrance from './AnimationEntrance';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import AnimationEntranceSource from '!raw-loader!./AnimationEntrance';

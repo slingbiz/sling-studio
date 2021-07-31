@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {green} from '@material-ui/core/colors';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const FloatingGraphs = ({data, title}) => {
   return (

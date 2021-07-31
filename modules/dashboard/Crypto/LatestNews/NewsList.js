@@ -5,8 +5,8 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import {Box, makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
-import AppList from '../../../../@crema/core/AppList';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
+import AppList from '../../../../@sling/core/AppList';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({

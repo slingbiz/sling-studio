@@ -4,7 +4,7 @@ import AddNewList from './AddNewList';
 import Box from '@material-ui/core/Box';
 import AddCard from './List/AddCard';
 import List from './List';
-import AppsContent from '../../../../@crema/wrappers/AppsContent';
+import AppsContent from '../../../../@sling/wrappers/AppsContent';
 import {useDispatch} from 'react-redux';
 
 const BoardDetailView = (props) => {

@@ -3,14 +3,14 @@ import TaskList from './TaskList';
 import Link from 'next/link';
 import Grid from '@material-ui/core/Grid';
 import DateSelector from './DateSelector';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Hidden from '@material-ui/core/Hidden';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import clsx from 'clsx';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const TodayTasks = (props) => {

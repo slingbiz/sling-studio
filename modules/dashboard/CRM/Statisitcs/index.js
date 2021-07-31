@@ -1,7 +1,7 @@
 import React from 'react';
 import GraphTabs from './GraphTabs';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 export const Statistics = ({clientsData, incomeData, projectData}) => {
   return (

@@ -16,9 +16,9 @@ import SynchronizedAreaChart from './Components/SynchronizedAreaChart';
 import SynchronizedAreaChartSource from '!raw-loader!./Components/SynchronizedAreaChart';
 import Grid from '@material-ui/core/Grid';
 
-import ComponentCard from '../../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import ComponentCard from '../../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../../@sling/core/GridContainer';
 
 const AreaChart = ({match}) => {
   return (

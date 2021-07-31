@@ -1,7 +1,7 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import AppSelect from '../../../../@crema/core/AppSelect';
+import AppSelect from '../../../../@sling/core/AppSelect';
 import PatientsTable from './PatientsTable';
 
 const RecentPatients = ({recentPatients}) => {

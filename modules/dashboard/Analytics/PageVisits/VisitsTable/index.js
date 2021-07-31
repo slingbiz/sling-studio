@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import TableHeading from './TableHeading';
 import TableItem from './TableItem';
-import {isBreakPointDown} from '../../../../../@crema/utility/Utils';
-import AppTableContainer from '../../../../../@crema/core/AppTableContainer';
+import {isBreakPointDown} from '../../../../../@sling/utility/Utils';
+import AppTableContainer from '../../../../../@sling/core/AppTableContainer';
 
 const VisitsTable = ({visitsData}) => {
   const useStyles = makeStyles((theme) => ({

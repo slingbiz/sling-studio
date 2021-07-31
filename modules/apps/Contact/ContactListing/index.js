@@ -7,16 +7,16 @@ import {
   onUpdateStarredStatus,
 } from '../../../../redux/actions/ContactApp';
 import ContactHeader from './ContactHeader';
-import ConfirmationDialog from '../../../../@crema/core/ConfirmationDialog';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import ConfirmationDialog from '../../../../@sling/core/ConfirmationDialog';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import CreateContact from '../CreateContact';
 import {Hidden} from '@material-ui/core';
 import ContactViewContent from './ContactViewContent';
 import ContactDetail from '../ContactDetail';
-import AppsPagination from '../../../../@crema/core/AppsPagination';
-import AppsHeader from '../../../../@crema/wrappers/AppsHeader';
-import AppsContent from '../../../../@crema/wrappers/AppsContent';
-import AppsFooter from '../../../../@crema/wrappers/AppsFooter';
+import AppsPagination from '../../../../@sling/core/AppsPagination';
+import AppsHeader from '../../../../@sling/wrappers/AppsHeader';
+import AppsContent from '../../../../@sling/wrappers/AppsContent';
+import AppsFooter from '../../../../@sling/wrappers/AppsFooter';
 
 const ContactListing = () => {
   const dispatch = useDispatch();

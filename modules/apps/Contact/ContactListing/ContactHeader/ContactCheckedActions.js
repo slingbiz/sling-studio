@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
@@ -81,7 +81,7 @@ const ContactCheckedActions = (props) => {
         open={Boolean(isLabelOpen)}
         onClose={onLabelClose}>
         <MenuItem value={311} onClick={onSelectLabel}>
-          <IntlMessages id='common.crema' />
+          <IntlMessages id='common.sling' />
         </MenuItem>
         <MenuItem value={312} onClick={onSelectLabel}>
           <IntlMessages id='common.personal' />

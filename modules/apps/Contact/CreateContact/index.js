@@ -3,13 +3,13 @@ import Dialog from '@material-ui/core/Dialog';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
-import {Scrollbar} from '../../../../@crema';
+import {Scrollbar} from '../../../../@sling';
 import {
   onCreateContact,
   onUpdateSelectedContact,
 } from '../../../../redux/actions/ContactApp';
 import Slide from '@material-ui/core/Slide';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import PropTypes from 'prop-types';
 import AddContactForm from './AddContactForm';
 import {Fonts} from '../../../../shared/constants/AppEnums';

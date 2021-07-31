@@ -8,7 +8,7 @@ import {
 } from '../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
-import AppsContainer from '../../../@crema/wrappers/AppsContainer';
+import AppsContainer from '../../../@sling/wrappers/AppsContainer';
 import MailSidebar from './MailSideBar';
 import {useIntl} from 'react-intl';
 import {withRouter} from 'next/router';

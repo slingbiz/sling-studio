@@ -5,11 +5,11 @@ import Button from '@material-ui/core/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {onForgetPasswordFirebaseUser} from '../../../redux/actions';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Link from 'next/link';
@@ -112,7 +112,7 @@ const ForgetPasswordFirebase = () => {
         <img
           className={classes.image}
           src={'/images/logo-white-with-name.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Box>
 

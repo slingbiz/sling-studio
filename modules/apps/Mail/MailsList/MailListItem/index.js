@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
-import AppsStarredIcon from '../../../../../@crema/core/AppsStarredIcon';
+import AppsStarredIcon from '../../../../../@sling/core/AppsStarredIcon';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({

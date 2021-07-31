@@ -4,7 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import useStyles from './TableItem.style';
-import AppMenu from '../../../../../@crema/core/AppMenu';
+import AppMenu from '../../../../../@sling/core/AppMenu';
 import Avatar from '@material-ui/core/Avatar';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
 

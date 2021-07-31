@@ -4,7 +4,7 @@ import {
   githubAuthProvider,
   googleAuthProvider,
   twitterAuthProvider,
-} from '../../@crema/services/auth/firebase-config';
+} from '../../@sling/services/auth/firebase-config';
 import {
   FETCH_ERROR,
   FETCH_START,

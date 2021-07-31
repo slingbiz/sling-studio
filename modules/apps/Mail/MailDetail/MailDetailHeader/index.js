@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MarkunreadIcon from '@material-ui/icons/Markunread';
 import {onUpdateSelectedMail} from '../../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import {Box} from '@material-ui/core';
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types';

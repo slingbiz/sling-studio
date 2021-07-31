@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Box, makeStyles} from '@material-ui/core';
 import Graph from './Graph';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';

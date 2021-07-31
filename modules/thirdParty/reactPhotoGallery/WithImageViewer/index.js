@@ -4,7 +4,7 @@ import Carousel, {Modal, ModalGateway} from 'react-images';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {onGetGalleryPhotos} from '../../../../redux/actions';
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 import {makeStyles} from '@material-ui/core';
 
 const ReactPhotoGallery = (props) => {

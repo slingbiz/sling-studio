@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from '@material-ui/core';
-import AppSelect from '../../../../@crema/core/AppSelect';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppSelect from '../../../../@sling/core/AppSelect';
+import AppCard from '../../../../@sling/core/AppCard';
 import GradeGraph from './GradeGraph';
 import {useIntl} from 'react-intl';
 

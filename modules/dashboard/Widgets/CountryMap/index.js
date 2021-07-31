@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from '@material-ui/core';
 import MapChart from './MapChart';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const CountryMap = () => {

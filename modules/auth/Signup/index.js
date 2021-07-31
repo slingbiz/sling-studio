@@ -6,7 +6,7 @@ import SignupJwtAuth from './SignupJwtAuth';
 import SignupFirebase from './SignupFirebase';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
@@ -87,7 +87,7 @@ const Signup = (props) => {
         <img
           className={classes.imgRoot}
           src={'/images/logo-white-with-name.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Box>
 

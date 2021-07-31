@@ -2,7 +2,7 @@ import React from 'react';
 import BtcGraph from './BtcGraph';
 import {Box, makeStyles} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const BtcVolumeCurrency = (props) => {

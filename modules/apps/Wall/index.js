@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import {Grid, makeStyles} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetWallData} from '../../../redux/actions';
@@ -11,8 +11,8 @@ import WhoToFollow from './WhoToFollow';
 import Suggestions from './Suggestions';
 import CreatePost from './CreatePost';
 import PostsList from './PostsList';
-import AppsContainer from '../../../@crema/wrappers/AppsContainer';
-import Scrollbar from '../../../@crema/core/Scrollbar';
+import AppsContainer from '../../../@sling/wrappers/AppsContainer';
+import Scrollbar from '../../../@sling/core/Scrollbar';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

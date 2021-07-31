@@ -7,7 +7,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import {MessageType} from '../../../../../@crema/services/db/apps/chat/connectionList';
+import {MessageType} from '../../../../../@sling/services/db/apps/chat/connectionList';
 
 const useStyles = makeStyles((theme) => ({
   btnRoot: {

@@ -3,11 +3,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
 import {makeStyles} from '@material-ui/core/styles';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
-import AppList from '../../../../@crema/core/AppList';
-import AppCard from '../../../../@crema/core/AppCard';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
+import AppList from '../../../../@sling/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const useStyles = makeStyles((theme) => ({
   pointer: {

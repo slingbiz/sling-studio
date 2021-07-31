@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Slider from '@material-ui/core/Slider';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const AirbnbSlider = withStyles({

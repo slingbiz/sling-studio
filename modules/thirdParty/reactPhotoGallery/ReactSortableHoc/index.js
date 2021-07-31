@@ -7,7 +7,7 @@ import {makeStyles} from '@material-ui/core';
 
 import Photo from './Photo';
 import {onGetGalleryPhotos} from '../../../../redux/actions';
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 
 /* popout the browser and maximize to see more rows! -> */
 const SortablePhoto = SortableElement((item) => <Photo {...item} />);

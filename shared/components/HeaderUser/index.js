@@ -7,8 +7,8 @@ import {
   onSignOutAuth0User,
   onSignOutFirebaseUser,
 } from '../../../redux/actions';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import AppContext from '../../../@crema/utility/AppContext';
+import {useAuthUser} from '../../../@sling/utility/AppHooks';
+import AppContext from '../../../@sling/utility/AppContext';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';

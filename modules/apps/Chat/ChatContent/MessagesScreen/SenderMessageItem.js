@@ -9,9 +9,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import useStyles from './MessageItem.style';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
-import {MessageType} from '../../../../../@crema/services/db/apps/chat/connectionList';
-import {getFileSize} from '../../../../../@crema/utility/Utils';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
+import {MessageType} from '../../../../../@sling/services/db/apps/chat/connectionList';
+import {getFileSize} from '../../../../../@sling/utility/Utils';
 
 const getMessage = (item, classes) => {
   if (item.message_type === MessageType.TEXT) {

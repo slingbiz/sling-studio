@@ -2,20 +2,20 @@ import React, {useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import {useSelector} from 'react-redux';
 import ComposeMail from '../ComposeMail';
 import ConnectionListItem from './ConnectionListItem';
-import AppsSideBarFolderItem from '../../../../@crema/core/AppsSideBarFolderItem';
+import AppsSideBarFolderItem from '../../../../@sling/core/AppsSideBarFolderItem';
 import LabelItem from './LabelItem';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppList from '../../../../@crema/core/AppList';
-import AppAnimate from '../../../../@crema/core/AppAnimate';
-import ListEmptyResult from '../../../../@crema/core/AppList/ListEmptyResult';
-import SidebarPlaceholder from '../../../../@crema/core/Skeleton/SidebarListSkeleton';
+import AppList from '../../../../@sling/core/AppList';
+import AppAnimate from '../../../../@sling/core/AppAnimate';
+import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
+import SidebarPlaceholder from '../../../../@sling/core/Skeleton/SidebarListSkeleton';
 
 const useStyles = makeStyles((theme) => ({
   btnRoot: {

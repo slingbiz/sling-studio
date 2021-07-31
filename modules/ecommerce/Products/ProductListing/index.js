@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import RenderTree from '../../../../@crema/hoc/RenderTree';
+import RenderTree from '../../../../@sling/hoc/RenderTree';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetEcommerceData} from '../../../../redux/actions/Ecommerce';
 import CustomizedBreadcrumbs from '../../../muiComponents/navigation/BreadCrumbs/CustomizedBreadcrumbs';

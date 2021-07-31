@@ -3,14 +3,14 @@ import { Box, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 
-import { GridContainer } from "../../../@crema";
+import { GridContainer } from "../../../@sling";
 import CartTable from "./CartTable";
-import AppCard from "../../../@crema/core/AppCard";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
+import AppCard from "../../../@sling/core/AppCard";
+import IntlMessages from "../../../@sling/utility/IntlMessages";
 import { Fonts } from "../../../shared/constants/AppEnums";
 import { getCartItems } from "../../../redux/actions/Ecommerce";
 import OrderSummary from "../OrderSummary";
-import AppAnimate from "../../../@crema/core/AppAnimate";
+import AppAnimate from "../../../@sling/core/AppAnimate";
 import { useRouter } from "next/router";
 
 const Carts = () => {

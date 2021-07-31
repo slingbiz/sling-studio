@@ -8,9 +8,9 @@ import ReactCodeInput from 'react-code-input';
 import {useDispatch} from 'react-redux';
 import {fetchError, onSetNewCognitoPassword} from '../../redux/actions';
 import { useRouter } from 'next/router'
-import InfoView from '../../@crema/core/InfoView';
+import InfoView from '../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 import Typography from '@material-ui/core/Typography';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
@@ -109,7 +109,7 @@ const ResetPasswordAwsCognito = (props) => {
         <img
           className={classes.imgRoot}
           src={'/images/logo-white-with-name.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Box>
 

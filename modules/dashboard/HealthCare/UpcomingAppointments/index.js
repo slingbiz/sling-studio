@@ -1,10 +1,10 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppMenu from '../../../../@crema/core/AppMenu';
-import AppList from '../../../../@crema/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppMenu from '../../../../@sling/core/AppMenu';
+import AppList from '../../../../@sling/core/AppList';
 import AppointmentCell from './AppointmentCell';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const UpcomingAppointments = ({data}) => {
   const {messages} = useIntl();

@@ -11,18 +11,18 @@ import {
 } from '../../../../../redux/actions/ChatApp';
 import AddNewMessage from './AddNewMessage';
 import MessagesList from './MessagesList';
-import {useAuthUser} from '../../../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../../../@sling/utility/AppHooks';
 import moment from 'moment';
 import Header from './Header';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import grey from '@material-ui/core/colors/grey';
-import AppsHeader from '../../../../../@crema/wrappers/AppsHeader';
-import {useAppsContentStyles} from '../../../../../@crema/wrappers/AppsContent';
-import AppsFooter from '../../../../../@crema/wrappers/AppsFooter';
-import {MessageType} from '../../../../../@crema/services/db/apps/chat/connectionList';
+import AppsHeader from '../../../../../@sling/wrappers/AppsHeader';
+import {useAppsContentStyles} from '../../../../../@sling/wrappers/AppsContent';
+import AppsFooter from '../../../../../@sling/wrappers/AppsFooter';
+import {MessageType} from '../../../../../@sling/services/db/apps/chat/connectionList';
 
 const useStyles = makeStyles((theme) => ({
   scrollChatNomain: {

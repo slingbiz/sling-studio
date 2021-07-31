@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Header = ({product}) => {
-  const shareUrl = 'http://crema-react.firebaseapp.com/';
+  const shareUrl = 'http://sling-react.firebaseapp.com/';
   const classes = useStyles();
   return (
     <Box className={classes.root}>

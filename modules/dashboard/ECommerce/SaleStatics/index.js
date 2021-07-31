@@ -1,11 +1,11 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import AppSelect from '../../../../@crema/core/AppSelect';
-import {GridContainer} from '../../../../@crema';
+import AppSelect from '../../../../@sling/core/AppSelect';
+import {GridContainer} from '../../../../@sling';
 import {Box, Grid, makeStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
+import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
 import SaleStaticChart from './SaleStaticChart';
 
 const useStyles = makeStyles((theme) => ({

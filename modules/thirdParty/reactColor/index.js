@@ -32,9 +32,9 @@ import CustomPointerSource from '!raw-loader!./CustomPointer';
 import WithRedux from './WithRedux';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import WithReduxSource from '!raw-loader!./WithRedux';
-import ComponentCard from '../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../@crema/core/GridContainer';
+import ComponentCard from '../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 
 const ColorPicker = () => {

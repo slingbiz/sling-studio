@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import OrderTable from './OrderTable';
-import AppsContainer from '../../../@crema/wrappers/AppsContainer';
+import AppsContainer from '../../../@sling/wrappers/AppsContainer';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRecentOrders} from '../../../redux/actions/Ecommerce';
 import {Button, Hidden} from '@material-ui/core';
-import AppsHeader from '../../../@crema/wrappers/AppsHeader';
-import AppsContent from '../../../@crema/wrappers/AppsContent';
-import AppsPagination from '../../../@crema/core/AppsPagination';
+import AppsHeader from '../../../@sling/wrappers/AppsHeader';
+import AppsContent from '../../../@sling/wrappers/AppsContent';
+import AppsPagination from '../../../@sling/core/AppsPagination';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import AppAnimate from '../../../@crema/core/AppAnimate';
-import InfoView from '../../../@crema/core/InfoView';
+import AppAnimate from '../../../@sling/core/AppAnimate';
+import InfoView from '../../../@sling/core/InfoView';
 
 const Orders = () => {
   const {messages} = useIntl();

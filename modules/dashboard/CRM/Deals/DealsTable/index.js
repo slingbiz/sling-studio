@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import TableHeading from './TableHeading';
 import TableItem from './TableItem';
-import AppTableContainer from '../../../../../@crema/core/AppTableContainer';
+import AppTableContainer from '../../../../../@sling/core/AppTableContainer';
 
 const useStyles = makeStyles((theme) => ({
   borderBottomClass: {

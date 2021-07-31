@@ -4,8 +4,8 @@ import {
   FETCH_SUCCESS,
   GET_USER_LIST,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import Api from '../../@sling/services/ApiConfig';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 import React from 'react';
 
 export const onGetUserList = () => {

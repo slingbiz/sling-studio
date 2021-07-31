@@ -4,7 +4,7 @@ import {onUpdateSelectedContact} from '../../../../redux/actions/ContactApp';
 import Avatar from '@material-ui/core/Avatar';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
-import {Scrollbar} from '../../../../@crema';
+import {Scrollbar} from '../../../../@sling';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import ContactActions from './ContactActions';
