@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import CustomerTable from './CustomerTable';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@sling/core/AppsContainer';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCustomers} from '../../../redux/actions/Ecommerce';
 import {Button, Hidden} from '@material-ui/core';
-import AppsHeader from '../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../@crema/core/AppsContainer/AppsContent';
-import AppsPagination from '../../../@crema/core/AppsPagination';
+import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
+import AppsContent from '../../../@sling/core/AppsContainer/AppsContent';
+import AppsPagination from '../../../@sling/core/AppsPagination';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import AppAnimate from '../../../@crema/core/AppAnimate';
-import InfoView from '../../../@crema/core/InfoView';
+import AppAnimate from '../../../@sling/core/AppAnimate';
+import InfoView from '../../../@sling/core/InfoView';
 
 const Customers = () => {
   const {messages} = useIntl();

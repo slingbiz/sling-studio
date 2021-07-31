@@ -2,9 +2,9 @@ import React from 'react';
 import {array, boolean, object, text, withKnobs} from '@storybook/addon-knobs';
 import {withA11y} from '@storybook/addon-a11y';
 import {actions} from '@storybook/addon-actions';
-import AppList from '../@crema/core/AppList';
-import ListEmptyResult from '../@crema/core/AppList/ListEmptyResult';
-import {MailItem} from '../@crema/core/Skeleton/EmailListSkeleton';
+import AppList from '../@sling/core/AppList';
+import ListEmptyResult from '../@sling/core/AppList/ListEmptyResult';
+import {MailItem} from '../@sling/core/Skeleton/EmailListSkeleton';
 
 const appList = {
   title: 'AppList',

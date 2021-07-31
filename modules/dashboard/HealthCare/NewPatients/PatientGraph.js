@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import AppContext from '../../../../@crema/utility/AppContext';
+import AppContext from '../../../../@sling/utility/AppContext';
 
 const PatientGraph = ({data}) => {
   const {theme} = useContext(AppContext);

@@ -54,7 +54,7 @@ const ComponentCard = ({
   const classes = useStyles();
 
   return (
-    <AppAnimate animation='transition.slideUpIn' delay={200}>
+    <AppAnimate animation='transition.slideUpIn' delay={0}>
       <Card>
         <CardHeader
           className={classes.cardHeader}

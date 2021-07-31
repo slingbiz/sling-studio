@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
+import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {fade} from '@material-ui/core';
 import clsx from 'clsx';
-import {AppContext} from '../../../../@crema';
+import {AppContext} from '../../../../@sling';
 
 const useStyles = makeStyles((theme) => ({
   learningItems: {

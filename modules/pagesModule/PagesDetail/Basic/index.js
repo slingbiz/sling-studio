@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {useIntl} from 'react-intl';
 import {orange} from '@material-ui/core/colors';
@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 
 const Basic = (props) => {
   const useStyles = makeStyles((theme) => ({

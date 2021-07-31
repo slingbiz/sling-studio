@@ -3,7 +3,7 @@ import ProductListing from './ProductListing';
 import {useIntl} from 'react-intl';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import AppsContainer from '../../../@crema/core/AppsContainer';
+import AppsContainer from '../../../@sling/core/AppsContainer';
 import ProductsSidebar from './ProductsSidebar';
 
 const Products = () => {

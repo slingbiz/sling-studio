@@ -1,7 +1,7 @@
 import React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
 import {ServerStyleSheets} from '@material-ui/core/styles';
-import defaultConfig from '../@crema/utility/ContextProvider/defaultConfig';
+import defaultConfig from '../@sling/utility/ContextProvider/defaultConfig';
 
 export default class MyDocument extends Document {
   render() {

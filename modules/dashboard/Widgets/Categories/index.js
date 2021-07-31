@@ -4,8 +4,8 @@ import {makeStyles} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import CategoryItem from './CategoryItem';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
-import AppCard from '../../../../@crema/core/AppCard';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

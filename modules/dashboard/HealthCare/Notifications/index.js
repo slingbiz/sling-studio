@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import AppMenu from '../../../../@crema/core/AppMenu';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
-import AppList from '../../../../@crema/core/AppList';
+import AppMenu from '../../../../@sling/core/AppMenu';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
+import AppList from '../../../../@sling/core/AppList';
 import NotificationCell from './NotificationCell';
 
 const Notifications = ({data}) => {

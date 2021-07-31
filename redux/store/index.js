@@ -3,7 +3,7 @@ import {applyMiddleware, createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import reducers from '../reducers';
-import {setAuthToken} from '../../@crema/services/auth/jwt-auth/jwt-api';
+import {setAuthToken} from '../../@sling/services/auth/jwt-auth/jwt-api';
 
 let store;
 

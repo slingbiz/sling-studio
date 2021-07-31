@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import PropTypes from 'prop-types';
 
 const Transition = React.forwardRef(function Transition(props, ref) {

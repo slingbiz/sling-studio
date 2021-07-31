@@ -4,7 +4,7 @@ import {
   FETCH_SUCCESS,
   UPDATE_AUTH_USER,
 } from '../../shared/constants/ActionTypes';
-import Auth0Config from '../../@crema/services/auth/auth0/auth0Config';
+import Auth0Config from '../../@sling/services/auth/auth0/auth0Config';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {setJWTToken} from './JWTAuth';
 import {defaultUser} from '../../shared/constants/AppConst';

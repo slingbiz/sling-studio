@@ -10,7 +10,7 @@ import {
   SET_PRODUCT_VIEW_TYPE,
   UPDATE_CART_ITEM,
 } from '../../shared/constants/ActionTypes';
-import {cartItems} from '../../@crema/services/db/ecommerce/ecommerceData';
+import {cartItems} from '../../@sling/services/db/ecommerce/ecommerceData';
 
 export const VIEW_TYPE = Object.freeze({LIST: 1, GRID: 2});
 const initialState = {

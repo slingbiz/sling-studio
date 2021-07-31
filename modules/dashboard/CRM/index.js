@@ -13,9 +13,9 @@ import Reviews from './Reviews';
 import TicketSupport from './TicketSupport';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetCrmData} from '../../../redux/actions';
-import GridContainer from '../../../@crema/core/GridContainer';
-import InfoView from '../../../@crema/core/InfoView';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import GridContainer from '../../../@sling/core/GridContainer';
+import InfoView from '../../../@sling/core/InfoView';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const CRM = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const CRM = () => {
   return (
     <>
       {crmData ? (
-        <AppAnimate animation='transition.slideUpIn' delay={200}>
+        <AppAnimate animation='transition.slideUpIn' delay={0}>
           <Box pt={{xl: 4}} clone>
             <GridContainer>
               <Grid item xs={12} md={7}>

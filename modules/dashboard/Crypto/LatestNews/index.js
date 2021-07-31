@@ -1,7 +1,7 @@
 import React from 'react';
 import NewsList from './NewsList';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const LatestNews = (props) => {

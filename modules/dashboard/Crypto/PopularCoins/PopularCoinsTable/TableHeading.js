@@ -1,6 +1,6 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import TableRow from '@material-ui/core/TableRow';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../../shared/constants/AppEnums';

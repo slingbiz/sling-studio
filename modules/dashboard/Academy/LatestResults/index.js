@@ -1,10 +1,10 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppList from '../../../../@crema/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppList from '../../../../@sling/core/AppList';
 import Box from '@material-ui/core/Box';
-import AppLinearProgress from '../../../../@crema/core/AppLinearProgress';
+import AppLinearProgress from '../../../../@sling/core/AppLinearProgress';
 import {useIntl} from 'react-intl';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 

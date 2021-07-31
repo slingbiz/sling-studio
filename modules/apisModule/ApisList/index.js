@@ -2,8 +2,8 @@ import React from 'react';
 // import AddNewTask from '../AddNewTask';
 import {makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
-import AppsHeader from '../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../@crema/core/AppsContainer/AppsContent';
+import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
+import AppsContent from '../../../@sling/core/AppsContainer/AppsContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -114,7 +114,7 @@ const TasksList = ({titleKey, pageKey}) => {
                   <CardMedia
                     className={classes.media}
                     image={'/images/cards/sling-layout-pick.png'}
-                    title='Contemplative Reptile'
+                    title=''
                   />
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='h2'>

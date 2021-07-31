@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core';
@@ -6,20 +6,24 @@ import Box from '@material-ui/core/Box';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Card from '@material-ui/core/Card';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Edit from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 import Close from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import AppSearch from "../../../../@crema/core/SearchBar";
+import AppSearch from '../../../../@sling/core/SearchBar';
+import Tooltip from '@material-ui/core/Tooltip';
+import AlertModal from '../../../../shared/components/Sling/AlertModal';
+import EditApiMappings from './EditApiMappings';
 const demoApiList = [
   {
     key: 'listing',
     title: 'Product List Api',
     description: 'Product list search Api with aggregated filters',
     image_url: '',
+    icon: '',
     enabled: true,
   },
   {
@@ -27,6 +31,7 @@ const demoApiList = [
     title: 'Category List Api',
     description: 'List of all available categories',
     image_url: '',
+    icon: '',
     enabled: true,
   },
   {
@@ -34,6 +39,7 @@ const demoApiList = [
     title: 'User Details Api',
     description: 'Logged in User Details',
     image_url: '',
+    icon: '',
     enabled: true,
   },
   {
@@ -45,7 +51,7 @@ const demoApiList = [
   },
 ];
 
-const Basic = (props) => {
+const ApiList = (props) => {
   const useStyles = makeStyles((theme) => ({
     taskBtn: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
@@ -92,8 +98,14 @@ const Basic = (props) => {
     apiCardImage: {
       height: '100%',
       padding: theme.spacing(2),
-      border: '1px solid',
+      // border: '1px solid',
       borderColor: orange[100],
+      backgroundImage: `url(/images/widgets/api-img2.png)`,
+      color: 'white',
+      position: 'relative',
+      backgroundSize: 'auto 100%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'top',
     },
     actionsBox: {
       alignItems: 'center',
@@ -106,26 +118,40 @@ const Basic = (props) => {
   }));
 
   const classes = useStyles(props);
-  const {titleKey} = props;
+  const [open, setOpen] = useState(false);
+  const [mapperDialog, setMapperDialog] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const doAction = () => {
+    setOpen(true);
+  };
+
   return (
     <>
       <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Headless Api List
         </Box>
-        <AppSearch
-            placeholder='Search here'
-            onChange={(e) => (e.target.value)}
-        />
+        <AppSearch placeholder='Search here' onChange={(e) => e.target.value} />
       </AppsHeader>
       <Box px={6} pb={8}>
+        <AlertModal open={open} handleClose={handleClose} />
+        <EditApiMappings
+          open={mapperDialog}
+          setOpen={setMapperDialog}
+          titleKey={'Map Sling Keys'}
+          pageKey={'sling-mappings'}
+        />
         {demoApiList.map((apiObj) => {
           return (
             <Box key={apiObj.key} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
                 <Grid container>
                   <Grid item xs={2}>
-                    <Box className={classes.apiCardImage}>Image</Box>
+                    <Box className={classes.apiCardImage}></Box>
                   </Grid>
                   <Grid item xs={7}>
                     <CardContent>
@@ -148,32 +174,43 @@ const Basic = (props) => {
                       alignItems='center'>
                       <Box>
                         <label htmlFor='icon-button-file'>
-                          <IconButton
-                            className={classes.iconRoot}
-                            aria-label='upload picture'
-                            component='span'>
-                            <Close />
-                          </IconButton>
+                          <Tooltip title='Remove'>
+                            <IconButton
+                              className={classes.iconRoot}
+                              aria-label='upload picture'
+                              component='span'
+                              onClick={doAction}>
+                              <Close />
+                            </IconButton>
+                          </Tooltip>
+                        </label>
+                      </Box>
+                      <Box>
+                        <label htmlFor='icon-edit'>
+                          <Tooltip title='Edit'>
+                            <IconButton
+                              className={classes.iconRoot}
+                              aria-label='edit'
+                              component='span'
+                              onClick={() => {
+                                setMapperDialog(true);
+                              }}>
+                              <Edit />
+                            </IconButton>
+                          </Tooltip>
                         </label>
                       </Box>
                       <Box>
                         <label htmlFor='icon-button-file'>
-                          <IconButton
-                            className={classes.iconRoot}
-                            aria-label='upload '
-                            component='span'>
-                            <Edit />
-                          </IconButton>
-                        </label>
-                      </Box>
-                      <Box>
-                        <label htmlFor='icon-button-file'>
-                          <IconButton
-                            className={classes.iconRoot}
-                            aria-label=' picture'
-                            component='span'>
-                            <AccountTreeIcon />
-                          </IconButton>
+                          <Tooltip title='Map Sling Keys'>
+                            <IconButton
+                              className={classes.iconRoot}
+                              aria-label=' picture'
+                              component='span'
+                              onClick={doAction}>
+                              <AccountTreeIcon />
+                            </IconButton>
+                          </Tooltip>
                         </label>
                       </Box>
                     </Box>
@@ -194,4 +231,4 @@ const Basic = (props) => {
   );
 };
 
-export default Basic;
+export default ApiList;

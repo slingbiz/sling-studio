@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Box, fade, makeStyles} from '@material-ui/core';
 import ViewGraph from './ViewGraph';
 import {Fonts} from '../../../../shared/constants/AppEnums';

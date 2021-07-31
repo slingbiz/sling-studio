@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const WelcomeCard = ({data}) => {
   const useStyles = makeStyles((theme) => ({

@@ -1,10 +1,10 @@
 import React from 'react';
-import AppCard from '../../../@crema/core/AppCard';
+import AppCard from '../../../@sling/core/AppCard';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
 import {useIntl} from 'react-intl';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const getTotalPrice = (cartItems) => {
   let total = 0;

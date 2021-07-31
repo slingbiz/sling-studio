@@ -5,11 +5,11 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
-import AppList from '../../../../../@crema/core/AppList';
-import AppGrid from '../../../../../@crema/core/AppGrid';
-import ListEmptyResult from '../../../../../@crema/core/AppList/ListEmptyResult';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
-import ContactListSkeleton from '../../../../../@crema/core/Skeleton/ContactListSkeleton';
+import AppList from '../../../../../@sling/core/AppList';
+import AppGrid from '../../../../../@sling/core/AppGrid';
+import ListEmptyResult from '../../../../../@sling/core/AppList/ListEmptyResult';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
+import ContactListSkeleton from '../../../../../@sling/core/Skeleton/ContactListSkeleton';
 
 const useStyles = makeStyles((theme) => ({
   root: {

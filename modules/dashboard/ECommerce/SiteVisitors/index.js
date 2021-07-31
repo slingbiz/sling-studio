@@ -1,11 +1,11 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {makeStyles} from '@material-ui/core/styles';
 import {Box, Grid} from '@material-ui/core';
 import {useIntl} from 'react-intl';
-import {GridContainer} from '../../../../@crema';
+import {GridContainer} from '../../../../@sling';
 import MapView from './MapView';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({

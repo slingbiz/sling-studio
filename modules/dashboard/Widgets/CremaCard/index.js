@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const useStyles = makeStyles(() => ({
   root: {

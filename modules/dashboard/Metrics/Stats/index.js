@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import StatsGraph from './StatsGraph';
 import {useIntl} from 'react-intl';
 import PropTypes from 'prop-types';
-import AppSelect from '../../../../@crema/core/AppSelect';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppSelect from '../../../../@sling/core/AppSelect';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Box} from '@material-ui/core';
 
 const Stats = ({data}) => {

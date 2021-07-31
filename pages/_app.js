@@ -1,16 +1,16 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
-import ContextProvider from '../@crema/utility/ContextProvider';
-import CremaThemeProvider from '../@crema/utility/CremaThemeProvider';
-import CremaStyleProvider from '../@crema/utility/CremaStyleProvider';
-import LocaleProvider from '../@crema/utility/LocaleProvider';
+import ContextProvider from '../@sling/utility/ContextProvider';
+import CremaThemeProvider from '../@sling/utility/CremaThemeProvider';
+import CremaStyleProvider from '../@sling/utility/CremaStyleProvider';
+import LocaleProvider from '../@sling/utility/LocaleProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
-import '../@crema/services/index';
-import AuthRoutes from '../@crema/utility/AuthRoutes';
-import PageMeta from '../@crema/core/PageMeta';
+import '../@sling/services/index';
+import AuthRoutes from '../@sling/utility/AuthRoutes';
+import PageMeta from '../@sling/core/PageMeta';
 
 const App = ({Component, pageProps, user}) => {
   const store = useStore(pageProps.initialReduxState);

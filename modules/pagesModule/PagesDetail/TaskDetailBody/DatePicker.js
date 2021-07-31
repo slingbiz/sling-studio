@@ -1,6 +1,6 @@
 import React from 'react';
 import {KeyboardDatePicker} from '@material-ui/pickers';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import moment from 'moment';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';

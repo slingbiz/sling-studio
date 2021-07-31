@@ -5,7 +5,7 @@ import TableBody from '@material-ui/core/TableBody';
 import PropTypes from 'prop-types';
 import TableHeading from './TableHeading';
 import TableItem from './TableItem';
-import AppTableContainer from '../../../../../@crema/core/AppTableContainer';
+import AppTableContainer from '../../../../../@sling/core/AppTableContainer';
 
 const PatientsTable = ({recentPatients}) => {
   return (

@@ -10,7 +10,7 @@ import LayoutView from './LayoutView';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 
 const Layout = (props) => {
   const {titleKey, pageKey} = props;

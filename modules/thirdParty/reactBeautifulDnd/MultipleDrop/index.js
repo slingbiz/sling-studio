@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import simpleListData from '../../../../@crema/services/db/extraPages/dndData/simpleListData';
+import simpleListData from '../../../../@sling/services/db/extraPages/dndData/simpleListData';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';

@@ -3,8 +3,8 @@ import Box from '@material-ui/core/Box';
 import {fade} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
-import AppGrid from '../../../../../@crema/core/AppGrid';
-import MediaViewer from '../../../../../@crema/core/MedialViewer';
+import AppGrid from '../../../../../@sling/core/AppGrid';
+import MediaViewer from '../../../../../@sling/core/MedialViewer';
 
 const useStyles = makeStyles((theme) => ({
   imgView: {

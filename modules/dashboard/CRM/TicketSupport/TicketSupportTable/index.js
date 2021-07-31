@@ -7,8 +7,8 @@ import {makeStyles} from '@material-ui/core';
 import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import {grey} from '@material-ui/core/colors/index';
-import {isBreakPointDown} from '../../../../../@crema/utility/Utils';
-import AppTableContainer from '../../../../../@crema/core/AppTableContainer';
+import {isBreakPointDown} from '../../../../../@sling/utility/Utils';
+import AppTableContainer from '../../../../../@sling/core/AppTableContainer';
 
 const useStyles = makeStyles((theme) => ({
   borderBottomClass: {

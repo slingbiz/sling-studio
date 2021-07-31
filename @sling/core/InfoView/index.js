@@ -1,5 +1,5 @@
 import React from 'react';
-import {Loader, MessageView} from '../../../@crema';
+import {Loader, MessageView} from '../../../@sling';
 import {useSelector} from 'react-redux';
 
 const InfoView = () => {

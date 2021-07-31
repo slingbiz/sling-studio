@@ -2,7 +2,7 @@ import React from 'react';
 import SocialVisitorsGraph from './SocialVisitorsGraph';
 import PropTypes from 'prop-types';
 import Categories from './Categories';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const SocialVisitors = ({data}) => {

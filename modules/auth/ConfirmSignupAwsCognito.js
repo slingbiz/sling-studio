@@ -5,10 +5,10 @@ import Button from '@material-ui/core/Button';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/router'
 import {fetchError, onConfirmCognitoUserSignup} from '../../redux/actions';
-import InfoView from '../../@crema/core/InfoView';
+import InfoView from '../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../shared/constants/AppEnums';

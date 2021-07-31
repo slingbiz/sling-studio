@@ -4,10 +4,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Box, makeStyles} from '@material-ui/core';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AppLinearProgress from '../../../../@crema/core/AppLinearProgress';
+import AppLinearProgress from '../../../../@sling/core/AppLinearProgress';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 const useStyles = makeStyles((theme) => ({

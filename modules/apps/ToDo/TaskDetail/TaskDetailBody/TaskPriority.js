@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import {useDispatch, useSelector} from 'react-redux';

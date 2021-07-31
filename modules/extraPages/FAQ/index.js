@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
-import GridContainer from '../../../@crema/core/GridContainer';
-import InfoView from '../../../@crema/core/InfoView';
+import GridContainer from '../../../@sling/core/GridContainer';
+import InfoView from '../../../@sling/core/InfoView';
 import FaqSideBar from './FaqSideBar/index';
 import FaqList from './FaqList';
-import {generalFaq} from '../../../@crema/services/db/extraPages/faqList/general';
-import {installationFaq} from '../../../@crema/services/db/extraPages/faqList/installation';
-import {pricingFaq} from '../../../@crema/services/db/extraPages/faqList/pricing';
-import {licenseFaq} from '../../../@crema/services/db/extraPages/faqList/licenseTypes';
-import {supportFaq} from '../../../@crema/services/db/extraPages/faqList/support';
+import {generalFaq} from '../../../@sling/services/db/extraPages/faqList/general';
+import {installationFaq} from '../../../@sling/services/db/extraPages/faqList/installation';
+import {pricingFaq} from '../../../@sling/services/db/extraPages/faqList/pricing';
+import {licenseFaq} from '../../../@sling/services/db/extraPages/faqList/licenseTypes';
+import {supportFaq} from '../../../@sling/services/db/extraPages/faqList/support';
 import {makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {blue} from '@material-ui/core/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   faqHeader: {

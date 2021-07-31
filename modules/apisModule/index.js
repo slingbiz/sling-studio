@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
-import AppsContainer from '../../@crema/core/AppsContainer';
+import AppsContainer from '../../@sling/core/AppsContainer';
 import {withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import VisitsTable from './VisitsTable';
 import {useIntl} from 'react-intl';
 

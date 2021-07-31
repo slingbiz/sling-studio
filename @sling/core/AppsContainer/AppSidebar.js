@@ -33,7 +33,7 @@ const AppSidebar = (props) => {
         </Drawer>
       </Hidden>
       <Hidden mdDown>
-        <Card style={{height: '100%'}}>{sidebarContent}</Card>
+        <Card>{sidebarContent}</Card>
       </Hidden>
     </Box>
   );

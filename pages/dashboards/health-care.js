@@ -1,7 +1,7 @@
 import React from 'react';
-import AppPage from '../../@crema/hoc/AppPage';
-import asyncComponent from '../../@crema/utility/asyncComponent';
-import PageMeta from '../../@crema/core/PageMeta';
+import AppPage from '../../@sling/hoc/AppPage';
+import asyncComponent from '../../@sling/utility/asyncComponent';
+import PageMeta from '../../@sling/core/PageMeta';
 
 const HealthCare = asyncComponent(() =>
   import('../../modules/dashboard/HealthCare'),

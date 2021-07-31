@@ -2,8 +2,8 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppGrid from '../../../../@crema/core/AppGrid';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppGrid from '../../../../@sling/core/AppGrid';
 
 const Share = (props) => {
   const useStyles = makeStyles((theme) => ({

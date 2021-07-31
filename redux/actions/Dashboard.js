@@ -1,5 +1,5 @@
 import React from 'react';
-import Api from '../../@crema/services/ApiConfig';
+import Api from '../../@sling/services/ApiConfig';
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -15,7 +15,7 @@ import {
   GET_LAYOUT_DATA,
   SET_LAYOUT_DATA,
 } from '../../shared/constants/ActionTypes';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
 
 //Set Layout Config

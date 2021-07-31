@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import PatientGraph from './PatientGraph';
 import {Box, makeStyles} from '@material-ui/core';
-import AppMenu from '../../../../@crema/core/AppMenu';
+import AppMenu from '../../../../@sling/core/AppMenu';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({

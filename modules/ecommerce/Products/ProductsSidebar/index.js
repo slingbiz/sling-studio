@@ -5,16 +5,16 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
 import PriceSelector from './PriceSelector';
 import {makeStyles} from '@material-ui/core/styles';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
-import AppList from '../../../../@crema/core/AppList';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
+import AppList from '../../../../@sling/core/AppList';
 import CheckedCell from './CheckedCell';
 import {
   BrandData,
   DiscountList,
   IdealFor,
   ProductColors,
-} from '../../../../@crema/services/db/ecommerce/ecommerceData';
-import AppGrid from '../../../../@crema/core/AppGrid';
+} from '../../../../@sling/services/db/ecommerce/ecommerceData';
+import AppGrid from '../../../../@sling/core/AppGrid';
 import ColorCell from './ColorCell';
 import RatingCell from './RatingCell';
 import {useDispatch, useSelector} from 'react-redux';

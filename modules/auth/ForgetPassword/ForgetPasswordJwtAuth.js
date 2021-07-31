@@ -8,10 +8,10 @@ import {useDispatch} from 'react-redux';
 import {onResetCognitoPassword} from '../../../redux/actions';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../../@sling/core/InfoView';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import clsx from 'clsx';

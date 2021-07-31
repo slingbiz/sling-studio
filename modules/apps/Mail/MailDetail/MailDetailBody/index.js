@@ -14,7 +14,7 @@ import {
 import ReplyMail from './ReplyMail';
 import ForwardMail from './ForwardMail';
 import moment from 'moment';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';

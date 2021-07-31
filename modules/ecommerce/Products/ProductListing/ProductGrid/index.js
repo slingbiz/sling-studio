@@ -1,11 +1,11 @@
 import React from 'react';
-import AppGrid from '../../../../../@crema/core/AppGrid';
+import AppGrid from '../../../../../@sling/core/AppGrid';
 import GridItem from './GridItem';
-import ListEmptyResult from '../../../../../@crema/core/AppList/ListEmptyResult';
+import ListEmptyResult from '../../../../../@sling/core/AppList/ListEmptyResult';
 
 const ProductGrid = ({ecommerceList, loading}) => (
   <AppGrid
-    delay={200}
+    delay={0}
     responsive={{
       xs: 1,
       sm: 2,

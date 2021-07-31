@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import Box from '@material-ui/core/Box';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';

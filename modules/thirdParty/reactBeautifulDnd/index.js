@@ -12,9 +12,9 @@ import MultipleDropSource from '!raw-loader!./MultipleDrop';
 import WithHooks from './WithHooks';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import WithHooksSource from '!raw-loader!./WithHooks';
-import ComponentCard from '../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../@crema/core/GridContainer';
+import ComponentCard from '../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 
 const ReactBeautifulDnd = () => {

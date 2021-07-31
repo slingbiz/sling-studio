@@ -1,9 +1,9 @@
 import React from 'react';
 import GoalProgressGraph from './GoalProgressGraph';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const GoalProgress = ({progressGraphData}) => {

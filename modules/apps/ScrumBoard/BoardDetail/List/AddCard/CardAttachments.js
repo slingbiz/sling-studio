@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../@sling/utility/IntlMessages';
 import moment from 'moment';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';

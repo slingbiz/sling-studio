@@ -5,8 +5,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
-import AppCard from '../../../../@crema/core/AppCard';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

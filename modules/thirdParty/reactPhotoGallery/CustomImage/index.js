@@ -3,7 +3,7 @@ import Gallery from 'react-photo-gallery';
 import SelectedImage from './SelectedImage';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetGalleryPhotos} from '../../../../redux/actions';
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 import {makeStyles} from '@material-ui/core';
 
 const CustomImage = (props) => {

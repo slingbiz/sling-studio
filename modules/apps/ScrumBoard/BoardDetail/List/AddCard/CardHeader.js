@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import DeleteIcon from '@material-ui/icons/Delete';
-import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../@sling/utility/IntlMessages';
 import {useDropzone} from 'react-dropzone';
 import CardCheckedList from './CardCheckedList';
 import PropTypes from 'prop-types';

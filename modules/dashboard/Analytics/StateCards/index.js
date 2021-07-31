@@ -5,7 +5,7 @@ import {green, red} from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import {makeStyles} from '@material-ui/core';
 import StatGraphs from './StatGraphs';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const StateCard = ({data}) => {
   const useStyles = makeStyles((theme) => ({

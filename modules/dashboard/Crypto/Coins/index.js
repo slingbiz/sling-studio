@@ -2,9 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import CoinStats from './CoinStats';
 import PropTypes from 'prop-types';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
 import {blue, indigo, red, teal} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 

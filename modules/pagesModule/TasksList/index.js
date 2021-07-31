@@ -6,14 +6,14 @@ import TaskListItem from './TaskListItem';
 import {useRouter} from 'next/router';
 // import AddNewTask from '../AddNewTask';
 import {Hidden, makeStyles} from '@material-ui/core';
-import AppsPagination from '../../../@crema/core/AppsPagination';
+import AppsPagination from '../../../@sling/core/AppsPagination';
 import {grey} from '@material-ui/core/colors';
-import AppsHeader from '../../../@crema/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../@crema/core/AppsContainer/AppsContent';
-import AppsFooter from '../../../@crema/core/AppsContainer/AppsFooter';
-import ListEmptyResult from '../../../@crema/core/AppList/ListEmptyResult';
-import TodoListSkeleton from '../../../@crema/core/Skeleton/TodoListSkeleton';
-import AppList from '../../../@crema/core/AppList';
+import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
+import AppsContent from '../../../@sling/core/AppsContainer/AppsContent';
+import AppsFooter from '../../../@sling/core/AppsContainer/AppsFooter';
+import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
+import TodoListSkeleton from '../../../@sling/core/Skeleton/TodoListSkeleton';
+import AppList from '../../../@sling/core/AppList';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -109,9 +109,9 @@ const TasksList = ({titleKey, pageKey}) => {
                 </CardActionArea>
                 <CardActions>
                   <Link href={`${pageKey}/basic`} passHref>
-                  <Button size='small' color='primary'>
-                    Edit Basics
-                  </Button>
+                    <Button size='small' color='primary'>
+                      Edit Basics
+                    </Button>
                   </Link>
                   {/*<Button size='small' color='primary'>*/}
                   {/*  Learn More*/}

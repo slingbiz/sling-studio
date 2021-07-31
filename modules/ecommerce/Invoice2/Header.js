@@ -1,8 +1,8 @@
 import React from 'react';
 import {Box, makeStyles} from '@material-ui/core';
-import invoiceData from '../../../@crema/services/db/extraPages/invoice/invoiceData';
+import invoiceData from '../../../@sling/services/db/extraPages/invoice/invoiceData';
 import Typography from '@material-ui/core/Typography';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({

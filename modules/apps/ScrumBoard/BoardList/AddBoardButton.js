@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../../shared/constants/AppEnums';

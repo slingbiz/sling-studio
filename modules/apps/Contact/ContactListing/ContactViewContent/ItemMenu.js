@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Tooltip from '@material-ui/core/Tooltip';

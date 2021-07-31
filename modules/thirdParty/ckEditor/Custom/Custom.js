@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import Custom from '@ckeditor/ckeditor5-build-balloon-block';
-import InfoView from '../../../../@crema/core/InfoView';
+import InfoView from '../../../../@sling/core/InfoView';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   onGetCustomData,

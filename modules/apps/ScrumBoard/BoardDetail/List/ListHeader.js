@@ -9,9 +9,9 @@ import {
 } from '../../../../../redux/actions/ScrumboardApp';
 import {useDispatch} from 'react-redux';
 import EditIcon from '@material-ui/icons/Edit';
-import ConfirmationDialog from '../../../../../@crema/core/ConfirmationDialog';
+import ConfirmationDialog from '../../../../../@sling/core/ConfirmationDialog';
 import CheckIcon from '@material-ui/icons/Check';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';

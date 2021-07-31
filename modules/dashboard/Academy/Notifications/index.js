@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppList from '../../../../@crema/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppList from '../../../../@sling/core/AppList';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {timeFromNow} from '../../../../@crema/utility/Utils';
+import {timeFromNow} from '../../../../@sling/utility/Utils';
 import {useIntl} from 'react-intl';
-import AppContext from '../../../../@crema/utility/AppContext';
+import AppContext from '../../../../@sling/utility/AppContext';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 

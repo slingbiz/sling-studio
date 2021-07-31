@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import useStyles from './index.style';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const settings = {
   dots: true,

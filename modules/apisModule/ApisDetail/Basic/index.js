@@ -9,7 +9,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 
 const Basic = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -90,7 +90,6 @@ const Basic = (props) => {
             label='Page Name'
             className={classes.basicFormTxt}
             value={`${titleKey}`}
-            // helperText=''
             fullWidth
             margin='normal'
             InputLabelProps={{

@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../@crema/core/AppCard';
+import AppCard from '../@sling/core/AppCard';
 import {text} from '@storybook/addon-knobs';
 import StatGraphs from '../modules/dashboard/CRM/Statisitcs/GraphTabs/StatGraphs';
-import crmData from '../@crema/services/db/dashboard/crm';
-import ContextProvider from '../@crema/utility/ContextProvider';
+import crmData from '../@sling/services/db/dashboard/crm';
+import ContextProvider from '../@sling/utility/ContextProvider';
 
 const appCard = {
   title: 'AppCard',

@@ -3,13 +3,13 @@ import Select from '@material-ui/core/Select';
 import BitcoinGraph from './BitcoinGraph';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {Box, makeStyles} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {green, indigo} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const Bitcoin = (props) => {
   const {coinGraphData} = props;

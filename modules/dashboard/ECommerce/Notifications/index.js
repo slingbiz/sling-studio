@@ -1,12 +1,12 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import NotificationCell from './NotificationCell';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 
 const useStyles = makeStyles({
   iconButton: {

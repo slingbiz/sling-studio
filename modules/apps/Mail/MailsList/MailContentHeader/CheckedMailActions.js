@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import InfoSharpIcon from '@material-ui/icons/InfoSharp';

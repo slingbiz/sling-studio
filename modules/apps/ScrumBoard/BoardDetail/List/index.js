@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import ListHeader from './ListHeader';
 import CardDetail from './CardDetail';
-import Scrollbar from '../../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../../@sling/core/Scrollbar';
 import AddCardButton from './AddCardButton';
 import PropTypes from 'prop-types';
 

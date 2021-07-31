@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import ProductHeader from '../ProductHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {VIEW_TYPE} from '../../../../redux/reducers/Ecommerce';
@@ -9,10 +9,10 @@ import {
   setFilters,
 } from '../../../../redux/actions/Ecommerce';
 import ProductList from './ProductList';
-import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
+import AppsContent from '../../../../@sling/core/AppsContainer/AppsContent';
 import {Box, fade} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {AppContext} from '../../../../@crema';
+import {AppContext} from '../../../../@sling';
 
 const useStyles = makeStyles((theme) => ({
   root: {

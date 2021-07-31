@@ -12,7 +12,7 @@ import {
   SET_PRODUCT_VIEW_TYPE,
   UPDATE_CART_ITEM,
 } from '../../shared/constants/ActionTypes';
-import Api from '../../@crema/services/ApiConfig';
+import Api from '../../@sling/services/ApiConfig';
 
 export const onGetEcommerceData = (filterData) => {
   return (dispatch) => {

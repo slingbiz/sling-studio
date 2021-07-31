@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetAcademyData} from '../../../redux/actions';
-import AppAnimate from '../../../@crema/core/AppAnimate';
-import GridContainer from '../../../@crema/core/GridContainer';
+import AppAnimate from '../../../@sling/core/AppAnimate';
+import GridContainer from '../../../@sling/core/GridContainer';
 import {Grid, makeStyles} from '@material-ui/core';
 import GeneralStats from './GeneralStats';
 import CourseCategories from './CourseCategories';
@@ -46,7 +46,7 @@ const Academy = () => {
   return (
     <>
       {academyData && (
-        <AppAnimate animation='transition.slideUpIn' delay={200}>
+        <AppAnimate animation='transition.slideUpIn' delay={0}>
           <Box>
             <Box pt={{xl: 4}} pb={{xs: 2, lg: 4}} clone>
               <GridContainer>

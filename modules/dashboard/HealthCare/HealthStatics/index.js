@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
-import AppSelect from '../../../../@crema/core/AppSelect';
+import AppCard from '../../../../@sling/core/AppCard';
+import AppSelect from '../../../../@sling/core/AppSelect';
 import {useIntl} from 'react-intl';
 import StaticsGraph from './StaticsGraph';
 import {Box} from '@material-ui/core';

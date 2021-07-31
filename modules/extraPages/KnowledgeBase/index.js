@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
-import {salesData} from '../../../@crema/services/db/extraPages/portFolio/sales';
-import {installationData} from '../../../@crema/services/db/extraPages/portFolio/installation';
+import {salesData} from '../../../@sling/services/db/extraPages/portFolio/sales';
+import {installationData} from '../../../@sling/services/db/extraPages/portFolio/installation';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 import Sales from './Sales';
 import Installation from './Installation';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => {
   return {

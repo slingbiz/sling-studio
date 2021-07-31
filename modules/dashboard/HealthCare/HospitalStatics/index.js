@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {Box, makeStyles, Typography} from '@material-ui/core';
 import clsx from 'clsx';
 

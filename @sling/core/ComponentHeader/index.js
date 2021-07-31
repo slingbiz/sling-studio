@@ -33,7 +33,7 @@ const ComponentHeader = ({title, description, refUrl}) => {
 
   const classes = useStyles();
   return (
-    <AppAnimate animation='transition.slideDownIn' delay={300}>
+    <AppAnimate animation='transition.slideDownIn' delay={0}>
       <Box className={classes.containerHeader}>
         <Box mb={3} pr={{sm: 3}} flex={{sm: 1}}>
           <Box

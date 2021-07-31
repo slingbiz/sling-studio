@@ -1,6 +1,6 @@
 import React from "react";
-import AppPage from "../../../../@crema/hoc/AppPage";
-import asyncComponent from "../../../../@crema/utility/asyncComponent";
+import AppPage from "../../../../@sling/hoc/AppPage";
+import asyncComponent from "../../../../@sling/utility/asyncComponent";
 
 const Skeleton = asyncComponent(() => import("../../../../modules/muiComponents/util/Skeleton"));
 export default AppPage(() => <Skeleton/>);

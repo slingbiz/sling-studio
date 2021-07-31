@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';

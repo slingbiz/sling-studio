@@ -2,12 +2,12 @@ import React from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabForm from './TabForm';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import PropTypes from 'prop-types';
 import BtcVolumeCurrency from '../BtcVolumeCurrency';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

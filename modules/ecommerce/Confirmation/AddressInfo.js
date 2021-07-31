@@ -1,8 +1,8 @@
 import React from 'react';
-import AppCard from '../../../@crema/core/AppCard';
+import AppCard from '../../../@sling/core/AppCard';
 import {Box, Button, Grid} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {GridContainer} from '../../../@crema';
+import {GridContainer} from '../../../@sling';
 
 const AddressInfo = ({address}) => {
   return (

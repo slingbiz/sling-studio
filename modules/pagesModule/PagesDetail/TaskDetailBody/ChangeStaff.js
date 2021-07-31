@@ -1,6 +1,6 @@
 import React from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';

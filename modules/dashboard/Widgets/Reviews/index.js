@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReviewItem from './ReviewItem';
-import AppList from '../../../../@crema/core/AppList';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppList from '../../../../@sling/core/AppList';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({

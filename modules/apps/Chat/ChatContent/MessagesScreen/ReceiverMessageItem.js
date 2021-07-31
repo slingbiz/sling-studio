@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import useStyles from './MessageItem.style';
-import {MessageType} from '../../../../../@crema/services/db/apps/chat/connectionList';
-import {getFileSize} from '../../../../../@crema/utility/Utils';
+import {MessageType} from '../../../../../@sling/services/db/apps/chat/connectionList';
+import {getFileSize} from '../../../../../@sling/utility/Utils';
 
 const getMessage = (item, classes) => {
   if (item.message_type === MessageType.TEXT) {

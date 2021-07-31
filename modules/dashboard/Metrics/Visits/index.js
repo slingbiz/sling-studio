@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import VisitsGraph from './VisitsGraph';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppSelect from '../../../../@crema/core/AppSelect';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppSelect from '../../../../@sling/core/AppSelect';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const Visits = ({data}) => {
   const [graphData, setGraphData] = useState(data.graphData.dataOne);

@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {isBreakPointDown} from '../../../../@crema/utility/Utils';
+import {isBreakPointDown} from '../../../../@sling/utility/Utils';
 
 const MarketGraph = ({marketGraphData}) => {
   return (

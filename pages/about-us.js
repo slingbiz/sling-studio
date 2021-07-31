@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 import Box from "@material-ui/core/Box";
 import { Button } from "@material-ui/core";
 import React from "react";
-import PageMeta from "../@crema/core/PageMeta";
+import PageMeta from "../@sling/core/PageMeta";
 
 export default function ContactUs(props) {
   console.log("todo data: ", props.todo);

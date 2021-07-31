@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import CustomerItem from './CustomerItem';
-import AppList from '../../../../@crema/core/AppList';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import AppList from '../../../../@sling/core/AppList';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const NewCustomers = (props) => {
   const {messages} = useIntl();

@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import List from '@material-ui/core/List';
 import CachedIcon from '@material-ui/icons/Cached';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -8,7 +8,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DescriptionIcon from '@material-ui/icons/Description';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import {makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import SideBarItem from './SideBarItem';

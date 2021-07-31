@@ -1,9 +1,9 @@
 import React from 'react';
-import AppCard from '../../../@crema/core/AppCard';
-import AppList from '../../../@crema/core/AppList';
+import AppCard from '../../../@sling/core/AppCard';
+import AppList from '../../../@sling/core/AppList';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
-import {GridContainer} from '../../../@crema';
+import {GridContainer} from '../../../@sling';
 import {Button, Grid} from '@material-ui/core';
 import {getTotalPrice} from './index';
 import {Fonts} from '../../../shared/constants/AppEnums';
@@ -14,7 +14,7 @@ const ItemsList = ({cartItems}) => {
       <GridContainer>
         <Grid sx={12} sm={6} item>
           <AppList
-            delay={200}
+            delay={0}
             data={cartItems}
             renderRow={(data) => (
               <Box

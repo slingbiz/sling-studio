@@ -2,9 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import 'react-table/react-table.css';
 
-import ComponentCard from '../../../@crema/core/ComponentCard';
-import ComponentHeader from '../../../@crema/core/ComponentHeader';
-import GridContainer from '../../../@crema/core/GridContainer';
+import ComponentCard from '../../../@sling/core/ComponentCard';
+import ComponentHeader from '../../../@sling/core/ComponentHeader';
+import GridContainer from '../../../@sling/core/GridContainer';
 import ControlledTable from './ControlledTable';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import ControlledTableSource from '!raw-loader!./ControlledTable';

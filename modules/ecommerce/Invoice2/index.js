@@ -2,12 +2,12 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import {makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Header from './Header';
 import ItemList from './ItemList';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppTableContainer from '../../../@crema/core/AppTableContainer';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppTableContainer from '../../../@sling/core/AppTableContainer';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => ({
   textUppercase: {

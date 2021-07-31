@@ -17,11 +17,9 @@ const PagesDetail = (props) => {
   const RenderSection = sectionMapper[id];
   if (RenderSection) {
     return (
-      <>
-        <Box>
-          <RenderSection {...props}></RenderSection>
-        </Box>
-      </>
+      <Box style={{height: '100%'}}>
+        <RenderSection {...props}></RenderSection>
+      </Box>
     );
   }
 

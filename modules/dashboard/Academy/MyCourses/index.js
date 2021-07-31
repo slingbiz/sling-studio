@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 import CourseCell from './CourseCell';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';

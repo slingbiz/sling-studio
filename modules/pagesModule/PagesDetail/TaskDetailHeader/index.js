@@ -5,12 +5,12 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import Tooltip from '@material-ui/core/Tooltip';
 import {makeStyles} from '@material-ui/core';
 import {useRouter} from 'next/router';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import AppsStarredIcon from '../../../../@crema/core/AppsStarredIcon';
+import AppsStarredIcon from '../../../../@sling/core/AppsStarredIcon';
 import StatusToggleButton from './StatusToggleButton';
-import AppsDeleteIcon from '../../../../@crema/core/AppsDeleteIcon';
+import AppsDeleteIcon from '../../../../@sling/core/AppsDeleteIcon';
 
 const TaskDetailHeader = (props) => {
   const {selectedTask} = props;

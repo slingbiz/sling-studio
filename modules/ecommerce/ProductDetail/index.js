@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import ProductImageSlide from './ProductImageSlide';
 import {useDispatch, useSelector} from 'react-redux';
-import AppCard from '../../../@crema/core/AppCard';
+import AppCard from '../../../@sling/core/AppCard';
 import Header from './Header';
 import ProductView from './ProductView/index';
-import GridContainer from '../../../@crema/core/GridContainer';
+import GridContainer from '../../../@sling/core/GridContainer';
 import SimilarProduct from './SimilarProduct';
 import {getProductDetail} from '../../../redux/actions/Ecommerce';
-import {InfoView} from '../../../@crema';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import {InfoView} from '../../../@sling';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 import { useRouter } from 'next/router'
 
 const ProductDetail = (props) => {

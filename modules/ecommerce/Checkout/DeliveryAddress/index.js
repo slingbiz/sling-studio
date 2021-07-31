@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import AppList from '../../../../@crema/core/AppList';
-import {addresses} from '../../../../@crema/services/db/ecommerce/ecommerceData';
+import AppList from '../../../../@sling/core/AppList';
+import {addresses} from '../../../../@sling/services/db/ecommerce/ecommerceData';
 import AddressCell from './AddressCell';
 
 const DeliveryAddress = () => {

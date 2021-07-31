@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import SenderMessageItem from './SenderMessageItem';
 import ReceiverMessageItem from './ReceiverMessageItem';
-import AppList from '../../../../../@crema/core/AppList';
+import AppList from '../../../../../@sling/core/AppList';
 
 const MessagesList = ({
   userMessages,

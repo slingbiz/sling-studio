@@ -1,7 +1,7 @@
 import React from 'react';
 import AccountGraph from './AccountGraph';
 import PropTypes from 'prop-types';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 

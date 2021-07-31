@@ -1,10 +1,10 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import {makeStyles} from '@material-ui/core/styles';
 import MapChart from '../../Widgets/CountryMap/MapChart';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppSelect from '../../../../@crema/core/AppSelect';
+import AppSelect from '../../../../@sling/core/AppSelect';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

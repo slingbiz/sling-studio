@@ -10,7 +10,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LanguageIcon from '@material-ui/icons/Language';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';

@@ -1,6 +1,6 @@
 import React from 'react';
-import AppCard from '../../../@crema/core/AppCard';
-import {GridContainer} from '../../../@crema';
+import AppCard from '../../../@sling/core/AppCard';
+import {GridContainer} from '../../../@sling';
 import Grid from '@material-ui/core/Grid';
 import {Box, Button} from '@material-ui/core';
 import {getTotalPrice} from './index';

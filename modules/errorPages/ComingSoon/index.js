@@ -5,14 +5,14 @@ import {useDispatch} from 'react-redux';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {showMessage} from '../../../redux/actions';
-import InfoView from '../../../@crema/core/InfoView';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import InfoView from '../../../@sling/core/InfoView';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {grey} from '@material-ui/core/colors';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const useStyles = makeStyles((theme) => {
   return {

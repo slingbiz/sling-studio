@@ -8,10 +8,10 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import clsx from 'clsx';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 
 const useStyles = makeStyles((theme) => ({
   imageCard: {

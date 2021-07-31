@@ -4,11 +4,11 @@ import MailDetailBody from './MailDetailBody';
 import {useDispatch, useSelector} from 'react-redux';
 import {onGetSelectedMail, onNullifyMail} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
-import AppsContent from '../../../../@crema/core/AppsContainer/AppsContent';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsContent from '../../../../@sling/core/AppsContainer/AppsContent';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {Box} from '@material-ui/core';
-import AppAnimate from '../../../../@crema/core/AppAnimate';
-import {MailDetailSkeleton} from '../../../../@crema/core/Skeleton/MailDetailSkeleton';
+import AppAnimate from '../../../../@sling/core/AppAnimate';
+import {MailDetailSkeleton} from '../../../../@sling/core/Skeleton/MailDetailSkeleton';
 
 const MailDetail = () => {
   const dispatch = useDispatch();

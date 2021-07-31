@@ -4,7 +4,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
-import simpleListData from '../../../../@crema/services/db/extraPages/dndData/simpleListData';
+import simpleListData from '../../../../@sling/services/db/extraPages/dndData/simpleListData';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {withStyles} from '@material-ui/core';

@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../../@sling/utility/IntlMessages';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';

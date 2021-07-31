@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import LabelSharpIcon from '@material-ui/icons/LabelSharp';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,7 @@ import {
   onUpdateTaskLabels,
 } from '../../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import AppsDeleteIcon from '../../../../../@crema/core/AppsDeleteIcon';
+import AppsDeleteIcon from '../../../../../@sling/core/AppsDeleteIcon';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router'
 

@@ -2,18 +2,17 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 // import AddNewTask from '../AddNewTask';
-import Scrollbar from '../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../@sling/core/Scrollbar';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {makeStyles} from '@material-ui/core/styles';
-import AppList from '../../../@crema/core/AppList';
-import ListEmptyResult from '../../../@crema/core/AppList/ListEmptyResult';
-import SidebarPlaceholder from '../../../@crema/core/Skeleton/SidebarListSkeleton';
-import AppsSideBarFolderItemCustom from '../../../@crema/core/AppsSideBarFolderItem/custom';
+import AppList from '../../../@sling/core/AppList';
+import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
+import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
+import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
 
 export const folderList = [
   {id: 120, name: 'Basic', alias: 'basic', icon: 'border_color'},
   {id: 121, name: 'Layout', alias: 'layout', icon: 'view_quilt'},
-  // {id: 122, name: 'Routes', alias: 'routes', icon: 'mail'},
   {id: 123, name: 'Preview', alias: 'preview', icon: 'pageview-icon'},
   {id: 124, name: 'Data', alias: 'data', icon: 'storage-icon'},
   {id: 125, name: 'Guide', alias: 'guide', icon: 'help'},
@@ -28,6 +27,7 @@ const useStyle = makeStyles((theme) => ({
     [theme.breakpoints.up('xl')]: {
       width: '15rem',
     },
+    padding: 0,
   },
   btnRoot: {
     width: '100%',
@@ -38,6 +38,9 @@ const useStyle = makeStyles((theme) => ({
       fontSize: 20,
     },
   },
+  listRoot: {
+    padding: 0
+  }
 }));
 
 const PagesSideBar = ({basePath}) => {
@@ -50,7 +53,7 @@ const PagesSideBar = ({basePath}) => {
       <Scrollbar className='scroll-app-sidebar'>
         <Box p={0} m={0} style={{textAlign: 'center'}}>
           <Box clone>
-            <List component='nav' aria-label='main task folders'>
+            <List component='nav' aria-label='main task folders' className={classes.listRoot}>
               <AppList
                 pageClasses={classes}
                 data={folderList}

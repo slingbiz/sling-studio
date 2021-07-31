@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';

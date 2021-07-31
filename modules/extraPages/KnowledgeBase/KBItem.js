@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
-import Scrollbar from '../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../@sling/core/Scrollbar';
 import {Fonts} from '../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({

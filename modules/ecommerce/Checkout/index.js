@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import {Box, Grid} from '@material-ui/core';
-import {GridContainer} from '../../../@crema';
-import AppCard from '../../../@crema/core/AppCard';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {GridContainer} from '../../../@sling';
+import AppCard from '../../../@sling/core/AppCard';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCartItems} from '../../../redux/actions/Ecommerce';
 import OrderSummary from '../OrderSummary';
 import DeliveryAddress from './DeliveryAddress';
 import PaymentInfo from './PaymentInfo';
-import AppAnimate from '../../../@crema/core/AppAnimate';
+import AppAnimate from '../../../@sling/core/AppAnimate';
 
 const Checkout = () => {
   const dispatch = useDispatch();

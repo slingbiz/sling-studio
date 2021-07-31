@@ -1,8 +1,8 @@
 import React from 'react';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCard from '../../../../@sling/core/AppCard';
 import ProductCell from './ProductCell';
 import {useIntl} from 'react-intl';
-import AppList from '../../../../@crema/core/AppList';
+import AppList from '../../../../@sling/core/AppList';
 
 const TopSelling = ({products}) => {
   const {messages} = useIntl();

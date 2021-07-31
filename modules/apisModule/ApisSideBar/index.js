@@ -1,13 +1,13 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
-import Scrollbar from '../../../@crema/core/Scrollbar';
+import Scrollbar from '../../../@sling/core/Scrollbar';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {makeStyles} from '@material-ui/core/styles';
-import AppList from '../../../@crema/core/AppList';
-import ListEmptyResult from '../../../@crema/core/AppList/ListEmptyResult';
-import SidebarPlaceholder from '../../../@crema/core/Skeleton/SidebarListSkeleton';
-import AppsSideBarFolderItemCustom from '../../../@crema/core/AppsSideBarFolderItem/custom';
+import AppList from '../../../@sling/core/AppList';
+import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
+import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
+import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
 
 export const folderList = [
   {id: 120, name: 'All Apis', alias: 'api-list', icon: 'playlist_add'},
@@ -41,11 +41,13 @@ const useStyle = makeStyles((theme) => ({
       fontSize: 20,
     },
   },
+  listRoot: {
+    padding: 0,
+  },
 }));
 
 const ApisSideBar = ({basePath, noSubChild}) => {
   const [isAddTaskOpen, setAddTaskOpen] = React.useState(false);
-  console.log(basePath, 'basePath@ApisSideBar');
   const classes = useStyle();
 
   return (
@@ -53,7 +55,10 @@ const ApisSideBar = ({basePath, noSubChild}) => {
       <Scrollbar className='scroll-app-sidebar'>
         <Box p={0} m={0} style={{textAlign: 'center'}}>
           <Box clone>
-            <List component='nav' aria-label='main task folders'>
+            <List
+              component='nav'
+              aria-label='main task folders'
+              className={classes.listRoot}>
               <AppList
                 pageClasses={classes}
                 data={folderList}

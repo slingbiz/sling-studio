@@ -1,9 +1,9 @@
 import React from 'react';
 import ConnectionItem from './ConnectionItem';
 import PropTypes from 'prop-types';
-import AppList from '../../../../../../@crema/core/AppList';
-import ListEmptyResult from '../../../../../../@crema/core/AppList/ListEmptyResult';
-import ChatListSkeleton from '../../../../../../@crema/core/Skeleton/ChatListSkeleton';
+import AppList from '../../../../../../@sling/core/AppList';
+import ListEmptyResult from '../../../../../../@sling/core/AppList/ListEmptyResult';
+import ChatListSkeleton from '../../../../../../@sling/core/Skeleton/ChatListSkeleton';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 

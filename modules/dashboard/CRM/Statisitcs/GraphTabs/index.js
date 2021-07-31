@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import StatGraphs from './StatGraphs';
-import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
-import AppSelect from '../../../../../@crema/core/AppSelect';
+import AppSelect from '../../../../../@sling/core/AppSelect';
 
 const useStyles = makeStyles((theme) => ({
   crMuiTabs: {

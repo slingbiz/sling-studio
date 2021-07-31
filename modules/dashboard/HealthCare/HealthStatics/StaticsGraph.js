@@ -7,7 +7,7 @@ import {
   Tooltip,
   XAxis,
 } from 'recharts';
-import AppContext from '../../../../@crema/utility/AppContext';
+import AppContext from '../../../../@sling/utility/AppContext';
 
 const StaticsGraph = ({data}) => {
   const {theme} = useContext(AppContext);

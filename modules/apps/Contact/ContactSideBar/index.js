@@ -3,17 +3,17 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import Scrollbar from '../../../../@crema/core/Scrollbar';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
+import Scrollbar from '../../../../@sling/core/Scrollbar';
 import CreateContact from '../CreateContact';
 import LabelItem from './LabelItem';
-import AppsSideBarFolderItem from '../../../../@crema/core/AppsSideBarFolderItem';
+import AppsSideBarFolderItem from '../../../../@sling/core/AppsSideBarFolderItem';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppList from '../../../../@crema/core/AppList';
-import AppAnimate from '../../../../@crema/core/AppAnimate';
-import ListEmptyResult from '../../../../@crema/core/AppList/ListEmptyResult';
-import SidebarPlaceholder from '../../../../@crema/core/Skeleton/SidebarListSkeleton';
+import AppList from '../../../../@sling/core/AppList';
+import AppAnimate from '../../../../@sling/core/AppAnimate';
+import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
+import SidebarPlaceholder from '../../../../@sling/core/Skeleton/SidebarListSkeleton';
 
 const useStyles = makeStyles((theme) => ({
   btnRoot: {

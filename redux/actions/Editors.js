@@ -1,4 +1,4 @@
-import Api from '../../@crema/services/ApiConfig';
+import Api from '../../@sling/services/ApiConfig';
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -17,7 +17,7 @@ import {
   UPDATE_DOCUMENT_DATA,
   UPDATE_INLINE_DATA,
 } from '../../shared/constants/ActionTypes';
-import IntlMessages from '../../@crema/utility/IntlMessages';
+import IntlMessages from '../../@sling/utility/IntlMessages';
 import React from 'react';
 
 export const onGetBalloonBlockData = () => {

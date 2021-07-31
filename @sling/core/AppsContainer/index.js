@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {onToggleAppDrawer} from '../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import InfoView from '../../../@crema/core/InfoView';
+import InfoView from '../../core/InfoView';
 import {Box} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';

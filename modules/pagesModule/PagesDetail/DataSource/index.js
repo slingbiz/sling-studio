@@ -9,7 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import ApiCheckList from './ApiCheckList';
 import orange from '@material-ui/core/colors/orange';
-import AppsHeader from '../../../../@crema/core/AppsContainer/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 
 const DataSource = (props) => {
   const useStyles = makeStyles((theme) => ({

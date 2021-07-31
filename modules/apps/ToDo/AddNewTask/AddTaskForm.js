@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -18,7 +18,7 @@ import {useIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import {red} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import GridContainer from '../../../../@crema/core/GridContainer';
+import GridContainer from '../../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({

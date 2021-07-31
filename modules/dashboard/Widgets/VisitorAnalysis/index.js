@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Typography from '@material-ui/core/Typography';
-import AppCircularProgress from '../../../../@crema/core/AppCircularProgress';
-import AppCard from '../../../../@crema/core/AppCard';
+import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
+import AppCard from '../../../../@sling/core/AppCard';
 import {useIntl} from 'react-intl';
 
 const useStyles = makeStyles((theme) => ({

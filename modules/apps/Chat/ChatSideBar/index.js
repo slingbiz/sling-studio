@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import UserInfo from './UserInfo';
 import UserTabs from './UserTabs';
-import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../../@sling/utility/AppHooks';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useSelector} from 'react-redux';

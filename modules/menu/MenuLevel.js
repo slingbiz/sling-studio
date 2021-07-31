@@ -1,11 +1,11 @@
 import React from 'react';
 import {Box} from '@material-ui/core';
-import InjectMassage from '../../@crema/utility/IntlMessages';
-import AppAnimate from '../../@crema/core/AppAnimate';
+import InjectMassage from '../../@sling/utility/IntlMessages';
+import AppAnimate from '../../@sling/core/AppAnimate';
 
 const MenuLevel = () => {
   return (
-    <AppAnimate animation='transition.slideUpIn' delay={200}>
+    <AppAnimate animation='transition.slideUpIn' delay={0}>
       <Box
         fontSize={20}
         component='h3'
