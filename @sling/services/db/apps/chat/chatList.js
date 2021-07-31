@@ -76,9 +76,9 @@ const chatList = [
         message: 'ok, will do it',
         message_type: MessageType.DOC,
         media: {
-          url: '/images/crema docs.txt',
+          url: '/images/sling docs.txt',
           mime_type: 'image',
-          file_name: 'crema docs.txt',
+          file_name: 'sling docs.txt',
           file_size: 12332,
         },
         time: 'Sat, May 09, 2020 8:30 PM',
@@ -89,9 +89,9 @@ const chatList = [
         message: 'ok, will do it',
         message_type: MessageType.DOC,
         media: {
-          url: '/images/crema docs.txt',
+          url: '/images/sling docs.txt',
           mime_type: 'image',
-          file_name: 'crema docs.txt',
+          file_name: 'sling docs.txt',
           file_size: 1232232,
         },
         time: 'Sat, May 09, 2020 8:30 PM',

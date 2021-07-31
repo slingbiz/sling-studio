@@ -8,7 +8,7 @@ export const awsConfig = {
   aws_user_pools_id: 'us-east-1_p7i7U9Clu',
   aws_user_pools_web_client_id: '1v0vqjidrbik5r3104buph0s7g',
   oauth: {
-    domain: 'crema-react.auth.us-east-1.amazoncognito.com',
+    domain: 'sling-react.auth.us-east-1.amazoncognito.com',
     scope: [
       'phone',
       'email',
@@ -16,8 +16,8 @@ export const awsConfig = {
       'profile',
       'aws.cognito.signin.user.admin',
     ],
-    redirectSignIn: 'https://crema-react.firebaseapp.com/',
-    redirectSignOut: 'https://crema-react.firebaseapp.com/',
+    redirectSignIn: 'https://sling-react.firebaseapp.com/',
+    redirectSignOut: 'https://sling-react.firebaseapp.com/',
     responseType: 'code',
   },
   federationTarget: 'COGNITO_USER_POOLS',

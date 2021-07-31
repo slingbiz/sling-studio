@@ -28,7 +28,7 @@ const data = [
     },
   },
   {
-    title: 'Crema Launch',
+    title: 'Sling Launch',
     text:
       'To be nobody but yourself in a world which is doing its best, night and day, to make you everybody else - means to fight the hardest battle which any human being can fight; and never stop fighting.',
     date: 'Jan 20 2020',

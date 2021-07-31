@@ -154,8 +154,8 @@ const ComposeMail = (props) => {
               isReplied: false,
               label: {
                 id: 211,
-                name: 'Crema',
-                alias: 'crema',
+                name: 'Sling',
+                alias: 'sling',
                 color: red[500],
                 icon: <WorkIcon />,
               },

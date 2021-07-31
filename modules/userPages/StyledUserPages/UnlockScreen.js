@@ -85,8 +85,8 @@ const UnlockScreen = () => {
               <img
                 className={classes.styledImg}
                 src={'/images/userPageImages/Unlock.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Grid>
 

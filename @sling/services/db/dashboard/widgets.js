@@ -189,15 +189,15 @@ const widgetsData = {
   mateInfo: {
     facebookInfo: {
       image: '/images/logo-white.png',
-      name: 'Crema Admin',
-      id: 'crema.report@gmail.com',
+      name: 'Sling Admin',
+      id: 'sling.report@gmail.com',
       desc:
         'It usually begins with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. create a natural looking block of text.',
     },
     twitterInfo: {
       image: '/images/logo-white.png',
-      name: 'Crema Admin',
-      id: 'crema.report',
+      name: 'Sling Admin',
+      id: 'sling.report',
       desc:
         'It usually begins with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. create a natural looking block of text. ',
     },

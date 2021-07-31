@@ -12,7 +12,7 @@ import {isBreakPointDown} from '../Utils';
 import {ThemeStyle} from '../../../shared/constants/AppEnums';
 import {useUrlSearchParams} from 'use-url-search-params';
 
-const CremaThemeProvider = (props) => {
+const SlingThemeProvider = (props) => {
   const {
     theme,
     isRTL,
@@ -95,8 +95,8 @@ const CremaThemeProvider = (props) => {
   );
 };
 
-export default React.memo(CremaThemeProvider);
+export default React.memo(SlingThemeProvider);
 
-CremaThemeProvider.propTypes = {
+SlingThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

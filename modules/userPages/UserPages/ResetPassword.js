@@ -88,8 +88,8 @@ const ResetPassword = () => {
               <img
                 className={classes.logo}
                 src={'/images/logo-icon-large.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Box>
             <Box mb={1.5} fontWeight={Fonts.BOLD} fontSize={20}>

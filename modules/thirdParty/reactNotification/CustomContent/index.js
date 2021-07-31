@@ -50,7 +50,7 @@ export default class CustomContentExample extends React.Component {
             className='custom-image-content'>
             <img src='/images/logo.png' alt='' />
             <Box component='span' px={8} py={2}>
-              Crema Admin
+              Sling Admin
             </Box>
           </Box>
         ),

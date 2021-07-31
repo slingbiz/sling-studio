@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 // Configure JSS
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
-const CremaStyleProvider = (props) => {
+const SlingStyleProvider = (props) => {
   return <StylesProvider jss={jss}>{props.children}</StylesProvider>;
 };
-export default CremaStyleProvider;
+export default SlingStyleProvider;
 
-CremaStyleProvider.propTypes = {
+SlingStyleProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

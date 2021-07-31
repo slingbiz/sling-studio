@@ -78,8 +78,8 @@ const ForgetPassword = () => {
                 <img
                   className={classes.styledImg}
                   src={'/images/userPageImages/ForgotPassword.png'}
-                  alt='crema'
-                  title='crema'
+                  alt='sling'
+                  title='sling'
                 />
               </Box>
             </Grid>

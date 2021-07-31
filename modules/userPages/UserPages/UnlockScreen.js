@@ -82,8 +82,8 @@ const UnlockScreen = (props) => {
               <img
                 className={classes.logo}
                 src={'/images/logo-icon-large.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Box>
             <Box fontWeight={Fonts.BOLD} fontSize={20}>

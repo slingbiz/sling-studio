@@ -33,7 +33,7 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-const CremaLayout = ({children}) => {
+const SlingLayout = ({children}) => {
   useStyles();
   const {navStyle} = useContext(AppContext);
   const {user} = useSelector(({auth}) => auth);
@@ -53,4 +53,4 @@ const CremaLayout = ({children}) => {
   );
 };
 
-export default React.memo(CremaLayout);
+export default React.memo(SlingLayout);

@@ -12,7 +12,7 @@ export default function ContactUs(props) {
       <PageMeta title="About Sling " />
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Crema Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Sling Next.js!</a>
         </h1>
 
         <p className={styles.description}>

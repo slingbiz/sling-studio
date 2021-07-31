@@ -57,7 +57,7 @@ export default function PrimarySearchAppBar(props) {
           <img
             className={classes.logoRoot}
             src={'/images/logo-icon-large.png'}
-            alt='crema-logo'
+            alt='sling-logo'
           />
         </IconButton>
 

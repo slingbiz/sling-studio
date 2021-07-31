@@ -106,8 +106,8 @@ const Signin = (props) => {
               <img
                 className={classes.styledImg}
                 src={'/images/userPageImages/login.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Grid>
             <Grid item xs={12} md={6} className={classes.grid}>

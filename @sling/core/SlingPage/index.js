@@ -11,7 +11,7 @@ const defaultTitle = 'Sling Dashboard Demo';
 const defaultDescription = '';
 const defaultImage = `/images/sling-fe.jpg`;
 const defaultSep = ' | ';
-const CremaPage = ({children, id, className, ...rest}) => {
+const SlingPage = ({children, id, className, ...rest}) => {
   const {pathname} = useRouter();
 
   const {title, description, image, contentType} = rest;
@@ -54,4 +54,4 @@ const CremaPage = ({children, id, className, ...rest}) => {
   );
 };
 
-export default CremaPage;
+export default SlingPage;

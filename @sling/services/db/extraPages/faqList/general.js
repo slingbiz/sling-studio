@@ -8,7 +8,7 @@ export const generalFaq = [
   {
     id: 1002,
     ques:
-      'Is there any need of external softwares for installing this CremaThemeProvider ?',
+      'Is there any need of external softwares for installing this SlingThemeProvider ?',
     ans:
       'No, you just have to run this app, everything is integrated in it, so there is no need of any extra installation.',
   },
@@ -21,7 +21,7 @@ export const generalFaq = [
   {
     id: 1004,
     ques:
-      'Is there any need of external softwares for installing this CremaThemeProvider ?',
+      'Is there any need of external softwares for installing this SlingThemeProvider ?',
     ans:
       'No, you just have to run this app, everything is integrated in it, so there is no need of any extra installation.',
   },
@@ -34,7 +34,7 @@ export const generalFaq = [
   {
     id: 1006,
     ques:
-      'Is there any need of external softwares for installing this CremaThemeProvider ?',
+      'Is there any need of external softwares for installing this SlingThemeProvider ?',
     ans:
       'No, you just have to run this app, everything is integrated in it, so there is no need of any extra installation.',
   },

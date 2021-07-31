@@ -23,14 +23,14 @@ const AppLogoWhite = () => {
         <img
           className={classes.logo}
           src={'/images/logo-white.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Hidden>
       <Hidden xsDown>
         <img
           className={classes.logo}
           src={'/images/logo-white-with-name.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Hidden>
     </Box>

@@ -6,8 +6,8 @@ import {blue, green, grey, red} from '@material-ui/core/colors';
 const labelList = [
   {
     id: 211,
-    name: 'Crema',
-    alias: 'crema',
+    name: 'Sling',
+    alias: 'sling',
     color: red[500],
     icon: <WorkIcon />,
   },

@@ -2,8 +2,8 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
 import ContextProvider from '../@sling/utility/ContextProvider';
-import CremaThemeProvider from '../@sling/utility/CremaThemeProvider';
-import CremaStyleProvider from '../@sling/utility/CremaStyleProvider';
+import SlingThemeProvider from '../@sling/utility/SlingThemeProvider';
+import SlingStyleProvider from '../@sling/utility/SlingStyleProvider';
 import LocaleProvider from '../@sling/utility/LocaleProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -28,16 +28,16 @@ const App = ({Component, pageProps, user}) => {
       <PageMeta />
       <ContextProvider>
         <Provider store={store}>
-          <CremaThemeProvider>
-            <CremaStyleProvider>
+          <SlingThemeProvider>
+            <SlingStyleProvider>
               <LocaleProvider>
                 <AuthRoutes>
                   <CssBaseline />
                   <Component {...pageProps} />
                 </AuthRoutes>
               </LocaleProvider>
-            </CremaStyleProvider>
-          </CremaThemeProvider>
+            </SlingStyleProvider>
+          </SlingThemeProvider>
         </Provider>
       </ContextProvider>
     </React.Fragment>

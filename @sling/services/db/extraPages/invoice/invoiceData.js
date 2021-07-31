@@ -1,6 +1,6 @@
 const invoiceData = {
   company: {
-    name: 'Crema Admin',
+    name: 'Sling Admin',
     address1: 'A-22, Garvit Complex',
     address2: 'Pune(MH), India',
     phone: '(+91)-1234567890',

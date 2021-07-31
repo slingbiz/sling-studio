@@ -20,7 +20,7 @@ import CountryMap from './CountryMap';
 import Colors from './Colors';
 import AddTags from './AddTags';
 import Reviews from './Reviews';
-import CremaCard from './CremaCard';
+import SlingCard from './SlingCard';
 import Formats from './Formats';
 import Price from './Price';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -143,7 +143,7 @@ const Widgets = () => {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <CremaCard
+                <SlingCard
                   data={widgetsData.mateInfo.facebookInfo}
                   bgColor={indigo[600]}
                   color='white'
@@ -156,7 +156,7 @@ const Widgets = () => {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <CremaCard
+                <SlingCard
                   data={widgetsData.mateInfo.twitterInfo}
                   bgColor={blue[600]}
                   color='white'

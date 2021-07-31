@@ -101,8 +101,8 @@ const ResetPassword = () => {
                 <img
                   className={classes.styledImg}
                   src={'/images/userPageImages/ResetPassword.png'}
-                  alt='crema'
-                  title='crema'
+                  alt='sling'
+                  title='sling'
                 />
               </Box>
             </Grid>

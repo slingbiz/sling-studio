@@ -30,7 +30,7 @@ const AppLogo = () => {
               ? '/images/logo-white.png'
               : '/images/logo.png'
           }
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Hidden>
       <Hidden xsDown>
@@ -41,7 +41,7 @@ const AppLogo = () => {
               ? '/images/sling-fe.png'
               : '/images/sling-fe.png'
           }
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Hidden>
       <Box color='text.secondary' fontSize={16} fontWeight={500} mt={4} mb={3}>

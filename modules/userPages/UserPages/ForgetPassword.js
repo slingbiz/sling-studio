@@ -84,7 +84,7 @@ const ForgetPassword = () => {
               <img
                 className={classes.logo}
                 src={'/images/logo-icon-large.png'}
-                alt='crema'
+                alt='sling'
               />
             </Box>
             <Box mb={1} fontWeight={Fonts.BOLD} fontSize={20}>

@@ -78,7 +78,7 @@ const boardList = [
               },
             ],
             label: [
-              {id: 303, name: 'Crema', type: 3, color: 'primary.main'},
+              {id: 303, name: 'Sling', type: 3, color: 'primary.main'},
               {id: 304, name: 'Work Place', type: 4, color: 'text.secondary'},
             ],
             date: moment('10-13-2019', 'MM-DD-YYYY'),
@@ -136,10 +136,10 @@ const boardList = [
         cards: [
           {
             id: 5001,
-            title: 'Call Adam to review the Crema ThemeProvider documentation',
+            title: 'Call Adam to review the Sling ThemeProvider documentation',
             attachments: [],
             label: [
-              {id: 303, name: 'Crema', type: 3, color: 'primary.main'},
+              {id: 303, name: 'Sling', type: 3, color: 'primary.main'},
               {id: 301, name: 'High Priority', type: 1, color: 'red'},
             ],
             date: moment('10-16-2019', 'MM-DD-YYYY'),
@@ -163,7 +163,7 @@ const boardList = [
             id: 5002,
             title: 'Call the corporate office for fixing the meeting',
             attachments: [],
-            label: [{id: 303, name: 'Crema', type: 3, color: 'primary.main'}],
+            label: [{id: 303, name: 'Sling', type: 3, color: 'primary.main'}],
             date: moment('10-17-2019', 'MM-DD-YYYY'),
             comments: [],
             desc:
@@ -253,7 +253,7 @@ const boardList = [
             attachments: [],
             label: [
               {id: 302, name: 'Important', type: 2, color: 'green'},
-              {id: 303, name: 'Crema', type: 3, color: 'primary.main'},
+              {id: 303, name: 'Sling', type: 3, color: 'primary.main'},
             ],
             date: moment('10-18-2019', 'MM-DD-YYYY'),
             comments: [],
@@ -283,7 +283,7 @@ const boardList = [
             attachments: [],
             label: [
               {id: 301, name: 'High Priority', type: 1, color: 'red'},
-              {id: 303, name: 'Crema', type: 3, color: 'primary.main'},
+              {id: 303, name: 'Sling', type: 3, color: 'primary.main'},
             ],
             date: moment('10-19-2019', 'MM-DD-YYYY'),
             comments: [],

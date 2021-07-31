@@ -44,7 +44,7 @@ const AppFooter = (props) => {
             alignItems='center'
             flexDirection='row'
             display='flex'>
-            <Box>Copy right @crema 2020</Box>
+            <Box>Copy right @sling 2020</Box>
             <Box ml='auto'>
               <Button className={classes.btnRoot} color='primary'>
                 Buy Now

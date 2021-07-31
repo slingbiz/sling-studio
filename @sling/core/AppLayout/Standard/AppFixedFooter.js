@@ -41,7 +41,7 @@ const AppFixedFooter = (props) => {
             alignItems='center'
             flexDirection='row'
             display='flex'>
-            <Box>Copy right @crema 2020</Box>
+            <Box>Copy right @sling 2020</Box>
             <Box ml='auto'>
               <Box px={5} clone>
                 <Button color='primary'>Buy Now</Button>

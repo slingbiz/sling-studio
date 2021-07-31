@@ -102,8 +102,8 @@ const Signup = () => {
               <img
                 className={classes.styledImg}
                 src={'/images/userPageImages/Signup.png'}
-                alt='crema'
-                title='crema'
+                alt='sling'
+                title='sling'
               />
             </Grid>
 

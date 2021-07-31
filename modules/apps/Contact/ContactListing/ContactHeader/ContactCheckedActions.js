@@ -81,7 +81,7 @@ const ContactCheckedActions = (props) => {
         open={Boolean(isLabelOpen)}
         onClose={onLabelClose}>
         <MenuItem value={311} onClick={onSelectLabel}>
-          <IntlMessages id='common.crema' />
+          <IntlMessages id='common.sling' />
         </MenuItem>
         <MenuItem value={312} onClick={onSelectLabel}>
           <IntlMessages id='common.personal' />

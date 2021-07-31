@@ -112,7 +112,7 @@ const ForgetPasswordFirebase = () => {
         <img
           className={classes.image}
           src={'/images/logo-white-with-name.png'}
-          alt='crema-logo'
+          alt='sling-logo'
         />
       </Box>
 

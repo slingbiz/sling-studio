@@ -10,7 +10,7 @@ export default AppPage((props) => {
   console.log('props: ', props);
   return (
     <React.Fragment>
-      <PageMeta title='Health Care | Crema ' />
+      <PageMeta title='Health Care | Sling ' />
       <HealthCare data={props.todo} />
     </React.Fragment>
   );

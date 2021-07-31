@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CremaCard = (props) => {
+const SlingCard = (props) => {
   const {data, bgColor, icon} = props;
 
   const classes = useStyles({bgColor});
@@ -87,13 +87,13 @@ const CremaCard = (props) => {
   );
 };
 
-export default CremaCard;
+export default SlingCard;
 
-CremaCard.defaultProps = {
+SlingCard.defaultProps = {
   bgColor: '',
 };
 
-CremaCard.propTypes = {
+SlingCard.propTypes = {
   data: PropTypes.object.isRequired,
   bgColor: PropTypes.string,
 };

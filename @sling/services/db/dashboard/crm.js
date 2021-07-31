@@ -301,7 +301,7 @@ const crmData = {
     },
     {
       id: 6,
-      task: 'checking UiKings CremaThemeProvider and give customer support',
+      task: 'checking UiKings SlingThemeProvider and give customer support',
       date: '24 Mar, 2019',
       isChecked: false,
     },
