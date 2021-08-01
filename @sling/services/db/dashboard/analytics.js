@@ -2,39 +2,39 @@ const analyticsData = {
   welcomeCard: [
     {
       id: 1,
-      type: 'Emails',
+      type: 'Widgets',
       counts: 42,
     },
     {
       id: 2,
-      type: 'Messages',
-      counts: 144,
+      type: 'Urls',
+      counts: 14440,
     },
     {
       id: 1,
-      type: 'Invoices',
+      type: 'Pages',
       counts: 12,
     },
   ],
   revenueCards: [
     {
       id: 1,
-      type: 'REVENUE',
-      value: '$3,732',
-      growth: 2.5,
+      type: 'Google Index',
+      value: '8900 urls',
+      growth: 'indexed Urls',
       icon: '/images/dashboard/icon_revenue.png',
       strokeColor: '#f44d50',
       graphData: [
         {month: 'Aug', number: 310},
         {month: 'Sep', number: 130},
         {month: 'Oct', number: 350},
-        {month: 'Nov', number: 170},
-        {month: 'Dec', number: 400},
+        {month: 'Nov', number: 470},
+        {month: 'Dec', number: 500},
       ],
     },
     {
       id: 2,
-      type: 'TODAY VISITS',
+      type: 'Amp Pages',
       value: '882',
       growth: 3.7,
       icon: '/images/dashboard/icon_visits.png',
@@ -51,21 +51,20 @@ const analyticsData = {
   salesState: [
     {
       id: 1,
-
-      amount: '3510',
-      type: 'Author Sales',
+      amount: '8.5k',
+      type: 'Sling Listing Page',
       icon: '/images/dashboard/auther_sales.png',
     },
     {
       id: 2,
-      amount: '390',
-      type: 'Commissions',
+      amount: '15k',
+      type: 'Detail Page',
       icon: '/images/dashboard/commission_sale.png',
     },
     {
       id: 3,
-      amount: '3.2M',
-      type: 'All Time Revenue',
+      amount: '58k',
+      type: 'Rest of the pages',
       icon: '/images/dashboard/all_time_sales.png',
     },
     {
@@ -157,7 +156,7 @@ const analyticsData = {
       id: 1,
       color: 'green',
       amount: 4855,
-      country: 'Japan',
+      country: 'UAE',
     },
     {
       id: 2,
@@ -169,7 +168,7 @@ const analyticsData = {
       id: 3,
       color: 'blue',
       amount: 866,
-      country: 'Australia',
+      country: 'Berlin',
     },
     {
       id: 4,

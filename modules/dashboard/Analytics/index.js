@@ -78,12 +78,12 @@ const CRM = () => {
               <Grid item xs={12} md={6}>
                 <PageVisits pageVisits={analyticsData.pageVisits} />
               </Grid>
-              <Grid item xs={12} md={9}>
-                <OrderNTransaction
-                  transactionData={analyticsData.transactionData}
-                />
-              </Grid>
-              <Grid item xs={12} md={3}>
+              {/*<Grid item xs={12} md={9}>*/}
+              {/*  <OrderNTransaction*/}
+              {/*    transactionData={analyticsData.transactionData}*/}
+              {/*  />*/}
+              {/*</Grid>*/}
+              <Grid item xs={12} md={6}>
                 <TrafficSource trafficData={analyticsData.trafficData} />
               </Grid>
             </GridContainer>

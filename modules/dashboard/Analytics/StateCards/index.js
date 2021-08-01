@@ -41,7 +41,7 @@ const StateCard = ({data}) => {
                 fontSize={16}
                 fontWeight={Fonts.MEDIUM}
                 color={data.growth > 0.0 ? green[500] : red[500]}>
-                {data.growth}%
+                {/*{data.growth}%*/}
               </Box>
             </Box>
             <Box component='p' fontSize={14} color='text.secondary' mb={1}>

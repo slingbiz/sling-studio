@@ -10,7 +10,7 @@ const TopSelling = ({products}) => {
     <AppCard
       contentStyle={{paddingRight: 0, paddingLeft: 0}}
       height={1}
-      title={messages['dashboard.analytics.topSellingProducts']}
+      title={'Top Pages'}
       footer={'+12 ' + messages['common.more']}>
       <AppList
         animation='transition.slideRightBigIn'

@@ -29,7 +29,7 @@ const SalesState = ({salesState, chartData}) => {
   const {messages} = useIntl();
   return (
     <AppCard
-      title={messages['dashboard.analytics.salesState']}
+      title={'Google Analytics Stats'}
       height={1}
       action={
         <AppSelect
@@ -48,7 +48,7 @@ const SalesState = ({salesState, chartData}) => {
         color='text.secondary'
         mt={-3}
         mb={2}>
-        1343 {messages['dashboard.analytics.salesThisWeek']}
+        Page level breakup of unique visits
       </Box>
 
       <GridContainer>
@@ -96,7 +96,7 @@ const SalesState = ({salesState, chartData}) => {
                       fontWeight={Fonts.BOLD}
                       mb={0.5}
                       fontSize={16}>
-                      ${item.amount}
+                      {item.amount}
                     </Box>
                     <Box component='p' color='text.secondary' fontSize={14}>
                       {item.type}

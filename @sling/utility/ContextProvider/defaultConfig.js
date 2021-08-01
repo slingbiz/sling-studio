@@ -122,8 +122,9 @@ const defaultConfig = {
       },
       MuiButton: {
         root: {
+          textTransform: 'none',
           borderRadius: cardRadius,
-          boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
+          boxShadow: '5px 5px 6px rgba(0, 0, 0, 0.04)',
           [breakpoints.down('md')]: {
             paddingTop: '8px !important',
             paddingBottom: '8px !important',

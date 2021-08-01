@@ -85,7 +85,7 @@ const WelcomeCard = ({data}) => {
               color='text.primary'
               fontWeight={Fonts.MEDIUM}
               fontSize={20}>
-              {messages['dashboard.analytics.eddieMassy']}
+              {'Admin'}
             </Box>
           </Box>
           <Box

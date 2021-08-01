@@ -25,7 +25,7 @@ const EarningByCountry = ({earningData}) => {
   return (
     <AppCard
       height={1}
-      title={messages['dashboard.analytics.earningByCountries']}
+      title={'Traffic Sources by Country'}
       action={
         <AppSelect
           menus={[
@@ -49,7 +49,7 @@ const EarningByCountry = ({earningData}) => {
         {earningData.map((data) => (
           <Box px={4.5} mb={2} key={data.id}>
             <Box component='p' mb={1} fontWeight={Fonts.MEDIUM} fontSize={20}>
-              ${data.amount}
+              {data.amount }
             </Box>
             <Box display='flex' alignItems='center'>
               <Box

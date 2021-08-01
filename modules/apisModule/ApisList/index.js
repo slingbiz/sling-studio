@@ -64,7 +64,7 @@ const TasksList = ({titleKey, pageKey}) => {
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
-                Customize your {titleKey} Page.
+                {titleKey == 'auto-sync'}Customize your {titleKey} Page.
               </Typography>
               <Typography component='p'>
                 Pages are the main entities linked to Url routes.
