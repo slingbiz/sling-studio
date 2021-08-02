@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next -p 2021",
     "build": "next build",
+    "export": "next export",
     "start": "next start -p 2021",
     "heroku-postbuild": "npm run build",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
