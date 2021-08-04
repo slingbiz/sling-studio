@@ -1,4 +1,9 @@
-import React from "react";
-import asyncComponent from "../@sling/utility/asyncComponent";
+import React from 'react';
+import asyncComponent from '../@sling/utility/asyncComponent';
+import AppPage from '../@sling/hoc/DefaultPage/index'
 
-export default asyncComponent(() => import("../modules/errorPages/Error404/index"));
+
+const NotFound = asyncComponent(() =>
+  import('../modules/errorPages/Error404/index'),
+);
+export default AppPage(() => <NotFound />);

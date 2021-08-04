@@ -5,6 +5,7 @@ import asyncComponent from '../../@sling/utility/asyncComponent';
 const Products = asyncComponent(() =>
   import('../../modules/ecommerce/Products'),
 );
+
 export async function getServerSideProps(context) {
   let response = {};
   try {

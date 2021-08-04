@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "my-project-1518948515247"
+  },
+  "targets": {
+    "my-project-1518948515247": {
+      "hosting": {
+        "frontend": [
+          "my-project-1518948515247"
+        ]
+      }
+    }
+  }
+}

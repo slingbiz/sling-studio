@@ -12,8 +12,8 @@ const PageMeta = (props) => (
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={props.title} />
     <meta name="twitter:description" content={props.desc} />
-    <meta name="twitter:site" content="@propernounco" />
-    <meta name="twitter:creator" content="@propernounco" />
+    <meta name="twitter:site" content="@wearesling" />
+    <meta name="twitter:creator" content="@wearesling" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
 
@@ -45,6 +45,6 @@ PageMeta.prototype = {
 };
 
 PageMeta.defaultProps={
-  title:'Sling- React Material Admin Template',
-  description:'Sling is purely based on Material UI components and follows Google’s Material Design guidelines'
+  title:'Sling- Frontend Head Demo',
+  description:'Sling is the frontend head for your headless Api'
 }

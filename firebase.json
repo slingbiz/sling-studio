@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "site": "sling-frontend",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+	    "function": "nextServer"
+      }
+    ]
+  },
+ "functions": {
+    "source": ".",
+    "runtime": "nodejs14",
+    "ignore": [
+      ".firebase/**",
+      ".firebaserc",
+      "firebase.json",
+      "**/node_modules/**"
+    ]
+  }
+
+}
