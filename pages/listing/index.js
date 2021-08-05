@@ -1,6 +1,7 @@
 import React from 'react';
 import AppPage from '../../@sling/hoc/AppPage';
 import asyncComponent from '../../@sling/utility/asyncComponent';
+import {INIT_CONFIG} from '../../shared/constants/Services';
 
 const Products = asyncComponent(() =>
   import('../../modules/ecommerce/Products'),
@@ -9,7 +10,7 @@ const Products = asyncComponent(() =>
 export async function getServerSideProps(context) {
   let response = {};
   try {
-    response = await fetch('http://localhost:10001/v1/dummy/initConfig');
+    response = await fetch(`${INIT_CONFIG}`);
     response = await response.json();
   } catch (e) {
     console.log(
@@ -17,7 +18,7 @@ export async function getServerSideProps(context) {
       e.message,
     );
   }
-  console.log('@getServerSideProps');
+  console.log('[getServerSideProps] - Json stringied response from api', JSON.stringify(response));
   return {
     props: {response}, // will be passed to the page component as props
   };

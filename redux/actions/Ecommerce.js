@@ -15,7 +15,7 @@ import {
 import Api from '../../@sling/services/ApiConfig';
 
 export const onGetEcommerceData = (filterData) => {
-  console.log('adfadfasfas');
+  console.log('[onGetEcommerceData] action  start');
   return (dispatch) => {
     dispatch({type: FETCH_START});
     Api.get('/api/ecommerce/list', {
@@ -23,7 +23,7 @@ export const onGetEcommerceData = (filterData) => {
     })
       .then((data) => {
         if (data.status === 200) {
-          console.log(data, '@onGetEcommerceData, actions');
+          console.log(data, '[onGetEcommerceData] action - data Response on 200',);
           dispatch({type: FETCH_SUCCESS});
           dispatch({type: GET_ECOMMERCE_LIST, payload: data.data});
         } else {
@@ -38,6 +38,7 @@ export const onGetEcommerceData = (filterData) => {
       });
   };
 };
+
 export const getProductDetail = (id) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});

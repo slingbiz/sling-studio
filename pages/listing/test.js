@@ -14,7 +14,6 @@ import Api from '../../@sling/services/ApiConfig';
 export default ProductListing;
 
 export async function getServerSideProps(ctx) {
-  console.log(ctx.layoutConfig, '@getServerSideProps - props');
   console.log('Running getServerSideProps.js api call(test.js)');
 
   // console.log('@onGetEcommerceData START');

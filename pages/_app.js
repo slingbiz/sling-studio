@@ -14,6 +14,8 @@ import PageMeta from '../@sling/core/PageMeta';
 import App from 'next/app';
 import {default as defaultStaticConfig} from '../@sling/utility/ContextProvider/defaultConfig';
 import {useRouter} from "next/router";
+import {INIT_CONFIG} from '../shared/constants/Services';
+
 
 // eslint-disable-next-line react/prop-types
 const MyApp = ({Component, pageProps, user, initConfig, layoutConfig}) => {
@@ -57,7 +59,7 @@ MyApp.getInitialProps = async (appContext) => {
   console.log('Running _app.js api call');
   try {
     //Fetch initial Layout based on url.
-    response = await fetch('http://localhost:10001/v1/dummy/initConfig', {
+    response = await fetch(`${INIT_CONFIG}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

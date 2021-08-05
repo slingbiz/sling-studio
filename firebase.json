@@ -1,28 +1,46 @@
 {
   "hosting": {
     "site": "sling-frontend",
-    "public": "build",
+    "public": "build/",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    "cleanUrls": true,
     "rewrites": [
       {
         "source": "**",
-	    "function": "nextServer"
+        "function": "nextServer"
       }
     ]
   },
- "functions": {
+  "functions": {
     "source": ".",
     "runtime": "nodejs14",
     "ignore": [
+      "**/src/**",
+      "**/.next/**",
       ".firebase/**",
       ".firebaserc",
       "firebase.json",
+      "node_modules/",
+      ".git/**",
+      "yarn.lock",
+      "**/src/**",
+      "**/.idea/**",
+      "components/**",
+      "styles/**",
+      "stories/**",
+      "shared/**",
+      "modules/**",
+      "@sling/**",
+      "redux/**",
+      "helpers/**",
+      "pages/**",
+      "firestore.rules",
+      "readme.md",
       "**/node_modules/**"
     ]
   }
-
 }

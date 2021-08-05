@@ -7,7 +7,7 @@ import AppsContainer from '../../../@sling/wrappers/AppsContainer';
 import ProductsSidebar from '../../../@sling/blocks/ProductFilters';
 
 const Products = (props) => {
-  console.log(props, 'props@ [Product/index.js]');
+  console.log(props, '[modules/Products/index.js] props@ [Product/index.js]');
   const {messages} = useIntl();
   return <ProductListing />;
 };
