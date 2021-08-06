@@ -9,10 +9,10 @@ const withData = (ComposedComponent) => (props) => {
   const queryParams = asPath.split('?')[1];
   useEffect(() => {
     if (!user && !loading) {
-      Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
+      // Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
     }
   }, [user, loading]);
-  if (!user || loading) return <Loader />;
+  if (loading) return <Loader />;
 
   return <ComposedComponent {...props} />;
 };

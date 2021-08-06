@@ -1,4 +1,6 @@
-import React from "react";
-import asyncComponent from "../@sling/utility/asyncComponent";
+import React from 'react';
+import asyncComponent from '../@sling/utility/asyncComponent';
 
-export default asyncComponent(() => import("../modules/errorPages/Error404/index"));
+export default asyncComponent(() =>
+  import('../modules/errorPages/Error404/index'),
+);

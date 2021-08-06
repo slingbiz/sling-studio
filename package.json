@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next -p 4087",
     "build": "next build",
+    "build:prod": "env-cmd .env.production next build",
     "export": "next export",
     "start": "next start -p 4087",
     "main": "function.js",

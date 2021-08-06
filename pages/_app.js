@@ -56,7 +56,7 @@ MyApp.getInitialProps = async (appContext) => {
   let response = {};
   const {ctx, Component} = appContext;
   const {pathname, query, asPath} = ctx;
-  console.log('Running _app.js api call');
+  console.log('Running _app.js api call, INIT_CONFIG: ', INIT_CONFIG);
   try {
     //Fetch initial Layout based on url.
     response = await fetch(`${INIT_CONFIG}`, {

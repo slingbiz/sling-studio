@@ -10,7 +10,7 @@
     "cleanUrls": true,
     "rewrites": [
       {
-        "source": "**",
+        "source": "**/**",
         "function": "nextServer"
       }
     ]
