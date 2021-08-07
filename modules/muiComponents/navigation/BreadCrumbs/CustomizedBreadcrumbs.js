@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0),
     margin: -theme.spacing(3),
-    marginBottom: theme.spacing(2),
-    background: '#f5f7fe',
+    marginBottom: theme.spacing(3),
+    // background: '#f5f7fe',
   },
   avatar: {
     background: 'none',

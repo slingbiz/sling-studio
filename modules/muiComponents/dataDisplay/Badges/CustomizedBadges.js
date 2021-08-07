@@ -81,10 +81,13 @@ export default function CustomizedBadges() {
           badgeContent={
             <SmallAvatar
               alt='Stock avatar'
-              src={'/images/avatar/A9.jpg'}
+              src={`${process.env.basePath}/images/avatar/A9.jpg `}
             />
           }>
-          <Avatar alt='Stock avatar' src={'/frontend/images/avatar/A18.jpg'} />
+          <Avatar
+            alt='Stock avatar'
+            src={`${process.env.basePath}/images/avatar/A18.jpg`}
+          />
         </Badge>
       </Box>
     </Box>

@@ -7,7 +7,8 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
       position: 'relative',
       paddingTop: 56,
-      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.background.default,
+      backgroundColor: 'white',
       [theme.breakpoints.up('sm')]: {
         paddingTop: 70,
       },

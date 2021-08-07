@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     borderBottom: `1px solid ${grey[300]}`,
+    justifyContent: 'space-between'
     // [theme.breakpoints.up('xl')]: {
     //   height: 77,
     // },

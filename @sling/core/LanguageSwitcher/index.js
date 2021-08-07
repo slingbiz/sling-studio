@@ -9,6 +9,9 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import Button from '@material-ui/core/Button';
+import red from '@material-ui/core/colors/red';
+import Link from "next/link";
 
 const LanguageSwitcher = (props) => {
   const {iconOnly} = props;
@@ -53,7 +56,7 @@ const LanguageSwitcher = (props) => {
         width: 'auto',
         borderLeft: 'solid 1px',
         borderLeftColor: theme.palette.grey[200],
-        textTransform: 'uppercase',
+        // textTransform: 'uppercase',
         marginTop: 0,
         color: theme.palette.text.primary,
         '&:hover, &:focus': {
@@ -98,6 +101,19 @@ const LanguageSwitcher = (props) => {
     },
     textUppercase: {
       textTransform: 'uppercase',
+    },
+    dashboardBtn: {
+      backgroundColor: '#ff9800',
+      color: theme.palette.primary.contrastText,
+      fontWeight: Fonts.BOLD,
+      paddingRight: 20,
+      marginRight: 20,
+      textTransform: 'none',
+      paddingLeft: 20,
+      '&:hover, &:focus': {
+        backgroundColor: '#ff9800',
+        color: theme.palette.secondary.contrastText,
+      },
     },
   }));
 
@@ -147,32 +163,37 @@ const LanguageSwitcher = (props) => {
           </Box>
         )}
       </IconButton>
-      <Menu
-        anchorEl={anchorElLng}
-        id='language-switcher'
-        keepMounted
-        open={Boolean(anchorElLng)}
-        onClose={() => setAnchorElLng(null)}>
-        {languageData.map((language, index) => (
-          <MenuItem key={index} onClick={() => changeLanguage(language)}>
-            <Box
-              width={160}
-              display='flex'
-              flexDirection='row'
-              alignItems='center'>
-              <i className={`flag flag-24 flag-${language.icon}`} />
-              <Box
-                component='h4'
-                ml={4}
-                mb={0}
-                fontSize={{xs: 14, xl: 16}}
-                fontWeight={Fonts.MEDIUM}>
-                {language.name}
-              </Box>
-            </Box>
-          </MenuItem>
-        ))}
-      </Menu>
+      {/*<Menu*/}
+      {/*  anchorEl={anchorElLng}*/}
+      {/*  id='language-switcher'*/}
+      {/*  keepMounted*/}
+      {/*  open={Boolean(anchorElLng)}*/}
+      {/*  onClose={() => setAnchorElLng(null)}>*/}
+      {/*  {languageData.map((language, index) => (*/}
+      {/*    <MenuItem key={index} onClick={() => changeLanguage(language)}>*/}
+      {/*      <Box*/}
+      {/*        width={160}*/}
+      {/*        display='flex'*/}
+      {/*        flexDirection='row'*/}
+      {/*        alignItems='center'>*/}
+      {/*        <i className={`flag flag-24 flag-${language.icon}`} />*/}
+      {/*        <Box*/}
+      {/*          component='h4'*/}
+      {/*          ml={4}*/}
+      {/*          mb={0}*/}
+      {/*          fontSize={{xs: 14, xl: 16}}*/}
+      {/*          fontWeight={Fonts.MEDIUM}>*/}
+      {/*          {language.name}*/}
+      {/*        </Box>*/}
+      {/*      </Box>*/}
+      {/*    </MenuItem>*/}
+      {/*  ))}*/}
+      {/*</Menu>*/}
+      <Link href={'https://demo.sling.biz'}>
+        <Button className={classes.dashboardBtn} color='yellow'>
+          Dashboard
+        </Button>
+      </Link>
     </Box>
   );
 };

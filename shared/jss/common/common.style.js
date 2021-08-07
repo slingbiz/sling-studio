@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       transition: 'all .2s ease',
       transform: 'scale(1)',
       '&:hover': {
-        backgroundColor: fade(theme.palette.primary.main, 0.1),
+        // backgroundColor: fade(theme.palette.primary.main, 0.1),
         transform: 'translateY(-2px)',
         boxShadow: `0 3px 10px 0 ${fade(theme.palette.common.black, 0.2)}`,
       },

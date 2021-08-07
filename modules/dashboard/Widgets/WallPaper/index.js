@@ -107,7 +107,7 @@ const WallPaper = (props) => {
         <Box mb={6}>
           <Avatar
             className={classes.avatar}
-            src={'/frontend/images/avatar/A1.jpg'}
+            src={`${process.env.basePath}/images/avatar/A1.jpg`}
           />
         </Box>
 

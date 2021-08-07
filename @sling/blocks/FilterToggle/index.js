@@ -116,7 +116,7 @@ const FilterToggle = (props) => {
   const classes = useStyles({footer, navStyle, fullView});
   return (
     <Box
-      mb={{xs: fullView ? 4 : 2, lg: fullView ? 5 : 4}}
+      mb={{xs: -3, md: 0, lg: 0}}
       mt={{xs: fullView ? 0 : -3, lg: 0}}
       display='flex'
       alignItems='center'>

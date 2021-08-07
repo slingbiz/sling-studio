@@ -56,7 +56,7 @@ export default function PrimarySearchAppBar(props) {
           aria-label='show 17 new notifications'>
           <img
             className={classes.logoRoot}
-            src={'/frontend/images/logo-icon-large.png'}
+            src={`${process.env.basePath}/images/logo-icon-large.png`}
             alt='sling-logo'
           />
         </IconButton>

@@ -21,7 +21,7 @@ const defaultConfig = {
       type: ThemeMode.LIGHT,
       background: {
         paper: '#FFFFFF',
-        default: '#F4F7FE',
+        default: '#FFFFFF',
       },
       primary: {
         main: '#0A8FDC',

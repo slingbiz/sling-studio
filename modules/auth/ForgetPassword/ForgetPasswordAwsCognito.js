@@ -112,7 +112,7 @@ const ForgetPasswordAwsCognito = () => {
       <Box mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
         <img
           className={classes.image}
-          src={'/frontend/images/logo-white-with-name.png'}
+          src={`${process.env.basePath}/images/logo-white-with-name.png`}
           alt='sling-logo'
         />
       </Box>

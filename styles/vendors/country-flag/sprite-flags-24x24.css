@@ -7,7 +7,7 @@
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url('/frontend/images/sprite-flags-24x24.png');
+  background-image: url('sprite-flags-24x24.png');
   background-repeat: no-repeat;
 }
 

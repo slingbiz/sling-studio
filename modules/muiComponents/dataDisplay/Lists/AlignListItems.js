@@ -68,7 +68,7 @@ export default function AlignItemsList() {
       <Divider variant='inset' component='li' />
       <ListItem alignItems='flex-start'>
         <ListItemAvatar>
-          <Avatar alt='Cindy Baker' src={'/frontend/images/avatar/A13.jpg'} />
+          <Avatar alt='Cindy Baker' src={`${process.env.basePath}/images/avatar/A13.jpg`} />
         </ListItemAvatar>
         <ListItemText
           primary='Oui Oui'

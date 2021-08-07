@@ -55,7 +55,7 @@ const AppHeader = () => {
   return (
     <>
       <AppBar className='app-bar' color='inherit'>
-        <NotificationBar />
+        {/*<NotificationBar />*/}
 
         <Toolbar className={classes.appToolbar}>
           {/*<IconButton*/}
