@@ -23,7 +23,7 @@ const ProfileCard = () => {
         justifyContent='center'>
         <Avatar
           style={{height: 80, width: 80}}
-          src={'/images/avatar/A10.jpg'}
+          src={'/frontend/images/avatar/A10.jpg'}
         />
         <Box p={3} mb={4} mt={2} component='h5'>
           Talan Phips

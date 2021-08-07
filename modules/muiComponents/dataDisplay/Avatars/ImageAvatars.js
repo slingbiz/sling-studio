@@ -21,12 +21,12 @@ export default function ImageAvatars() {
     <Grid container justify='center' alignItems='center'>
       <Avatar
         alt='Remy Sharp'
-        src={'/images/avatar/A1.jpg'}
+        src={'/frontend/images/avatar/A1.jpg'}
         className={classes.avatar}
       />
       <Avatar
         alt='Remy Sharp'
-        src={'/images/avatar/A11.jpg'}
+        src={'/frontend/images/avatar/A11.jpg'}
         className={classes.bigAvatar}
       />
     </Grid>

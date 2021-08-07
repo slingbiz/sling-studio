@@ -1,6 +1,8 @@
 module.exports = {
   // optimizeFonts: false,
   // useFileSystemPublicRoutes: false,
+  basePath: '/frontend',
+  assetPrefix: 'frontend',
   distDir: 'build',
   env: {
     FIREBASE_API_KEY: 'AIzaSyAzL_2jiVBhmiIUFGs2z6-cDR-Hgoedh3k',

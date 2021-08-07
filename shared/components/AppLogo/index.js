@@ -27,8 +27,8 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/sling-fe.png'
-              : '/images/sling-fe.png'
+              ? '/frontend/images/sling-fe.png'
+              : '/frontend/images/sling-fe.png'
           }
           alt='sling-logo'
         />
@@ -38,8 +38,8 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/sling-fe.png'
-              : '/images/sling-fe.png'
+              ? '/frontend/images/sling-fe.png'
+              : '/frontend/images/sling-fe.png'
           }
           alt='Sling Frontend Demo'
         />

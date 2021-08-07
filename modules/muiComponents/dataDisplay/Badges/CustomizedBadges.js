@@ -84,7 +84,7 @@ export default function CustomizedBadges() {
               src={'/images/avatar/A9.jpg'}
             />
           }>
-          <Avatar alt='Stock avatar' src={'/images/avatar/A18.jpg'} />
+          <Avatar alt='Stock avatar' src={'/frontend/images/avatar/A18.jpg'} />
         </Badge>
       </Box>
     </Box>

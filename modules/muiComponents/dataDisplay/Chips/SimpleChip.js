@@ -37,7 +37,7 @@ export default function Chips() {
         className={classes.chip}
       />
       <Chip
-        avatar={<Avatar alt='Natacha' src={'/images/avatar/A15.jpg'} />}
+        avatar={<Avatar alt='Natacha' src={'/frontend/images/avatar/A15.jpg'} />}
         label='Deletable Chip'
         onDelete={handleDelete}
         className={classes.chip}
