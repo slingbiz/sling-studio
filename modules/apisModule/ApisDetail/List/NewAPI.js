@@ -11,6 +11,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import {FormControl, MenuItem, Select, TextField} from '@material-ui/core';
+import Params from './Params';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -57,6 +58,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const [tab, setTab] = useState('PARAMS');
+  const [params, setParams] = useState([{key: '', value: ''}]);
   const childRef = useRef();
 
   const handleClose = () => {
@@ -147,7 +149,14 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 Body
               </Button>
             </Grid>
-            <Grid></Grid>
+            <Grid item>
+              {tab === 'PARAMS' && (
+                <Params params={params} setParams={setParams} />
+              )}
+              {tab === 'AUTHORIZATION' && <Params />}
+              {tab === 'HEADERS' && <Params />}
+              {tab === 'BODY' && <Params />}
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
