@@ -27,7 +27,7 @@ const AppLogo = () => {
           className={classes.logo}
           src={
             themeMode === ThemeMode.DARK
-              ? '/images/logo-white.png'
+              ? '/images/logo.png'
               : '/images/logo.png'
           }
           alt='sling-logo'
@@ -44,7 +44,7 @@ const AppLogo = () => {
           alt='sling-logo'
         />
       </Hidden>
-      <Box color='text.secondary' fontSize={16} fontWeight={500} mt={4} mb={3}>
+      <Box color='text.secondary' fontSize={16} fontWeight={500} mt={4} ml={2} mb={3}>
         Dashboard
       </Box>
     </Box>

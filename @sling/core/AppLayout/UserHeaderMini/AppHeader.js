@@ -70,8 +70,11 @@ const AppHeader = () => {
           </Hidden>
 
           <AppLogo />
+
           <Box className={classes.grow} />
-          <SearchBar borderLight placeholder='Search…' />
+          <Hidden lgDown>
+            <SearchBar borderLight placeholder='Search…' />
+          </Hidden>
           <Box className={classes.sectionDesktop}>
             <LanguageSwitcher />
             <HeaderMessages />

@@ -114,26 +114,26 @@ const Signup = (props) => {
             textColor='primary'
             aria-label='simple tabs example'
             className={classes.muiTabsFull}>
+            {/*<Tab*/}
+            {/*  className={classes.muiTab}*/}
+            {/*  label='aws cognito'*/}
+            {/*  {...a11yProps(1)}*/}
+            {/*/>*/}
+            {/*<Tab*/}
+            {/*  className={classes.muiTab}*/}
+            {/*  label='jwt auth'*/}
+            {/*  {...a11yProps(2)}*/}
+            {/*/>*/}
             <Tab
               className={classes.muiTab}
-              label='aws cognito'
-              {...a11yProps(1)}
-            />
-            <Tab
-              className={classes.muiTab}
-              label='jwt auth'
-              {...a11yProps(2)}
-            />
-            <Tab
-              className={classes.muiTab}
-              label='firebase'
+              // label='firebase'
               {...a11yProps(0)}
             />
           </Tabs>
 
           <>
-            {value === 0 && <SignupAwsCognito />}
-            {value === 1 && <SignupJwtAuth />}
+            {value === 0 && <SignupFirebase />}
+            {value === 1 && <SignupFirebase />}
             {value === 2 && <SignupFirebase />}
           </>
         </Card>

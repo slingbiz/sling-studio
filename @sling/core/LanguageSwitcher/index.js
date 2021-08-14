@@ -9,6 +9,8 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import Link from 'next/link';
+import Button from '@material-ui/core/Button';
 
 const LanguageSwitcher = (props) => {
   const {iconOnly} = props;
@@ -99,12 +101,30 @@ const LanguageSwitcher = (props) => {
     textUppercase: {
       textTransform: 'uppercase',
     },
+    dashboardBtn: {
+      backgroundColor: '#ff9800',
+      color: theme.palette.primary.contrastText,
+      fontWeight: Fonts.BOLD,
+      paddingRight: 20,
+      marginRight: 20,
+      textTransform: 'none',
+      paddingLeft: 20,
+      '&:hover, &:focus': {
+        backgroundColor: '#ff9800',
+        color: theme.palette.secondary.contrastText,
+      },
+    },
   }));
 
   const classes = useStyles(props);
 
   return (
     <Box>
+      <Link href={'https://sling.biz/frontend'}>
+        <Button className={classes.dashboardBtn} color='yellow'>
+          Frontend
+        </Button>
+      </Link>
       <IconButton
         className={clsx(
           classes.langBtn,
@@ -173,6 +193,7 @@ const LanguageSwitcher = (props) => {
           </MenuItem>
         ))}
       </Menu>
+
     </Box>
   );
 };

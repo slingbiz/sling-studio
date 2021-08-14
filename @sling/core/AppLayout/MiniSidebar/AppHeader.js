@@ -72,7 +72,7 @@ const AppHeader = () => {
           <Box className={classes.grow} />
           <SearchBar borderLight placeholder='Search…' />
           <Box className={classes.sectionDesktop}>
-            <LanguageSwitcher />
+            {/*<LanguageSwitcher />*/}
             <HeaderMessages />
             <Notifications />
           </Box>
