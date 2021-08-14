@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles, IconButton} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
@@ -11,12 +11,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Edit from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 import Close from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AppSearch from '../../../../@sling/core/SearchBar';
 import Tooltip from '@material-ui/core/Tooltip';
 import AlertModal from '../../../../shared/components/Sling/AlertModal';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import EditApiMappings from './EditApiMappings';
+import NewAPI from './NewAPI';
 const demoApiList = [
   {
     key: 'listing',
@@ -118,15 +119,17 @@ const ApiList = (props) => {
   }));
 
   const classes = useStyles(props);
-  const [open, setOpen] = useState(false);
+  const [openEditAPI, setOpenEditAPI] = useState(false);
+  const [openNewAPI, setOpenNewAPI] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
+  const [mapperDialogNewAPI, setMapperDialogNewAPI] = useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenEditAPI(false);
   };
 
   const doAction = () => {
-    setOpen(true);
+    setOpenEditAPI(true);
   };
 
   return (
@@ -135,10 +138,31 @@ const ApiList = (props) => {
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Headless Api List
         </Box>
-        <AppSearch placeholder='Search here' onChange={(e) => e.target.value} />
+        <Box display='flex' alignItems='center'>
+          <IconButton
+            className={classes.iconRoot}
+            aria-label='add'
+            component='span'
+            onClick={() => {
+              setMapperDialogNewAPI(true);
+            }}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+          <AppSearch
+            placeholder='Search here'
+            onChange={(e) => e.target.value}
+          />
+        </Box>
       </AppsHeader>
+      <NewAPI
+        open={mapperDialogNewAPI}
+        setOpen={setMapperDialogNewAPI}
+        titleKey={'New API'}
+        pageKey={'sling-mappings'}
+      />
+
       <Box px={6} pb={8}>
-        <AlertModal open={open} handleClose={handleClose} />
+        <AlertModal open={openEditAPI} handleClose={handleClose} />
         <EditApiMappings
           open={mapperDialog}
           setOpen={setMapperDialog}
