@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,6 +12,9 @@ import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import {FormControl, MenuItem, Select, TextField} from '@material-ui/core';
 import Params from './Params';
+import tabs from '../../../../pages/mui/navigation/tabs';
+import Headers from './Headers';
+import Authorization from './Authorization';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -58,7 +61,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const [tab, setTab] = useState('PARAMS');
+  const [url, setUrl] = useState('');
   const [params, setParams] = useState([{key: '', value: ''}]);
+  const [headers, setHeaders] = useState([{key: '', value: ''}]);
+  const [auth, setAuth] = useState({key: '', value: ''});
   const childRef = useRef();
 
   const handleClose = () => {
@@ -69,6 +75,26 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
     handleClose();
   };
 
+  function makeUrl() {
+    if (params.length === 1 && params[0].key) {
+      setUrl(
+        (prevUrl) =>
+          prevUrl + '?' + params.map((param) => param.key + '=' + param.value),
+      );
+    } else if (params.length > 1 && params[0].key) {
+      setUrl(
+        (prevUrl) =>
+          prevUrl + '?' + params.map((param) => param.key + '=' + param.value),
+      );
+    }
+
+    setUrl((prevUrl) => prevUrl.replace(',', '&'));
+  }
+
+  console.log(auth);
+  async function sendRequest() {
+    await makeUrl();
+  }
   return (
     <Dialog
       fullScreen
@@ -111,11 +137,17 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 placeholder='Enter Request URL'
                 variant='outlined'
                 className={classes.textField}
+                value={url}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setUrl(e.target.value);
+                }}
               />
               <Button
                 variant='contained'
                 color='primary'
-                className={classes.button}>
+                className={classes.button}
+                onClick={sendRequest}>
                 Send
               </Button>
             </Grid>
@@ -153,8 +185,12 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
               {tab === 'PARAMS' && (
                 <Params params={params} setParams={setParams} />
               )}
-              {tab === 'AUTHORIZATION' && <Params />}
-              {tab === 'HEADERS' && <Params />}
+              {tab === 'AUTHORIZATION' && (
+                <Authorization auth={auth} setAuth={setAuth} />
+              )}
+              {tab === 'HEADERS' && (
+                <Headers headers={headers} setHeaders={setHeaders} />
+              )}
               {tab === 'BODY' && <Params />}
             </Grid>
           </Grid>

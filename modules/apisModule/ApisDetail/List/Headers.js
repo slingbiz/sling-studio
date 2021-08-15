@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     height: 20,
-    fontSize: 14,
     width: '100%',
     outline: 'none',
     border: 'none',
@@ -54,25 +53,26 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Params = ({params, setParams}) => {
+const Headers = ({headers, setHeaders}) => {
   const classes = useStyles();
-  const updateParamsKey = (index) => (e) => {
-    let newArr = [...params];
+  const updateHeadersKey = (index) => (e) => {
+    let newArr = [...headers];
     newArr[index].key = e.target.value;
-    setParams(newArr);
+    setHeaders(newArr);
   };
-  const updateParamsValue = (index) => (e) => {
-    let newArr = [...params];
+  const updateHeadersValue = (index) => (e) => {
+    let newArr = [...headers];
     newArr[index].value = e.target.value;
-    setParams(newArr);
+    setHeaders(newArr);
   };
 
-  const handleClick = () => {
-    setParams((prevParam) => setParams([...prevParam, {key: '', value: ''}]));
-  };
-
+  function handleClick() {
+    setHeaders((prevHeaders) =>
+      setHeaders([...prevHeaders, {key: '', value: '', description: ''}]),
+    );
+  }
   function handleRemove(index) {
-    setParams(params.filter((param, id) => id !== index));
+    setHeaders(headers.filter((header, id) => id !== index));
   }
   return (
     <Grid container className={classes.root} direction='column'>
@@ -88,12 +88,12 @@ const Params = ({params, setParams}) => {
               Value
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Typography variant='span' component='span'></Typography>
           </Grid>
         </Grid>
       </Grid>
-      {params?.map((item, index) => (
+      {headers?.map((item, index) => (
         <Grid item xs={12} justify='space-between' key={index}>
           <Grid container className={classes.mainContainer}>
             <Grid item xs={4} className={classes.border2}>
@@ -107,7 +107,7 @@ const Params = ({params, setParams}) => {
                   shrink: true,
                 }}
                 value={item.key}
-                onChange={updateParamsKey(index)}
+                onChange={updateHeadersKey(index)}
               />
             </Grid>
             <Grid item xs={4} className={classes.border2}>
@@ -121,14 +121,20 @@ const Params = ({params, setParams}) => {
                   shrink: true,
                 }}
                 value={item.value}
-                onChange={updateParamsValue(index)}
+                onChange={updateHeadersValue(index)}
               />
             </Grid>
-            <Grid item xs={4} className={classes.border2}>
+
+            <Grid
+              item
+              xs={4}
+              className={classes.border2}
+              alignItems='center'
+              justify='center'>
               <Button
                 className={classes.btn}
                 onClick={() => handleRemove(index)}
-                disabled={params.length <= 1}>
+                disabled={headers.length <= 1}>
                 Remove
               </Button>
             </Grid>
@@ -144,4 +150,4 @@ const Params = ({params, setParams}) => {
   );
 };
 
-export default Params;
+export default Headers;
