@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import {Button, Grid, TextField, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +61,7 @@ const Headers = ({headers, setHeaders}) => {
 
   function handleClick() {
     setHeaders((prevHeaders) =>
-      setHeaders([...prevHeaders, {key: '', value: '', description: ''}]),
+      setHeaders([...prevHeaders, {key: '', value: ''}]),
     );
   }
   function handleRemove(index) {

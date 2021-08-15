@@ -18,15 +18,9 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import {Highlight} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
-  // [theme.breakpoints.down('md')]: {
-  //   boxLayoutView: {
-  //     width: '70%',
-  //   },
-  // },
 
   appBar: {
     position: 'relative',
@@ -289,17 +283,14 @@ const EditApiMappings = ({open, setOpen, titleKey, pageKey}) => {
           </Hidden>
         </Grid>
         <Grid item sm={9} lg={6}>
-          <Box className={classes.boxLayoutView}>
-
-          </Box>
+          <Box className={classes.boxLayoutView}></Box>
         </Grid>
         <Grid item sm={3}>
           <Card
             style={{
               padding: '1.5em',
               marginTop: '1.5em',
-            }}>
-          </Card>
+            }}></Card>
         </Grid>
       </Grid>
     </Dialog>

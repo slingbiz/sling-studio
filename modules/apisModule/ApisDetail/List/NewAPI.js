@@ -15,6 +15,7 @@ import Params from './Params';
 import tabs from '../../../../pages/mui/navigation/tabs';
 import Headers from './Headers';
 import Authorization from './Authorization';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -61,10 +62,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const [tab, setTab] = useState('PARAMS');
+  const [requestType, setRequestType] = useState('post');
   const [url, setUrl] = useState('');
   const [params, setParams] = useState([{key: '', value: ''}]);
   const [headers, setHeaders] = useState([{key: '', value: ''}]);
-  const [auth, setAuth] = useState({key: '', value: ''});
+  const [auth, setAuth] = useState({key: 'Bearer Token', value: ''});
   const childRef = useRef();
 
   const handleClose = () => {
@@ -90,10 +92,17 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
 
     setUrl((prevUrl) => prevUrl.replace(',', '&'));
   }
+  function makeRequestHeader() {
+    let object = headers.reduce(
+      (obj, item) => Object.assign(obj, {[item.key]: item.value}),
+      {},
+    );
+  }
 
-  console.log(auth);
   async function sendRequest() {
     await makeUrl();
+    await makeRequestHeader();
+    axios({method: requestType, url});
   }
   return (
     <Dialog
@@ -126,11 +135,15 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
           <Grid container direction='column'>
             <Grid item alignItems='center'>
               <FormControl variant='outlined' className={classes.selectField}>
-                <Select labelId='request-type' id='request-type'>
-                  <MenuItem value={10}>Get</MenuItem>
-                  <MenuItem value={20}>POST</MenuItem>
-                  <MenuItem value={30}>PUT</MenuItem>
-                  <MenuItem value={30}>DELETE</MenuItem>
+                <Select
+                  labelId='request-type'
+                  id='request-type'
+                  value={requestType}
+                  onChange={(e) => setRequestType(e.target.value)}>
+                  <MenuItem value='get'>Get</MenuItem>
+                  <MenuItem value='post'>POST</MenuItem>
+                  <MenuItem value='put'>PUT</MenuItem>
+                  <MenuItem value='delete'>DELETE</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -174,12 +187,12 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 onClick={(e) => setTab('HEADERS')}>
                 Headers
               </Button>
-              <Button
+              {/* <Button
                 variant='text'
                 color='default'
                 onClick={(e) => setTab('BODY')}>
                 Body
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item>
               {tab === 'PARAMS' && (
@@ -191,7 +204,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
               {tab === 'HEADERS' && (
                 <Headers headers={headers} setHeaders={setHeaders} />
               )}
-              {tab === 'BODY' && <Params />}
+              {/* {tab === 'BODY' && <Params />} */}
             </Grid>
           </Grid>
         </Grid>

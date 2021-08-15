@@ -3,7 +3,6 @@ import {
   FormControl,
   Grid,
   MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -102,7 +101,6 @@ const Authorization = ({auth, setAuth}) => {
                     select: classes.select,
                   },
                 }}
-                defaultValue='Bearer Token'
                 value={auth.key}
                 onChange={(e) => setAuth({...auth, key: e.target.value})}>
                 <MenuItem value='Bearer Token'>Bearer Tokem</MenuItem>
