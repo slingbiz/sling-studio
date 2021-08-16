@@ -16,6 +16,11 @@ import tabs from '../../../../pages/mui/navigation/tabs';
 import Headers from './Headers';
 import Authorization from './Authorization';
 import axios from 'axios';
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/dracula.css'); // Introduce themes on demand
+require('codemirror/mode/javascript/javascript.js'); // On demand mode
+import {Controlled as CodeMirror} from 'react-codemirror2';
+import Body from './Body';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -32,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '20px',
     paddingRight: '20px',
     display: 'flex',
+    '& .CodeMirror': {
+      minHeight: '400px',
+    },
   },
   rootContainer: {
     padding: '0px',
@@ -62,10 +70,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const [tab, setTab] = useState('PARAMS');
-  const [requestType, setRequestType] = useState('post');
+  const [requestType, setRequestType] = useState('get');
   const [url, setUrl] = useState('');
   const [params, setParams] = useState([{key: '', value: ''}]);
   const [headers, setHeaders] = useState([{key: '', value: ''}]);
+  const [code, setCode] = useState(null);
+  let object = {};
   const [auth, setAuth] = useState({key: 'Bearer Token', value: ''});
   const childRef = useRef();
 
@@ -93,17 +103,30 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
     setUrl((prevUrl) => prevUrl.replace(',', '&'));
   }
   function makeRequestHeader() {
-    let object = headers.reduce(
-      (obj, item) => Object.assign(obj, {[item.key]: item.value}),
-      {},
-    );
+    if (headers[0]?.key) {
+      object = headers.reduce(
+        (obj, item) => Object.assign(obj, {[item.key]: item.value}),
+        {},
+      );
+      console.log('Object ==> ', object);
+    }
+
+    if (auth.value) {
+      object[`Authorization`] = `Basic ${auth.value}`;
+      console.log('Object  ==> ', object);
+    }
   }
 
   async function sendRequest() {
     await makeUrl();
     await makeRequestHeader();
-    axios({method: requestType, url});
+
+    axios({method: requestType, url}).then((response) => {
+      setCode(JSON.stringify(response.data, null, 2));
+    });
   }
+  console.log(requestType);
+
   return (
     <Dialog
       fullScreen
@@ -187,12 +210,14 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 onClick={(e) => setTab('HEADERS')}>
                 Headers
               </Button>
-              {/* <Button
-                variant='text'
-                color='default'
-                onClick={(e) => setTab('BODY')}>
-                Body
-              </Button> */}
+              {(requestType === 'post' || requestType === 'put') && (
+                <Button
+                  variant='text'
+                  color='default'
+                  onClick={(e) => setTab('BODY')}>
+                  Body
+                </Button>
+              )}
             </Grid>
             <Grid item>
               {tab === 'PARAMS' && (
@@ -204,17 +229,28 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
               {tab === 'HEADERS' && (
                 <Headers headers={headers} setHeaders={setHeaders} />
               )}
-              {/* {tab === 'BODY' && <Params />} */}
+              {tab === 'BODY' && <h1>Working on it</h1>}
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
+          {/* <Grid container direction='column'>
+            <Grid item xs={12} alignItems='center'> */}
           <Typography
             variant='h6'
             component='h6'
             className={classes.rootContainer}>
             Response
           </Typography>
+          <CodeMirror
+            className={classes.editor}
+            value={code}
+            options={{
+              mode: {name: 'javascript', json: true}, // string|object
+              lineNumbers: true,
+              readOnly: true,
+            }}
+          />
         </Grid>
       </Grid>
     </Dialog>

@@ -11,6 +11,7 @@ import '../styles/index.css';
 import '../@sling/services/index';
 import AuthRoutes from '../@sling/utility/AuthRoutes';
 import PageMeta from '../@sling/core/PageMeta';
+import 'codemirror/lib/codemirror.css';
 
 const App = ({Component, pageProps, user}) => {
   const store = useStore(pageProps.initialReduxState);

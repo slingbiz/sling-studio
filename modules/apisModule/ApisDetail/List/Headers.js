@@ -86,54 +86,55 @@ const Headers = ({headers, setHeaders}) => {
           </Grid>
         </Grid>
       </Grid>
-      {headers?.map((item, index) => (
-        <Grid item xs={12} justify='space-between' key={index}>
-          <Grid container className={classes.mainContainer}>
-            <Grid item xs={4} className={classes.border2}>
-              <TextField
-                variant='standard'
-                placeholder='Key'
-                InputProps={{
-                  className: classes.input,
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={item.key}
-                onChange={updateHeadersKey(index)}
-              />
-            </Grid>
-            <Grid item xs={4} className={classes.border2}>
-              <TextField
-                variant='standard'
-                placeholder='Key'
-                InputProps={{
-                  className: classes.input,
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={item.value}
-                onChange={updateHeadersValue(index)}
-              />
-            </Grid>
+      {headers.length &&
+        headers?.map((item, index) => (
+          <Grid item xs={12} justify='space-between' key={index}>
+            <Grid container className={classes.mainContainer}>
+              <Grid item xs={4} className={classes.border2}>
+                <TextField
+                  variant='standard'
+                  placeholder='Key'
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={item.key}
+                  onChange={updateHeadersKey(index)}
+                />
+              </Grid>
+              <Grid item xs={4} className={classes.border2}>
+                <TextField
+                  variant='standard'
+                  placeholder='Key'
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={item.value}
+                  onChange={updateHeadersValue(index)}
+                />
+              </Grid>
 
-            <Grid
-              item
-              xs={4}
-              className={classes.border2}
-              alignItems='center'
-              justify='center'>
-              <Button
-                className={classes.btn}
-                onClick={() => handleRemove(index)}
-                disabled={headers.length <= 1}>
-                Remove
-              </Button>
+              <Grid
+                item
+                xs={4}
+                className={classes.border2}
+                alignItems='center'
+                justify='center'>
+                <Button
+                  className={classes.btn}
+                  onClick={() => handleRemove(index)}
+                  disabled={headers.length <= 1}>
+                  Remove
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      ))}
+        ))}
       <Grid item xs={6} md={3}>
         <Button variant='text' color='inherit' fullWidth onClick={handleClick}>
           Add
