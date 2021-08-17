@@ -112,8 +112,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
     }
 
     if (auth.value) {
-      object[`Authorization`] = `Basic ${auth.value}`;
-      console.log('Object  ==> ', object);
+      object[`Authorization`] = `Bearer ${auth.value}`;
     }
   }
 
