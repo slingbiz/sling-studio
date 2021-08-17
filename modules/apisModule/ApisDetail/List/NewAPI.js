@@ -16,11 +16,11 @@ import tabs from '../../../../pages/mui/navigation/tabs';
 import Headers from './Headers';
 import Authorization from './Authorization';
 import axios from 'axios';
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/dracula.css'); // Introduce themes on demand
-require('codemirror/mode/javascript/javascript.js'); // On demand mode
-import {Controlled as CodeMirror} from 'react-codemirror2';
 import Body from './Body';
+import dynamic from 'next/dynamic';
+const CodeMirror = dynamic(import('../../../../@sling/core/ReactMirror/'), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -77,6 +77,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const [code, setCode] = useState(null);
   let object = {};
   const [auth, setAuth] = useState({key: 'Bearer Token', value: ''});
+  const [data, setData] = useState(null);
   const childRef = useRef();
 
   const handleClose = () => {
@@ -108,7 +109,6 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
         (obj, item) => Object.assign(obj, {[item.key]: item.value}),
         {},
       );
-      console.log('Object ==> ', object);
     }
 
     if (auth.value) {
@@ -117,15 +117,14 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
     }
   }
 
-  async function sendRequest() {
-    await makeUrl();
-    await makeRequestHeader();
-
-    axios({method: requestType, url}).then((response) => {
+  function sendRequest() {
+    makeUrl();
+    makeRequestHeader();
+    let axiosData = JSON.parse(data);
+    axios({method: requestType, url, data: axiosData}).then((response) => {
       setCode(JSON.stringify(response.data, null, 2));
     });
   }
-  console.log(requestType);
 
   return (
     <Dialog
@@ -229,7 +228,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
               {tab === 'HEADERS' && (
                 <Headers headers={headers} setHeaders={setHeaders} />
               )}
-              {tab === 'BODY' && <h1>Working on it</h1>}
+              {tab === 'BODY' && <Body data={data} setData={setData} />}
             </Grid>
           </Grid>
         </Grid>
@@ -242,15 +241,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
             className={classes.rootContainer}>
             Response
           </Typography>
-          <CodeMirror
-            className={classes.editor}
-            value={code}
-            options={{
-              mode: {name: 'javascript', json: true}, // string|object
-              lineNumbers: true,
-              readOnly: true,
-            }}
-          />
+          <CodeMirror data={code} readOnly={true} setData={setCode} />
         </Grid>
       </Grid>
     </Dialog>
