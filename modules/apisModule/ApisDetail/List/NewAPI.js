@@ -168,6 +168,12 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
       </AppBar>
       <Grid container className={classes.root} spacing={3}>
         <Grid item xs={12} md={6}>
+          <Typography
+            variant='h6'
+            component='h6'
+            className={classes.rootContainer}>
+            Request
+          </Typography>
           <Grid container direction='column'>
             <Grid item alignItems='center'>
               <FormControl variant='outlined' className={classes.selectField}>
