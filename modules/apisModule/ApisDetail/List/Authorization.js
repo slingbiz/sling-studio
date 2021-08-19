@@ -1,8 +1,11 @@
 import React from 'react';
 import {
   FormControl,
+  FormControlLabel,
   Grid,
   MenuItem,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -21,10 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mainContainer: {
-    padding: '5px 10px',
+    padding: '20px 10px',
   },
-  border: {
-    border: '1px solid #cccccc',
+  padding: {
     padding: '5px 10px',
   },
   border2: {
@@ -65,31 +67,55 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#eeeeee',
     },
   },
+  radioGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 const Authorization = ({auth, setAuth}) => {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root} direction='column'>
-      <Grid item xs={12} justify='space-between'>
+      {/* <Grid item xs={12} justify='space-between'>
         <Grid container className={classes.mainContainer}>
-          <Grid item xs={4} className={classes.border}>
+          <Grid item xs={4} className={classes.padding}>
             <Typography variant='span' component='span'>
               Auth Type
             </Typography>
           </Grid>
-          <Grid item xs={8} className={classes.border}>
+          <Grid item xs={8} className={classes.padding}>
             <Typography variant='span' component='span'>
               Value
             </Typography>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} justify='space-between'>
-        <Grid container className={classes.mainContainer}>
-          <Grid item xs={4} className={classes.border2}>
-            <FormControl variant='outlined' className={classes.formControl}>
-              <TextField
+        <Grid container className={classes.mainContainer} direction='column'>
+          <Grid item xs={4}>
+            <FormControl variant='outlined'>
+              <RadioGroup
+                aria-label='auth'
+                name='Authorization'
+                value={auth.key}
+                onChange={(e) => setAuth({...auth, key: e.target.value})}
+                row
+                style={{minWidth: '250px'}}>
+                <FormControlLabel
+                  value='Bearer Token'
+                  control={<Radio color='primary' />}
+                  label='Bearer Token'
+                />
+                <FormControlLabel
+                  value='API KEY'
+                  control={<Radio color='primary' />}
+                  label='API KEY'
+                />
+              </RadioGroup>
+              {/* <TextField
                 variant='outlined'
                 select
                 InputLabelProps={{
@@ -105,13 +131,13 @@ const Authorization = ({auth, setAuth}) => {
                 onChange={(e) => setAuth({...auth, key: e.target.value})}>
                 <MenuItem value='Bearer Token'>Bearer Tokem</MenuItem>
                 <MenuItem value='API KEY'>API Key</MenuItem>
-              </TextField>
+              </TextField> */}
             </FormControl>
           </Grid>
           <Grid item xs={8} className={classes.border2}>
             <TextField
               variant='standard'
-              placeholder='Value'
+              placeholder={auth.key}
               InputProps={{
                 className: classes.input,
               }}

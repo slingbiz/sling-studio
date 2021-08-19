@@ -17,8 +17,7 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     padding: '5px 10px',
   },
-  border: {
-    border: '1px solid #cccccc',
+  padding: {
     padding: '5px 10px',
   },
   border2: {
@@ -71,12 +70,12 @@ const Headers = ({headers, setHeaders}) => {
     <Grid container className={classes.root} direction='column'>
       <Grid item xs={12} justify='space-between'>
         <Grid container className={classes.mainContainer}>
-          <Grid item xs={4} className={classes.border}>
+          <Grid item xs={4} className={classes.padding}>
             <Typography variant='span' component='span'>
               Key
             </Typography>
           </Grid>
-          <Grid item xs={4} className={classes.border}>
+          <Grid item xs={4} className={classes.padding}>
             <Typography variant='span' component='span'>
               Value
             </Typography>

@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '20px',
     display: 'flex',
     '& .CodeMirror': {
-      minHeight: '400px',
+      height: '80vh',
+      width: '100%',
+      overflow: 'hidden',
     },
   },
   rootContainer: {
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    width: '80px',
+    width: '150px',
     height: '50px',
   },
 }));
@@ -72,9 +74,11 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
   const [tab, setTab] = useState('PARAMS');
   const [requestType, setRequestType] = useState('get');
   const [url, setUrl] = useState('');
+  const [urlWithParams, setUrlWithParams] = useState('');
   const [params, setParams] = useState([{key: '', value: ''}]);
   const [headers, setHeaders] = useState([{key: '', value: ''}]);
   const [code, setCode] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
   let object = {};
   const [auth, setAuth] = useState({key: 'Bearer Token', value: ''});
   const [data, setData] = useState(null);
@@ -84,24 +88,23 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
     setOpen(false);
   };
   const handleRootSave = () => {
-    childRef.current.saveLayoutConfig();
+    // childRef.current.saveLayoutConfig();
     handleClose();
   };
 
   function makeUrl() {
-    if (params.length === 1 && params[0].key) {
-      setUrl(
-        (prevUrl) =>
-          prevUrl + '?' + params.map((param) => param.key + '=' + param.value),
+    if (params.length >= 1 && params[0].key) {
+      setUrlWithParams(
+        url +
+          '?' +
+          params.map((param) => param.key && param.key + '=' + param.value),
       );
-    } else if (params.length > 1 && params[0].key) {
-      setUrl(
-        (prevUrl) =>
-          prevUrl + '?' + params.map((param) => param.key + '=' + param.value),
-      );
+    } else {
+      setUrlWithParams(url);
     }
 
-    setUrl((prevUrl) => prevUrl.replace(',', '&'));
+    setUrlWithParams((prevUrl) => prevUrl.replace(/,([^,]*)$/, ''));
+    setUrlWithParams((prevUrl) => prevUrl.replace(',', '&'));
   }
   function makeRequestHeader() {
     if (headers[0]?.key) {
@@ -111,20 +114,32 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
       );
     }
 
-    if (auth.value) {
+    if (auth.key === 'Bearer Token' && auth.value) {
       object[`Authorization`] = `Bearer ${auth.value}`;
+    } else if (auth.key === 'API KEY' && auth.value) {
+      object[`X-API-KEY`] = `${auth.value}`;
     }
   }
 
   function sendRequest() {
+    setSubmitted(true);
     makeUrl();
     makeRequestHeader();
     let axiosData = JSON.parse(data);
-    axios({method: requestType, url, data: axiosData}).then((response) => {
-      setCode(JSON.stringify(response.data, null, 2));
-    });
+    axios({method: requestType, url, headers: object, data: axiosData})
+      .then((response) => {
+        setCode(JSON.stringify(response.data, null, 2));
+      })
+      .catch((err) => {
+        setCode(JSON.stringify(err.response.data, null, 2));
+      });
   }
 
+  useEffect(() => {
+    if (submitted) {
+      setSubmitted(false);
+    }
+  }, [params]);
   return (
     <Dialog
       fullScreen
@@ -171,10 +186,13 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 placeholder='Enter Request URL'
                 variant='outlined'
                 className={classes.textField}
-                value={url}
+                value={submitted ? urlWithParams : url}
                 onChange={(e) => {
-                  console.log(e.target.value);
-                  setUrl(e.target.value);
+                  if (submitted) {
+                    setSubmitted(false);
+                  } else {
+                    setUrl(e.target.value);
+                  }
                 }}
               />
               <Button
@@ -182,7 +200,7 @@ const NewAPI = ({open, setOpen, titleKey, pageKey}) => {
                 color='primary'
                 className={classes.button}
                 onClick={sendRequest}>
-                Send
+                Request Api Tool
               </Button>
             </Grid>
             <Grid
