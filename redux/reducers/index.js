@@ -12,6 +12,7 @@ import ContactApp from './ContactApp';
 import ScrumboardApp from './ScrumboardApp';
 import Auth from './Auth';
 import ChatApp from './ChatApp';
+import ApiList from './ApiList';
 import Wall from './Wall';
 
 const reducers = combineReducers({
@@ -29,5 +30,6 @@ const reducers = combineReducers({
   scrumboardApp: ScrumboardApp,
   chatApp: ChatApp,
   wall: Wall,
+  apiList: ApiList,
 });
 export default reducers;

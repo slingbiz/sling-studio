@@ -11,6 +11,7 @@ import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Link from 'next/link';
 import Button from '@material-ui/core/Button';
+import orange from "@material-ui/core/colors/orange";
 
 const LanguageSwitcher = (props) => {
   const {iconOnly} = props;
@@ -102,16 +103,15 @@ const LanguageSwitcher = (props) => {
       textTransform: 'uppercase',
     },
     dashboardBtn: {
-      backgroundColor: '#ff9800',
+      backgroundColor: orange[500],
       color: theme.palette.primary.contrastText,
       fontWeight: Fonts.BOLD,
       paddingRight: 20,
       marginRight: 20,
-      textTransform: 'none',
       paddingLeft: 20,
       '&:hover, &:focus': {
-        backgroundColor: '#ff9800',
-        color: theme.palette.secondary.contrastText,
+        backgroundColor: orange[700],
+        color: theme.palette.primary.contrastText,
       },
     },
   }));

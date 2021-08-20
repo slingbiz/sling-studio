@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {makeStyles, IconButton} from '@material-ui/core';
@@ -15,44 +15,19 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AppSearch from '../../../../@sling/core/SearchBar';
 import Tooltip from '@material-ui/core/Tooltip';
 import AlertModal from '../../../../shared/components/Sling/AlertModal';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import {useDispatch, useSelector} from 'react-redux';
 import EditApiMappings from './EditApiMappings';
 import NewAPI from './NewAPI';
-const demoApiList = [
-  {
-    key: 'listing',
-    title: 'Product List Api',
-    description: 'Product list search Api with aggregated filters',
-    image_url: '',
-    icon: '',
-    enabled: true,
-  },
-  {
-    key: 'detail',
-    title: 'Category List Api',
-    description: 'List of all available categories',
-    image_url: '',
-    icon: '',
-    enabled: true,
-  },
-  {
-    key: 'home',
-    title: 'User Details Api',
-    description: 'Logged in User Details',
-    image_url: '',
-    icon: '',
-    enabled: true,
-  },
-  {
-    key: 'home',
-    title: 'Product Details Api',
-    description: 'Details of a single product',
-    image_url: '',
-    enabled: true,
-  },
-];
+import {getApiList} from '../../../../redux/actions';
 
 const ApiList = (props) => {
+  const dispatch = useDispatch();
+  const {apiList} = useSelector(({apiList}) => apiList);
+
+  useEffect(() => {
+    dispatch(getApiList());
+  }, [dispatch]);
+
   const useStyles = makeStyles((theme) => ({
     taskBtn: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
@@ -77,10 +52,11 @@ const ApiList = (props) => {
       color: theme.palette.primary.contrastText,
       fontWeight: Fonts.BOLD,
       paddingRight: 20,
+      marginRight: 20,
       paddingLeft: 20,
       '&:hover, &:focus': {
         backgroundColor: orange[700],
-        color: theme.palette.secondary.contrastText,
+        color: theme.palette.primary.contrastText,
       },
     },
     basicFormTxt: {
@@ -139,15 +115,21 @@ const ApiList = (props) => {
           Headless Api List
         </Box>
         <Box display='flex' alignItems='center'>
-          <IconButton
-            className={classes.iconRoot}
+          {/*<IconButton*/}
+          {/*  className={classes.iconRoot}*/}
+          {/*  aria-label='add'*/}
+          {/*  component='span'*/}
+          {/*  onClick={() => {*/}
+          {/*    setMapperDialogNewAPI(true);*/}
+          {/*  }}>*/}
+          {/*  <AddCircleOutlineIcon />*/}
+          {/*</IconButton>*/}
+          <Button
+            className={classes.button}
             aria-label='add'
-            component='span'
-            onClick={() => {
-              setMapperDialogNewAPI(true);
-            }}>
-            <AddCircleOutlineIcon />
-          </IconButton>
+            onClick={() => setMapperDialogNewAPI(true)}>
+            Add Api
+          </Button>
           <AppSearch
             placeholder='Search here'
             onChange={(e) => e.target.value}
@@ -169,7 +151,7 @@ const ApiList = (props) => {
           titleKey={'Map Sling Keys'}
           pageKey={'sling-mappings'}
         />
-        {demoApiList.map((apiObj) => {
+        {apiList?.map((apiObj) => {
           return (
             <Box key={apiObj.key} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
@@ -247,9 +229,9 @@ const ApiList = (props) => {
 
         <Divider className={classes.divider} />
 
-        <Button className={classes.button} onClick={() => {}}>
-          Save
-        </Button>
+        {/*<Button className={classes.button} onClick={() => {}}>*/}
+        {/*  Save*/}
+        {/*</Button>*/}
       </Box>
     </>
   );

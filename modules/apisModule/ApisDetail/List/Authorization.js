@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   border2: {
     border: '1px solid #cccccc',
-    padding: '5px 10px',
+    // padding: '5px 10px',
     backgroundColor: '#fefefe',
   },
   input: {
@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  txtAuth: {},
 }));
 const Authorization = ({auth, setAuth}) => {
   const classes = useStyles();
@@ -94,8 +95,12 @@ const Authorization = ({auth, setAuth}) => {
         </Grid>
       </Grid> */}
       <Grid item xs={12} justify='space-between'>
-        <Grid container className={classes.mainContainer} direction='column'>
-          <Grid item xs={4}>
+        <Grid
+          container
+          className={classes.mainContainer}
+          direction='column'
+          spacing={5}>
+          <Grid item xs={12}>
             <FormControl variant='outlined'>
               <RadioGroup
                 aria-label='auth'
@@ -110,9 +115,9 @@ const Authorization = ({auth, setAuth}) => {
                   label='Bearer Token'
                 />
                 <FormControlLabel
-                  value='API KEY'
+                  value='API Key'
                   control={<Radio color='primary' />}
-                  label='API KEY'
+                  label='API Key'
                 />
               </RadioGroup>
               {/* <TextField
@@ -134,8 +139,10 @@ const Authorization = ({auth, setAuth}) => {
               </TextField> */}
             </FormControl>
           </Grid>
-          <Grid item xs={8} className={classes.border2}>
+          <Grid item xs={12} className={classes.border2}>
             <TextField
+              ml={10}
+              className={classes.txtAuth}
               variant='standard'
               placeholder={auth.key}
               InputProps={{

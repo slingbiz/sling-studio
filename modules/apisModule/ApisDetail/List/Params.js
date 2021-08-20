@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: 'none',
     },
   },
+  addBtn: {
+    marginTop: 20,
+    marginLeft: 10,
+    width: '50%',
+    border: '1px solid #d6cdc185',
+  },
   mainContainer: {
     padding: '5px 10px',
   },
@@ -25,21 +31,26 @@ const useStyles = makeStyles((theme) => ({
     padding: '5px 10px',
     backgroundColor: '#fefefe',
   },
+  paramBtnGrid: {
+    padding: '10px 10px',
+    display: 'flex',
+  },
   input: {
-    height: 20,
-    fontSize: 14,
+    // height: 20,
+    // fontSize: 14,
     width: '100%',
     outline: 'none',
     border: 'none',
     padding: '5px',
   },
   btn: {
-    height: 20,
-    background: 'none',
+    // height: 20,
+    // background: 'none',
     outline: 'none',
-    border: 'none',
+    marginLeft: 15,
+    border: '1px solid #d6cdc185',
     cursor: 'pointer',
-    padding: '5px 10px',
+    padding: '5px 20px',
     borderRadius: '3px',
     '&:hover': {
       backgroundColor: '#eeeeee',
@@ -118,8 +129,10 @@ const Params = ({params, setParams}) => {
                 onChange={updateParamsValue(index)}
               />
             </Grid>
-            <Grid item xs={4} className={classes.border2}>
+            <Grid item xs={4} className={classes.paramBtnGrid}>
               <Button
+                // variant={'contained'}
+                color='default'
                 className={classes.btn}
                 onClick={() => handleRemove(index)}
                 disabled={params.length <= 1}>
@@ -130,7 +143,11 @@ const Params = ({params, setParams}) => {
         </Grid>
       ))}
       <Grid item xs={6} md={3}>
-        <Button variant='text' color='inherit' fullWidth onClick={handleClick}>
+        <Button
+          variant='text'
+          color='inherit'
+          className={classes.addBtn}
+          onClick={handleClick}>
           Add
         </Button>
       </Grid>

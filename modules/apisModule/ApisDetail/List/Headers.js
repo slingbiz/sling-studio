@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: 'none',
     },
   },
+  addBtn: {
+    marginTop: 20,
+    marginLeft: 10,
+    width: '50%',
+    border: '1px solid #d6cdc185',
+  },
   mainContainer: {
     padding: '5px 10px',
   },
@@ -25,18 +31,23 @@ const useStyles = makeStyles((theme) => ({
     padding: '5px 10px',
     backgroundColor: '#fefefe',
   },
+  paramBtnGrid: {
+    padding: '5px 10px',
+    display: 'flex',
+  },
   input: {
-    height: 20,
+    // height: 20,
     width: '100%',
     outline: 'none',
     border: 'none',
     padding: '5px',
   },
   btn: {
-    height: 20,
-    background: 'none',
+    // height: 20,
+    // background: 'none',
+    border: '1px solid #d6cdc185',
+    marginLeft: 15,
     outline: 'none',
-    border: 'none',
     cursor: 'pointer',
     padding: '5px 10px',
     borderRadius: '3px',
@@ -106,7 +117,7 @@ const Headers = ({headers, setHeaders}) => {
               <Grid item xs={4} className={classes.border2}>
                 <TextField
                   variant='standard'
-                  placeholder='Key'
+                  placeholder='Value'
                   InputProps={{
                     className: classes.input,
                   }}
@@ -121,7 +132,7 @@ const Headers = ({headers, setHeaders}) => {
               <Grid
                 item
                 xs={4}
-                className={classes.border2}
+                className={classes.paramBtnGrid}
                 alignItems='center'
                 justify='center'>
                 <Button
@@ -135,7 +146,11 @@ const Headers = ({headers, setHeaders}) => {
           </Grid>
         ))}
       <Grid item xs={6} md={3}>
-        <Button variant='text' color='inherit' fullWidth onClick={handleClick}>
+        <Button
+          variant='text'
+          color='inherit'
+          className={classes.addBtn}
+          onClick={handleClick}>
           Add
         </Button>
       </Grid>

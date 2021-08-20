@@ -27,7 +27,7 @@ const defaultConfig = {
         contrastText: '#fff',
       },
       secondary: {
-        main: '#F04F47',
+        main: '#ff9800',
       },
       sidebar: {
         bgColor: '#313541',

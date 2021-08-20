@@ -9,3 +9,4 @@ import './contact/index';
 import './scrumboard/index';
 import './chat/index';
 import './wall/index';
+import './apiList/index';

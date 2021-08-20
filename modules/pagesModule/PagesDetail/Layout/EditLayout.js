@@ -206,7 +206,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             Cancel
           </Button>
           <Button autoFocus color='inherit' onClick={handleRootSave}>
-            save
+            Save
           </Button>
         </Toolbar>
       </AppBar>
