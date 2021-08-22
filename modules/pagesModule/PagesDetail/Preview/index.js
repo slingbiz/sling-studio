@@ -11,6 +11,8 @@ import {
   Button,
 } from '@material-ui/core';
 import PreviewModal from './Modal';
+import orange from '@material-ui/core/colors/orange';
+import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -18,15 +20,25 @@ const useStyles = makeStyles((theme) => ({
   },
   listRoot: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
   },
   urlContainer: {
     maxHeight: '20em',
     height: '100%',
-    overflowY: 'scroll',
     '& .MuiListItem-root': {
       paddingTop: theme.spacing(0.5),
       paddingBottom: theme.spacing(0.5),
+    },
+  },
+  button: {
+    height: '50px',
+    backgroundColor: orange[500],
+    color: theme.palette.primary.contrastText,
+    fontWeight: Fonts.BOLD,
+    paddingRight: 20,
+    paddingLeft: 20,
+    '&:hover, &:focus': {
+      backgroundColor: orange[700],
+      color: theme.palette.primary.contrastText,
     },
   },
 }));
@@ -70,6 +82,7 @@ const Preview = () => {
               <Button
                 variant='contained'
                 color='primary'
+                className={classes.button}
                 onClick={() => setPreviewMapperDialog(true)}>
                 Preview
               </Button>
@@ -77,7 +90,7 @@ const Preview = () => {
           </Grid>
         </Grid>
         <Grid item xs={10} sm={8}>
-          <Box my={5} mx={5} className={classes.urlContainer}>
+          <Box my={2} mx={2} className={classes.urlContainer}>
             <List className={classes.listRoot}>
               {filterData?.map((item, index) => (
                 <ListItem
@@ -109,4 +122,7 @@ const allUrls = [
   'https://www.freecodecamp.org/',
   'https://www.pexels.com/',
   'https://dev.to/',
+  'https://www.stackbit.com/',
+  'https://airbnb-clone-typescript.vercel.app/',
+  'https://hulu-clone-nextjs-lilac.vercel.app/',
 ];

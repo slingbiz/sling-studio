@@ -44,6 +44,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const PreviewModal = ({open, setOpen, urlToPreview}) => {
   const classes = useStyles();
   const [screenMode, setScreenMode] = useState('DESKTOP');
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -68,16 +69,25 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
               color={getIconColor('DESKTOP')}
               onClick={() => setScreenMode('DESKTOP')}>
               <LaptopIcon />
+              <Typography variant='caption' component='span'>
+                Laptop
+              </Typography>
             </IconButton>
             <IconButton
               color={getIconColor('TABLET')}
               onClick={() => setScreenMode('TABLET')}>
               <TabletAndroidIcon />
+              <Typography variant='caption' component='span'>
+                Tablet
+              </Typography>
             </IconButton>
             <IconButton
               color={getIconColor('MOBILE')}
               onClick={() => setScreenMode('MOBILE')}>
               <PhoneAndroidIcon />
+              <Typography variant='caption' component='span'>
+                Mobile
+              </Typography>
             </IconButton>
           </Box>
           <Button autoFocus color='inherit' onClick={handleClose}>
@@ -88,11 +98,10 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
       <Grid
         container
         className={classes.root}
-        spacing={3}
         alignItems='center'
         direction='column'>
         <Grid item xs={12}>
-          <Box mx={5} my={8}>
+          <Box my={5}>
             {screenMode === 'DESKTOP' && (
               <Desktop urlToPreview={urlToPreview} />
             )}

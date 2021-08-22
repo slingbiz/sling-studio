@@ -19,11 +19,7 @@ const Mobile = ({urlToPreview}) => {
       </div>
       <div class='inner-shadow'></div>
       <div class='screen'>
-        <iframe
-          src={urlToPreview}
-          width='100%'
-          height='100%'
-          style={{paddingTop: '20px'}}></iframe>
+        <iframe src={urlToPreview} width='100%' height='100%'></iframe>
       </div>
     </div>
   );
