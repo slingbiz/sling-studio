@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 const Preview = () => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
@@ -66,7 +67,7 @@ const Preview = () => {
     <>
       <AppHeader>Preview Page</AppHeader>
       <Grid container direction='column' className={classes.mainContainer}>
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid item xs={12} sm={8} md={12}>
           <Grid container direction='row' alignItems='center' spacing={3}>
             <Grid item xs={8}>
               <TextField
@@ -120,6 +121,7 @@ export default Preview;
 
 const allUrls = [
   'https://www.freecodecamp.org/',
+  'https:///sling.biz/frontend',
   'https://www.pexels.com/',
   'https://dev.to/',
   'https://www.stackbit.com/',
