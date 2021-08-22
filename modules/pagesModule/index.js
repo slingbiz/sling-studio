@@ -29,11 +29,6 @@ const Index = (props) => {
   const classes = useStyle();
 
   const onGetMainComponent = () => {
-    console.log(
-      props.router.query.all.length,
-      'props.router.query.all.length',
-      props.router.query.all,
-    );
     let pageKey = props.router.query.all[0];
     if (props.router.query.all.length > 1) {
       return <PagesDetail titleKey={getTitle()} pageKey={pageKey} />;

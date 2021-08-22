@@ -8,6 +8,7 @@ import LocaleProvider from '../@sling/utility/LocaleProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/index.css';
+import '../styles/devices.css';
 import '../@sling/services/index';
 import AuthRoutes from '../@sling/utility/AuthRoutes';
 import PageMeta from '../@sling/core/PageMeta';

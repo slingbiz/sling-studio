@@ -29,6 +29,7 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
+  console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'guide';
     console.log(all?.length, '@@@@all?.length@@@@');

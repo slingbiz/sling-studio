@@ -6,6 +6,7 @@ import Basic from './Basic';
 import Layout from './Layout';
 import DataSource from './DataSource';
 import TasksList from '../TasksList';
+import Preview from './Preview';
 
 const PagesDetail = (props) => {
   const dispatch = useDispatch();
@@ -15,10 +16,12 @@ const PagesDetail = (props) => {
   const sectionMapper = {
     basic: Basic,
     layout: Layout,
+    preview: Preview,
     data: DataSource,
   };
 
   const RenderSection = sectionMapper[id];
+  console.log('Render Section ==> ', RenderSection);
   if (RenderSection) {
     return (
       <Box style={{height: '100%'}}>
@@ -26,7 +29,6 @@ const PagesDetail = (props) => {
       </Box>
     );
   }
-
   return <TasksList {...props}></TasksList>;
 };
 
