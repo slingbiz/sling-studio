@@ -4,7 +4,6 @@ import {
   Grid,
   TextField,
   makeStyles,
-  Box,
   List,
   ListItem,
   ListItemText,
@@ -15,16 +14,24 @@ import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {addURL} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
   },
   listRoot: {
     width: '100%',
+    maxHeight: '100%',
+    overflow: 'auto',
+    border: 'none',
   },
   urlContainer: {
-    maxHeight: '20em',
+    border: 'none',
+    boxShadow: 'none',
+    maxHeight: '35em',
+    overflow: 'auto',
     height: '100%',
     '& .MuiListItem-root': {
       paddingTop: theme.spacing(0.5),
@@ -77,6 +84,12 @@ const Preview = () => {
     <>
       <AppHeader>Preview Page</AppHeader>
       <Grid container direction='column' className={classes.mainContainer}>
+        <Grid item xs={12} sm={12} md={12}>
+          <Box fontWeight={Fonts.MEDIUM} component='h5' mb={5}>
+            The list shows Page Urls matching this Page Template. Select and
+            click Preview to preview a page.
+          </Box>
+        </Grid>
         <Grid item xs={12} sm={8} md={12}>
           <Grid container direction='row' alignItems='center' spacing={3}>
             <Grid item xs={8}>
@@ -101,13 +114,12 @@ const Preview = () => {
           </Grid>
         </Grid>
         <Grid item xs={10} sm={8}>
-          <Box my={2} mx={2} className={classes.urlContainer}>
+          <Paper className={classes.urlContainer}>
             <List className={classes.listRoot}>
               {filterData?.map((item, index) => (
                 <ListItem
                   value={item}
                   key={index}
-                  role={undefined}
                   dense
                   button
                   onClick={() => handleClick(item)}>
@@ -115,7 +127,7 @@ const Preview = () => {
                 </ListItem>
               ))}
             </List>
-          </Box>
+          </Paper>
         </Grid>
       </Grid>
       <PreviewModal
