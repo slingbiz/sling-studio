@@ -152,4 +152,6 @@ export const GET_GALLERY_PHOTO = 'get_gallery_photo';
 
 //API LIST
 export const GET_API_LIST = `get_api_list`;
+export const GET_URL_LIST = `get_url_list`;
 export const ADD_API = `add_api`;
+export const Add_URL = `add_api`;

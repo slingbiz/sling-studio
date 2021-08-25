@@ -13,3 +13,4 @@ export * from './JWTAuth';
 export * from './Wall';
 export * from './ChatApp';
 export * from './ApiList';
+export * from './UrlList';

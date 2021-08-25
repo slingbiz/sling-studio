@@ -13,6 +13,8 @@ import {
 import PreviewModal from './Modal';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
+import {addURL} from '../../../../redux/actions';
+import {useSelector, useDispatch} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -44,20 +46,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Preview = () => {
+  const dispatch = useDispatch();
+  const {urlList} = useSelector(({UrlList}) => UrlList);
   const classes = useStyles();
   const [query, setQuery] = useState('');
-  const [filterData, setFilterData] = useState(allUrls);
+  const [filterData, setFilterData] = useState();
   const [urlToPreview, setUrlToPreview] = useState('');
   const [previewMapperDialog, setPreviewMapperDialog] = useState(false);
 
   useEffect(() => {
+    dispatch(addURL());
+  }, [dispatch]);
+  useEffect(() => {
     let result = [];
-    result = allUrls.filter((data) => {
+    result = urlList?.filter((data) => {
       return data.search(query) != -1;
     });
     setFilterData(result);
   }, [query]);
 
+  useEffect(() => {
+    setFilterData(urlList);
+  }, [urlList]);
   const handleClick = (item) => {
     setQuery(item);
     setUrlToPreview(item);
@@ -118,13 +128,3 @@ const Preview = () => {
 };
 
 export default Preview;
-
-const allUrls = [
-  'https://www.freecodecamp.org/',
-  'https:///sling.biz/frontend',
-  'https://www.pexels.com/',
-  'https://dev.to/',
-  'https://www.stackbit.com/',
-  'https://airbnb-clone-typescript.vercel.app/',
-  'https://hulu-clone-nextjs-lilac.vercel.app/',
-];
