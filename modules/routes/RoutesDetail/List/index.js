@@ -17,7 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AlertModal from '../../../../shared/components/Sling/AlertModal';
 import {useDispatch, useSelector} from 'react-redux';
 import EditApiMappings from './EditApiMappings';
-import NewAPI from './NewAPI';
+import NewRoute from './NewRoute';
 import {getApiList} from '../../../../redux/actions';
 
 const ApiList = (props) => {
@@ -98,7 +98,7 @@ const ApiList = (props) => {
   const [openEditAPI, setOpenEditAPI] = useState(false);
   const [openNewAPI, setOpenNewAPI] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
-  const [mapperDialogNewAPI, setMapperDialogNewAPI] = useState(false);
+  const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
 
   const handleClose = () => {
     setOpenEditAPI(false);
@@ -115,20 +115,11 @@ const ApiList = (props) => {
           Routes List
         </Box>
         <Box display='flex' alignItems='center'>
-          {/*<IconButton*/}
-          {/*  className={classes.iconRoot}*/}
-          {/*  aria-label='add'*/}
-          {/*  component='span'*/}
-          {/*  onClick={() => {*/}
-          {/*    setMapperDialogNewAPI(true);*/}
-          {/*  }}>*/}
-          {/*  <AddCircleOutlineIcon />*/}
-          {/*</IconButton>*/}
           <Button
             className={classes.button}
             aria-label='add'
-            onClick={() => setMapperDialogNewAPI(true)}>
-            Add Api
+            onClick={() => setMapperDialogRoute(true)}>
+            Add New Route
           </Button>
           <AppSearch
             placeholder='Search here'
@@ -136,11 +127,11 @@ const ApiList = (props) => {
           />
         </Box>
       </AppsHeader>
-      <NewAPI
-        open={mapperDialogNewAPI}
-        setOpen={setMapperDialogNewAPI}
-        titleKey={'New API'}
-        pageKey={'sling-mappings'}
+      <NewRoute
+        open={mapperDialogRoute}
+        setOpen={setMapperDialogRoute}
+        titleKey={'New Route'}
+        pageKey={'new-route'}
       />
 
       <Box px={6} pb={8}>
