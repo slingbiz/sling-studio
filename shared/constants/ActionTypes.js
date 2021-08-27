@@ -152,6 +152,15 @@ export const GET_GALLERY_PHOTO = 'get_gallery_photo';
 
 //API LIST
 export const GET_API_LIST = `get_api_list`;
-export const GET_URL_LIST = `get_url_list`;
 export const ADD_API = `add_api`;
+
+//URL List
+export const GET_URL_LIST = `get_url_list`;
 export const Add_URL = `add_api`;
+
+//Routes
+export const GET_ROUTES_LIST = `get_routes_list`;
+export const ADD_NEW_ROUTE = `add_new_route`;
+
+// Page Template
+export const GET_PAGE_TEMPLATE = `get_page_template`;

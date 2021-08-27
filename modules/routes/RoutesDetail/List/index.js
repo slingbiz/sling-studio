@@ -1,34 +1,51 @@
 import React, {useEffect, useState} from 'react';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+import {
+  Divider,
+  Button,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Tooltip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from '@material-ui/core';
 import {makeStyles, IconButton} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import Card from '@material-ui/core/Card';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Edit from '@material-ui/icons/Edit';
-import Grid from '@material-ui/core/Grid';
-import Close from '@material-ui/icons/Close';
+import {Edit, Close} from '@material-ui/icons';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AppSearch from '../../../../@sling/core/SearchBar';
-import Tooltip from '@material-ui/core/Tooltip';
-import AlertModal from '../../../../shared/components/Sling/AlertModal';
+import DeleteModal from './DeleteModal';
 import {useDispatch, useSelector} from 'react-redux';
 import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
-import {getApiList} from '../../../../redux/actions';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {getRoutesList} from '../../../../redux/actions';
+import EditLayout from './EditLayout';
 
 const ApiList = (props) => {
   const dispatch = useDispatch();
-  const {apiList} = useSelector(({apiList}) => apiList);
+  const {routesList} = useSelector(({routeList}) => routeList);
 
   useEffect(() => {
-    dispatch(getApiList());
+    dispatch(getRoutesList());
   }, [dispatch]);
 
   const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      '& .MuiPaper-elevation1': {
+        boxShadow: 'none',
+      },
+    },
+    heading: {
+      fontSize: theme.typography.pxToRem(15),
+      fontWeight: theme.typography.fontWeightRegular,
+    },
     taskBtn: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
     },
@@ -46,6 +63,10 @@ const ApiList = (props) => {
     textArea: {
       width: '100%',
       marginBottom: 16,
+    },
+
+    accordion: {
+      backgroundColor: '#fdfdfd',
     },
     button: {
       backgroundColor: orange[500],
@@ -96,8 +117,9 @@ const ApiList = (props) => {
 
   const classes = useStyles(props);
   const [openEditAPI, setOpenEditAPI] = useState(false);
-  const [openNewAPI, setOpenNewAPI] = useState(false);
+  const [open, setOpen] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
+  const [editRoute, setEditRoute] = useState();
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
 
   const handleClose = () => {
@@ -108,6 +130,7 @@ const ApiList = (props) => {
     setOpenEditAPI(true);
   };
 
+  console.log('ROutes LIst ==> ', routesList);
   return (
     <>
       <AppsHeader>
@@ -133,18 +156,25 @@ const ApiList = (props) => {
         titleKey={'New Route'}
         pageKey={'new-route'}
       />
+      <EditLayout
+        setOpen={setOpen}
+        open={open}
+        titleKey={'Edit Layout'}
+        pageKey={'routes'}
+      />
 
       <Box px={6} pb={8}>
-        <AlertModal open={openEditAPI} handleClose={handleClose} />
+        <DeleteModal open={openEditAPI} handleClose={handleClose} />
         <EditApiMappings
           open={mapperDialog}
           setOpen={setMapperDialog}
-          titleKey={'Map Sling Keys'}
-          pageKey={'sling-mappings'}
+          titleKey={'Edit Route'}
+          pageKey={'routes-list'}
+          apiObj={editRoute}
         />
-        {apiList?.map((apiObj) => {
+        {routesList?.routes_list?.map((apiObj, index) => {
           return (
-            <Box key={apiObj.key} pt={6} className={classes.boxSection}>
+            <Box key={index} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
                 <Grid container>
                   <Grid item xs={2}>
@@ -153,18 +183,17 @@ const ApiList = (props) => {
                   <Grid item xs={7}>
                     <CardContent>
                       <Box fontWeight={Fonts.BOLD} component='h3' mb={2}>
-                        {apiObj.title}
+                        {apiObj.id}
                       </Box>
                       <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
-                        {apiObj.description}
+                        {apiObj.url_string}
+                      </Box>
+                      <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
+                        {apiObj.version}
                       </Box>
                     </CardContent>
                   </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    alignItems={'center'}
-                    justifyContent={'center'}>
+                  <Grid item xs={3}>
                     <Box
                       className={classes.actionsBox}
                       display='flex'
@@ -190,6 +219,7 @@ const ApiList = (props) => {
                               aria-label='edit'
                               component='span'
                               onClick={() => {
+                                setEditRoute(apiObj);
                                 setMapperDialog(true);
                               }}>
                               <Edit />
@@ -211,6 +241,31 @@ const ApiList = (props) => {
                         </label>
                       </Box>
                     </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Accordion className={classes.accordion}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls='panel1a-content'
+                        id='panel1a-header'>
+                        <Typography className={classes.heading}>
+                          More Info
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}>
+                        <Typography>Keys : {apiObj?.keys}</Typography>
+                        <Button
+                          onClick={() => setOpen(true)}
+                          variant='contained'
+                          color='primary'>
+                          Edit Layout
+                        </Button>
+                      </AccordionDetails>
+                    </Accordion>
                   </Grid>
                 </Grid>
               </Card>

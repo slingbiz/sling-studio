@@ -15,6 +15,8 @@ import ChatApp from './ChatApp';
 import ApiList from './ApiList';
 import Wall from './Wall';
 import UrlList from './UrlList';
+import RouteList from './Route';
+import PageTemplate from './PageTemplate';
 
 const reducers = combineReducers({
   settings: Settings,
@@ -33,5 +35,7 @@ const reducers = combineReducers({
   wall: Wall,
   apiList: ApiList,
   UrlList: UrlList,
+  routeList: RouteList,
+  pageTemplate: PageTemplate,
 });
 export default reducers;

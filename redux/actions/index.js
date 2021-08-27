@@ -14,3 +14,5 @@ export * from './Wall';
 export * from './ChatApp';
 export * from './ApiList';
 export * from './UrlList';
+export * from './Route';
+export * from './PageTemplate';

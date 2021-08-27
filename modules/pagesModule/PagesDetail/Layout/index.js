@@ -106,7 +106,7 @@ const Layout = (props) => {
           display: 'flex',
           justifyContent: 'space-between',
           'overflow-y': 'auto',
-          height: '100%'
+          height: '100%',
         }}
         className={classes.wrapper}>
         <Box
@@ -114,7 +114,7 @@ const Layout = (props) => {
             display: 'flex',
             flexDirection: 'column',
             'overflow-y': 'auto',
-            height: '100%'
+            height: '100%',
           }}
           className={classes.layoutBox}>
           <Fab

@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Grid, TextField, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import {useDispatch} from 'react-redux';
+import {addRoute} from '../../../../redux/actions';
+import Modal from './Modal';
+import {useEffect} from 'react';
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -26,13 +30,25 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
   },
 }));
-const Basic = ({setOpen}) => {
+const Basic = ({setOpen, apiObj}) => {
   const classes = useStyles();
   const [routeName, setRouteName] = useState('');
   const [pattern, setPattern] = useState('');
   const [dynamicParams, setDynamicParams] = useState({});
   const [isDynamic, setIsDynamic] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [pageTemplate, setPageTemplate] = useState('');
+  const dispatch = useDispatch();
   var re = /\<.*\>/;
+
+  useEffect(() => {
+    if (apiObj) {
+      setRouteName(apiObj.type);
+      setPattern(apiObj.url_string);
+      setIsDynamic(apiObj.type === 'dynamic' ? true : false);
+      setPageTemplate(apiObj.page_template);
+    }
+  }, []);
 
   function parseUrl() {
     let matches = pattern.match(/<.+?>/g);
@@ -48,15 +64,28 @@ const Basic = ({setOpen}) => {
     setIsDynamic(false);
   }
 
+  function openNewModal() {
+    setOpenModal(true);
+  }
   function handleSave() {
     let userInput = pattern;
     for (var key in dynamicParams) {
       userInput = userInput.replace('<' + key + '>', dynamicParams[key]);
     }
+
     setPattern(userInput);
+    dispatch(
+      addRoute({
+        name: routeName,
+        keys: Object.keys(dynamicParams),
+        page_template: pageTemplate.value,
+        sample_string: userInput,
+        url: pattern,
+      }),
+    );
+    setOpenModal(false);
     setOpen(false);
   }
-
   return (
     <>
       <Grid
@@ -163,7 +192,7 @@ const Basic = ({setOpen}) => {
               variant='contained'
               color='primary'
               className={classes.saveButton}
-              onClick={handleSave}>
+              onClick={openNewModal}>
               Save
             </Button>
           </Grid>
@@ -187,12 +216,19 @@ const Basic = ({setOpen}) => {
               variant='contained'
               color='primary'
               className={classes.saveButton}
-              onClick={handleSave}>
+              onClick={openNewModal}>
               Save
             </Button>
           </Grid>
         </Grid>
       )}
+      <Modal
+        setOpenModal={setOpenModal}
+        openModal={openModal}
+        value={pageTemplate}
+        setValue={setPageTemplate}
+        handleSave={handleSave}
+      />
     </>
   );
 };

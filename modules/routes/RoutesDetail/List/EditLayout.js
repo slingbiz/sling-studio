@@ -150,7 +150,6 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const childRef = useRef();
 
-  console.log('Page Key ==> ', pageKey);
   const handleClose = () => {
     setOpen(false);
   };
