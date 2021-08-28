@@ -25,7 +25,7 @@ import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {getRoutesList} from '../../../../redux/actions';
-import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
+import EditLayout from './EditLayout';
 
 const ApiList = (props) => {
   const dispatch = useDispatch();
@@ -160,7 +160,7 @@ const ApiList = (props) => {
         setOpen={setOpen}
         open={open}
         titleKey={'Edit Layout'}
-        pageKey={'listing'}
+        pageKey={'routes'}
       />
 
       <Box px={6} pb={8}>
