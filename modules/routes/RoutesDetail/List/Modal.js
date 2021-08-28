@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Modal, Backdrop, Fade, Button, TextField} from '@material-ui/core';
+import {
+  Modal,
+  Backdrop,
+  Fade,
+  Button,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import Select from 'react-select';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPageTemplates} from '../../../../redux/actions';
@@ -15,16 +22,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     marginBottom: 10,
   },
+  typography: {
+    // marginBottom: 10,
+  },
   paper: {
     width: '40%',
-    minHeight: 150,
+    minHeight: 220,
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ddd',
     borderRadius: 5,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-evenly',
     paddingTop: 30,
     [theme.breakpoints.down('sm')]: {
       width: '60%',
@@ -35,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     width: 120,
-    marginTop: 25,
+    // marginTop: 25,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -80,6 +91,12 @@ const RouteModal = ({setOpenModal, openModal, value, setValue, handleSave}) => {
         }}>
         <Fade in={openModal}>
           <div className={classes.paper}>
+            <Typography
+              variant='h6'
+              component='h6'
+              className={classes.typography}>
+              Select a Page Template
+            </Typography>
             <Select
               options={options}
               value={value}

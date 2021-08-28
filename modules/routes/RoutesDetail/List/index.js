@@ -66,7 +66,8 @@ const ApiList = (props) => {
     },
 
     accordion: {
-      backgroundColor: '#fdfdfd',
+      backgroundColor: '#f1f1f1',
+      boxShadow: 'none',
     },
     button: {
       backgroundColor: orange[500],

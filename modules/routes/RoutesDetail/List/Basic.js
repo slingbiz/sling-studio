@@ -75,7 +75,8 @@ const Basic = ({setOpen, apiObj}) => {
     setIsDynamic(false);
   }
 
-  function openNewModal() {
+  function openNewModal(event) {
+    event.preventDefault();
     setOpenModal(true);
   }
   function handleSave() {
@@ -170,43 +171,46 @@ const Basic = ({setOpen, apiObj}) => {
           spacing={3}
           direction='column'
           alignItems='center'>
-          {Object.entries(dynamicParams).map((item, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              className={classes.typography}
-              key={index}>
-              <TextField
-                variant='standard'
-                label={item[0]}
-                InputProps={{
-                  className: classes.input,
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={dynamicParams[item[1]]}
-                onChange={(e) =>
-                  setDynamicParams({
-                    ...dynamicParams,
-                    [item[0]]: e.target.value,
-                  })
-                }
-                fullWidth
-              />
+          <form onSubmit={openNewModal}>
+            {Object.entries(dynamicParams).map((item, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                className={classes.typography}
+                key={index}>
+                <TextField
+                  variant='standard'
+                  label={item[0]}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={dynamicParams[item[1]]}
+                  onChange={(e) =>
+                    setDynamicParams({
+                      ...dynamicParams,
+                      [item[0]]: e.target.value,
+                    })
+                  }
+                  required
+                  fullWidth
+                />
+              </Grid>
+            ))}
+            <Grid item xs={12} sm={6} md={4} className={classes.typography}>
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.saveButton}
+                type='submit'>
+                Save
+              </Button>
             </Grid>
-          ))}
-          <Grid item xs={12} sm={6} md={4} className={classes.typography}>
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.saveButton}
-              onClick={openNewModal}>
-              Save
-            </Button>
-          </Grid>
+          </form>
         </Grid>
       )}
       {!isDynamic && (

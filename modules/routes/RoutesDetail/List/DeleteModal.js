@@ -62,7 +62,7 @@ export default function AlertModal(props) {
             className={classes.alertBtn}
             autoFocus
             disabled>
-            Reroute to other page - Pro Feature
+            Reroute <sup> Pro Feature</sup>
           </Button>
         </DialogActions>
       </Dialog>
