@@ -60,7 +60,8 @@ const Basic = ({setOpen, apiObj}) => {
     }
   }, []);
 
-  function parseUrl() {
+  function parseUrl(event) {
+    event.preventDefault();
     setIsDynamic(true);
     let matches = pattern.match(/<.+?>/g);
     const newArray = matches.map((match) => match.replace(/[<>]/g, ''));
@@ -70,7 +71,8 @@ const Basic = ({setOpen, apiObj}) => {
     });
     setDynamicParams(object);
   }
-  function continueWithParse() {
+  function continueWithParse(event) {
+    event.preventDefault();
     setDynamicParams({});
     setIsDynamic(false);
   }
@@ -114,55 +116,49 @@ const Basic = ({setOpen, apiObj}) => {
             Add New Route
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            variant='standard'
-            label='Route Name'
-            InputProps={{
-              className: classes.input,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={routeName}
-            onChange={(e) => setRouteName(e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            variant='standard'
-            label='Add Pattern'
-            InputProps={{
-              className: classes.input,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={pattern}
-            onChange={(e) => setPattern(e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          {re.test(pattern) ? (
+        <form onSubmit={re.test(pattern) ? parseUrl : continueWithParse}>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              variant='standard'
+              label='Route Name'
+              InputProps={{
+                className: classes.input,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={routeName}
+              onChange={(e) => setRouteName(e.target.value)}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              variant='standard'
+              label='Add Pattern'
+              InputProps={{
+                className: classes.input,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={pattern}
+              onChange={(e) => setPattern(e.target.value)}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Button
               variant='contained'
               color='primary'
               className={classes.button}
-              onClick={parseUrl}>
-              Parse
+              type='submit'>
+              {re.test(pattern) ? 'Parse' : 'Continue'}
             </Button>
-          ) : (
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              onClick={continueWithParse}>
-              Continue
-            </Button>
-          )}
-        </Grid>
+          </Grid>
+        </form>
       </Grid>
       {!!Object.entries(dynamicParams).length && (
         <Grid
