@@ -25,7 +25,7 @@ import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {getRoutesList} from '../../../../redux/actions';
-import EditLayout from './EditLayout';
+import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 
 const ApiList = (props) => {
   const dispatch = useDispatch();
@@ -89,9 +89,9 @@ const ApiList = (props) => {
       alignItems: 'center',
       width: '100%',
       border: '1px solid #eae8e8',
-      padding: '15px',
+      padding: 15,
       background: '#f1f1f1',
-      borderRadius: '5px',
+      borderRadius: 5,
     },
     apiCardImage: {
       height: '100%',
@@ -160,7 +160,7 @@ const ApiList = (props) => {
         setOpen={setOpen}
         open={open}
         titleKey={'Edit Layout'}
-        pageKey={'routes'}
+        pageKey={'listing'}
       />
 
       <Box px={6} pb={8}>

@@ -9,17 +9,27 @@ import {useEffect} from 'react';
 const useStyles = makeStyles((theme) => ({
   typography: {
     textAlign: 'center',
+    marginTop: 30,
+    marginBottom: 20,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+    },
   },
   input: {
-    width: 350,
+    width: 400,
     border: 'none',
-    padding: '5px',
-    marginLeft: '5px',
-    marginRight: '5px',
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    [theme.breakpoints.down('xs')]: {
+      width: 280,
+    },
   },
   button: {
     textAlign: 'center',
     width: 150,
+    marginTop: 15,
+    marginBottom: 15,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -51,6 +61,7 @@ const Basic = ({setOpen, apiObj}) => {
   }, []);
 
   function parseUrl() {
+    setIsDynamic(true);
     let matches = pattern.match(/<.+?>/g);
     const newArray = matches.map((match) => match.replace(/[<>]/g, ''));
     let object = {};
@@ -105,7 +116,7 @@ const Basic = ({setOpen, apiObj}) => {
         <Grid item xs={12} sm={6} md={4}>
           <TextField
             variant='standard'
-            placeholder='Route Name'
+            label='Route Name'
             InputProps={{
               className: classes.input,
             }}
@@ -120,7 +131,7 @@ const Basic = ({setOpen, apiObj}) => {
         <Grid item xs={12} sm={6} md={4}>
           <TextField
             variant='standard'
-            placeholder='Add Pattern'
+            label='Add Pattern'
             InputProps={{
               className: classes.input,
             }}
@@ -132,7 +143,7 @@ const Basic = ({setOpen, apiObj}) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} className={classes.typography}>
+        <Grid item xs={12}>
           {re.test(pattern) ? (
             <Button
               variant='contained'

@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   paper: {
-    width: '50%',
-    minHeight: 200,
+    width: '40%',
+    minHeight: 150,
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ddd',
     borderRadius: 5,
@@ -25,10 +25,17 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: 30,
+    [theme.breakpoints.down('sm')]: {
+      width: '60%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '80%',
+    },
   },
   btn: {
     width: 120,
-    marginTop: 15,
+    marginTop: 25,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -73,12 +80,6 @@ const RouteModal = ({setOpenModal, openModal, value, setValue, handleSave}) => {
         }}>
         <Fade in={openModal}>
           <div className={classes.paper}>
-            <TextField
-              id='search'
-              className={classes.textField}
-              label='Search url'
-              variant='outlined'
-            />
             <Select
               options={options}
               value={value}
