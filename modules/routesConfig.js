@@ -91,7 +91,14 @@ const routesConfig = [
     icon: 'widgets',
     url: '/dashboards/widgets',
   },
-
+  {
+    id: 'media',
+    title: 'Media',
+    messageId: 'sidebar.app.media',
+    type: 'item',
+    icon: 'widgets',
+    url: '/media',
+  },
   {
     id: 'amp',
     title: 'Amp Pages & Stories',
