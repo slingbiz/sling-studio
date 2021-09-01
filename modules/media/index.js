@@ -2,12 +2,12 @@ import React from 'react';
 import ApisSideBar from './MediaSideBar/index';
 import MediaList from './MediaList';
 import MediaDetail from './MediaDetail';
-import {useDispatch} from 'react-redux';
-import {capitalize} from '@material-ui/core/utils';
+import { useDispatch } from 'react-redux';
+import { capitalize } from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
-import {withRouter} from 'next/router';
+import { withRouter } from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyle = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const Index = (props) => {
   const dispatch = useDispatch();
   const classes = useStyle();
   const query = props.router.query || {};
-  const {all} = query;
+  const { all } = query;
   console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'guide';
@@ -45,7 +45,7 @@ const Index = (props) => {
     return messages[titleKey] || all?.map((v) => capitalize(v)).join(' / ');
   };
 
-  const {messages} = useIntl();
+  const { messages } = useIntl();
   const basePath = all ? `` : `media/`;
 
   if (!all) {
