@@ -133,7 +133,143 @@ const demoApiList = [
   },
 ];
 
+const mediaImages = [
+  {
+    id: 'uid1',
+    url: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid2',
+    url: 'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid3',
+    url: 'https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid4',
+    url: 'https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid5',
+    url: 'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid6',
+    url: 'https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid7',
+    url: 'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid8',
+    url: 'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'uid9',
+    url: 'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+    name: 'lorem ipsum image name 1',
+    key: 'lorem_ipsum_key1',
+    alt_text: 'alt text lorem ipsum key1',
+    size: '120x540,450kb',
+    upload_date: '2021-09-02:00:00:00',
+  },
+];
+
+const mediaConstants = [
+  {
+    id: 'media-constant-id-1',
+    key: 'array_key1',
+    images: [
+      'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+    ],
+    updated_on: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'media-constant-id-2',
+    key: 'array_key2',
+    images: [
+      'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+    ],
+    updated_on: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'media-constant-id-3',
+    key: 'array_key3',
+    images: [
+      'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+    ],
+    updated_on: '2021-09-02:00:00:00',
+  },
+  {
+    id: 'media-constant-id-4',
+    key: 'array_key4',
+    images: [
+      'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+      'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+    ],
+    updated_on: '2021-09-02:00:00:00',
+  },
+];
+
 mock.onGet('/api/getApiList').reply(200, demoApiList);
+
 mock
   .onGet('/api/getRoutes')
   .reply(200, {routes_list: routesList, client_id: 'xyz-uniq-id'});
@@ -141,6 +277,14 @@ mock
 mock
   .onGet('/api/getPageTemplates')
   .reply(200, {page_templates: pageTemplates, client_id: 'xyz-uniq-id'});
+
+mock
+  .onGet('/api/mediaImages')
+  .reply(200, {media_images: mediaImages, client_id: 'xyz-uniq-id'});
+
+mock
+  .onGet('/api/mediaConstants')
+  .reply(200, {media_constants: mediaConstants, client_id: 'xyz-uniq-id'});
 
 mock.onPost('/api/addApi').reply((request) => {
   const reqData = JSON.parse(request.data);
@@ -151,5 +295,17 @@ mock.onPost('/api/addApi').reply((request) => {
 mock.onPost('/api/saveRoute').reply((request) => {
   const reqData = JSON.parse(request.data);
   console.log('reqData, @mock save route ', reqData);
+  return [200, {message: 'Saved successfully', status: true}];
+});
+
+mock.onPost('/api/saveImage').reply((request) => {
+  const reqData = JSON.parse(request.data);
+  console.log('reqData, @mock save image ', reqData);
+  return [200, {message: 'Saved successfully', status: true}];
+});
+
+mock.onPost('/api/updateMediaConstant').reply((request) => {
+  const reqData = JSON.parse(request.data);
+  console.log('reqData, @mock save image ', reqData);
   return [200, {message: 'Saved successfully', status: true}];
 });
