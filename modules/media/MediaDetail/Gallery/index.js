@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles,
   TextField,
@@ -7,14 +7,14 @@ import {
   Box,
   Grid,
   Typography,
-  Checkbox,
-  SwipeableDrawer
+  SwipeableDrawer,
+  Icon,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { orange } from '@material-ui/core/colors';
 import { Fonts } from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import { SidebarDrawer } from './SidebarDrawer'
+import { SidebarDrawer } from './SidebarDrawer';
+import AddImage from './AddImage'
 
 const imagesData = [
   {
@@ -52,12 +52,17 @@ const useStyles = makeStyles((theme) => ({
   gridPadding: {
     paddingTop: 10,
     paddingBottom: 10,
-    paddingRight: 3,
-    paddingLeft: 3,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    paddingRight: 6,
+    paddingLeft: 6,
   },
   imgContainer: {
+    cursor: 'pointer',
+  },
+  Icon: {
+    fontSize: 50,
+    position: 'fixed',
+    bottom: 20,
+    right: 55,
     cursor: 'pointer',
   },
 }));
@@ -65,22 +70,18 @@ const useStyles = makeStyles((theme) => ({
 const Gallery = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState('');
-  const [checked, setChecked] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(false)
-  const [imgDetails, setImgDetails] = useState({})
-
-  const handleChange = (event, item) => {
-    setChecked(event.target.checked);
-    setImgDetails(item)
-  };
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [imgDetails, setImgDetails] = useState({});
 
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
-    setImgDetails(item)
+    setImgDetails(item);
   };
 
   return (
     <>
+      <AddImage setOpen={setOpenModal} open={openModal} pageKey="Add New Image" titleKey="add-new-image" />
       <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Media Gallery
@@ -105,33 +106,30 @@ const Gallery = () => {
       </AppsHeader>
       <Grid container alignItems='baseline' className={classes.gridPadding}>
         {imagesData.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={6} sm={4} md={3} key={index}>
             <Grid
               container
               alignItems='flex-start'
               className={classes.gridPadding}>
-              <Grid item xs={2}>
-                <Checkbox
-                  value={checked}
-                  onChange={handleChange}
-                  color='primary'
-                  inputProps={{
-                    'aria-label': 'secondary checkbox',
-                  }}
-                />
-              </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={12}>
                 <Grid
                   container
                   alignItems='flex-start'
                   direction='column'
                   className={classes.imgContainer}>
                   <Grid item xs={12}>
-                    <img src={item.imageUrl} alt={item.name} onClick={() => toggleDrawer(true, item)} />
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      onClick={() => toggleDrawer(true, item)}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant='h6' component='h6'>
                       {item.name}
+                    </Typography>
+                    <Typography component='span'>
+                      Updated: Last year
                     </Typography>
                   </Grid>
                 </Grid>
@@ -141,13 +139,17 @@ const Gallery = () => {
         ))}
       </Grid>
       <SwipeableDrawer
-        anchor="right"
+        anchor='right'
         open={openDrawer}
         onClose={() => toggleDrawer(false)}
-        onOpen={() => toggleDrawer(true)}
-      >
+        onOpen={() => toggleDrawer(true)}>
         <SidebarDrawer toggleDrawer={toggleDrawer} details={imgDetails} />
       </SwipeableDrawer>
+      <IconButton onClick={() => setOpenModal(true)} >
+        <Icon color='secondary' className={classes.Icon}  >
+          add_circle
+        </Icon>
+      </IconButton>
     </>
   );
 };

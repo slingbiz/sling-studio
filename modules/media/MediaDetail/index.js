@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Box from '@material-ui/core/Box';
 import Basic from './Basic';
 import Gallery from './Gallery';
-// import Gallery from './Gallery';
+import Constants from './Constants';
 import RoutesList from '../MediaList';
 
 const PagesDetail = (props) => {
@@ -12,7 +12,7 @@ const PagesDetail = (props) => {
   const sectionMapper = {
     basic: Basic,
     gallery: Gallery,
-    // constants: List,
+    constants: Constants,
   };
 
   const RenderSection = sectionMapper[id];
