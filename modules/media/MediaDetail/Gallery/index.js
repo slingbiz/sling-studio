@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   makeStyles,
   TextField,
@@ -12,36 +12,12 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { Fonts } from '../../../../shared/constants/AppEnums';
+import { getAllImages } from '../../../../redux/actions';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import { SidebarDrawer } from './SidebarDrawer';
 import AddImage from './AddImage'
+import { useSelector, useDispatch } from 'react-redux'
 
-const imagesData = [
-  {
-    id: 1,
-    name: 'Image 1',
-    imageUrl:
-      'https://images.pexels.com/photos/948331/pexels-photo-948331.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-  },
-  {
-    id: 2,
-    name: 'Image 2',
-    imageUrl:
-      'https://images.pexels.com/photos/8801900/pexels-photo-8801900.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  },
-  {
-    id: 1,
-    name: 'Image 1',
-    imageUrl:
-      'https://images.pexels.com/photos/948331/pexels-photo-948331.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-  },
-  {
-    id: 2,
-    name: 'Image 2',
-    imageUrl:
-      'https://images.pexels.com/photos/8801900/pexels-photo-8801900.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -58,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   imgContainer: {
     cursor: 'pointer',
   },
+  imgSize: {
+    height: 250,
+    objectFit: "contain"
+  },
   Icon: {
     fontSize: 50,
     position: 'fixed',
@@ -69,11 +49,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Gallery = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { mediaImages } = useSelector(({ media }) => media);
+
+  console.log("Media ==> ", mediaImages)
   const [filter, setFilter] = useState('');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [imgDetails, setImgDetails] = useState({});
 
+
+  useEffect(() => {
+    dispatch(getAllImages())
+  }, [dispatch])
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
     setImgDetails(item);
@@ -105,7 +93,7 @@ const Gallery = () => {
         />
       </AppsHeader>
       <Grid container alignItems='baseline' className={classes.gridPadding}>
-        {imagesData.map((item, index) => (
+        {mediaImages?.media_images?.map((item, index) => (
           <Grid item xs={6} sm={4} md={3} key={index}>
             <Grid
               container
@@ -119,8 +107,9 @@ const Gallery = () => {
                   className={classes.imgContainer}>
                   <Grid item xs={12}>
                     <img
-                      src={item.imageUrl}
+                      src={item.url}
                       alt={item.name}
+                      className={classes.imgSize}
                       onClick={() => toggleDrawer(true, item)}
                     />
                   </Grid>
@@ -129,7 +118,7 @@ const Gallery = () => {
                       {item.name}
                     </Typography>
                     <Typography component='span'>
-                      Updated: Last year
+                      Updated: {item.upload_date}
                     </Typography>
                   </Grid>
                 </Grid>

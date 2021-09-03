@@ -12,6 +12,9 @@ import {
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { useDispatch } from 'react-redux'
+import { addImage } from '../../../../redux/actions'
+import FormData from 'form-data'
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: { padding: '1.5em' },
@@ -52,13 +55,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AddImage = ({ open, setOpen }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [imgKey, setImgKey] = useState('');
   const [altText, setAltText] = useState('');
   const [imgFile, setImgFile] = useState('');
 
   const handleSubmit = (event) => {
-    event.preventDefault
+    event.preventDefault()
+    const formData = new FormData();
+
+    formData.append(
+      "myFile",
+      imgFile,
+      imgFile.name
+    );
+
+    const addData = {
+      name,
+      key: imgKey,
+      alt_text: altText,
+      url: formData,
+    }
+
+    dispatch(addImage(addData))
     setOpen(false)
   };
 
@@ -118,8 +138,7 @@ const AddImage = ({ open, setOpen }) => {
             <TextField
               type="file"
               variant="outlined"
-              value={imgFile}
-              onChange={(e) => setImgFile(e.target.value)}
+              onChange={(e) => setImgFile(e.target.files[0])}
               required
             />
           </Grid>
