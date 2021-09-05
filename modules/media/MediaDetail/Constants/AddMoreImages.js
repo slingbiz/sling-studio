@@ -10,8 +10,11 @@ import {
     Grid,
     Typography,
     Checkbox,
+    TextField,
+    InputAdornment,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import SearchIcon from '@material-ui/icons/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllImages } from '../../../../redux/actions';
 
@@ -61,11 +64,13 @@ const AddMoreImage = ({
     const classes = useStyles();
     const dispatch = useDispatch();
     const { mediaImages } = useSelector(({ media }) => media);
-
+    const [filter, setFilter] = useState('');
     const { media_images } = mediaImages;
+
     useEffect(() => {
-        dispatch(getAllImages());
-    }, [dispatch]);
+        dispatch(getAllImages(filter))
+    }, [dispatch, filter])
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -119,6 +124,25 @@ const AddMoreImage = ({
                                 className={classes.typography}>
                                 Add or Remove Images
                             </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={8} lg={6}>
+                            <TextField
+                                id='filter-images'
+                                placeholder='Search'
+                                variant='outlined'
+                                className={classes.input}
+                                value={filter}
+                                onChange={(event) => setFilter(event.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment>
+                                            <IconButton>
+                                                <SearchIcon />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
                         </Grid>
                         <Grid item xs={12} md={8} lg={6}>
                             <Grid container spacing={4}>

@@ -60,8 +60,9 @@ const Gallery = () => {
 
 
   useEffect(() => {
-    dispatch(getAllImages())
-  }, [dispatch])
+    dispatch(getAllImages(filter))
+  }, [dispatch, filter])
+
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
     setImgDetails(item);
@@ -114,12 +115,12 @@ const Gallery = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant='h6' component='h6'>
+                    <Box fontWeight={Fonts.BOLD} component='h3'>
                       {item.name}
-                    </Typography>
-                    <Typography component='span'>
+                    </Box>
+                    <Box fontWeight={Fonts.MEDIUM} component='h5'>
                       Updated: {item.upload_date}
-                    </Typography>
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>

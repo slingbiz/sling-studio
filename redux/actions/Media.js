@@ -36,10 +36,11 @@ export const addImage = (imageMeta) => {
     };
 };
 
-export const getAllImages = () => {
+export const getAllImages = (searchText) => {
+    const query = searchText ? `/api/mediaImages?query=${searchText}` : `/api/mediaImages`
     return (dispatch) => {
         dispatch({ type: FETCH_START });
-        Api.get(`/api/mediaImages`)
+        Api.get(query)
             .then((data) => {
                 if (data.status === 200) {
                     dispatch({ type: FETCH_SUCCESS });
@@ -83,10 +84,11 @@ export const updateMediaConstant = (constants) => {
     };
 };
 
-export const getMediaConstants = () => {
+export const getMediaConstants = (searchText) => {
+    const query = searchText ? `/api/mediaConstants?query=${searchText}` : `/api/mediaConstants`;
     return (dispatch) => {
         dispatch({ type: FETCH_START });
-        Api.get(`/api/mediaConstants`)
+        Api.get(query)
             .then((data) => {
                 if (data.status === 200) {
                     dispatch({ type: FETCH_SUCCESS });
