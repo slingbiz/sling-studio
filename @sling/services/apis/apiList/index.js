@@ -300,12 +300,12 @@ mock.onPost('/api/saveRoute').reply((request) => {
 
 mock.onPost('/api/saveImage').reply((request) => {
   const reqData = JSON.parse(request.data);
-  console.log('reqData, @mock save image ', reqData);
+  console.log('[saveImage] reqData, @mock save image ', reqData);
   return [200, {message: 'Saved successfully', status: true}];
 });
 
 mock.onPost('/api/updateMediaConstant').reply((request) => {
   const reqData = JSON.parse(request.data);
-  console.log('reqData, @mock save image ', reqData);
+  console.log('[updateMediaConstant] reqData, @mock save ', reqData);
   return [200, {message: 'Saved successfully', status: true}];
 });

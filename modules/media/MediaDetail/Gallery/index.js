@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   makeStyles,
   TextField,
@@ -11,13 +11,12 @@ import {
   Icon,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { Fonts } from '../../../../shared/constants/AppEnums';
-import { getAllImages } from '../../../../redux/actions';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import {getAllImages} from '../../../../redux/actions';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import { SidebarDrawer } from './SidebarDrawer';
-import AddImage from './AddImage'
-import { useSelector, useDispatch } from 'react-redux'
-
+import {SidebarDrawer} from './SidebarDrawer';
+import AddImage from './AddImage';
+import {useSelector, useDispatch} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   imgSize: {
     height: 250,
-    objectFit: "contain"
+    objectFit: 'contain',
   },
   Icon: {
     fontSize: 50,
@@ -50,18 +49,17 @@ const useStyles = makeStyles((theme) => ({
 const Gallery = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { mediaImages } = useSelector(({ media }) => media);
+  const {mediaImages} = useSelector(({media}) => media);
 
-  console.log("Media ==> ", mediaImages)
+  console.log('Media ==> ', mediaImages);
   const [filter, setFilter] = useState('');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [imgDetails, setImgDetails] = useState({});
 
-
   useEffect(() => {
-    dispatch(getAllImages(filter))
-  }, [dispatch, filter])
+    dispatch(getAllImages(filter));
+  }, [dispatch, filter]);
 
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
@@ -70,7 +68,12 @@ const Gallery = () => {
 
   return (
     <>
-      <AddImage setOpen={setOpenModal} open={openModal} pageKey="Add New Image" titleKey="add-new-image" />
+      <AddImage
+        setOpen={setOpenModal}
+        open={openModal}
+        pageKey='Add New Image'
+        titleKey='add-new-image'
+      />
       <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Media Gallery
@@ -135,8 +138,8 @@ const Gallery = () => {
         onOpen={() => toggleDrawer(true)}>
         <SidebarDrawer toggleDrawer={toggleDrawer} details={imgDetails} />
       </SwipeableDrawer>
-      <IconButton onClick={() => setOpenModal(true)} >
-        <Icon color='secondary' className={classes.Icon}  >
+      <IconButton onClick={() => setOpenModal(true)}>
+        <Icon color='secondary' className={classes.Icon}>
           add_circle
         </Icon>
       </IconButton>
