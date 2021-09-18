@@ -17,3 +17,4 @@ export * from './UrlList';
 export * from './Route';
 export * from './PageTemplate';
 export * from './Media';
+export * from './Widgets';

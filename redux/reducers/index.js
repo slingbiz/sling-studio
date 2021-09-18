@@ -18,6 +18,7 @@ import UrlList from './UrlList';
 import RouteList from './Route';
 import PageTemplate from './PageTemplate';
 import Media from './Media';
+import Widgets from './Widgets';
 
 const reducers = combineReducers({
   settings: Settings,
@@ -39,5 +40,6 @@ const reducers = combineReducers({
   routeList: RouteList,
   pageTemplate: PageTemplate,
   media: Media,
+  widgets: Widgets,
 });
 export default reducers;

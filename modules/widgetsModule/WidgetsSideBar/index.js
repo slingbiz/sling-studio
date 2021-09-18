@@ -8,19 +8,13 @@ import AppList from '../../../@sling/core/AppList';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
-import Backdrop from '@material-ui/core/Backdrop';
 
 export const folderList = [
-  {id: 120, name: 'All', alias: 'api-list', icon: 'playlist_add'},
-  {
-    id: 121,
-    name: 'Sling Edit',
-    alias: 'sling-mappings',
-    icon: 'account_tree',
-  },
-  {id: 123, name: 'Auto', alias: 'auto-sync', icon: 'sync'},
-  {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
-  {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
+  {id: 1, name: 'Widgets', alias: 'widgets-integration', icon: 'widgets'},
+  {id: 2, name: 'Blocks', alias: 'blocks-integration', icon: 'view_quilt'},
+  {id: 3, name: 'Components', alias: 'components-integration', icon: 'web'},
+  {id: 5, name: 'Market Place', alias: 'market-place', icon: 'store_front'},
+  {id: 5, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({
@@ -45,19 +39,16 @@ const useStyle = makeStyles((theme) => ({
   listRoot: {
     padding: 0,
   },
-  backdrop: {
-    zIndex: 232,
-    color: '#fff',
-  },
 }));
 
-const ApisSideBar = ({basePath, noSubChild}) => {
+const RoutesSideBar = ({basePath, noSubChild}) => {
   const classes = useStyle();
 
   return (
     <>
+      <Scrollbar className='scroll-app-sidebar'>
         <Box p={0} m={0} style={{textAlign: 'center'}}>
-          <Box>
+          <Box clone>
             <List
               component='nav'
               aria-label='main task folders'
@@ -83,8 +74,9 @@ const ApisSideBar = ({basePath, noSubChild}) => {
             </List>
           </Box>
         </Box>
+      </Scrollbar>
     </>
   );
 };
 
-export default ApisSideBar;
+export default RoutesSideBar;

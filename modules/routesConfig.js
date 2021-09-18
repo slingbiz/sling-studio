@@ -89,14 +89,14 @@ const routesConfig = [
     messageId: 'sidebar.app.widgets',
     type: 'item',
     icon: 'widgets',
-    url: '/dashboards/widgets',
+    url: '/widgets',
   },
   {
     id: 'media',
     title: 'Media',
     messageId: 'sidebar.app.media',
     type: 'item',
-    icon: 'widgets',
+    icon: 'photo_camera',
     url: '/media',
   },
   {

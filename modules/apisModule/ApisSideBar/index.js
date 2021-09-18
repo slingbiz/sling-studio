@@ -19,7 +19,7 @@ export const folderList = [
   },
   {id: 123, name: 'Auto Sync', alias: 'auto-sync', icon: 'sync'},
   {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
-  {id: 125, name: 'Guide', alias: 'guide', icon: 'help'},
+  {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({

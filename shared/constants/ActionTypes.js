@@ -38,9 +38,6 @@ export const GET_HC_DATA = 'get_hc_data';
 //METRICS-DASHBOARD
 export const GET_METRICS_DATA = 'get_metrics_data';
 
-//WIDGETS_DASHBOARD
-export const GET_WIDGETS_DATA = 'get_widgets_data';
-
 //LAYOUT-CONFIG
 export const GET_LAYOUT_DATA = 'get_layout_data';
 export const SET_LAYOUT_DATA = 'SET_LAYOUT_DATA';
@@ -171,3 +168,5 @@ export const GET_MEDIA_CONSTANTS = `get_media_constants`;
 export const SAVE_IMAGES = `save_images`;
 export const UPDATE_MEDIA_CONSTANTS = `get_media_constants`;
 
+// Widgets
+export const GET_WIDGETS_DATA = 'GET_WIDGETS_DATA';

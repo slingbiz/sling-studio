@@ -12,7 +12,7 @@ import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderI
 export const folderList = [
   {id: 123, name: 'Media Gallery', alias: 'gallery', icon: 'sync'},
   {id: 123, name: 'Media Constants', alias: 'constants', icon: 'settings'},
-  // {id: 125, name: 'Guide', alias: 'guide', icon: 'help'},
+  // {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({

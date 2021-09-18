@@ -15,7 +15,7 @@ export const folderList = [
   {id: 121, name: 'Layout', alias: 'layout', icon: 'view_quilt'},
   {id: 123, name: 'Preview', alias: 'preview', icon: 'pageview-icon'},
   {id: 124, name: 'Data', alias: 'data', icon: 'storage-icon'},
-  {id: 125, name: 'Guide', alias: 'guide', icon: 'help'},
+  {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({
