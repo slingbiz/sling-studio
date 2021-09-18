@@ -30,7 +30,7 @@ const useStyle = makeStyles((theme) => ({
 
     '& .MuiTypography-body1': {
       fontSize: 15,
-      fontWeight: Fonts.BOLD,
+      // fontWeight: Fonts.BOLD,
     },
 
     '& svg': {
