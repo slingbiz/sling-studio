@@ -62,7 +62,6 @@ const DragMe = (props) => {
     }
   }, [initItems]);
 
-  console.log(items, initItems, 'items = inititems');
   const onDragEnd = (result) => {
     console.log(result, 'onDragEnd @dragme, ', key);
     if (!result.destination) {

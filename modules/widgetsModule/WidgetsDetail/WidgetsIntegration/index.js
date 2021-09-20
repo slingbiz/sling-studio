@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
+import AddWidgetModal from './AddWidgetModal';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -133,15 +134,16 @@ const getWidgetType = (pageKey) => {
   }
   return type;
 };
+
 const WidgetsIntegration = (props) => {
-  console.log(props, 'WidgetsIntegration - props');
-  const {pageKey} = props;
+  const {titleKey, pageKey} = props;
   const widgetType = getWidgetType(pageKey);
   const classes = useStyles();
   const dispatch = useDispatch();
   const {widgets} = useSelector(({widgets}) => widgets);
   const [filter, setFilter] = useState({widgetType});
   const [query, setQuery] = useState('');
+  const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const loading = useSelector(({common}) => common.loading);
 
@@ -339,6 +341,12 @@ const WidgetsIntegration = (props) => {
         open={openDrawer}
         onClose={() => toggleDrawer(false)}
         onOpen={() => toggleDrawer(true)}></SwipeableDrawer>
+      <AddWidgetModal
+        setOpen={setOpenModal}
+        open={openModal}
+        titleKey={titleKey}
+        pageKey={pageKey}
+      />
       <IconButton onClick={() => setOpenModal(true)}>
         <Icon color='secondary' className={classes.Icon}>
           add_circle

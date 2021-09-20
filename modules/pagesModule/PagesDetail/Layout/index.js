@@ -80,6 +80,7 @@ const Layout = (props) => {
     },
     button: {
       backgroundColor: orange[500],
+      marginBottom: 20,
       color: theme.palette.primary.contrastText,
       fontWeight: Fonts.BOLD,
       paddingRight: 20,
@@ -126,6 +127,7 @@ const Layout = (props) => {
           <Divider className={classes.divider} />
           <Box
             pt={4}
+            pb={4}
             mb={6}
             style={{display: 'flex', justifyContent: 'flex-start'}}>
             <Button

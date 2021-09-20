@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,10 +11,11 @@ import Slide from '@material-ui/core/Slide';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import LayoutView from './LayoutEditView';
-import LayoutSettings from './LayoutSettings';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,84 +65,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-// fake data generator
-const getItems = (count, offset = 0, classes) =>
-  Array.from({length: count}, (v, k) => k).map((k) => {
-    let content = `Widget ${k + offset}`;
-    if (k == 0) {
-      content = (
-        <>
-          <SearchIcon />
-          <Box
-            component='h6'
-            className={classes.textTruncate}
-            color='text.primary'
-            fontWeight={Fonts.BOLD}>
-            {'Search Bar'}
-          </Box>
-        </>
-      );
-    }
-    return {
-      id: `item-${k + offset}`,
-      content,
-    };
-  });
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
-
-const grid = 8;
-//Widget ITem
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-//Widget GetList style
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  width: 250,
-});
-
-const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
+const AddWidgetModal = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const childRef = useRef();
+
 
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleRootSave = () => {
     childRef.current.saveLayoutConfig();
     handleClose();
@@ -162,7 +95,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title}>
-            {titleKey} {' / Edit'}
+            {' Widgets / Add a Widget'}
           </Typography>
           <Button autoFocus color='inherit' onClick={handleClose}>
             Cancel
@@ -172,23 +105,52 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <LayoutView
-        getItems={getItems}
-        ref={childRef}
-        pageKey={pageKey}
-        isEditable={true}
-        key={'edit'}
-      />
-      <Grid item sm={3}>
-        <Card
-          style={{
-            padding: '1.5em',
-            marginTop: '1.5em',
-          }}>
-          <LayoutSettings />
-        </Card>
+      <Grid container>
+        <Grid item xs={12} sm={12} md={6}>
+          <Card
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '1.5em',
+              marginTop: '1.5em',
+              alignItems: 'center',
+            }}>
+            <Box
+              component='h2'
+              className={classes.textTruncate}
+              color='text.primary'
+              fontWeight={Fonts.BOLD}>
+              {'Upload Widget'}
+            </Box>
+            <Box
+              component='h4'
+              color='text.secondary'
+              fontWeight={Fonts.MEDIUM}>
+              {'Please select a valid widget.json file.'}
+            </Box>
+            <Paper className={classes.root}>
+              <Divider className={classes.divider} orientation='vertical' />
+            </Paper>
+            <Divider style={{marginTop: 15, marginBottom: 15}} />
+            <Box></Box>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={6}>
+          <Card
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '1.5em',
+              marginTop: '1.5em',
+            }}>
+            aaf
+          </Card>
+        </Grid>
       </Grid>
     </Dialog>
   );
 };
-export default EditLayout;
+export default AddWidgetModal;
