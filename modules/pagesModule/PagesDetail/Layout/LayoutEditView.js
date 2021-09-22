@@ -24,6 +24,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Hidden from '@material-ui/core/Hidden';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import LayoutSettings from './LayoutSettings';
 
 //Styles
 const useStyles = makeStyles((theme) => ({
@@ -107,8 +108,8 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const LayoutView = forwardRef((props, ref) => {
-  const {pageKey, getItems} = props;
+const LayoutEditView = forwardRef((props, ref) => {
+  const {pageKey, getItems, widgets} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
   const [bodyBlocks, setBodyBlocks] = useState([]);
   const [footerBlocks, setFooterBlocks] = useState([]);
@@ -386,22 +387,24 @@ const LayoutView = forwardRef((props, ref) => {
                     <Box
                       ref={provided.innerRef}
                       style={{display: 'flex', flexWrap: 'wrap'}}>
-                      {getItems(10, 0, classes).map((item, index) => (
-                        <Draggable
-                          key={item.id}
-                          draggableId={item.id}
-                          index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              className={classes.componentBox}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}>
-                              {item.content}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                      {widgets.map((item, index) => {
+                        return (
+                          <Draggable
+                            key={item['id']}
+                            draggableId={item['_id']}
+                            index={index}>
+                            {(provided, snapshot) => (
+                              <div
+                                className={classes.componentBox}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}>
+                                {item.name}
+                              </div>
+                            )}
+                          </Draggable>
+                        );
+                      })}
                       {provided.placeholder}
                     </Box>
                   )}
@@ -532,8 +535,17 @@ const LayoutView = forwardRef((props, ref) => {
             />
           </Box>
         </Grid>
+        <Grid item sm={3}>
+          <Card
+            style={{
+              padding: '1.5em',
+              marginTop: '1.5em',
+            }}>
+            <LayoutSettings />
+          </Card>
+        </Grid>
       </DragDropContext>
     </Grid>
   );
 });
-export default LayoutView;
+export default LayoutEditView;

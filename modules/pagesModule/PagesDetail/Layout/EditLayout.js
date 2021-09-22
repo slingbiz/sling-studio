@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,6 +15,8 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import LayoutView from './LayoutEditView';
 import LayoutSettings from './LayoutSettings';
 import Grid from '@material-ui/core/Grid';
+import {getWidgets} from "../../../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -137,10 +139,17 @@ const getListStyle = (isDraggingOver) => ({
 const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
   const classes = useStyles();
   const childRef = useRef();
+  const dispatch = useDispatch();
+  const {widgets} = useSelector(({widgets}) => widgets);
+
+  useEffect(() => {
+    dispatch(getWidgets({}));
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleRootSave = () => {
     childRef.current.saveLayoutConfig();
     handleClose();
@@ -174,20 +183,12 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
       </AppBar>
       <LayoutView
         getItems={getItems}
+        widgets={widgets}
         ref={childRef}
         pageKey={pageKey}
         isEditable={true}
         key={'edit'}
       />
-      <Grid item sm={3}>
-        <Card
-          style={{
-            padding: '1.5em',
-            marginTop: '1.5em',
-          }}>
-          <LayoutSettings />
-        </Card>
-      </Grid>
     </Dialog>
   );
 };
