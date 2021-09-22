@@ -54,12 +54,12 @@ const DragMe = (props) => {
     keyV,
     parentKey,
   } = props;
-  console.log('droppable Id', keyV, section, rowNo);
+  console.log('droppable Id', keyV, section, rowNo, initItems);
 
   const [items, setItems] = useState(initItems);
 
   useEffect(() => {
-    if (initItems?.length) {
+    if (initItems) {
       setItems(initItems);
     }
   }, [initItems]);

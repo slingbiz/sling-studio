@@ -241,8 +241,8 @@ const LayoutView = forwardRef((props, ref) => {
 
   const getNodeType = (dragId) => {
     let nodeType = 'footer';
-    if (dragId.includes('head')) {
-      nodeType = 'head';
+    if (dragId.includes('header')) {
+      nodeType = 'header';
     } else if (dragId.includes('body')) {
       nodeType = 'body';
     }
@@ -263,7 +263,7 @@ const LayoutView = forwardRef((props, ref) => {
 
     const sInd = source.droppableId;
     const dInd = destination.droppableId;
-    console.log(sInd, dInd, 'sInd-dInd');
+    console.log(sInd, dInd, 'sInd-dInd', source.index, destination.index);
     if (sInd === dInd) {
       const {nodeType, pos} = getNodeType(sInd);
       console.log({nodeType, pos});
@@ -288,6 +288,49 @@ const LayoutView = forwardRef((props, ref) => {
       setSectionBlocks({...sectionBlocks});
     } else {
       alert('different box. Move wisely.');
+      const {nodeType: nodeTypeSource, pos: posSource} = getNodeType(sInd);
+      const {nodeType: nodeTypeDest, pos: posDest} = getNodeType(dInd);
+
+      const sectionBlocksSource = sectionBlocksMap[`${nodeTypeSource}Blocks`];
+      const sectionFnSource =
+        nodeTypeSource.charAt(0).toUpperCase() + nodeTypeSource.slice(1);
+      const setSectionBlocksSource =
+        sectionBlocksMap[`set${sectionFnSource}Blocks`];
+
+      const toBeMoved = sectionBlocksSource.rows[posSource].cells[source.index];
+      sectionBlocksSource.rows[posSource].cells = sectionBlocksSource.rows[
+        posSource
+      ].cells.filter((v, k) => k != source.index);
+
+      setSectionBlocksSource({...sectionBlocksSource});
+      console.log(
+        sectionBlocksSource,
+        'after - sectionBlocksSource',
+        toBeMoved,
+      );
+
+      const sectionBlocksDest = sectionBlocksMap[`${nodeTypeDest}Blocks`];
+      const sectionFnDest =
+        nodeTypeDest.charAt(0).toUpperCase() + nodeTypeDest.slice(1);
+      const setSectionBlocksDest =
+        sectionBlocksMap[`set${sectionFnDest}Blocks`];
+
+      let tmpDestCells = [];
+      if (sectionBlocksDest.rows[posDest].cells.length) {
+        sectionBlocksDest.rows[posDest].cells.map((v, k) => {
+          if (k == destination.index) {
+            tmpDestCells.push(toBeMoved);
+          }
+          tmpDestCells.push(v);
+        });
+      } else {
+        tmpDestCells.push(toBeMoved);
+      }
+      sectionBlocksDest.rows[posDest].cells = tmpDestCells;
+      setSectionBlocksDest({...sectionBlocksDest});
+      //Attach movedNode to destination
+
+      // const sectionFnSource()
       // const result = move(
       //   this.getList(source.droppableId),
       //   this.getList(destination.droppableId),
@@ -419,7 +462,7 @@ const LayoutView = forwardRef((props, ref) => {
                       rowNo={k}
                       isDragDisabled={false}
                       parentItems={
-                        row?.cells?.map((v, k) => {
+                        [...row?.cells]?.map((v, k) => {
                           const label = v.key ? `Item ${v.key}` : `Row ${k}`;
                           const id = v.key ? v.key : `Row-${k}`;
                           return {id, label, contents: v};
