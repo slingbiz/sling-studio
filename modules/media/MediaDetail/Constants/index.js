@@ -11,6 +11,7 @@ import {
 } from '../../../../redux/actions';
 import AddMoreImage from './AddMoreImages';
 import CloseIcon from '@material-ui/icons/Close';
+import {Divider} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -25,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
   hoverContainer: {
     position: 'relative',
+    margin: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   hoverDiv: {
     position: 'absolute',
@@ -40,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  actionBtn : {
+    margin: '0 10px'
+  },
   Icon: {
     position: 'absolute',
     top: 2,
@@ -47,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
   },
   imgSize: {
     width: 90,
+  },
+  constantKey: {
+    fontSize: 14,
   },
 }));
 
@@ -57,9 +68,8 @@ const Constants = (props) => {
   const dispatch = useDispatch();
 
   const {mediaConstants} = useSelector(({media}) => media);
+  const {media_constants, image_urls} = mediaConstants;
   const classes = useStyles(props);
-
-  const {media_constants} = mediaConstants;
 
   useEffect(() => {
     dispatch(getMediaConstants());
@@ -115,15 +125,48 @@ const Constants = (props) => {
           Media Constants
         </Box>
       </AppsHeader>
+      <Grid
+        container
+        spacing={1}
+        className={classes.mainContainer}
+        style={{fontWeight: 'bold', fontSize: '16px'}}>
+        <Grid
+          item
+          xs={2}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          Constant Key
+        </Grid>
+        <Grid item xs={7}>
+          Gallery
+        </Grid>
+        <Grid item xs={3}>
+          Actions
+        </Grid>
+      </Grid>
+
       {constantsImage?.map((item, id) => (
         <Grid container key={id} spacing={1} className={classes.mainContainer}>
-          <Grid item xs={2}>
-            <Typography variant='h6' component='h6'>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Typography
+              variant='h6'
+              component='h6'
+              className={classes.constantKey}>
               {item?.key}
             </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <Grid container spacing={1} style={{backgroundColor: '#f5f7fd'}}>
+          <Grid item xs={7}>
+            <Grid container spacing={3} style={{backgroundColor: '#f5f7fd'}}>
               {item?.images?.map((imgUrl, index) => (
                 <Grid
                   item
@@ -132,7 +175,7 @@ const Constants = (props) => {
                   md={3}
                   key={index}
                   className={classes.hoverContainer}>
-                  <img src={imgUrl} className={classes.imgSize} />
+                  <img src={image_urls[imgUrl]} className={classes.imgSize} />
                   <div className={classes.hoverDiv}>
                     <CloseIcon
                       onClick={() => handleDelete(item?.id, imgUrl)}
@@ -144,25 +187,28 @@ const Constants = (props) => {
               ))}
             </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Grid container>
-              <Grid item xs={6}>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => handleClickAdd(item)}>
-                  +Add
-                </Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  onClick={handleSave}>
-                  Save
-                </Button>
-              </Grid>
-            </Grid>
+          <Grid
+            item
+            xs={3}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Button
+              variant='contained'
+              color='primary'
+              className={classes.actionBtn}
+              onClick={() => handleClickAdd(item)}>
+              +Add
+            </Button>
+            <Button
+              className={classes.actionBtn}
+              variant='contained'
+              color='secondary'
+              onClick={handleSave}>
+              Save
+            </Button>
           </Grid>
         </Grid>
       ))}

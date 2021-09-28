@@ -197,7 +197,9 @@ const Gallery = () => {
       />
       <Box style={{display: 'flex', justifyContent: 'center', padding: '20px'}}>
         <PaginationControlled
-          handleChange={(event, page) => {setFilter({...filter, page: page - 1}); }}
+          handleChange={(event, page) => {
+            setFilter({...filter, page: page - 1});
+          }}
           count={Math.ceil(totalCount / filter.size)}
           page={filter.page + 1}
         />

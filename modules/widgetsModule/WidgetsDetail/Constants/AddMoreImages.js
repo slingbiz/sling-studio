@@ -122,7 +122,7 @@ const AddMoreImage = ({
                 variant='h6'
                 component='h6'
                 className={classes.typography}>
-                Add or Remove Images
+                Add or Remove Widgets
               </Typography>
             </Grid>
             <Grid item xs={12} md={8} lg={6}>

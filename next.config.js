@@ -11,6 +11,8 @@ module.exports = (phase) => {
         INIT_CONFIG: 'https://sling.biz/api/v1/dashboard/initConfig',
         GET_WIDGETS: 'https://sling.biz/api/v1/widgets/dash/getWidgets',
         GET_MEDIA_API: 'https://sling.biz/api/v1/media/dash/getMedia',
+        GET_MEDIA_CONSTANTS_API:
+          'https://sling.biz/api/v1/media/dash/getMediaConstants',
         SET_CONFIG: 'https://sling.biz/api/v1/dashboard/setConfig',
         FIREBASE_API_KEY: 'AIzaSyAzL_2jiVBhmiIUFGs2z6-cDR-Hgoedh3k',
         FIREBASE_APP_ID: '1:369173776768:web:895ded916749deebd31965',
@@ -25,6 +27,8 @@ module.exports = (phase) => {
       INIT_CONFIG: 'http://localhost:10001/v1/dashboard/initConfig',
       GET_WIDGETS: 'http://localhost:10001/v1/widgets/dash/getWidgets',
       GET_MEDIA_API: 'http://localhost:10001/v1/media/dash/getMedia',
+      GET_MEDIA_CONSTANTS_API:
+        'http://localhost:10001/v1/media/dash/getMediaConstants',
       SET_CONFIG: 'http://localhost:10001/v1/dashboard/setConfig',
       FIREBASE_API_KEY: 'AIzaSyAzL_2jiVBhmiIUFGs2z6-cDR-Hgoedh3k',
       FIREBASE_APP_ID: '1:369173776768:web:895ded916749deebd31965',
