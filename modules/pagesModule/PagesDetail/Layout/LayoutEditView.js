@@ -116,6 +116,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [openNewCell, setNewCellModal] = useState(false);
   const [newCellSection, setNewCellSection] = useState('');
   const [newCellRowIndex, setNewCellRowIndex] = useState('');
+  const [newWidgetCell, setNewWidgetCell] = useState(undefined);
 
   const sectionBlocksMap = {
     headerBlocks,
@@ -201,6 +202,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   //Handle onClose of New Row popup
   const handleCloseNewCell = () => {
     setNewCellModal(false);
+    setNewWidgetCell(undefined);
   };
 
   //Handle onSave of new Rule
@@ -211,10 +213,19 @@ const LayoutEditView = forwardRef((props, ref) => {
     const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
 
     const cells = sectionBlocks.rows?.[rowIndex]?.cells || [];
-    const cell = {
+    let cell = {
       key: config?.key || `${sectionFn}` + ((cells.length || 0) + 1),
       payload: {muiWidths: config},
     };
+    if (newWidgetCell) {
+      const matchingWidget = widgets.find((v) => v['_id'] === newWidgetCell);
+      const {type} = matchingWidget;
+      cell = {
+        key: matchingWidget.name,
+        payload: {muiWidths: config},
+        type,
+      };
+    }
     cells.push(cell);
     sectionBlocks.rows[rowIndex].cells = cells;
     setSectionBlocks({...sectionBlocks});
@@ -257,6 +268,7 @@ const LayoutEditView = forwardRef((props, ref) => {
 
   const onDragEnd = (result) => {
     const {source, destination} = result;
+
     // dropped outside the list
     if (!destination || destination.droppableId === 'droppable-widgets') {
       return;
@@ -264,6 +276,17 @@ const LayoutEditView = forwardRef((props, ref) => {
 
     const sInd = source.droppableId;
     const dInd = destination.droppableId;
+
+    //Handle droppable widgets
+    if (source.droppableId === 'droppable-widgets') {
+      const {nodeType, pos} = getNodeType(dInd);
+
+      // Create drop object and show mui widths form. On save add the widget
+      setNewWidgetCell(source.index);
+      handleAddCell(nodeType, pos);
+      return;
+    }
+
     console.log(sInd, dInd, 'sInd-dInd', source.index, destination.index);
     if (sInd === dInd) {
       const {nodeType, pos} = getNodeType(sInd);
@@ -390,9 +413,9 @@ const LayoutEditView = forwardRef((props, ref) => {
                       {widgets.map((item, index) => {
                         return (
                           <Draggable
-                            key={item['id']}
+                            key={item['_id']}
                             draggableId={item['_id']}
-                            index={index}>
+                            index={item['_id']}>
                             {(provided, snapshot) => (
                               <div
                                 className={classes.componentBox}

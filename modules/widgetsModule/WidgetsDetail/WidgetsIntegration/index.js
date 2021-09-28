@@ -47,7 +47,19 @@ const useStyles = makeStyles((theme) => ({
     // whiteSpace: 'nowrap',
     display: 'box',
     lineClamp: 3,
-    boxOrient: 'vertical',
+    boxOrient: 'vertical',  truncate: {
+      // overflow: 'hidden',
+      // textOverflow: 'ellipsis',
+      // whiteSpace: 'nowrap',
+      display: 'box',
+      lineClamp: 3,
+      boxOrient: 'vertical',
+      overflow: 'hidden',
+    },
+    titleTruncate: {
+      padding: '7px 0 3px 0',
+      lineClamp: 1,
+    },
     overflow: 'hidden',
   },
   titleTruncate: {
@@ -60,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
   },
   descpMargin: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   editBtn: {
     position: 'absolute',

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Button, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
-import { orange } from '@material-ui/core/colors';
-import { Fonts } from '../../../../shared/constants/AppEnums';
+import React, {useEffect, useState} from 'react';
+import {Box, Grid, Typography, Button, IconButton} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
+import {orange} from '@material-ui/core/colors';
+import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   getMediaConstants,
   updateMediaConstant,
@@ -56,10 +56,10 @@ const Constants = (props) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const { mediaConstants } = useSelector(({ media }) => media);
+  const {mediaConstants} = useSelector(({media}) => media);
   const classes = useStyles(props);
 
-  const { media_constants } = mediaConstants;
+  const {media_constants} = mediaConstants;
 
   useEffect(() => {
     dispatch(getMediaConstants());
@@ -78,7 +78,7 @@ const Constants = (props) => {
     setConstantsImage(
       constantsImage?.map((item) =>
         item?.id === arrayImages?.id
-          ? { ...item, images: arrayImages?.images }
+          ? {...item, images: arrayImages?.images}
           : item,
       ),
     );
@@ -89,7 +89,7 @@ const Constants = (props) => {
     setConstantsImage(
       constantsImage?.map((item) =>
         item.id === id
-          ? { ...item, images: item.images.filter((url) => url !== img) }
+          ? {...item, images: item.images.filter((url) => url !== img)}
           : item,
       ),
     );
@@ -123,7 +123,7 @@ const Constants = (props) => {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Grid container spacing={1} style={{ backgroundColor: "#f5f7fd" }} >
+            <Grid container spacing={1} style={{backgroundColor: '#f5f7fd'}}>
               {item?.images?.map((imgUrl, index) => (
                 <Grid
                   item
@@ -136,7 +136,7 @@ const Constants = (props) => {
                   <div className={classes.hoverDiv}>
                     <CloseIcon
                       onClick={() => handleDelete(item?.id, imgUrl)}
-                      style={{ color: '#ffffff' }}
+                      style={{color: '#ffffff'}}
                       className={classes.Icon}
                     />
                   </div>

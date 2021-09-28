@@ -10,9 +10,9 @@ import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleto
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
 
 export const folderList = [
-  {id: 123, name: 'Media Gallery', alias: 'gallery', icon: 'sync'},
-  {id: 123, name: 'Media Constants', alias: 'constants', icon: 'settings'},
-  // {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
+  {id: 1, name: 'Media Gallery', alias: 'gallery', icon: 'add_photo_alternate'},
+  {id: 2, name: 'Media Constants', alias: 'constants', icon: 'playlist_play'},
+  {id: 3, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({

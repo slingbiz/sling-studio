@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {getAllImages} from '../../../../redux/actions';
+import {getMedia} from '../../../../redux/actions';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {SidebarDrawer} from './SidebarDrawer';
 import AddImage from './AddImage';
@@ -57,7 +57,7 @@ const Gallery = () => {
   const [imgDetails, setImgDetails] = useState({});
 
   useEffect(() => {
-    dispatch(getAllImages(filter));
+    dispatch(getMedia(filter));
   }, [dispatch, filter]);
 
   const toggleDrawer = (value, item) => {

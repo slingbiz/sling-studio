@@ -5,11 +5,13 @@ import {
   GET_MEDIA_IMAGES,
   GET_MEDIA_CONSTANTS,
   SHOW_MESSAGE,
+  GET_MEDIA_DATA,
 } from '../../shared/constants/ActionTypes';
 import Api from '../../@sling/services/ApiConfig';
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import {appIntl} from '../../@sling/utility/Utils';
+import {GET_MEDIA_API} from '../../shared/constants/Services';
 
 export const addImage = (imageMeta) => {
   const {messages} = appIntl();
@@ -23,7 +25,7 @@ export const addImage = (imageMeta) => {
             type: SHOW_MESSAGE,
             payload: 'New Image Added.',
           });
-          dispatch(getAllImages());
+          dispatch(getMedia());
         } else {
           dispatch({
             type: FETCH_ERROR,
@@ -34,6 +36,30 @@ export const addImage = (imageMeta) => {
       .catch((error) => {
         dispatch({type: FETCH_ERROR, payload: error.message});
       });
+  };
+};
+
+export const getMedia = (filters) => {
+  return async (dispatch) => {
+    try {
+      dispatch({type: FETCH_START});
+      const data = await Api.post(`${GET_MEDIA_API}`, filters);
+      console.log('[getMedia] actions Response: ', JSON.stringify(data));
+
+      if (data.status === 200) {
+        dispatch({type: FETCH_SUCCESS});
+        dispatch({type: GET_MEDIA_DATA, payload: data.data.media});
+      } else {
+        console.log('[getMedia] Error');
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.somethingWentWrong' />,
+        });
+      }
+    } catch (error) {
+      console.log(error, '[getMedia] Exception');
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
   };
 };
 

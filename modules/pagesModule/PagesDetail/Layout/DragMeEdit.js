@@ -3,8 +3,25 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import {Box} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import {initialWidth} from './NewCellModal';
+import Button from '@material-ui/core/Button';
+import {makeStyles} from '@material-ui/core/styles';
 
 const grid = 8;
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    position: 'relative',
+    '&:hover $replyBtn': {
+      visibility: 'visible',
+    },
+  },
+  replyBtn: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    visibility: 'hidden',
+  },
+}));
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -44,6 +61,8 @@ const getListStyle = (isDraggingOver) => ({
 });
 
 const DragMe = (props) => {
+  const classes = useStyles(props);
+
   const {
     section,
     recursion,
@@ -85,7 +104,10 @@ const DragMe = (props) => {
     if (contents?.rows?.length) {
       return contents?.rows?.map((row, k) => {
         return (
-          <>
+          <Box key={`itemContents-${k}`} className={classes.content}>
+            <Button className={classes.replyBtn} color='primary'>
+              Buy Now
+            </Button>
             <DragMe
               recursion={true}
               section={section}
@@ -104,11 +126,15 @@ const DragMe = (props) => {
               typeLabel={'Body Blocks'}
             />
             <Box m={6} />
-          </>
+          </Box>
         );
       });
     } else {
-      return <>{contents.key}</>;
+      return (
+        <Box>
+          <span>{contents.key}</span>{' '}
+        </Box>
+      );
     }
   };
 

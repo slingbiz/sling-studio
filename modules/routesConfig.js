@@ -32,14 +32,6 @@ const routesConfig = [
     url: '/routes',
   },
   {
-    id: 'sitemap',
-    title: 'SiteMap',
-    messageId: 'sidebar.app.sitemap',
-    type: 'item',
-    icon: 'account_tree',
-    url: '/sitemap',
-  },
-  {
     id: 'widgets',
     title: 'Widgets',
     messageId: 'sidebar.app.widgets',
@@ -54,6 +46,14 @@ const routesConfig = [
     type: 'item',
     icon: 'photo_camera',
     url: '/media',
+  },
+  {
+    id: 'sitemap',
+    title: 'SiteMap',
+    messageId: 'sidebar.app.sitemap',
+    type: 'item',
+    icon: 'account_tree',
+    url: '/sitemap',
   },
   {
     id: 'amp',
