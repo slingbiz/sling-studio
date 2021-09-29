@@ -5,3 +5,4 @@ export const GET_WIDGETS = `${process.env.GET_WIDGETS}`;
 export const SET_CONFIG = `${process.env.SET_CONFIG}`;
 export const GET_MEDIA_API = `${process.env.GET_MEDIA_API}`;
 export const GET_MEDIA_CONSTANTS_API = `${process.env.GET_MEDIA_CONSTANTS_API}`;
+export const GET_ROUTES_LIST_API = `${process.env.GET_ROUTES_LIST_API}`;

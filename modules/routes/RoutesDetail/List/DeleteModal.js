@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btnBack: {color: theme.palette.gray[600]},
+  confirmModal: {
+    padding: 24,
+  },
 }));
 
 export default function AlertModal(props) {
@@ -32,12 +35,22 @@ export default function AlertModal(props) {
       <Dialog
         open={open}
         onClose={handleClose}
+        PaperProps={{
+          style: {
+            height: '20vh',
+            minWidth: '40vw',
+            padding: '0 10px 10px 0',
+          },
+        }}
+        classes={classes.confirmModal}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'>
         <DialogTitle id='alert-dialog-title'>{'Delete Route'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Are you sure you want to delete ?
+          <DialogContentText
+            id='alert-dialog-description'
+            style={{fontSize: 16}}>
+            Are you sure you want to remove ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -62,7 +75,7 @@ export default function AlertModal(props) {
             className={classes.alertBtn}
             autoFocus
             disabled>
-            Reroute <sup> Pro Feature</sup>
+            Reroute <sup style={{color: '#fdadad', padding: '0 2px'}}> Pro</sup>
           </Button>
         </DialogActions>
       </Dialog>

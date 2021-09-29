@@ -2,6 +2,7 @@ import {GET_ROUTES_LIST} from '../../shared/constants/ActionTypes';
 
 const initialState = {
   routesList: [],
+  totalCount: 0,
 };
 
 const routeReducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ const routeReducer = (state = initialState, action) => {
     case GET_ROUTES_LIST:
       return {
         ...state,
-        routesList: action.payload,
+        routesList: action.payload.pageRoutes,
+        totalCount: action.payload.tc,
       };
 
     default: {

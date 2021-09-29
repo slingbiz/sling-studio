@@ -11,15 +11,7 @@ import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderI
 
 export const folderList = [
   {id: 120, name: 'All Routes', alias: 'routes-list', icon: 'playlist_add'},
-  // {
-  //   id: 121,
-  //   name: 'Sling Mapping',
-  //   alias: 'sling-mappings',
-  //   icon: 'account_tree',
-  // },
-  // {id: 123, name: 'Auto Sync', alias: 'auto-sync', icon: 'sync'},
-  // {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
-  // {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
+  {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({

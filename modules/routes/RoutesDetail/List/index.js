@@ -26,95 +26,95 @@ import NewRoute from './NewRoute';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {getRoutesList} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
+import KeysArray from './KeysArray';
 
-const ApiList = (props) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& .MuiPaper-elevation1': {
+      boxShadow: 'none',
+    },
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightBold,
+  },
+  taskBtn: {
+    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+  },
+  pointer: {
+    cursor: 'pointer',
+  },
+  minWidth100: {
+    minWidth: 100,
+    width: '100%',
+  },
+  divider: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  textArea: {
+    width: '100%',
+    marginBottom: 16,
+  },
+
+  accordion: {
+    backgroundColor: '#f1f1f1',
+    boxShadow: 'none',
+  },
+  button: {
+    backgroundColor: orange[500],
+    color: theme.palette.primary.contrastText,
+    fontWeight: Fonts.BOLD,
+    paddingRight: 20,
+    marginRight: 20,
+    paddingLeft: 20,
+    '&:hover, &:focus': {
+      backgroundColor: orange[700],
+      color: theme.palette.primary.contrastText,
+    },
+  },
+  basicFormTxt: {
+    margin: 10,
+  },
+  apiCard: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    border: '1px solid #eae8e8',
+    padding: 15,
+    background: '#f1f1f1',
+    borderRadius: 5,
+  },
+  apiCardImage: {
+    height: '100%',
+    padding: theme.spacing(2),
+    borderColor: orange[100],
+    backgroundImage: `url(/images/pageRoute.png)`,
+    color: 'white',
+    position: 'relative',
+    backgroundSize: 'auto 100%',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'top',
+  },
+  actionsBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
+  iconRoot: {
+    margin: theme.spacing(1),
+  },
+}));
+
+const RoutesList = (props) => {
   const dispatch = useDispatch();
-  const {routesList} = useSelector(({routeList}) => routeList);
+  const {routesList, totalCount} = useSelector(({routeList}) => routeList);
 
   useEffect(() => {
     dispatch(getRoutesList());
   }, [dispatch]);
-
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      '& .MuiPaper-elevation1': {
-        boxShadow: 'none',
-      },
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
-    },
-    taskBtn: {
-      borderRadius: theme.overrides.MuiCard.root.borderRadius,
-    },
-    pointer: {
-      cursor: 'pointer',
-    },
-    minWidth100: {
-      minWidth: 100,
-      width: '100%',
-    },
-    divider: {
-      marginTop: 20,
-      marginBottom: 20,
-    },
-    textArea: {
-      width: '100%',
-      marginBottom: 16,
-    },
-
-    accordion: {
-      backgroundColor: '#f1f1f1',
-      boxShadow: 'none',
-    },
-    button: {
-      backgroundColor: orange[500],
-      color: theme.palette.primary.contrastText,
-      fontWeight: Fonts.BOLD,
-      paddingRight: 20,
-      marginRight: 20,
-      paddingLeft: 20,
-      '&:hover, &:focus': {
-        backgroundColor: orange[700],
-        color: theme.palette.primary.contrastText,
-      },
-    },
-    basicFormTxt: {
-      margin: 10,
-    },
-    apiCard: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      width: '100%',
-      border: '1px solid #eae8e8',
-      padding: 15,
-      background: '#f1f1f1',
-      borderRadius: 5,
-    },
-    apiCardImage: {
-      height: '100%',
-      padding: theme.spacing(2),
-      // border: '1px solid',
-      borderColor: orange[100],
-      backgroundImage: `url(/images/widgets/api-img2.png)`,
-      color: 'white',
-      position: 'relative',
-      backgroundSize: 'auto 100%',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'top',
-    },
-    actionsBox: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-    },
-    iconRoot: {
-      margin: theme.spacing(1),
-    },
-  }));
 
   const classes = useStyles(props);
   const [openEditAPI, setOpenEditAPI] = useState(false);
@@ -131,7 +131,6 @@ const ApiList = (props) => {
     setOpenEditAPI(true);
   };
 
-  console.log('ROutes LIst ==> ', routesList);
   return (
     <>
       <AppsHeader>
@@ -171,9 +170,9 @@ const ApiList = (props) => {
           setOpen={setMapperDialog}
           titleKey={'Edit Route'}
           pageKey={'routes-list'}
-          apiObj={editRoute}
+          routeObj={editRoute}
         />
-        {routesList?.routes_list?.map((apiObj, index) => {
+        {routesList?.map((routeObj, index) => {
           return (
             <Box key={index} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
@@ -181,20 +180,33 @@ const ApiList = (props) => {
                   <Grid item xs={2}>
                     <Box className={classes.apiCardImage}></Box>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={5}>
                     <CardContent>
-                      <Box fontWeight={Fonts.BOLD} component='h3' mb={2}>
-                        {apiObj.id}
+                      <Box
+                        fontWeight={Fonts.BOLD}
+                        component='h3'
+                        style={{textTransform: 'capitalize'}}
+                        mb={2}>
+                        {routeObj.title}
                       </Box>
                       <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
-                        {apiObj.url_string}
+                        {routeObj.url_string}
                       </Box>
                       <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
-                        {apiObj.version}
+                        {routeObj.version}
+                      </Box>
+                      <Box
+                        style={{
+                          display: 'flex',
+                          alignItems: 'baseline',
+                          justifyContent: 'left',
+                        }}>
+                        <Typography>Filter Keys</Typography>
+                        <KeysArray urlKeys={routeObj?.keys} />
                       </Box>
                     </CardContent>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={5}>
                     <Box
                       className={classes.actionsBox}
                       display='flex'
@@ -220,7 +232,7 @@ const ApiList = (props) => {
                               aria-label='edit'
                               component='span'
                               onClick={() => {
-                                setEditRoute(apiObj);
+                                setEditRoute(routeObj);
                                 setMapperDialog(true);
                               }}>
                               <Edit />
@@ -234,6 +246,7 @@ const ApiList = (props) => {
                             <IconButton
                               className={classes.iconRoot}
                               aria-label=' picture'
+                              disabled={true}
                               component='span'
                               onClick={doAction}>
                               <AccountTreeIcon />
@@ -241,33 +254,30 @@ const ApiList = (props) => {
                           </Tooltip>
                         </label>
                       </Box>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Accordion className={classes.accordion}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls='panel1a-content'
-                        id='panel1a-header'>
-                        <Typography className={classes.heading}>
-                          More Info
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}>
-                        <Typography>Keys : {apiObj?.keys}</Typography>
+                      <Box>
                         <Button
                           onClick={() => setOpen(true)}
                           variant='contained'
-                          color='primary'>
+                          color='primary'
+                          style={{marginLeft: 15}}>
                           Edit Layout
                         </Button>
-                      </AccordionDetails>
-                    </Accordion>
+                      </Box>
+                    </Box>
                   </Grid>
+                  {/*<Grid item xs={12}>*/}
+                  {/*  <Accordion className={classes.accordion}>*/}
+                  {/*    <AccordionSummary*/}
+                  {/*      expandIcon={<ExpandMoreIcon />}*/}
+                  {/*      aria-controls='panel1a-content'*/}
+                  {/*      id='panel1a-header'>*/}
+                  {/*      <Typography className={classes.heading}>*/}
+                  {/*        More Info*/}
+                  {/*      </Typography>*/}
+                  {/*    </AccordionSummary>*/}
+                  {/*    <AccordionDetails></AccordionDetails>*/}
+                  {/*  </Accordion>*/}
+                  {/*</Grid>*/}
                 </Grid>
               </Card>
             </Box>
@@ -284,4 +294,4 @@ const ApiList = (props) => {
   );
 };
 
-export default ApiList;
+export default RoutesList;

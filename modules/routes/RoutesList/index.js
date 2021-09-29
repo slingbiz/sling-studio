@@ -58,7 +58,7 @@ const RoutesList = ({titleKey, pageKey}) => {
 
   return (
     <>
-      <AppsHeader>Headless Api Integration Guide</AppsHeader>
+      <AppsHeader>Routes Guide</AppsHeader>
       <AppsContent>
         <Paper className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>

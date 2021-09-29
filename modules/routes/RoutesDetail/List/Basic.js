@@ -8,19 +8,24 @@ import {useEffect} from 'react';
 
 const useStyles = makeStyles((theme) => ({
   typography: {
-    textAlign: 'center',
+    textAlign: 'right',
     marginTop: 30,
     marginBottom: 20,
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
     },
   },
+  inputLabel: {
+    fontSize: 16,
+  },
   input: {
     width: 400,
     border: 'none',
+    fontSize: 16,
     padding: 5,
     marginLeft: 5,
     marginRight: 5,
+    marginBottom: 30,
     [theme.breakpoints.down('xs')]: {
       width: 280,
     },
@@ -126,6 +131,7 @@ const Basic = ({setOpen, apiObj}) => {
               }}
               InputLabelProps={{
                 shrink: true,
+                className: classes.inputLabel,
               }}
               value={routeName}
               onChange={(e) => setRouteName(e.target.value)}
@@ -149,7 +155,7 @@ const Basic = ({setOpen, apiObj}) => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{textAlign: 'right'}}>
             <Button
               variant='contained'
               color='primary'
@@ -197,7 +203,7 @@ const Basic = ({setOpen, apiObj}) => {
                 />
               </Grid>
             ))}
-            <Grid item xs={12} sm={6} md={4} className={classes.typography}>
+            <Grid item xs={12} className={classes.typography}>
               <Button
                 variant='contained'
                 color='primary'
