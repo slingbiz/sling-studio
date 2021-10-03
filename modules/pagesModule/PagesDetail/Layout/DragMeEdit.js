@@ -105,9 +105,9 @@ const DragMe = (props) => {
       return contents?.rows?.map((row, k) => {
         return (
           <Box key={`itemContents-${k}`} className={classes.content}>
-            <Button className={classes.replyBtn} color='primary'>
-              Buy Now
-            </Button>
+            {/*<Button className={classes.replyBtn} color='primary'>*/}
+            {/*  Buy Now*/}
+            {/*</Button>*/}
             <DragMe
               recursion={true}
               section={section}

@@ -20,6 +20,7 @@ module.exports = (phase) => {
         FIREBASE_APP_ID: '1:369173776768:web:895ded916749deebd31965',
         FIREBASE_MESSAGING_SENDER_ID: '369173776768',
         FIREBASE_MEASUREMENT_ID: 'G-976YVMRB4R',
+        NEXT_PUBLIC_GA_ID: 'G-SKGN07R7F1',
       },
     };
   }
@@ -38,6 +39,7 @@ module.exports = (phase) => {
       FIREBASE_APP_ID: '1:369173776768:web:895ded916749deebd31965',
       FIREBASE_MESSAGING_SENDER_ID: '369173776768',
       FIREBASE_MEASUREMENT_ID: 'G-976YVMRB4R',
+      NEXT_PUBLIC_GA_ID: 'G-SKGN07R7F1',
     },
   };
 };

@@ -13,6 +13,7 @@ import '../@sling/services/index';
 import AuthRoutes from '../@sling/utility/AuthRoutes';
 import PageMeta from '../@sling/core/PageMeta';
 import 'codemirror/lib/codemirror.css';
+import Script from 'next/script'
 
 const App = ({Component, pageProps, user}) => {
   const store = useStore(pageProps.initialReduxState);
@@ -35,6 +36,19 @@ const App = ({Component, pageProps, user}) => {
               <LocaleProvider>
                 <AuthRoutes>
                   <CssBaseline />
+                  <Script
+                    strategy='lazyOnload'
+                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+                  />
+                  <Script id='ga-analytics'>
+                    {`
+                      window.dataLayer = window.dataLayer || [];
+                      function gtag(){dataLayer.push(arguments);}
+                      gtag('js', new Date());
+          
+                      gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                    `}
+                  </Script>
                   <Component {...pageProps} />
                 </AuthRoutes>
               </LocaleProvider>
