@@ -3,8 +3,10 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import {Box} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import {initialWidth} from './NewCellModal';
-import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import blue from '@material-ui/core/colors/blue';
 
 const grid = 8;
 
@@ -17,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
   replyBtn: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    color: blue['50'],
+    top: -7,
+    right: -15,
     visibility: 'hidden',
   },
 }));
@@ -66,6 +69,7 @@ const DragMe = (props) => {
   const {
     section,
     recursion,
+    setOpenSnack,
     parentItems: initItems,
     rowNo,
     setItemToParent,
@@ -100,17 +104,32 @@ const DragMe = (props) => {
     setItemToParent(rowNo, parentKey, itemsN, section);
   };
 
-  const getItemContents = (contents, parentKey) => {
+  const deleteItem = (contents, parentKey, index) => {
+    // const newState = [...items];
+    // newState.splice(index, 1);
+    // setItems(newState);
+    // setItemToParent(rowNo, parentKey, newState, section);
+    setOpenSnack(true);
+    console.log(
+      contents,
+      parentKey,
+      index,
+      rowNo,
+      keyV,
+      parentKey,
+      '[contents, parentKey, index, rowNo, keyV, parentKey]',
+    );
+  };
+
+  const getItemContents = (contents, parentKey, index) => {
     if (contents?.rows?.length) {
       return contents?.rows?.map((row, k) => {
         return (
-          <Box key={`itemContents-${k}`} className={classes.content}>
-            {/*<Button className={classes.replyBtn} color='primary'>*/}
-            {/*  Buy Now*/}
-            {/*</Button>*/}
+          <Box key={`itemContents-${k}`}>
             <DragMe
               recursion={true}
               section={section}
+              setOpenSnack={setOpenSnack}
               keyV={parentKey + '_body_' + k}
               rowNo={k}
               isDragDisabled={isDragDisabled}
@@ -131,7 +150,16 @@ const DragMe = (props) => {
       });
     } else {
       return (
-        <Box>
+        <Box className={classes.content}>
+          <IconButton
+            className={classes.replyBtn}
+            aria-label='delete'
+            onClick={() => {
+              deleteItem(contents, parentKey, index);
+            }}
+            size='small'>
+            <DeleteIcon />
+          </IconButton>
           <span>{contents.key}</span>{' '}
         </Box>
       );
@@ -178,7 +206,7 @@ const DragMe = (props) => {
                               provided.draggableProps.style,
                               item,
                             )}>
-                            {getItemContents(item.contents, item.id)}
+                            {getItemContents(item.contents, item.id, index)}
                           </div>
                         )}
                       </Draggable>
@@ -226,7 +254,7 @@ const DragMe = (props) => {
                           provided.draggableProps.style,
                           item,
                         )}>
-                        {getItemContents(item.contents, item.id)}
+                        {getItemContents(item.contents, item.id, index)}
                       </div>
                     )}
                   </Draggable>

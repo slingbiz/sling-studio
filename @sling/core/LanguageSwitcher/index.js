@@ -11,7 +11,7 @@ import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Link from 'next/link';
 import Button from '@material-ui/core/Button';
-import orange from "@material-ui/core/colors/orange";
+import orange from '@material-ui/core/colors/orange';
 
 const LanguageSwitcher = (props) => {
   const {iconOnly} = props;
@@ -119,81 +119,80 @@ const LanguageSwitcher = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Box>
-      <Link href={'https://sling.biz/frontend'}>
+    <Box style={{display: 'flex', alignItems: 'center'}}>
+      <Link href={'https://sling.biz/frontend/dubai/women/clothes/products'}>
         <Button className={classes.dashboardBtn} color='yellow'>
           Frontend
         </Button>
       </Link>
-      <IconButton
-        className={clsx(
-          classes.langBtn,
-          {
-            langIconOnly: iconOnly,
-          },
-          'langBtn',
-        )}
-        aria-label='account of current user'
-        aria-controls='language-switcher'
-        aria-haspopup='true'
-        onClick={onClickMenu}
-        color='inherit'>
-        {!iconOnly ? (
-          <>
-            <Box
-              component='span'
-              mr={{xs: 2, md: 3}}
-              height={48}
-              width={48}
-              display='flex'
-              alignItems='center'
-              justifyContent='center'
-              borderRadius='50%'
-              className={classes.overflowHidden}>
-              <i className={`flag flag-24 flag-${locale.icon}`} />
-            </Box>
-            <Box
-              component='span'
-              fontSize={16}
-              fontFamily='Poppins'
-              fontWeight={Fonts.REGULAR}
-              display='inline-block'>
-              {locale.name}
-            </Box>
-          </>
-        ) : (
-          <Box>
-            <i className={`flag flag-24 flag-${locale.icon}`} />
-          </Box>
-        )}
-      </IconButton>
-      <Menu
-        anchorEl={anchorElLng}
-        id='language-switcher'
-        keepMounted
-        open={Boolean(anchorElLng)}
-        onClose={() => setAnchorElLng(null)}>
-        {languageData.map((language, index) => (
-          <MenuItem key={index} onClick={() => changeLanguage(language)}>
-            <Box
-              width={160}
-              display='flex'
-              flexDirection='row'
-              alignItems='center'>
-              <i className={`flag flag-24 flag-${language.icon}`} />
-              <Box
-                component='h4'
-                ml={4}
-                mb={0}
-                fontSize={{xs: 14, xl: 16}}
-                fontWeight={Fonts.MEDIUM}>
-                {language.name}
-              </Box>
-            </Box>
-          </MenuItem>
-        ))}
-      </Menu>
-
+      {/*<IconButton*/}
+      {/*  className={clsx(*/}
+      {/*    classes.langBtn,*/}
+      {/*    {*/}
+      {/*      langIconOnly: iconOnly,*/}
+      {/*    },*/}
+      {/*    'langBtn',*/}
+      {/*  )}*/}
+      {/*  aria-label='account of current user'*/}
+      {/*  aria-controls='language-switcher'*/}
+      {/*  aria-haspopup='true'*/}
+      {/*  onClick={onClickMenu}*/}
+      {/*  color='inherit'>*/}
+      {/*  {!iconOnly ? (*/}
+      {/*    <>*/}
+      {/*      <Box*/}
+      {/*        component='span'*/}
+      {/*        mr={{xs: 2, md: 3}}*/}
+      {/*        height={48}*/}
+      {/*        width={48}*/}
+      {/*        display='flex'*/}
+      {/*        alignItems='center'*/}
+      {/*        justifyContent='center'*/}
+      {/*        borderRadius='50%'*/}
+      {/*        className={classes.overflowHidden}>*/}
+      {/*        <i className={`flag flag-24 flag-${locale.icon}`} />*/}
+      {/*      </Box>*/}
+      {/*      <Box*/}
+      {/*        component='span'*/}
+      {/*        fontSize={16}*/}
+      {/*        fontFamily='Poppins'*/}
+      {/*        fontWeight={Fonts.REGULAR}*/}
+      {/*        display='inline-block'>*/}
+      {/*        {locale.name}*/}
+      {/*      </Box>*/}
+      {/*    </>*/}
+      {/*  ) : (*/}
+      {/*    <Box>*/}
+      {/*      <i className={`flag flag-24 flag-${locale.icon}`} />*/}
+      {/*    </Box>*/}
+      {/*  )}*/}
+      {/*</IconButton>*/}
+      {/*<Menu*/}
+      {/*  anchorEl={anchorElLng}*/}
+      {/*  id='language-switcher'*/}
+      {/*  keepMounted*/}
+      {/*  open={Boolean(anchorElLng)}*/}
+      {/*  onClose={() => setAnchorElLng(null)}>*/}
+      {/*  {languageData.map((language, index) => (*/}
+      {/*    <MenuItem key={index} onClick={() => changeLanguage(language)}>*/}
+      {/*      <Box*/}
+      {/*        width={160}*/}
+      {/*        display='flex'*/}
+      {/*        flexDirection='row'*/}
+      {/*        alignItems='center'>*/}
+      {/*        <i className={`flag flag-24 flag-${language.icon}`} />*/}
+      {/*        <Box*/}
+      {/*          component='h4'*/}
+      {/*          ml={4}*/}
+      {/*          mb={0}*/}
+      {/*          fontSize={{xs: 14, xl: 16}}*/}
+      {/*          fontWeight={Fonts.MEDIUM}>*/}
+      {/*          {language.name}*/}
+      {/*        </Box>*/}
+      {/*      </Box>*/}
+      {/*    </MenuItem>*/}
+      {/*  ))}*/}
+      {/*</Menu>*/}
     </Box>
   );
 };

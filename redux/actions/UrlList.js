@@ -15,7 +15,7 @@ export const addURL = () => {
   const {messages} = appIntl();
   const urlList = [
     'https://www.freecodecamp.org/',
-    'https:///sling.biz/frontend',
+    'https://sling.biz/frontend/dubai/women/clothes/products',
     'https://www.pexels.com/',
     'https://dev.to/',
     'https://www.stackbit.com/',
@@ -49,7 +49,7 @@ export const addURL = () => {
 export const getUrlList = () => {
   const urlList = [
     'https://www.freecodecamp.org/',
-    'https:///sling.biz/frontend',
+    'https://sling.biz/frontend/dubai/women/clothes/products',
     'https://www.pexels.com/',
     'https://dev.to/',
     'https://www.stackbit.com/',

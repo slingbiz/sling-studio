@@ -98,7 +98,8 @@ const HeaderMessages = (props) => {
   }));
 
   const classes = useStyles(props);
-
+  //Intentionally added to remove the below code.
+  return '';
   return (
     <>
       <IconButton

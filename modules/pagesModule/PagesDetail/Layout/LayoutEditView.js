@@ -25,6 +25,8 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import Hidden from '@material-ui/core/Hidden';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import LayoutSettings from './LayoutSettings';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 //Styles
 const useStyles = makeStyles((theme) => ({
@@ -86,9 +88,11 @@ const useStyles = makeStyles((theme) => ({
   componentBox: {
     height: '8em',
     width: '100%',
-    // backgroundColor: 'lightgrey',
+    padding: 15,
+    backgroundColor: 'lightgrey',
     border: '1px solid #d6d3d3',
     borderRadius: '4px',
+    textAlign: 'center',
     justifyContent: 'center',
     margin: '0.5em',
     flex: '40%',
@@ -117,7 +121,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [newCellSection, setNewCellSection] = useState('');
   const [newCellRowIndex, setNewCellRowIndex] = useState('');
   const [newWidgetCell, setNewWidgetCell] = useState(undefined);
-
+  const [snackOpen, setOpenSnack] = useState(false);
   const sectionBlocksMap = {
     headerBlocks,
     setHeaderBlocks,
@@ -232,6 +236,7 @@ const LayoutEditView = forwardRef((props, ref) => {
 
     //Close Cell Modal
     setNewCellModal(false);
+    setNewWidgetCell(undefined);
   };
 
   //Handle open Add new Cell
@@ -311,7 +316,7 @@ const LayoutEditView = forwardRef((props, ref) => {
       });
       setSectionBlocks({...sectionBlocks});
     } else {
-      alert('different box. Move wisely.');
+      alert('Moving a widget to a different block. Please be sure.');
       const {nodeType: nodeTypeSource, pos: posSource} = getNodeType(sInd);
       const {nodeType: nodeTypeDest, pos: posDest} = getNodeType(dInd);
 
@@ -418,6 +423,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                             index={item['_id']}>
                             {(provided, snapshot) => (
                               <div
+                                componentBox={'componentBox'}
                                 className={classes.componentBox}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
@@ -449,6 +455,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       keyV={'header_' + k}
                       section={'header'}
                       rowNo={k}
+                      setOpenSnack={setOpenSnack}
                       isDragDisabled={false}
                       parentItems={
                         row?.cells?.map((v, k) => {
@@ -487,6 +494,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       keyV={'body_' + k}
                       rowNo={k}
                       isDragDisabled={false}
+                      setOpenSnack={setOpenSnack}
                       parentItems={
                         [...row?.cells]?.map((v, k) => {
                           const label = v.key ? `Item ${v.key}` : `Row ${k}`;
@@ -523,6 +531,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       section={'footer'}
                       keyV={'footer_' + k}
                       rowNo={k}
+                      setOpenSnack={setOpenSnack}
                       isDragDisabled={false}
                       parentItems={
                         row?.cells?.map((v, k) => {
@@ -568,6 +577,18 @@ const LayoutEditView = forwardRef((props, ref) => {
           </Card>
         </Grid>
       </DragDropContext>
+      <Snackbar
+        open={snackOpen}
+        anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnack(false)}>
+        <Alert
+          onClose={() => setOpenSnack(false)}
+          severity='error'
+          sx={{width: '100%'}}>
+          Sling is running in Demo mode. Changes will not be saved.
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 });
