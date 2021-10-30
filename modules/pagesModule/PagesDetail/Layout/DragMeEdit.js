@@ -105,20 +105,20 @@ const DragMe = (props) => {
   };
 
   const deleteItem = (contents, parentKey, index) => {
-    // const newState = [...items];
-    // newState.splice(index, 1);
-    // setItems(newState);
-    // setItemToParent(rowNo, parentKey, newState, section);
-    setOpenSnack(true);
-    console.log(
-      contents,
-      parentKey,
-      index,
-      rowNo,
-      keyV,
-      parentKey,
-      '[contents, parentKey, index, rowNo, keyV, parentKey]',
-    );
+    const newState = [...items];
+    newState.splice(index, 1);
+    setItems(newState);
+    setItemToParent(rowNo, parentKey, newState, section);
+    // setOpenSnack(true);
+    // console.log(
+    //   contents,
+    //   parentKey,
+    //   index,
+    //   rowNo,
+    //   keyV,
+    //   parentKey,
+    //   '[contents, parentKey, index, rowNo, keyV, parentKey]',
+    // );
   };
 
   const getItemContents = (contents, parentKey, index) => {

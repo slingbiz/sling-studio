@@ -7,18 +7,26 @@ import Layout from './Layout';
 import DataSource from './DataSource';
 import TasksList from '../TasksList';
 import Preview from './Preview';
+import PagesList from '../PagesList';
+import Guide from './Guide';
 
 const PagesDetail = (props) => {
-  const dispatch = useDispatch();
   const {query} = useRouter();
-  const id = query.all[1];
-
-  const sectionMapper = {
-    basic: Basic,
-    layout: Layout,
-    preview: Preview,
-    data: DataSource,
-  };
+  const id = query.all[1] || query.all[0];
+  console.log(id, 'idddddd', query.all[1]);
+  const sectionMapper =
+    id === 'templates' || id === 'guide'
+      ? {
+          templates: PagesList,
+        }
+      : {
+          templates: PagesList,
+          basic: Basic,
+          layout: Layout,
+          preview: Preview,
+          data: DataSource,
+          guide: Guide,
+        };
 
   const RenderSection = sectionMapper[id];
   console.log('Render Section ==> ', RenderSection);
@@ -29,7 +37,7 @@ const PagesDetail = (props) => {
       </Box>
     );
   }
-  return <TasksList {...props}></TasksList>;
+  return <Guide {...props}></Guide>;
 };
 
 export default PagesDetail;

@@ -11,9 +11,9 @@ const routesConfig = [
     id: 'pages',
     title: 'Pages Templates',
     messageId: 'sidebar.app.pagesTemplates',
-    type: 'collapse',
+    type: 'item',
     icon: 'insert_chart',
-    url: '/pages-templates/',
+    url: '/pages/',
   },
   {
     id: 'headless-apis',

@@ -71,18 +71,18 @@ const VerticalCollapse = ({item, level, router, pages}) => {
     return null;
   }
 
-  if (item.id === 'pages') {
-    item.children = pages?.map((v) => {
-      return {
-        id: v,
-        title: v.replaceAll(v, '-'),
-        messageId: `${capitalize(v)}`,
-        type: 'item',
-        icon: 'timeline',
-        url: `/pages/${v}`,
-      };
-    });
-  }
+  // if (item.id === 'pages') {
+  //   item.children = pages?.map((v) => {
+  //     return {
+  //       id: v,
+  //       title: v.replaceAll(v, '-'),
+  //       messageId: `${capitalize(v)}`,
+  //       type: 'item',
+  //       icon: 'timeline',
+  //       url: `/pages/${v}`,
+  //     };
+  //   });
+  // }
 
   return (
     <>

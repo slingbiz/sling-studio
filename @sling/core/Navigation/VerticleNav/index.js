@@ -29,11 +29,11 @@ const Navigation = () => {
         return (
           <React.Fragment key={item.id}>
             {item.type === 'group' && (
-              <VerticalNavGroup item={item} level={0} pages={pages} />
+              <VerticalNavGroup item={item} level={0} />
             )}
 
             {item.type === 'collapse' && (
-              <VerticalCollapse item={item} level={0} pages={pages} />
+              <VerticalCollapse item={item} level={0} />
             )}
 
             {item.type === 'item' && <VerticalItem item={item} level={0} />}

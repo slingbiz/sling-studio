@@ -9,13 +9,24 @@ import AppList from '../../../@sling/core/AppList';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
+import {useRouter} from 'next/router';
 
-export const folderList = [
+export const folderListChild = [
+  // {
+  //   id: 100,
+  //   name: 'All Templates',
+  //   alias: 'pages/templates',
+  //   icon: 'arrow_back_ios',
+  // },
   {id: 120, name: 'Basic', alias: 'basic', icon: 'border_color'},
   {id: 121, name: 'Layout', alias: 'layout', icon: 'view_quilt'},
   {id: 123, name: 'Preview', alias: 'preview', icon: 'pageview-icon'},
   {id: 124, name: 'Data', alias: 'data', icon: 'storage-icon'},
-  {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
+  // {id: 125, name: 'Guide', alias: 'pages/guide/', icon: 'help_center'},
+];
+export const folderListParent = [
+  {id: 100, name: 'Templates', alias: 'pages/templates', icon: 'list'},
+  {id: 125, name: 'Guide', alias: 'pages/guide', icon: 'help_center'},
 ];
 
 const useStyle = makeStyles((theme) => ({
@@ -39,13 +50,22 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   listRoot: {
-    padding: 0
-  }
+    padding: 0,
+  },
 }));
 
 const PagesSideBar = ({basePath}) => {
   const [isAddTaskOpen, setAddTaskOpen] = React.useState(false);
+  const currRoute = useRouter();
+  const {query: {all} = {}} = currRoute;
+  const id = all?.[1] || all?.[0];
+  const basePathLoc =
+    id === 'templates' || id === 'guide' || !id ? `` : `${all[0]}`;
 
+  const folderList =
+    id === 'templates' || id === 'guide' || !id
+      ? folderListParent
+      : folderListChild;
   const classes = useStyle();
 
   return (
@@ -53,7 +73,10 @@ const PagesSideBar = ({basePath}) => {
       <Scrollbar className='scroll-app-sidebar'>
         <Box p={0} m={0} style={{textAlign: 'center'}}>
           <Box clone>
-            <List component='nav' aria-label='main task folders' className={classes.listRoot}>
+            <List
+              component='nav'
+              aria-label='main task folders'
+              className={classes.listRoot}>
               <AppList
                 pageClasses={classes}
                 data={folderList}
@@ -67,7 +90,7 @@ const PagesSideBar = ({basePath}) => {
                   <AppsSideBarFolderItemCustom
                     key={item.id}
                     item={item}
-                    path={`${basePath}/${item.alias}`}
+                    path={`${basePathLoc}/${item.alias}`}
                   />
                 )}
               />
