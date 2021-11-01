@@ -17,6 +17,8 @@ import Link from 'next/link';
 import {useSelector} from 'react-redux';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import Box from "@material-ui/core/Box";
+import AppSearch from "../../../@sling/core/SearchBar";
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -87,7 +89,22 @@ const PageTemplatesList = ({titleKey, pageKey}) => {
 
   return (
     <>
-      <AppsHeader>All Page Templates</AppsHeader>
+      <AppsHeader>
+        All Page Templates{' '}
+        <Box display='flex' alignItems='center'>
+          <Button
+            className={classes.button}
+            aria-label='add'
+            disabled={true}
+            onClick={() => {}}>
+            Add Template
+          </Button>
+          <AppSearch
+            placeholder='Search templates'
+            onChange={(e) => e.target.value}
+          />
+        </Box>
+      </AppsHeader>
       <Paper className={classes.root}>
         <Grid container className={classes.guideList} spacing={10}>
           <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
@@ -102,7 +119,13 @@ const PageTemplatesList = ({titleKey, pageKey}) => {
             {Object.keys(layoutConfig).map((v, k) => {
               const {meta} = layoutConfig[v] || {};
               return (
-                <Grid key={k} item sm={12} md={4} lg={4} style={{marginLeft: 10, marginRight: 10}}>
+                <Grid
+                  key={k}
+                  item
+                  sm={12}
+                  md={4}
+                  lg={4}
+                  style={{marginLeft: 10, marginRight: 10}}>
                   <Card className={classes.card}>
                     <CardActionArea>
                       <CardMedia

@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
+import * as AllIcons from '@material-ui/icons';
+
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
 import clsx from 'clsx';
@@ -72,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   input: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(2),
     flex: 1,
   },
   iconButton: {
@@ -85,11 +87,13 @@ const useStyles = makeStyles((theme) => ({
   textTruncate: {
     padding: '10px 0',
   },
+  iconWidget: {margin: 5},
+  widgetName: {padding: '5px 10px 10px 10px'},
   componentBox: {
     height: '8em',
     width: '100%',
     padding: 15,
-    backgroundColor: 'lightgrey',
+    backgroundColor: '',
     border: '1px solid #d6d3d3',
     borderRadius: '4px',
     textAlign: 'center',
@@ -404,7 +408,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                 <IconButton className={classes.iconButton} aria-label='search'>
                   <SearchIcon />
                 </IconButton>
-                <Divider className={classes.divider} orientation='vertical' />
+                {/*<Divider className={classes.divider} orientation='vertical' />*/}
               </Paper>
               <Divider style={{marginTop: 15, marginBottom: 15}} />
               <Box>
@@ -421,16 +425,34 @@ const LayoutEditView = forwardRef((props, ref) => {
                             key={item['_id']}
                             draggableId={item['_id']}
                             index={item['_id']}>
-                            {(provided, snapshot) => (
-                              <div
-                                componentBox={'componentBox'}
-                                className={classes.componentBox}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}>
-                                {item.name}
-                              </div>
-                            )}
+                            {(provided, snapshot) => {
+                              let WidgetIcon;
+                              if (item.icon) {
+                                WidgetIcon = AllIcons[item.icon];
+                              }
+
+                              return (
+                                <div
+                                  componentBox={'componentBox'}
+                                  className={classes.componentBox}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}>
+                                  {WidgetIcon ? (
+                                    <WidgetIcon
+                                      className={classes.iconWidget}
+                                    />
+                                  ) : (
+                                    ''
+                                  )}
+                                  {
+                                    <Box className={classes.widgetName}>
+                                      {item.name}
+                                    </Box>
+                                  }
+                                </div>
+                              );
+                            }}
                           </Draggable>
                         );
                       })}

@@ -9,7 +9,7 @@ const routesConfig = [
   },
   {
     id: 'pages',
-    title: 'Pages Templates',
+    title: 'Page Templates',
     messageId: 'sidebar.app.pagesTemplates',
     type: 'item',
     icon: 'insert_chart',

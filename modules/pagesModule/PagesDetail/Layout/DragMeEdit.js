@@ -104,11 +104,27 @@ const DragMe = (props) => {
     setItemToParent(rowNo, parentKey, itemsN, section);
   };
 
-  const deleteItem = (contents, parentKey, index) => {
+  const deleteItem = (contents, index) => {
     const newState = [...items];
     newState.splice(index, 1);
     setItems(newState);
-    setItemToParent(rowNo, parentKey, newState, section);
+    console.log(
+      initItems,
+      '[initItems]',
+      section,
+      recursion,
+      setOpenSnack,
+      rowNo,
+      setItemToParent,
+      isDragDisabled,
+      keyV,
+      parentKey,
+    );
+    if (recursion) {
+      setItemToParent(rowNo, parentKey, newState, section);
+    } else {
+      setItemToParent(rowNo, '', newState, section);
+    }
     // setOpenSnack(true);
     // console.log(
     //   contents,
@@ -155,7 +171,7 @@ const DragMe = (props) => {
             className={classes.replyBtn}
             aria-label='delete'
             onClick={() => {
-              deleteItem(contents, parentKey, index);
+              deleteItem(contents, index);
             }}
             size='small'>
             <DeleteIcon />
