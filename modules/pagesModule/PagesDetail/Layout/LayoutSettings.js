@@ -80,10 +80,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LayoutSettings = () => {
+const LayoutSettings = ({settingsObj}) => {
   const classes = useStyles();
+  const {key, payload} = settingsObj;
+  const {props: cellProps = {}, muiWidths = {}, muiHidden = {}} = payload || {};
   const [expanded, setExpanded] = useState('panel1');
-  const [layoutWidth, setLayoutWidth] = useState(initialWidth);
+  const [layoutWidth, setLayoutWidth] = useState(
+    Object.keys(muiWidths).length ? muiWidths : initialWidth,
+  );
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);

@@ -7,6 +7,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import blue from '@material-ui/core/colors/blue';
+import clsx from 'clsx';
+import green from '@material-ui/core/colors/green';
 
 const grid = 8;
 
@@ -23,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
     top: -7,
     right: -15,
     visibility: 'hidden',
+  },
+  active: {
+    background: blue['300'],
+    padding: 10,
   },
 }));
 
@@ -51,21 +57,14 @@ const getItemStyle = (isDragging, draggableStyle, item) => ({
   background: isDragging ? 'lightgreen' : '#1c55a0',
   // background: isDragging ? 'lightgreen' : '#b0c4df',
   borderRadius: '3px',
+  boxShadow: '8px 8px 6px #888888',
+
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : '#f0f4f9',
-  display: 'flex',
-  padding: grid * 3,
-  overflow: 'auto',
-  justifyContent: 'flex-start',
-});
-
 const DragMe = (props) => {
   const classes = useStyles(props);
-
   const {
     section,
     recursion,
@@ -76,6 +75,10 @@ const DragMe = (props) => {
     isDragDisabled,
     keyV,
     parentKey,
+    setIsActiveTab,
+    isActiveTab,
+    settingsObj,
+    setSettingsObj
   } = props;
   console.log('droppable Id', keyV, section, rowNo, initItems);
 
@@ -86,6 +89,15 @@ const DragMe = (props) => {
       setItems(initItems);
     }
   }, [initItems]);
+
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? 'lightblue' : '#f0f4f9',
+    display: 'flex',
+    padding: grid * 3,
+    boxShadow: !recursion ? '8px 8px 6px #888888' : '2px 2px 1px #888888',
+    overflow: 'auto',
+    justifyContent: 'flex-start',
+  });
 
   const onDragEnd = (result) => {
     console.log(result, 'onDragEnd @dragme, ', keyV);
@@ -137,7 +149,7 @@ const DragMe = (props) => {
     // );
   };
 
-  const getItemContents = (contents, parentKey, index) => {
+  const getItemContents = (contents, parentKeyChild, index, item) => {
     if (contents?.rows?.length) {
       return contents?.rows?.map((row, k) => {
         return (
@@ -146,8 +158,12 @@ const DragMe = (props) => {
               recursion={true}
               section={section}
               setOpenSnack={setOpenSnack}
-              keyV={parentKey + '_body_' + k}
+              keyV={parentKeyChild + '_body_' + k}
               rowNo={k}
+              setIsActiveTab={setIsActiveTab}
+              isActiveTab={isActiveTab}
+              settingsObj={settingsObj}
+              setSettingsObj={setSettingsObj}
               isDragDisabled={isDragDisabled}
               parentItems={
                 row?.cells?.map((v, k) => {
@@ -157,7 +173,7 @@ const DragMe = (props) => {
                 }) || []
               }
               setItemToParent={setItemToParent}
-              parentKey={parentKey}
+              parentKey={parentKeyChild}
               typeLabel={'Body Blocks'}
             />
             <Box m={6} />
@@ -165,8 +181,23 @@ const DragMe = (props) => {
         );
       });
     } else {
+      const boxId = `${section}-${rowNo}-${
+        recursion ? parentKey : 'parent'
+      }-${parentKeyChild}`;
       return (
-        <Box className={classes.content}>
+        <Box
+          className={clsx(
+            classes.content,
+            isActiveTab == boxId ? classes.active : '',
+          )}
+          id={boxId}
+          onClick={() => {
+            setIsActiveTab(boxId);
+            setSettingsObj({
+              ...item.contents,
+              ...{section, rowNo,boxId, recursion, parentKey, parentKeyChild},
+            });
+          }}>
           <IconButton
             className={classes.replyBtn}
             aria-label='delete'
@@ -222,7 +253,12 @@ const DragMe = (props) => {
                               provided.draggableProps.style,
                               item,
                             )}>
-                            {getItemContents(item.contents, item.id, index)}
+                            {getItemContents(
+                              item.contents,
+                              item.id,
+                              index,
+                              item,
+                            )}
                           </div>
                         )}
                       </Draggable>
@@ -270,7 +306,7 @@ const DragMe = (props) => {
                           provided.draggableProps.style,
                           item,
                         )}>
-                        {getItemContents(item.contents, item.id, index)}
+                        {getItemContents(item.contents, item.id, index, item)}
                       </div>
                     )}
                   </Draggable>

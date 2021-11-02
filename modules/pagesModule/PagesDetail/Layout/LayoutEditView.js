@@ -126,6 +126,9 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [newCellRowIndex, setNewCellRowIndex] = useState('');
   const [newWidgetCell, setNewWidgetCell] = useState(undefined);
   const [snackOpen, setOpenSnack] = useState(false);
+  const [isActiveTab, setIsActiveTab] = useState(false);
+  const [settingsObj, setSettingsObj] = useState({});
+  console.log(settingsObj,'[settingsObjsettingsObjsettingsObj]')
   const sectionBlocksMap = {
     headerBlocks,
     setHeaderBlocks,
@@ -476,6 +479,10 @@ const LayoutEditView = forwardRef((props, ref) => {
                     <DragMe
                       keyV={'header_' + k}
                       section={'header'}
+                      isActiveTab={isActiveTab}
+                      setIsActiveTab={setIsActiveTab}
+                      settingsObj={settingsObj}
+                      setSettingsObj={setSettingsObj}
                       rowNo={k}
                       setOpenSnack={setOpenSnack}
                       isDragDisabled={false}
@@ -516,6 +523,10 @@ const LayoutEditView = forwardRef((props, ref) => {
                       keyV={'body_' + k}
                       rowNo={k}
                       isDragDisabled={false}
+                      isActiveTab={isActiveTab}
+                      setIsActiveTab={setIsActiveTab}
+                      settingsObj={settingsObj}
+                      setSettingsObj={setSettingsObj}
                       setOpenSnack={setOpenSnack}
                       parentItems={
                         [...row?.cells]?.map((v, k) => {
@@ -553,7 +564,11 @@ const LayoutEditView = forwardRef((props, ref) => {
                       section={'footer'}
                       keyV={'footer_' + k}
                       rowNo={k}
+                      isActiveTab={isActiveTab}
+                      setIsActiveTab={setIsActiveTab}
                       setOpenSnack={setOpenSnack}
+                      settingsObj={settingsObj}
+                      setSettingsObj={setSettingsObj}
                       isDragDisabled={false}
                       parentItems={
                         row?.cells?.map((v, k) => {
@@ -595,7 +610,7 @@ const LayoutEditView = forwardRef((props, ref) => {
               padding: '1.5em',
               marginTop: '1.5em',
             }}>
-            <LayoutSettings />
+            <LayoutSettings settingsObj={settingsObj} key={settingsObj.boxId} />
           </Card>
         </Grid>
       </DragDropContext>
