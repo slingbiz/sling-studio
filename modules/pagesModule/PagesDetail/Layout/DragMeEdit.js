@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
     visibility: 'hidden',
   },
   active: {
-    background: blue['300'],
-    padding: 10,
+    background: blue['800'],
+    padding: 15,
   },
 }));
 
@@ -78,7 +78,7 @@ const DragMe = (props) => {
     setIsActiveTab,
     isActiveTab,
     settingsObj,
-    setSettingsObj
+    setSettingsObj,
   } = props;
   console.log('droppable Id', keyV, section, rowNo, initItems);
 
@@ -195,7 +195,7 @@ const DragMe = (props) => {
             setIsActiveTab(boxId);
             setSettingsObj({
               ...item.contents,
-              ...{section, rowNo,boxId, recursion, parentKey, parentKeyChild},
+              ...{section, rowNo, boxId, recursion, parentKey, parentKeyChild},
             });
           }}>
           <IconButton

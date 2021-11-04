@@ -45,7 +45,7 @@ const AppLogo = () => {
         />
       </Hidden>
       <Box color='text.secondary' fontSize={16} fontWeight={500} mt={4} ml={2} mb={3}>
-        Dashboard
+        Studio
       </Box>
     </Box>
   );

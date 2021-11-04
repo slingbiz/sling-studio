@@ -30,7 +30,7 @@ const Accordion = withStyles({
 
 const AccordionSummary = withStyles({
   root: {
-    backgroundColor: 'rgba(0, 0, 0, .03)',
+    // backgroundColor: 'rgba(0, 0, 0, .03)',
     borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
     minHeight: 56,
@@ -80,6 +80,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const muiWidgthArray = ['xs', 'sm', 'md', 'lg', 'xl'];
+const widthMapper = {
+  sm: 'mobile',
+  md: 'tablet',
+  lg: 'desktop',
+};
+let first = (v) => (v && Object.keys(v).length ? v[Object.keys(v)[0]] : '');
+
+const getSwitchProps = ({muiHidden}) => {
+  const res = {mobile: true, tablet: true, desktop: true};
+  const {only} = muiHidden || {};
+  if (only?.length) {
+    only.forEach((v) => {
+      res[widthMapper[v]] = false;
+    });
+  }
+  // const hiddenProp = first(muiHidden);
+  // const match = muiWidgthArray.find((el) => {
+  //   if (hiddenProp.includes(el)) {
+  //     return true;
+  //   }
+  // });
+  // const valueProp = match?.replace(match, '');
+  // if (valueProp.trim().toLocaleLowerCase() === 'up') {
+  // }
+  return res;
+};
+
 const LayoutSettings = ({settingsObj}) => {
   const classes = useStyles();
   const {key, payload} = settingsObj;
@@ -89,6 +117,7 @@ const LayoutSettings = ({settingsObj}) => {
     Object.keys(muiWidths).length ? muiWidths : initialWidth,
   );
 
+  const swithProps = getSwitchProps({muiHidden});
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -123,7 +152,10 @@ const LayoutSettings = ({settingsObj}) => {
             handleWidth={handleWidth}
             layoutWidth={layoutWidth}
           />
-          <DeviceVisibilitySwitches />
+          <DeviceVisibilitySwitches
+            key={`switch-${key}`}
+            swithProps={swithProps}
+          />
         </AccordionDetails>
       </Accordion>
       {/*<Accordion*/}

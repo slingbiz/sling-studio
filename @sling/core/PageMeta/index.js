@@ -41,7 +41,7 @@ PageMeta.prototype = {
 };
 
 PageMeta.defaultProps = {
-  title: 'Sling - Admin Dashboard Demo',
+  title: 'Sling - Studio Demo',
   description: 'Sling - Frontend for your backend',
   image: `/images/sling-fe.jpg`,
 };

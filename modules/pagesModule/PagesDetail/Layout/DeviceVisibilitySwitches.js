@@ -3,12 +3,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-export default function SwitchLabels() {
-  const [state, setState] = React.useState({
-    mobile: true,
-    tablet: true,
-    desktop: true,
-  });
+export default function SwitchLabels({swithProps}) {
+  const [state, setState] = React.useState(swithProps);
 
   const handleChange = (name) => (event) => {
     setState({...state, [name]: event.target.checked});
