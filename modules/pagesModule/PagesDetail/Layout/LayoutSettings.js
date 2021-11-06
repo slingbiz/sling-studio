@@ -10,6 +10,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import SelectBreakpoints from './SelectBreakpoints';
 import {initialWidth} from './NewCellModal';
 import DeviceVisibilitySwitches from './DeviceVisibilitySwitches';
+import TemplateProps from './TemplateProps';
 
 const Accordion = withStyles({
   root: {
@@ -111,6 +112,7 @@ const getSwitchProps = ({muiHidden}) => {
 const LayoutSettings = ({settingsObj}) => {
   const classes = useStyles();
   const {key, payload} = settingsObj;
+  console.log(key, '[settingsObj - settingsObj]');
   const {props: cellProps = {}, muiWidths = {}, muiHidden = {}} = payload || {};
   const [expanded, setExpanded] = useState('panel1');
   const [layoutWidth, setLayoutWidth] = useState(
@@ -136,11 +138,16 @@ const LayoutSettings = ({settingsObj}) => {
         color='text.primary'
         alignSelf='flex-start'
         fontWeight={Fonts.BOLD}>
-        {'Settings'}
+        {'Settings'}{' '}
+        <span style={{fontWeight: Fonts.LIGHT}}>
+          {key ? key : '(Click on a Widget to view Settings)'}
+        </span>
       </Box>
       <Accordion
         square
+        disabled={!key ? true : false}
         expanded={expanded === 'panel1'}
+        style={{borderBottom: '1px solid #c3c3c3'}}
         onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls='panel1d-content' id='panel1d-header'>
           <Typography>General Settings</Typography>
@@ -158,22 +165,19 @@ const LayoutSettings = ({settingsObj}) => {
           />
         </AccordionDetails>
       </Accordion>
-      {/*<Accordion*/}
-      {/*  square*/}
-      {/*  expanded={expanded === 'panel2'}*/}
-      {/*  onChange={handleChange('panel2')}>*/}
-      {/*  <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>*/}
-      {/*    <Typography>Collapsible Group Item #2</Typography>*/}
-      {/*  </AccordionSummary>*/}
-      {/*  <AccordionDetails>*/}
-      {/*    <Typography>*/}
-      {/*      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse*/}
-      {/*      malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum*/}
-      {/*      dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada*/}
-      {/*      lacus ex, sit amet blandit leo lobortis eget.*/}
-      {/*    </Typography>*/}
-      {/*  </AccordionDetails>*/}
-      {/*</Accordion>*/}
+      <Box m={4} />
+      <Accordion
+        square
+        disabled={!key ? true : false}
+        expanded={expanded === 'panel2'}
+        onChange={handleChange('panel2')}>
+        <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>
+          <Typography>Widget Props</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <TemplateProps cellProps={cellProps} />
+        </AccordionDetails>
+      </Accordion>
       {/*<Accordion*/}
       {/*  square*/}
       {/*  expanded={expanded === 'panel3'}*/}
