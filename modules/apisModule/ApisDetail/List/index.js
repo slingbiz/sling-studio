@@ -199,7 +199,7 @@ const ApiList = (props) => {
                               aria-label='edit'
                               component='span'
                               onClick={() => {
-                                setMapperDialog(true);
+                                // setMapperDialog(true);
                               }}>
                               <Edit />
                             </IconButton>

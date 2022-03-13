@@ -117,7 +117,7 @@ const PageTemplatesList = ({titleKey, pageKey}) => {
           </Grid>
           <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
-              const {meta} = layoutConfig[v] || {};
+              const {meta = {}} = layoutConfig[v] || {};
               return (
                 <Grid
                   key={k}
@@ -131,7 +131,7 @@ const PageTemplatesList = ({titleKey, pageKey}) => {
                       <CardMedia
                         className={classes.media}
                         image={'/images/cards/pagelayout_default.png'}
-                        title={meta.title}
+                        title={meta?.title}
                       />
                       <CardContent>
                         <Typography

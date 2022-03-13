@@ -18,7 +18,7 @@ export const folderList = [
     icon: 'account_tree',
   },
   {id: 123, name: 'Auto Sync', alias: 'auto-sync', icon: 'sync'},
-  {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
+  // {id: 123, name: 'Settings', alias: 'settings', icon: 'settings'},
   {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
