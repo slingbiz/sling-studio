@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 // import AddNewTask from '../AddNewTask';
 import {
   Dialog,
@@ -27,7 +27,6 @@ import Box from '@material-ui/core/Box';
 import AppSearch from '../../../@sling/core/SearchBar';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import {setLayoutConfig} from '../../../redux/actions';
-import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -38,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
   list: {
     paddingTop: 0,
     paddingBottom: 0,
+  },
+  textField: {
+    // paddingLeft: theme.spacing(1),
+    // paddingRight: theme.spacing(1),
+    // fontSize: 12,
   },
   truncate: {
     overflow: 'hidden',
@@ -102,10 +106,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalPageTemplate = ({setOpen, open, addPageTemplate, classes}) => {
-  const [templateKey, setTemplateKey] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+const ModalPageTemplate = ({
+  setOpen,
+  open,
+  edit,
+  addPageTemplate,
+  classes,
+  currentTemplate = {},
+}) => {
+  const {
+    description: descriptionInit,
+    templateKey: templateKeyInit,
+    title: titleInit,
+  } = currentTemplate;
+  const [templateKey, setTemplateKey] = useState(templateKeyInit);
+  const [title, setTitle] = useState(titleInit);
+  const [description, setDescription] = useState(descriptionInit);
+
+  useEffect(() => {
+    setTemplateKey(templateKeyInit);
+    setTitle(titleInit);
+    setDescription(descriptionInit);
+  }, [templateKeyInit, descriptionInit, titleInit]);
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
@@ -118,6 +140,7 @@ const ModalPageTemplate = ({setOpen, open, addPageTemplate, classes}) => {
         </DialogContentText>
         <TextField
           autoFocus
+          className={classes.textField}
           margin='dense'
           placeholder='newyear-sale'
           id='templateId'
@@ -128,39 +151,46 @@ const ModalPageTemplate = ({setOpen, open, addPageTemplate, classes}) => {
           onChange={(e) => setTemplateKey(e.target.value)}
           variant='standard'
         />
-        <Card style={{marginTop: 20}}>
+        <Box style={{marginTop: 20}}>
           {/*<Divider style={{marginTop: 15, marginBottom: 15}} />*/}
           <Box>
             {/*<Divider className={classes.divider} orientation='vertical' />*/}
             <Typography style={{fontSize: 14}} variant='h6'>
               Meta Info
             </Typography>
-            <TextField
-              autoFocus
-              margin='dense'
-              placeholder='New Year Sale Template'
-              id='title'
-              label='Title for Template'
-              type='title'
-              fullWidth
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              variant='standard'
-            />
-            <TextField
-              autoFocus
-              margin='dense'
-              placeholder='This will be used for all the Promotional Landing Pages from Christmas to New Year'
-              id='description'
-              label='Small Description'
-              type='description'
-              fullWidth
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              variant='standard'
-            />
+            <Box style={{padding: 5}}>
+              <TextField
+                autoFocus
+                className={classes.textField}
+                margin='dense'
+                placeholder='New Year Sale Template'
+                id='title'
+                label='Title for Template'
+                type='title'
+                fullWidth
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                variant='standard'
+              />
+              <TextField
+                className={classes.textField}
+                rows={2}
+                maxRows={4}
+                multiline={true}
+                autoFocus
+                margin='dense'
+                placeholder='This will be used for all the Promotional Landing Pages from Christmas to New Year'
+                id='description'
+                label='Small Description'
+                type='description'
+                fullWidth
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                variant='standard'
+              />
+            </Box>
           </Box>
-        </Card>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button
@@ -171,24 +201,26 @@ const ModalPageTemplate = ({setOpen, open, addPageTemplate, classes}) => {
         </Button>
         <Button
           onClick={() => addPageTemplate(templateKey, {title, description})}>
-          Add
+          {edit ? 'Save' : 'Add'}
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-const PageTemplatesList = ({pageKey}) => {
+const PageTemplatesList = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
+  const [edit, setEdit] = useState(false);
+  const [currentTemplate, setCurrentTemplate] = useState({});
 
   const addPageTemplate = (pageKey, meta) => {
     setOpen(false);
     const root = {header: {}, body: {}, footer: {}};
-    dispatch(setLayoutConfig(pageKey, root, meta));
+    dispatch(setLayoutConfig(pageKey, root, meta, !edit));
   };
 
   return (
@@ -200,7 +232,11 @@ const PageTemplatesList = ({pageKey}) => {
             className={classes.dashboardBtn}
             aria-label='add'
             disabled={false}
-            onClick={() => setOpen(true)}>
+            onClick={() => {
+              setCurrentTemplate({});
+              setEdit(false);
+              setOpen(true);
+            }}>
             Add Template
           </Button>
           <AppSearch
@@ -211,6 +247,8 @@ const PageTemplatesList = ({pageKey}) => {
       </AppsHeader>
       <Paper className={classes.root}>
         <ModalPageTemplate
+          edit={edit}
+          currentTemplate={currentTemplate}
           open={open}
           classes={classes}
           setOpen={setOpen}
@@ -229,7 +267,7 @@ const PageTemplatesList = ({pageKey}) => {
           </Grid>
           <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
-              const {meta = {}} = layoutConfig[v] || {};
+              const {meta: {title, description} = {}} = layoutConfig[v] || {};
               return (
                 <Grid
                   key={k}
@@ -243,7 +281,7 @@ const PageTemplatesList = ({pageKey}) => {
                       <CardMedia
                         className={classes.media}
                         image={'/images/cards/pagelayout_default.png'}
-                        title={meta?.title}
+                        title={title}
                       />
                       <CardContent>
                         <Typography
@@ -251,26 +289,37 @@ const PageTemplatesList = ({pageKey}) => {
                           className={classes.templateTitle}
                           variant='h5'
                           component='h2'>
-                          {meta.title}
+                          {title}
                         </Typography>
                         <Typography
                           variant='body2'
                           className={classes.cardDesc}
                           color='text.secondary'
                           component='p'>
-                          {meta.description}
+                          {description}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
                       <Link href={`/pages/${v}/layout`} passHref>
                         <Button className={classes.button} aria-label='Edit'>
-                          Edit Template
+                          Configure
                         </Button>
                       </Link>
-                      {/*<Button size='small' color='primary'>*/}
-                      {/*  Learn More*/}
-                      {/*</Button>*/}
+                      <Button
+                        // size='small'
+                        className={classes.button}
+                        onClick={() => {
+                          setOpen(true);
+                          setEdit(true);
+                          setCurrentTemplate({
+                            templateKey: v,
+                            title,
+                            description,
+                          });
+                        }}>
+                        Edit Meta
+                      </Button>
                     </CardActions>
                   </Card>
                 </Grid>

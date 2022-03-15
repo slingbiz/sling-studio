@@ -19,7 +19,7 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
 
 //Set Layout Config
-export const setLayoutConfig = (pageKey, root, meta) => {
+export const setLayoutConfig = (pageKey, root, meta, isNewRecord) => {
   return async (dispatch) => {
     try {
       //Pass user info in the header
@@ -35,16 +35,19 @@ export const setLayoutConfig = (pageKey, root, meta) => {
         pageKey,
         root,
         meta,
+        isNewRecord,
       });
-
-      if (data.status === 200) {
-        dispatch({type: FETCH_SUCCESS});
+      const {data: responseObj} = data;
+      if (data.status === 200 && responseObj.status) {
+        dispatch({type: FETCH_SUCCESS, payload: 'Saved Successfully.'});
         dispatch(fetchLayoutConfig());
       } else {
         console.log('@setLayoutConfig Error', data);
         dispatch({
           type: FETCH_ERROR,
-          payload: <IntlMessages id='message.somethingWentWrong' />,
+          payload: responseObj.msg || (
+            <IntlMessages id='message.somethingWentWrong' />
+          ),
         });
       }
     } catch (error) {
