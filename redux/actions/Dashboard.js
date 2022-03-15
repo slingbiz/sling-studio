@@ -19,14 +19,22 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
 
 //Set Layout Config
-export const setLayoutConfig = (pageKey, root) => {
+export const setLayoutConfig = (pageKey, root, meta) => {
   return async (dispatch) => {
     try {
-      //Pass user info in the header.
-      const data = await ApiAuth().post(`${SET_CONFIG}`, {
+      //Pass user info in the header
+      const Api = await ApiAuth();
+      if (!Api) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.invalidSession' />,
+        });
+      }
+      const data = await Api.post(`${SET_CONFIG}`, {
         type: 'layout',
         pageKey,
         root,
+        meta,
       });
 
       if (data.status === 200) {
