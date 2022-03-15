@@ -562,6 +562,7 @@
   "common.noRecordFound": "No Record Found",
   "message.starredStatus": "Starred Status Changed!",
   "message.somethingWentWrong": "Something went wrong, Please try again!",
+  "message.invalidSession": "Something went wrong, Please refresh & try logging again!",
   "message.contactDeleted": "Contact deleted successfully!",
   "message.contactCreated": "Contact created successfully!",
   "message.contactUpdated": "Contact updated successfully!",
