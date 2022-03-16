@@ -129,7 +129,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [snackOpen, setOpenSnack] = useState(false);
   const [isActiveTab, setIsActiveTab] = useState(false);
   const [settingsObj, setSettingsObj] = useState({});
-  console.log(settingsObj, '[settingsObjsettingsObjsettingsObj]');
+  console.log(settingsObj,'[settingsObjsettingsObjsettingsObj]')
   const sectionBlocksMap = {
     headerBlocks,
     setHeaderBlocks,
@@ -258,12 +258,9 @@ const LayoutEditView = forwardRef((props, ref) => {
   const handleAddNewRow = (section) => {
     const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
     const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
-    const sectionBlocks = sectionBlocksMap[`${section}Blocks`] || {};
-    if (!sectionBlocks?.rows?.length) {
-      sectionBlocks.rows = [];
-    }
+    const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
     sectionBlocks.rows.push({cells: []});
-    console.log(sectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
+    console.log(setSectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
     setSectionBlocks({...sectionBlocks});
   };
 
@@ -477,7 +474,7 @@ const LayoutEditView = forwardRef((props, ref) => {
               {'Head Blocks'}
             </ListItemText>
             <Box p={6} mb={6} className={classes.boxSection}>
-              {headerBlocks?.rows?.map((row, k) => {
+              {headerBlocks.rows?.map((row, k) => {
                 return (
                   <div key={'header-div' + k} className={classes.divDragWrap}>
                     <DragMe

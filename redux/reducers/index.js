@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import Settings from './Setting';
 import MailApp from './MailApp';
 import Common from './Common';
@@ -19,6 +19,7 @@ import RouteList from './Route';
 import PageTemplate from './PageTemplate';
 import Media from './Media';
 import Widgets from './Widgets';
+import AccountReducer from './AccountReducer';
 
 const reducers = combineReducers({
   settings: Settings,
@@ -41,5 +42,6 @@ const reducers = combineReducers({
   pageTemplate: PageTemplate,
   media: Media,
   widgets: Widgets,
+  account: AccountReducer,
 });
 export default reducers;

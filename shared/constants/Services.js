@@ -2,7 +2,6 @@ export const SERVICE_URL = process.env.SERVICE_URL;
 export const CLIENT_KEY = process.env.CLIENT_KEY;
 export const INIT_CONFIG = `${process.env.INIT_CONFIG}`;
 export const GET_WIDGETS = `${process.env.GET_WIDGETS}`;
-export const SAVE_PAGETEMPLATE = `${process.env.SAVE_PAGETEMPLATE}`;
 export const SET_CONFIG = `${process.env.SET_CONFIG}`;
 export const GET_MEDIA_API = `${process.env.GET_MEDIA_API}`;
 export const GET_MEDIA_CONSTANTS_API = `${process.env.GET_MEDIA_CONSTANTS_API}`;

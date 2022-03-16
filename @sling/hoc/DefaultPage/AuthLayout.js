@@ -8,7 +8,7 @@ const useStyle = makeStyles(() => ({
     flex: 1,
     display: 'flex',
     position: 'relative',
-    height: '100vh',
+    // height: '100vh',
     backgroundColor: '#f3f4f6',
     backgroundSize: 'cover',
 

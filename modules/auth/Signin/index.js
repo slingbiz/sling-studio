@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import SigninAwsCognito from './SigninAwsCognito';
-import SigninJwtAuth from './SigninJwtAuth';
 import SigninFirebase from './SigninFirebase';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';

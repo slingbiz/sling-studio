@@ -2,8 +2,8 @@ import {
   SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
-  USER_LOADED
-} from "../../shared/constants/ActionTypes";
+  USER_LOADED,
+} from '../../shared/constants/ActionTypes';
 
 const INIT_STATE = {
   loading: true,
@@ -27,7 +27,7 @@ const authReducer = (state = INIT_STATE, action) => {
       };
     }
     case USER_LOADED: {
-      return { ...state, loading: false };
+      return {...state, loading: false};
     }
     case SET_AUTH_TOKEN: {
       return {
