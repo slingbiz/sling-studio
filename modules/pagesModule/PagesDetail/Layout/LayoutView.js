@@ -104,7 +104,7 @@ const LayoutView = forwardRef((props, ref) => {
   //Save child wrapper with new re ordered layout.
   const setItemToParent = (rowKey, parentKey, items, section) => {
     const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
-    sectionBlocks?.rows.map((v, k) => {
+    sectionBlocks.rows.map((v, k) => {
       //If parentKey is empty, find and update the root body object.
       if (!parentKey) {
         //If row matches
@@ -170,9 +170,6 @@ const LayoutView = forwardRef((props, ref) => {
     const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
     const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
     const sectionBlocks = sectionBlocksMap[`${section}Blocks`];
-    if (!sectionBlocks?.rows?.length) {
-      sectionBlocks.rows = [];
-    }
     sectionBlocks.rows.push({cells: []});
     console.log(setSectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
     setSectionBlocks({...sectionBlocks});
@@ -182,7 +179,7 @@ const LayoutView = forwardRef((props, ref) => {
     <>
       <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
       <Box p={6} mb={6} className={classes.boxSection}>
-        {headerBlocks?.rows?.map((row, k) => {
+        {headerBlocks.rows?.map((row, k) => {
           return (
             <div key={'header-div' + k} className={classes.divDragWrap}>
               <DragMe

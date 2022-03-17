@@ -2,12 +2,12 @@ import {
   FETCH_ERROR,
   FETCH_START,
   FETCH_SUCCESS,
+  GET_MEDIA_IMAGES,
   GET_MEDIA_CONSTANTS,
-  GET_MEDIA_DATA,
   SHOW_MESSAGE,
+  GET_MEDIA_DATA,
 } from '../../shared/constants/ActionTypes';
-import ApiAuth from '../../@sling/services/ApiAuthConfig';
-
+import Api from '../../@sling/services/ApiConfig';
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import {appIntl} from '../../@sling/utility/Utils';
@@ -18,15 +18,8 @@ import {
 
 export const addImage = (imageMeta) => {
   const {messages} = appIntl();
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({type: FETCH_START});
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
     Api.post('/api/saveImage', imageMeta)
       .then((data) => {
         if (data.status === 200) {
@@ -53,13 +46,6 @@ export const getMedia = (filters) => {
   return async (dispatch) => {
     try {
       dispatch({type: FETCH_START});
-      const Api = await ApiAuth();
-      if (!Api) {
-        dispatch({
-          type: FETCH_ERROR,
-          payload: <IntlMessages id='message.invalidSession' />,
-        });
-      }
       const data = await Api.post(`${GET_MEDIA_API}`, filters);
       console.log('[getMedia] actions Response: ', JSON.stringify(data));
 
@@ -82,15 +68,8 @@ export const getMedia = (filters) => {
 
 export const updateMediaConstant = (constants) => {
   const {messages} = appIntl();
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({type: FETCH_START});
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
     Api.post('/api/updateMediaConstant', constants)
       .then((data) => {
         if (data.status === 200) {
@@ -117,13 +96,6 @@ export const getMediaConstants = (filters) => {
   return async (dispatch) => {
     try {
       dispatch({type: FETCH_START});
-      const Api = await ApiAuth();
-      if (!Api) {
-        dispatch({
-          type: FETCH_ERROR,
-          payload: <IntlMessages id='message.invalidSession' />,
-        });
-      }
       const data = await Api.post(`${GET_MEDIA_CONSTANTS_API}`, filters);
       console.log('[getMedia] actions Response: ', JSON.stringify(data));
 

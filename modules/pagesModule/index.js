@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ApisSideBar from './PagesSideBar/index';
 import PagesList from './PagesList';
 import RoutesDetail from './PagesDetail';
@@ -6,8 +6,9 @@ import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
-import {withRouter} from 'next/router';
+import {useRouter, withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {useSelector} from 'react-redux';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -49,6 +50,16 @@ const Index = (props) => {
   if (!all) {
     // return <ApisList />;
   }
+
+  const {account} = useSelector(({account}) => account);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!account) {
+      router.replace('/account-setup');
+    }
+  }, [account]);
+
   return (
     <AppsContainer
       pagesClasses={classes}

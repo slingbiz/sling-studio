@@ -1,6 +1,5 @@
 import React from 'react';
 import Api from '../../@sling/services/ApiConfig';
-import ApiAuth from '../../@sling/services/ApiAuthConfig';
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -11,43 +10,33 @@ import {
   GET_CRYPTO_DATA,
   GET_ECOMMERCE_DATA,
   GET_HC_DATA,
-  GET_LAYOUT_DATA,
   GET_METRICS_DATA,
   GET_WIDGETS_DATA,
+  GET_LAYOUT_DATA,
+  SET_LAYOUT_DATA,
 } from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
 
 //Set Layout Config
-export const setLayoutConfig = (pageKey, root, meta, isNewRecord) => {
+export const setLayoutConfig = (pageKey, root) => {
   return async (dispatch) => {
     try {
-      //Pass user info in the header
-      const Api = await ApiAuth();
-      if (!Api) {
-        dispatch({
-          type: FETCH_ERROR,
-          payload: <IntlMessages id='message.invalidSession' />,
-        });
-      }
+      //Pass user info in the header.
       const data = await Api.post(`${SET_CONFIG}`, {
         type: 'layout',
         pageKey,
         root,
-        meta,
-        isNewRecord,
       });
-      const {data: responseObj} = data;
-      if (data.status === 200 && responseObj.status) {
-        dispatch({type: FETCH_SUCCESS, payload: 'Saved Successfully.'});
+
+      if (data.status === 200) {
+        dispatch({type: FETCH_SUCCESS});
         dispatch(fetchLayoutConfig());
       } else {
         console.log('@setLayoutConfig Error', data);
         dispatch({
           type: FETCH_ERROR,
-          payload: responseObj.msg || (
-            <IntlMessages id='message.somethingWentWrong' />
-          ),
+          payload: <IntlMessages id='message.somethingWentWrong' />,
         });
       }
     } catch (error) {
@@ -60,15 +49,9 @@ export const setLayoutConfig = (pageKey, root, meta, isNewRecord) => {
 //Fetch Layout Config
 export const fetchLayoutConfig = () => {
   return async (dispatch) => {
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
     try {
       const data = await Api.get(`${INIT_CONFIG}`);
+      console.log('data@fetchConfig', data);
       if (data.status === 200) {
         dispatch({type: FETCH_SUCCESS});
         dispatch({type: GET_LAYOUT_DATA, payload: data.data});
@@ -234,15 +217,8 @@ export const onGetMetricsData = () => {
 };
 
 export const onGetWidgetsData = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({type: FETCH_START});
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
     Api.get('/dashboard/widgets')
       .then((data) => {
         if (data.status === 200) {

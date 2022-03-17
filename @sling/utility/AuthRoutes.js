@@ -1,18 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import AppContext from "./AppContext";
-import { useAuthToken } from "./AppHooks";
-import PropTypes from "prop-types";
+import React, {useContext, useEffect} from 'react';
+import {useRouter} from 'next/router';
+import AppContext from './AppContext';
+import {useAuthToken} from './AppHooks';
+import PropTypes from 'prop-types';
 
-const AuthRoutes = ({ children }) => {
+const AuthRoutes = ({children}) => {
   const router = useRouter();
-  const { query } = router;
+  const {query} = router;
 
-  const { changeNavStyle, updateThemeMode, setRTL, updateThemeStyle } = useContext(
-    AppContext
-  );
+  const {changeNavStyle, updateThemeMode, setRTL, updateThemeStyle} =
+    useContext(AppContext);
   useAuthToken();
-
 
   useEffect(() => {
     function handleQueryParams() {
@@ -40,5 +38,5 @@ const AuthRoutes = ({ children }) => {
 export default AuthRoutes;
 
 AuthRoutes.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };

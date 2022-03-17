@@ -17,6 +17,9 @@ export const USER_LOADED = 'user_loaded';
 export const SET_AUTH_TOKEN = 'set_auth_token';
 export const SIGNOUT_AUTH_SUCCESS = 'signout_auth_success';
 
+//Account
+export const UPDATE_ACCOUNT = 'update_account';
+
 //ANALYTICS-DASHBOARD
 export const GET_ANALYTICS_DATA = 'get_analytics_data';
 

@@ -12,17 +12,43 @@ import {
   UPDATE_AUTH_USER,
 } from '../../shared/constants/ActionTypes';
 import {AuthType} from '../../shared/constants/AppEnums';
-import { defaultUser } from "../../shared/constants/AppConst";
+import {defaultUser} from '../../shared/constants/AppConst';
+import {
+  getAuth,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+} from 'firebase/auth';
+import {
+  sendVerificationEmail,
+  registerUser,
+  loginUser,
+} from '../../@sling/services/auth/backend/index';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../shared/constants/General';
 
-export const onSignUpFirebaseUser = ({email, password}) => {
+export const onSignUpFirebaseUser = ({email, password, name}) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
     try {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then((data) => {
-          dispatch({type: FETCH_SUCCESS});
-          dispatch({type: UPDATE_AUTH_USER, payload: getUserObject(data)});
+          registerUser(name, email, password).then((res) => {
+            console.log(res);
+            if (res.data) {
+              let tokens = res.data.tokens;
+              localStorage.setItem(ACCESS_TOKEN, tokens.access.token);
+              localStorage.setItem(REFRESH_TOKEN, tokens.refresh.token);
+              sendVerificationEmail(tokens.access.token).then((ress) => {
+                if (ress.data != 1) {
+                  dispatch({type: FETCH_SUCCESS});
+                  dispatch({
+                    type: UPDATE_AUTH_USER,
+                    payload: getUserObject({...data, ...res.data.user}),
+                  });
+                }
+              });
+            }
+          });
         })
         .catch((error) => {
           dispatch({type: FETCH_ERROR, payload: error.message});
@@ -83,6 +109,7 @@ const getUserObject = (authUser) => {
     email: authUser.email,
     photoURL: authUser.photoURL,
     token: authUser.refreshToken,
+    id: authUser.id,
   };
 };
 export const onSignInFirebaseUser = (email, password) => {
@@ -92,10 +119,30 @@ export const onSignInFirebaseUser = (email, password) => {
       auth
         .signInWithEmailAndPassword(email, password)
         .then((data) => {
-          dispatch({type: FETCH_SUCCESS});
-          dispatch({
-            type: UPDATE_AUTH_USER,
-            payload: getUserObject(data),
+          loginUser(email, password).then((res) => {
+            console.log(res);
+            if (res.data) {
+              let tokens = res.data.tokens;
+              localStorage.setItem(ACCESS_TOKEN, tokens.access.token);
+              localStorage.setItem(REFRESH_TOKEN, tokens.refresh.token);
+              if (!res.data.user.isEmailVerified) {
+                sendVerificationEmail(tokens.access.token).then((res) => {
+                  if (res.data != 1) {
+                    dispatch({type: FETCH_SUCCESS});
+                    dispatch({
+                      type: UPDATE_AUTH_USER,
+                      payload: getUserObject({...data, ...res.data.user}),
+                    });
+                  }
+                });
+              } else {
+                dispatch({type: FETCH_SUCCESS});
+                dispatch({
+                  type: UPDATE_AUTH_USER,
+                  payload: getUserObject({...data, ...res.data.user}),
+                });
+              }
+            }
           });
         })
         .catch((error) => {
@@ -116,6 +163,7 @@ export const onSignOutFirebaseUser = () => {
         .then((data) => {
           dispatch({type: FETCH_SUCCESS});
           dispatch({type: UPDATE_AUTH_USER, payload: null});
+          localStorage.clear();
         })
         .catch((error) => {
           dispatch({type: FETCH_ERROR, payload: error.message});
