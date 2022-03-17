@@ -29,7 +29,7 @@ export const onSignUpFirebaseUser = ({email, password, name}) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
     try {
-      auth
+      return auth
         .createUserWithEmailAndPassword(email, password)
         .then((data) => {
           registerUser(name, email, password).then((res) => {
@@ -39,7 +39,7 @@ export const onSignUpFirebaseUser = ({email, password, name}) => {
               localStorage.setItem(ACCESS_TOKEN, tokens.access.token);
               localStorage.setItem(REFRESH_TOKEN, tokens.refresh.token);
               sendVerificationEmail(tokens.access.token).then((ress) => {
-                if (ress.data != 1) {
+                if (ress.status == 204) {
                   dispatch({type: FETCH_SUCCESS});
                   dispatch({
                     type: UPDATE_AUTH_USER,

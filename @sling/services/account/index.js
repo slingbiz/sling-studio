@@ -1,8 +1,8 @@
 import ApiConfig from '../ApiConfig';
 
-const registerAccountForm1 = (formData, token) => {
+const CompanyRegistrationForm = (formData, token) => {
   return ApiConfig.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form1`,
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/registration`,
     formData,
     {
       headers: {
@@ -12,9 +12,9 @@ const registerAccountForm1 = (formData, token) => {
   );
 };
 
-const registerAccountForm2 = (id, formData, token) => {
+const CompanyMembershipForm = (id, formData, token) => {
   return ApiConfig.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form2`,
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/membership`,
     {id: id, ...formData},
     {
       headers: {
@@ -23,9 +23,9 @@ const registerAccountForm2 = (id, formData, token) => {
     },
   );
 };
-const registerAccountForm3 = (id, formData, token) => {
+const CompanyKeyCodeSetupForm = (id, formData, token) => {
   return ApiConfig.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form3`,
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/keycodesetup`,
     {id: id, data: formData},
     {
       headers: {
@@ -35,4 +35,8 @@ const registerAccountForm3 = (id, formData, token) => {
   );
 };
 
-export {registerAccountForm1, registerAccountForm2, registerAccountForm3};
+export {
+  CompanyRegistrationForm,
+  CompanyMembershipForm,
+  CompanyKeyCodeSetupForm,
+};

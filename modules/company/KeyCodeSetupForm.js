@@ -20,7 +20,7 @@ import {
 import {Form, Formik, useField} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {onRegisterForm3} from '../../redux/actions/AccountAction';
+import {onCompanyKeyCodeSetupForm} from '../../redux/actions/AccountAction';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
@@ -136,9 +136,11 @@ const KeyCodeSetupForm = (props) => {
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
             setSubmitting(true);
-            dispatch(onRegisterForm3(user.id, data)).then(() => {
+            dispatch(onCompanyKeyCodeSetupForm(user.id, data)).then((res) => {
               setSubmitting(false);
-              router.replace('/pages/listing');
+              if (res.status == 201) {
+                router.replace('/pages/listing');
+              }
             });
           }}>
           {({isSubmitting, values, setFieldValue}) => (

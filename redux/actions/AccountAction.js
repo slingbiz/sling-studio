@@ -5,78 +5,75 @@ import {
   UPDATE_ACCOUNT,
 } from '../../shared/constants/ActionTypes';
 import {
-  registerAccountForm1,
-  registerAccountForm2,
-  registerAccountForm3,
+  CompanyRegistrationForm,
+  CompanyMembershipForm,
+  CompanyKeyCodeSetupForm,
 } from '../../@sling/services/account/index';
 
-export const onRegisterForm1 = (formData) => {
+export const onCompanyRegistrationForm = (formData) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
-    try {
-      const token = localStorage.getItem('access_token');
-      return registerAccountForm1(formData, token)
-        .then((res) => {
-          console.log(res);
-          if (res.data != 1) {
-            dispatch({type: UPDATE_ACCOUNT, payload: res.data});
-          } else {
-            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
-          }
-          dispatch({type: FETCH_SUCCESS});
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
-    } catch (error) {
-      dispatch({type: FETCH_ERROR, payload: error.message});
-    }
+
+    const token = localStorage.getItem('access_token');
+    return CompanyRegistrationForm(formData, token)
+      .then((res) => {
+        console.log(res);
+        if (res.status == 201) {
+          dispatch({type: UPDATE_ACCOUNT, payload: res.data});
+        } else {
+          dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
+        }
+        dispatch({type: FETCH_SUCCESS});
+        return res;
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({type: FETCH_ERROR, payload: error.message});
+        return error;
+      });
   };
 };
-export const onRegisterForm2 = (id, formData) => {
+export const onCompanyMembershipForm = (id, formData) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
-    try {
-      const token = localStorage.getItem('access_token');
-      return registerAccountForm2(id, formData, token)
-        .then((res) => {
-          console.log(res);
-          if (res.data != 1) {
-            dispatch({type: UPDATE_ACCOUNT, payload: res.data});
-          } else {
-            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
-          }
-          dispatch({type: FETCH_SUCCESS});
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
-    } catch (error) {
-      dispatch({type: FETCH_ERROR, payload: error.message});
-    }
+
+    const token = localStorage.getItem('access_token');
+    return CompanyMembershipForm(id, formData, token)
+      .then((res) => {
+        console.log(res);
+        if (res.status == 201) {
+          dispatch({type: UPDATE_ACCOUNT, payload: res.data});
+        } else {
+          dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
+        }
+        dispatch({type: FETCH_SUCCESS});
+        return res;
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+        return error;
+      });
   };
 };
-export const onRegisterForm3 = (id, formData) => {
+export const onCompanyKeyCodeSetupForm = (id, formData) => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
-    try {
-      const token = localStorage.getItem('access_token');
-      return registerAccountForm3(id, formData, token)
-        .then((res) => {
-          console.log(res);
-          if (res.data != 1) {
-            dispatch({type: UPDATE_ACCOUNT, payload: res.data});
-          } else {
-            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
-          }
-          dispatch({type: FETCH_SUCCESS});
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
-    } catch (error) {
-      dispatch({type: FETCH_ERROR, payload: error.message});
-    }
+
+    const token = localStorage.getItem('access_token');
+    return CompanyKeyCodeSetupForm(id, formData, token)
+      .then((res) => {
+        console.log(res);
+        if (res.status == 201) {
+          dispatch({type: UPDATE_ACCOUNT, payload: res.data});
+        } else {
+          dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
+        }
+        dispatch({type: FETCH_SUCCESS});
+        return res;
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+        return error;
+      });
   };
 };

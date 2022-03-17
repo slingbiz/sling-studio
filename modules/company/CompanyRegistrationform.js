@@ -14,7 +14,7 @@ import {countries} from '../../shared/constants/CountryList';
 import {Form, Formik, useField} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {InfoView} from '../../@sling';
-import {onRegisterForm1} from '../../redux/actions/AccountAction';
+import {onCompanyRegistrationForm} from '../../redux/actions/AccountAction';
 import {onSignOutFirebaseUser} from '../../redux/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -134,11 +134,16 @@ const CompanyRegistrationform = (props) => {
           onSubmit={(data, {setSubmitting}) => {
             console.log('data', data);
             setSubmitting(true);
-            dispatch(onRegisterForm1({...data, user: user.id})).then(() => {
-              props.changeStepper();
-              console.log('submit');
-              setSubmitting(false);
-            });
+            dispatch(onCompanyRegistrationForm({...data, user: user.id})).then(
+              (res) => {
+                console.dir('company', res);
+                setSubmitting(false);
+                if (res.status == 201) {
+                  props.changeStepper();
+                }
+                console.log('submit');
+              },
+            );
           }}>
           {({isSubmitting, handleChange}) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>

@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {InfoView} from '../../@sling';
 import {Button, Typography} from '@material-ui/core';
 import {Stack} from '@mui/material';
-import {onRegisterForm2} from '../../redux/actions/AccountAction';
+import {onCompanyMembershipForm} from '../../redux/actions/AccountAction';
 
 const useStyles = makeStyles((theme) => ({
   headerText: {
@@ -132,9 +132,11 @@ const PackageComponent = (prop) => {
             color='primary'
             onClick={() => {
               dispatch(
-                onRegisterForm2(prop.user.id, {packageType: 'free'}),
-              ).then(() => {
-                prop.changeStepper();
+                onCompanyMembershipForm(prop.user.id, {packageType: 'free'}),
+              ).then((res) => {
+                if (res.status == 201) {
+                  prop.changeStepper();
+                }
               });
             }}>
             Select
