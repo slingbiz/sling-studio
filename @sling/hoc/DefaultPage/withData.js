@@ -11,8 +11,6 @@ const withData = (ComposedComponent) => (props) => {
   useEffect(() => {
     if (user) {
       Router.push(initialUrl + (queryParams ? '?' + queryParams : ''));
-    } else {
-      Router.replace('/signin');
     }
   }, [user, loading]);
   if (loading) return <Loader />;

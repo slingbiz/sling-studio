@@ -15,6 +15,29 @@ const sendVerificationEmail = async (token) => {
     },
   );
 };
+const sendVerificationEmailByToken = (token) => {
+  return API.get(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/send-verification-email-bytoken`,
+    {
+      params: {token: token},
+    },
+  );
+};
+
+const verifyEmailAddress = (token) => {
+  return API.get(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/verify-email`,
+    {
+      params: {token: token},
+    },
+  );
+};
+
+const verifyEmailAddressServer = (token) => {
+  return API.get(`${process.env.SERVICE_URL}v1/auth/verify-email`, {
+    params: {token: token},
+  });
+};
 
 const registerUser = async (name, email, password) => {
   const Api = await ApiAuth();
@@ -39,4 +62,11 @@ const loginUser = async (email, password) => {
   });
 };
 
-export {registerUser, sendVerificationEmail, loginUser};
+export {
+  registerUser,
+  sendVerificationEmail,
+  loginUser,
+  verifyEmailAddress,
+  verifyEmailAddressServer,
+  sendVerificationEmailByToken,
+};

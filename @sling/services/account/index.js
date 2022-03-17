@@ -1,33 +1,33 @@
 import ApiAuth from '../ApiAuthConfig';
 
-const registerAccountForm1 = async (formData, token) => {
+const CompanyRegistrationForm = async(formData, token) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
   }
-  return Api.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form1`,
+  return ApiConfig.post(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/registration`,
     formData,
   );
 };
 
-const registerAccountForm2 = async (id, formData, token) => {
-  const Api = await ApiAuth();
-  if (!Api) {
-    return;
-  }
-  return Api.post(`${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form2`, {
-    id: id,
-    ...formData,
-  });
-};
-const registerAccountForm3 = async (id, formData, token) => {
+const CompanyMembershipForm = async (id, formData, token) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
   }
   return Api.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/account/form3`,
+      `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/membership`,
+      {id: id, ...formData},
+  );
+};
+const CompanyKeyCodeSetupForm = async (id, formData, token) => {
+  const Api = await ApiAuth();
+  if (!Api) {
+    return;
+  }
+  return Api.post(
+      `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/keycodesetup`,
     {id: id, data: formData},
     {
       headers: {
@@ -37,4 +37,8 @@ const registerAccountForm3 = async (id, formData, token) => {
   );
 };
 
-export {registerAccountForm1, registerAccountForm2, registerAccountForm3};
+export {
+  CompanyRegistrationForm,
+  CompanyMembershipForm,
+  CompanyKeyCodeSetupForm,
+};
