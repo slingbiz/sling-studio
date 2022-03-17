@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
-import {useRouter} from 'next/router';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {AppSuspense} from '../../index';
-import Scrollbar from '../Scrollbar';
-import AppContext from '../../utility/AppContext';
-import PropTypes from 'prop-types';
-import AppFooter from '../AppLayout/AppFooter';
-import Box from '@material-ui/core/Box';
-import {RouteTransition} from '../../../shared/constants/AppEnums';
-import AppErrorBoundary from '../AppErrorBoundary';
+import React, { useContext } from "react";
+import { useRouter } from 'next/router'
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { AppSuspense } from "../../index";
+import Scrollbar from "../Scrollbar";
+import AppContext from "../../utility/AppContext";
+import PropTypes from "prop-types";
+import AppFooter from "../AppLayout/AppFooter";
+import Box from "@material-ui/core/Box";
+import { RouteTransition } from "../../../shared/constants/AppEnums";
+import AppErrorBoundary from "../AppErrorBoundary";
 
 const TransitionWrapper = ({children}) => {
   const {rtAnim} = useContext(AppContext);
@@ -29,7 +29,7 @@ const TransitionWrapper = ({children}) => {
 };
 
 TransitionWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 const ContentView = (props) => {
