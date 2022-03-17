@@ -96,9 +96,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: theme.palette.primary.light,
     fontWeight: Fonts.BOLD,
-    paddingRight: 20,
-    marginRight: 20,
-    paddingLeft: 20,
+    paddingRight: 10,
+    marginRight: 10,
+    paddingLeft: 10,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
       color: theme.palette.primary.contrastText,
@@ -300,7 +300,8 @@ const PageTemplatesList = () => {
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    <CardActions>
+                    <CardActions
+                      style={{display: 'flex', justifyContent: 'right'}}>
                       <Link href={`/pages/${v}/layout`} passHref>
                         <Button className={classes.button} aria-label='Edit'>
                           Configure
