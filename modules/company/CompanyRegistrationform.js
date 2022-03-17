@@ -18,12 +18,12 @@ import {onSignOutFirebaseUser} from '../../redux/actions';
 const useStyles = makeStyles((theme) => ({
   cardRoot: {
     minHeight: '70vh',
-    width: '70%',
+    width: '45%',
     display: 'flex',
     flexDirection: 'column',
     marginTop: 15,
     margin: 5,
-    padding: 20,
+    padding: 25,
     overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
       width: '100%',
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     marginTop: 15,
-    margin: 5,
+    // margin: 5,
     width: '100%',
     overflow: 'hidden',
     position: 'relative',
@@ -76,6 +76,7 @@ const MyTextField = (props) => {
   // console.log(field);
   return (
     <TextField
+      style={{marginBottom: 10}}
       {...props}
       {...field}
       helperText={errorText}
