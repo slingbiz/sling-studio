@@ -376,7 +376,6 @@
   "validation.clientUrlRequired": "Please enter client url ! ",
   "validation.databaseRequired": "Please select database ! ",
   "message.thankYouSubscription": "Thank you for subscribing to our Newsletter.",
-  "message.invalidSession": "Something went wrong, Please refresh & try logging again!",
   "invoice.client": "Client",
   "invoice.invoice": "Invoice",
   "invoice.id": "ID",

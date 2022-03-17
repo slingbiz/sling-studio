@@ -126,7 +126,7 @@ const analyticsData = {
     {
       id: 1,
       icon: '/images/dashboard/product_image_1.png',
-      name: '/product/detail/shoes/js3j43j',
+      name: 'Antler Theme',
       description: 'Reference site about.',
       price: 6790,
       rate: 80,
@@ -135,7 +135,7 @@ const analyticsData = {
     {
       id: 1,
       icon: '/images/dashboard/product_image_2.png',
-      name: '/product/detail/t-shirts/pp043j',
+      name: 'Live Chat Support',
       description: 'information on its origins.',
       price: 4430,
       rate: 64,
@@ -144,7 +144,7 @@ const analyticsData = {
     {
       id: 1,
       icon: '/images/dashboard/product_image_3.png',
-      name: '/search?query=blackfriday',
+      name: 'Puzzle Mask',
       description: 'information Lipsum generator.',
       price: 2330,
       rate: 55,

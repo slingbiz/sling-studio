@@ -5,8 +5,7 @@ import {
   GET_ROUTES_LIST,
   SHOW_MESSAGE,
 } from '../../shared/constants/ActionTypes';
-import ApiAuth from '../../@sling/services/ApiAuthConfig';
-
+import Api from '../../@sling/services/ApiConfig';
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import {appIntl} from '../../@sling/utility/Utils';
@@ -14,34 +13,27 @@ import {GET_ROUTES_LIST_API} from '../../shared/constants/Services';
 
 export const addRoute = (route) => {
   const {messages} = appIntl();
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({type: FETCH_START});
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
     Api.post('/api/saveRoute', route)
-        .then((data) => {
-          if (data.status === 200) {
-            dispatch({type: FETCH_SUCCESS});
-            dispatch({
-              type: SHOW_MESSAGE,
-              payload: 'New Route Added.',
-            });
-            dispatch(getRoutesList());
-          } else {
-            dispatch({
-              type: FETCH_ERROR,
-              payload: messages['message.somethingWentWrong'],
-            });
-          }
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'New Route Added.',
+          });
+          dispatch(getRoutesList());
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+      });
   };
 };
 
@@ -49,13 +41,6 @@ export const getRoutesList = (filters) => {
   return async (dispatch) => {
     try {
       dispatch({type: FETCH_START});
-      const Api = await ApiAuth();
-      if (!Api) {
-        dispatch({
-          type: FETCH_ERROR,
-          payload: <IntlMessages id='message.invalidSession' />,
-        });
-      }
       const data = await Api.post(`${GET_ROUTES_LIST_API}`, filters);
       console.log('[getMedia] actions Response: ', JSON.stringify(data));
 
