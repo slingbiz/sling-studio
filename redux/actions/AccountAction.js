@@ -21,7 +21,7 @@ export const onRegisterForm1 = (formData) => {
           if (res.data != 1) {
             dispatch({type: UPDATE_ACCOUNT, payload: res.data});
           } else {
-            dispatch({type: FETCH_ERROR, payload: 'Something went wrong.'});
+            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
           }
           dispatch({type: FETCH_SUCCESS});
         })
@@ -45,7 +45,7 @@ export const onRegisterForm2 = (id, formData) => {
           if (res.data != 1) {
             dispatch({type: UPDATE_ACCOUNT, payload: res.data});
           } else {
-            dispatch({type: FETCH_ERROR, payload: 'Something went wrong.'});
+            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
           }
           dispatch({type: FETCH_SUCCESS});
         })
@@ -68,7 +68,7 @@ export const onRegisterForm3 = (id, formData) => {
           if (res.data != 1) {
             dispatch({type: UPDATE_ACCOUNT, payload: res.data});
           } else {
-            dispatch({type: FETCH_ERROR, payload: 'Something went wrong.'});
+            dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
           }
           dispatch({type: FETCH_SUCCESS});
         })

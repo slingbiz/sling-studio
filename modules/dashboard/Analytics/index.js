@@ -14,6 +14,7 @@ import TopSelling from './TopSelling';
 import EarningByCountry from './EarningByCountry';
 import TicketsSupport from './TicketsSupport';
 import PageVisits from './PageVisits';
+import OrderNTransaction from './OrderNTransaction';
 import TrafficSource from './TrafficSource';
 import InfoWidget from './InfoWidget';
 import AppAnimate from '../../../@sling/core/AppAnimate';
