@@ -2,11 +2,14 @@ import {
   SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
   UPDATE_AUTH_USER,
+  UPDATE_NEW_SIGNUP,
   USER_LOADED,
 } from '../../shared/constants/ActionTypes';
 
 const INIT_STATE = {
   loading: true,
+  isVerified: undefined,
+  newUser: undefined,
   user: null,
   token: null,
 };
@@ -16,6 +19,15 @@ const authReducer = (state = INIT_STATE, action) => {
     case UPDATE_AUTH_USER: {
       return {
         ...state,
+        loading: false,
+        user: action.payload,
+      };
+    }
+    case UPDATE_NEW_SIGNUP: {
+      return {
+        ...state,
+        newUser: true,
+        isVerified: false,
         loading: false,
         user: action.payload,
       };

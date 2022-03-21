@@ -106,7 +106,7 @@ const PackageComponent = (prop) => {
             }}>
             <Typography>{prop.popularType}</Typography>
           </Box>
-          <Typography className={prop.classes.annual}>Annual</Typography>
+          <Typography className={prop.classes.annual}>{prop.annual}</Typography>
           <Typography className={prop.classes.billValue}>
             {`Billed as one payment of ${prop.price}`}
           </Typography>
@@ -170,7 +170,7 @@ const CompanySelectForm = (props) => {
       </Typography>
       <Stack direction='column' spacing={5} className={classes.stack}>
         <PackageComponent
-          annual='Annual'
+          annual='Free'
           billValue='Free'
           save='$100'
           price='Free'

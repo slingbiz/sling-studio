@@ -56,18 +56,18 @@ export const useAuthToken = () => {
         firebaseAuth.onAuthStateChanged((authUser) => {
           if (authUser) {
             setLoading(false);
-            dispatch({
-              type: UPDATE_AUTH_USER,
-              payload: {
-                authType: AuthType.FIREBASE,
-                uid: authUser.uid,
-                displayName: authUser.displayName,
-                email: authUser.email,
-                role: defaultUser.role,
-                photoURL: authUser.photoURL,
-                token: authUser.refreshToken,
-              },
-            });
+            // dispatch({
+            //   type: UPDATE_AUTH_USER,
+            //   payload: {
+            //     authType: AuthType.FIREBASE,
+            //     uid: authUser.uid,
+            //     displayName: authUser.displayName,
+            //     email: authUser.email,
+            //     role: defaultUser.role,
+            //     photoURL: authUser.photoURL,
+            //     token: authUser.refreshToken,
+            //   },
+            // });
           }
           resolve();
         });
@@ -106,7 +106,7 @@ export const useAuthToken = () => {
     };
 
     const checkAuth = () => {
-      Promise.all([firebaseCheck(), awsAuthUser(), validateAuth()]).then(() => {
+      Promise.all([firebaseCheck()]).then(() => {
         if (loading) {
           setLoading(false);
           dispatch({

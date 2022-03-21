@@ -11,12 +11,18 @@ import CompanySelectForm from './CompanySelectForm';
 import KeyCodeSetupForm from './KeyCodeSetupForm';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  imgRoot: {
+    cursor: 'pointer',
+    display: 'inline-block',
+    width: 140,
+  },
+}));
 
 const steps = ['Company Details', 'Select Plan', 'Keys & Code Setup'];
 
 const CompanyRegistration = (props) => {
-  const [stepperIndex, setStepperIndex] = useState(0);
+  const [stepperIndex, setStepperIndex] = useState(2);
   //   const account = useSelector((account) => account);
   const {user, loading} = useSelector(({auth}) => auth);
   const router = useRouter();
@@ -30,45 +36,57 @@ const CompanyRegistration = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        padding: 10,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'start',
-        alignItems: 'center',
-      }}>
-      <Box sx={{width: '100%'}}>
-        <Stepper activeStep={stepperIndex} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        {user &&
-          (() => {
-            switch (stepperIndex) {
-              case 0:
-                return (
-                  <CompanyRegistrationform
-                    changeStepper={() => setStepperIndex(1)}
-                  />
-                );
-              case 1:
-                return (
-                  <CompanySelectForm changeStepper={() => setStepperIndex(2)} />
-                );
-              case 2:
-                return <KeyCodeSetupForm />;
-              default:
-                return <CompanyRegistrationform />;
-            }
-          })()}
+    <>
+      <Box mb={{xs: 6, md: 8, xl: 18}} mt={6} textAlign='center'>
+        <img
+          className={classes.imgRoot}
+          src={'/images/logo-white-with-name.png'}
+          alt='sling-logo'
+        />
       </Box>
-      <InfoView />
-    </Box>
+
+      <Box
+        sx={{
+          width: '100%',
+          padding: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'start',
+          alignItems: 'center',
+        }}>
+        <Box sx={{width: '100%'}}>
+          <Stepper activeStep={stepperIndex} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel style={{color: 'grey'}}>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {user &&
+            (() => {
+              switch (stepperIndex) {
+                case 0:
+                  return (
+                    <CompanyRegistrationform
+                      changeStepper={() => setStepperIndex(1)}
+                    />
+                  );
+                case 1:
+                  return (
+                    <CompanySelectForm
+                      changeStepper={() => setStepperIndex(2)}
+                    />
+                  );
+                case 2:
+                  return <KeyCodeSetupForm />;
+                default:
+                  return <CompanyRegistrationform />;
+              }
+            })()}
+        </Box>
+        <InfoView />
+      </Box>
+    </>
   );
 };
 

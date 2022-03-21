@@ -12,3 +12,6 @@ export const defaultUser = {
 };
 // export const initialUrl = '/account-setup'; // this url will open after login
 export const initialUrl = '/pages/'; // this url will open after login
+export const emailVerificationUrl = '/pages/'; // this url will open after login
+export const signUpUrl = '/signup/'; // this url will open after login
+export const companyRegistrationUrl = '/account-setup/'; // this url will open after login

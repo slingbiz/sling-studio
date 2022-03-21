@@ -13,6 +13,7 @@ export const SET_INITIAL_PATH = 'set_initial_path';
 
 //AUTH0
 export const UPDATE_AUTH_USER = 'update_auth_user';
+export const UPDATE_NEW_SIGNUP = 'update_new_signup';
 export const USER_LOADED = 'user_loaded';
 export const SET_AUTH_TOKEN = 'set_auth_token';
 export const SIGNOUT_AUTH_SUCCESS = 'signout_auth_success';

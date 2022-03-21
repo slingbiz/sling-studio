@@ -28,10 +28,9 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
-  console.log('Page Key ==> ', all?.[0] || 'all');
+
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'all';
-    console.log(all?.length, '@@@@all?.length@@@@');
     if (all?.length >= 1) {
       return <RoutesDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {
@@ -51,14 +50,14 @@ const Index = (props) => {
     // return <ApisList />;
   }
 
-  const {account} = useSelector(({account}) => account);
-  const router = useRouter();
+  // const {account} = useSelector(({account}) => account);
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!account) {
-      router.replace('/account-setup');
-    }
-  }, [account]);
+  // useEffect(() => {
+  //   if (!account) {
+  //     router.replace('/account-setup');
+  //   }
+  // }, [account]);
 
   return (
     <AppsContainer

@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import {Button, Divider, TextField} from '@material-ui/core';
 import MenuItem from '@mui/material/MenuItem';
 import MuiPhoneNumber from 'material-ui-phone-number';
-import ReCAPTCHA from 'react-google-recaptcha';
+// import ReCAPTCHA from 'react-google-recaptcha';
 import {countries} from '../../shared/constants/CountryList';
 import {Form, Formik, useField} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       width: '100%',
     },
-    gap: 5,
+    gap: 7,
   },
   btnSubmit: {
     margin: 'auto',
@@ -52,8 +52,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const validationSchema = yup.object({
-  // phone: yup.number().required(<IntlMessages id='validation.phoneRequired' />),
+  // phoneNumber: yup
+  //   .number()
+  //   .required(<IntlMessages id='validation.phoneRequired' />),
   orgName: yup
     .string()
     .required(<IntlMessages id='validation.orgNameRequired' />),
@@ -64,10 +69,10 @@ const validationSchema = yup.object({
     .string()
     .required(<IntlMessages id='validation.address1Required' />),
   city: yup.string().required(<IntlMessages id='validation.cityRequired' />),
-  zipCode: yup.string().required(<IntlMessages id='validation.zipRequired' />),
-  // country: yup
-  //   .string()
-  //   .required(<IntlMessages id='validation.countryRequired' />),
+  // phoneNumber: yup.number().required('Phone number is not valid'),
+  country: yup
+    .string()
+    .required(<IntlMessages id='validation.countryRequired' />),
 });
 
 const MyTextField = (props) => {
@@ -76,7 +81,7 @@ const MyTextField = (props) => {
   // console.log(field);
   return (
     <TextField
-      style={{marginBottom: 10}}
+      style={{margin: 10}}
       {...props}
       {...field}
       helperText={errorText}
@@ -85,22 +90,11 @@ const MyTextField = (props) => {
   );
 };
 
-const MyPhoneField = (props) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
-  return (
-    <MuiPhoneNumber
-      {...props}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-    />
-  );
-};
 
 const CompanyRegistrationform = (props) => {
   const dispatch = useDispatch();
   const {user, loading} = useSelector(({auth}) => auth);
+  console.log(user, 'user[[[[]]]]');
   const classes = useStyles(props);
 
   return (
@@ -144,22 +138,37 @@ const CompanyRegistrationform = (props) => {
               },
             );
           }}>
-          {({isSubmitting, handleChange}) => (
+          {({isSubmitting, handleChange}, ...props) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>
-              <Box sx={{fontSize: 14, alignSelf: 'start'}}>
-                Logged in as {user.email} &nbsp;
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
                 <Box
-                  onClick={() => dispatch(onSignOutFirebaseUser())}
-                  color='primary.main'
                   sx={{
-                    textDecoration: 'underline',
-                    display: 'inline',
-                    cursor: 'pointer',
-                  }}
-                  href='text'>
-                  Log out
+                    fontWeight: '500',
+                    fontSize: 20,
+                  }}>
+                  Organization details
+                </Box>
+                <Box sx={{fontSize: 14, alignSelf: 'start'}}>
+                  Logged in as {user.email} &nbsp;
+                  <Box
+                    onClick={() => dispatch(onSignOutFirebaseUser())}
+                    color='primary.main'
+                    sx={{
+                      textDecoration: 'underline',
+                      display: 'inline',
+                      cursor: 'pointer',
+                    }}
+                    href='text'>
+                    Log out
+                  </Box>
                 </Box>
               </Box>
+
               <Divider
                 variant='fullWidth'
                 style={{marginBottom: 10, marginTop: 10}}
@@ -171,14 +180,6 @@ const CompanyRegistrationform = (props) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <Box
-                  sx={{
-                    textTransform: 'uppercase',
-                    fontWeight: '500',
-                    fontSize: 15,
-                  }}>
-                  Organization details
-                </Box>
                 <Box>Fields marked with * are required</Box>{' '}
               </Box>
               <MyTextField
@@ -196,7 +197,7 @@ const CompanyRegistrationform = (props) => {
                 margin='dense'
               />
               <MyTextField
-                disabled
+                // disabled
                 name='email'
                 id='outlined-basic'
                 label='Primary Email'
@@ -205,7 +206,11 @@ const CompanyRegistrationform = (props) => {
               />
               <MuiPhoneNumber
                 name='phoneNumber'
-                defaultCountry={'pl'}
+                style={{margin: 10}}
+                label={'Phone *'}
+                variant='outlined'
+                margin='dense'
+                defaultCountry={'ae'}
                 onChange={handleChange('phoneNumber')}
               />
               <Box
@@ -219,7 +224,7 @@ const CompanyRegistrationform = (props) => {
               <MyTextField
                 name='address1'
                 id='outlined-basic'
-                label='Address 1'
+                label='Address 1 *'
                 variant='outlined'
                 margin='dense'
               />
@@ -230,11 +235,11 @@ const CompanyRegistrationform = (props) => {
                 variant='outlined'
                 margin='dense'
               />
-              <Stack direction='row' spacing={2} alignItems='center'>
+              <Stack direction='row' spacing={2} alignItems='baseline'>
                 <MyTextField
                   name='city'
                   id='outlined-basic'
-                  label='City'
+                  label='City *'
                   variant='outlined'
                   margin='dense'
                   fullWidth
@@ -248,20 +253,7 @@ const CompanyRegistrationform = (props) => {
                   margin='dense'
                 />
               </Stack>
-              <Stack direction='row' spacing={2} alignItems='center'>
-                <MyTextField
-                  name='country'
-                  fullWidth
-                  id='outlined-select-currency'
-                  select
-                  label='Select'
-                  helperText='Please select your country'>
-                  {countries.map((option) => (
-                    <MenuItem key={option.code} value={option.name}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </MyTextField>
+              <Stack direction='row' spacing={2} alignItems='baseline'>
                 <MyTextField
                   name='region'
                   fullWidth
@@ -270,11 +262,27 @@ const CompanyRegistrationform = (props) => {
                   variant='outlined'
                   margin='dense'
                 />
+                <MyTextField
+                  name='country'
+                  fullWidth
+                  id='outlined-select-currency'
+                  select
+                  variant='outlined'
+                  margin='dense'
+                  label='Country *'
+                  style={{margin: 10}}
+                  helperText='Please select your country'>
+                  {countries.map((option) => (
+                    <MenuItem key={option.code} value={option.name}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </MyTextField>
               </Stack>
-              <ReCAPTCHA
-                sitekey='6Ld4N9oeAAAAAB12j_vhaEyc4WX26ec2qkV6VPW-'
-                style={{margin: 'auto', marginTop: '20px'}}
-              />
+              {/*<ReCAPTCHA*/}
+              {/*  sitekey='6LdBA_YeAAAAAGjA_tg6stXHgjy4azk8QIK-buFc'*/}
+              {/*  style={{margin: 'auto', marginTop: '20px'}}*/}
+              {/*/>*/}
               <Button
                 variant='contained'
                 className={classes.btnSubmit}

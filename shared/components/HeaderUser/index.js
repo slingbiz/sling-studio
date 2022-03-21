@@ -84,7 +84,7 @@ const HeaderUser = (props) => {
     }
   };
   const getUserAvatarView = () => {
-    if (user.photoURL) {
+    if (user?.photoURL) {
       return <Avatar className={classes.profilePic} src={user.photoURL} />;
     } else {
       return <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>;

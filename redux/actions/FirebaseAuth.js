@@ -10,49 +10,43 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
   UPDATE_AUTH_USER,
+  UPDATE_NEW_SIGNUP,
 } from '../../shared/constants/ActionTypes';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {defaultUser} from '../../shared/constants/AppConst';
 import {
-  getAuth,
-  isSignInWithEmailLink,
-  signInWithEmailLink,
-} from 'firebase/auth';
-import {
-  sendVerificationEmail,
-  registerUser,
   loginUser,
+  registerUser,
+  sendVerificationEmail,
 } from '../../@sling/services/auth/backend/index';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../shared/constants/General';
 
 export const onSignUpFirebaseUser = ({email, password, name}) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({type: FETCH_START});
     try {
-      return auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((data) => {
-          registerUser(name, email, password).then((res) => {
-            console.log(res);
-            if (res.data) {
-              let tokens = res.data.tokens;
-              localStorage.setItem(ACCESS_TOKEN, tokens.access.token);
-              localStorage.setItem(REFRESH_TOKEN, tokens.refresh.token);
-              sendVerificationEmail(tokens.access.token).then((ress) => {
-                if (ress.status == 204) {
-                  dispatch({type: FETCH_SUCCESS});
-                  dispatch({
-                    type: UPDATE_AUTH_USER,
-                    payload: getUserObject({...data, ...res.data.user}),
-                  });
-                }
-              });
-            }
-          });
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
+      const regUser = await auth.createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      await regUser.user.sendEmailVerification();
+      await registerUser(name, email, password);
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({
+        type: UPDATE_NEW_SIGNUP,
+        payload: getUserObject({...regUser.user}),
+      });
+      // return regUser;
+      // sendVerificationEmail(tokens.access.token).then((ress) => {
+      //   if (ress.status == 204) {
+      //     dispatch({type: FETCH_SUCCESS});
+      //     dispatch({
+      //       type: UPDATE_NEW_SIGNUP,
+      //       payload: getU
+      //       serObject({...data, ...res.data.user}),
+      //     });
+      //   }
+      // });
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
@@ -101,6 +95,7 @@ export const onGetFirebaseSignInUser = () => {
 };
 
 const getUserObject = (authUser) => {
+  console.log(authUser, 'authUser @getUserObject');
   return {
     authType: AuthType.FIREBASE,
     role: defaultUser.role,
@@ -109,7 +104,7 @@ const getUserObject = (authUser) => {
     email: authUser.email,
     photoURL: authUser.photoURL,
     token: authUser.refreshToken,
-    id: authUser.id,
+    // id: authUser.id || authUser.uid,
   };
 };
 export const onSignInFirebaseUser = (email, password) => {

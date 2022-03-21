@@ -10,6 +10,7 @@ const AuthRoutes = ({children}) => {
 
   const {changeNavStyle, updateThemeMode, setRTL, updateThemeStyle} =
     useContext(AppContext);
+
   useAuthToken();
 
   useEffect(() => {
