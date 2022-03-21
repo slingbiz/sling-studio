@@ -4,6 +4,7 @@ import {
   UPDATE_AUTH_USER,
   UPDATE_NEW_SIGNUP,
   USER_LOADED,
+  UPDATE_NEW_USER_STATUS
 } from '../../shared/constants/ActionTypes';
 
 const INIT_STATE = {
@@ -16,6 +17,12 @@ const INIT_STATE = {
 
 const authReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case UPDATE_NEW_USER_STATUS: {
+      return {
+        ...state,
+        newUser: false,
+      };
+    }
     case UPDATE_AUTH_USER: {
       return {
         ...state,

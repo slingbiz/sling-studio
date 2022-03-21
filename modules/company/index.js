@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const steps = ['Company Details', 'Select Plan', 'Keys & Code Setup'];
 
 const CompanyRegistration = (props) => {
-  const [stepperIndex, setStepperIndex] = useState(2);
+  const [stepperIndex, setStepperIndex] = useState(0);
   //   const account = useSelector((account) => account);
   const {user, loading} = useSelector(({auth}) => auth);
   const router = useRouter();

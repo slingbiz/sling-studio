@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import * as yup from 'yup';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
-import IntlMessages from '../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 
 import {Button, Divider, TextField} from '@material-ui/core';
