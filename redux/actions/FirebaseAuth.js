@@ -11,6 +11,7 @@ import {
   FETCH_SUCCESS,
   UPDATE_AUTH_USER,
   UPDATE_NEW_SIGNUP,
+  UPDATE_NEW_USER_STATUS,
 } from '../../shared/constants/ActionTypes';
 import {AuthType} from '../../shared/constants/AppEnums';
 import {defaultUser} from '../../shared/constants/AppConst';
@@ -32,6 +33,7 @@ export const onSignUpFirebaseUser = ({email, password, name}) => {
       await regUser.user.sendEmailVerification();
       await registerUser(name, email, password);
       dispatch({type: FETCH_SUCCESS});
+      localStorage.setItem('newUser', 'true');
       dispatch({
         type: UPDATE_NEW_SIGNUP,
         payload: getUserObject({...regUser.user}),
@@ -108,41 +110,24 @@ const getUserObject = (authUser) => {
   };
 };
 export const onSignInFirebaseUser = (email, password) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
       dispatch({type: FETCH_START});
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .then((data) => {
-          loginUser(email, password).then((res) => {
-            console.log(res);
-            if (res.data) {
-              let tokens = res.data.tokens;
-              localStorage.setItem(ACCESS_TOKEN, tokens.access.token);
-              localStorage.setItem(REFRESH_TOKEN, tokens.refresh.token);
-              if (!res.data.user.isEmailVerified) {
-                sendVerificationEmail(tokens.access.token).then((res) => {
-                  if (res.data != 1) {
-                    dispatch({type: FETCH_SUCCESS});
-                    dispatch({
-                      type: UPDATE_AUTH_USER,
-                      payload: getUserObject({...data, ...res.data.user}),
-                    });
-                  }
-                });
-              } else {
-                dispatch({type: FETCH_SUCCESS});
-                dispatch({
-                  type: UPDATE_AUTH_USER,
-                  payload: getUserObject({...data, ...res.data.user}),
-                });
-              }
-            }
-          });
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
+      const regUser = await auth.signInWithEmailAndPassword(email, password);
+      const {user: loggedInUser} = regUser;
+      if (!loggedInUser.emailVerified) {
+        await loggedInUser.sendEmailVerification();
+      }
+      localStorage.setItem('newUser', 'false');
+      dispatch({type: UPDATE_NEW_USER_STATUS, payload: 'false'});
+
+      //Update session in Sling. Not needed. To be removed.
+      await loginUser(email, password);
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({
+        type: UPDATE_AUTH_USER,
+        payload: getUserObject({...loggedInUser}),
+      });
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }

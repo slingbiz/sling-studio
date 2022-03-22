@@ -128,7 +128,7 @@ const KeyCodeSetupForm = (props) => {
             dispatch(onCompanyKeyCodeSetupForm(user.id, data)).then((res) => {
               setSubmitting(false);
               if (res.status == 201) {
-                router.replace('/pages/listing');
+                router.replace('/pages');
               }
             });
           }}>

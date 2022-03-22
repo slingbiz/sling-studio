@@ -20,16 +20,26 @@ const withData = (ComposedComponent) => (props) => {
 
   useEffect(() => {
     if (user) {
-      if (newUser) {
+      if (
+        localStorage.getItem('newUser') === 'true' ||
+        (newUser && newUser === 'true')
+      ) {
         Router.push(
           companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
         );
       } else {
         Router.push(initialUrl + (queryParams ? '?' + queryParams : ''));
       }
+    } else {
+      if (!loading) {
+        Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
+      } else {
+        return <Loader />;
+      }
     }
   }, [user, loading, newUser, isVerified]);
-  if (loading) return <Loader />;
+
+  if (!user || loading) return <Loader />;
   // if (user) return <Loader />;
 
   return <ComposedComponent {...props} />;

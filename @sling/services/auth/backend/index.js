@@ -15,8 +15,12 @@ const sendVerificationEmail = async (token) => {
     },
   );
 };
-const sendVerificationEmailByToken = (token) => {
-  return API.get(
+const sendVerificationEmailByToken = async(token) => {
+  const Api = await ApiAuth();
+  if (!Api) {
+    return;
+  }
+  return Api.get(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/send-verification-email-bytoken`,
     {
       params: {token: token},
@@ -24,8 +28,12 @@ const sendVerificationEmailByToken = (token) => {
   );
 };
 
-const verifyEmailAddress = (token) => {
-  return API.get(
+const verifyEmailAddress = async(token) => {
+  const Api = await ApiAuth();
+  if (!Api) {
+    return;
+  }
+  return Api.get(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/verify-email`,
     {
       params: {token: token},
@@ -33,8 +41,12 @@ const verifyEmailAddress = (token) => {
   );
 };
 
-const verifyEmailAddressServer = (token) => {
-  return API.get(`${process.env.SERVICE_URL}v1/auth/verify-email`, {
+const verifyEmailAddressServer = async(token) => {
+  const Api = await ApiAuth();
+  if (!Api) {
+    return;
+  }
+  return Api.get(`${process.env.SERVICE_URL}v1/auth/verify-email`, {
     params: {token: token},
   });
 };

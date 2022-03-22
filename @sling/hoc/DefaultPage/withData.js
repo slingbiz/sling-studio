@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import Router, {useRouter} from 'next/router';
 import {
   initialUrl,
+  signUpUrl,
   emailVerificationUrl,
   companyRegistrationUrl,
 } from '../../../shared/constants/AppConst';
@@ -12,13 +13,14 @@ const withData = (ComposedComponent) => (props) => {
   const {user, loading, newUser, isVerified} = useSelector(({auth}) => auth);
   console.log(
     {user, loading, newUser, isVerified},
-    '{user, loading, newUser, isVerified} ',
+    '{user, loading, newUser, isVerified222} ',
   );
   const {asPath} = useRouter();
   const queryParams = asPath.split('?')[1];
+
   useEffect(() => {
     if (user) {
-      if (newUser) {
+      if (newUser && newUser === 'true') {
         Router.push(
           companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
         );
@@ -27,6 +29,7 @@ const withData = (ComposedComponent) => (props) => {
       }
     }
   }, [user, loading, newUser, isVerified]);
+
   if (loading) return <Loader />;
   // if (user) return <Loader />;
 

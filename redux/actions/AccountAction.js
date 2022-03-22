@@ -1,8 +1,9 @@
 import {
-    FETCH_ERROR,
-    FETCH_START,
-    FETCH_SUCCESS,
-    UPDATE_ACCOUNT, UPDATE_NEW_USER_STATUS,
+  FETCH_ERROR,
+  FETCH_START,
+  FETCH_SUCCESS,
+  UPDATE_ACCOUNT,
+  UPDATE_NEW_USER_STATUS,
 } from '../../shared/constants/ActionTypes';
 import {
   CompanyRegistrationForm,
@@ -65,7 +66,8 @@ export const onCompanyKeyCodeSetupForm = (id, formData) => {
         console.log(res);
         if (res.status == 201) {
           dispatch({type: UPDATE_ACCOUNT, payload: res.data});
-          dispatch({type: UPDATE_NEW_USER_STATUS});
+          dispatch({type: UPDATE_NEW_USER_STATUS, payload: 'false'});
+          localStorage.setItem('newUser', 'false');
         } else {
           dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
         }
