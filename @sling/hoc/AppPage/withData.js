@@ -27,8 +27,6 @@ const withData = (ComposedComponent) => (props) => {
         Router.push(
           companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
         );
-      } else {
-        Router.push(initialUrl + (queryParams ? '?' + queryParams : ''));
       }
     } else {
       if (!loading) {
