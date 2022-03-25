@@ -23,6 +23,7 @@ import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddWidgetModal from './AddWidgetModal';
+import UpdateWidgetModal from './AddWidgetModal';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -47,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
     // whiteSpace: 'nowrap',
     display: 'box',
     lineClamp: 3,
-    boxOrient: 'vertical',  truncate: {
+    boxOrient: 'vertical',
+    truncate: {
       // overflow: 'hidden',
       // textOverflow: 'ellipsis',
       // whiteSpace: 'nowrap',
@@ -156,8 +158,10 @@ const WidgetsIntegration = (props) => {
   const [filter, setFilter] = useState({widgetType});
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const loading = useSelector(({common}) => common.loading);
+  const [updateProp, setupdateProp] = useState(null);
 
   useEffect(() => {
     dispatch(getWidgets(filter));
@@ -267,6 +271,11 @@ const WidgetsIntegration = (props) => {
                       item.image ? classes.imgContainer : classes.noImgContainer
                     }>
                     <IconButton
+                      onClick={() => {
+                        console.log(item);
+                        setupdateProp(item);
+                        setOpenUpdateModal(true);
+                      }}
                       aria-label='edit'
                       className={clsx(classes.button, classes.editBtn)}>
                       <Edit />
@@ -316,7 +325,7 @@ const WidgetsIntegration = (props) => {
                         fontWeight={Fonts.MEDIUM}
                         component='h5'
                         className={classes.infoRow}>
-                        {Object.keys(item.requiredProps).length || 'No'} props
+                        {Object.keys(item.props).length || 'No'} props
                       </Box>
                       <Box
                         fontWeight={Fonts.MEDIUM}
@@ -353,12 +362,21 @@ const WidgetsIntegration = (props) => {
         open={openDrawer}
         onClose={() => toggleDrawer(false)}
         onOpen={() => toggleDrawer(true)}></SwipeableDrawer>
-      <AddWidgetModal
-        setOpen={setOpenModal}
-        open={openModal}
-        titleKey={titleKey}
-        pageKey={pageKey}
-      />
+      {openModal && (
+        <AddWidgetModal
+          setOpen={setOpenModal}
+          open={openModal}
+          titleKey={titleKey}
+          pageKey={pageKey}
+        />
+      )}
+      {updateProp && (
+        <UpdateWidgetModal
+          open={openUpdateModal}
+          setOpen={setOpenUpdateModal}
+          updateProp={updateProp}
+        />
+      )}
       <IconButton onClick={() => setOpenModal(true)}>
         <Icon color='secondary' className={classes.Icon}>
           add_circle

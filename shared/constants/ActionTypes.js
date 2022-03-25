@@ -176,3 +176,4 @@ export const GET_MEDIA_DATA = `GET_MEDIA_DATA`;
 
 // Widgets
 export const GET_WIDGETS_DATA = 'GET_WIDGETS_DATA';
+export const ADD_WIDGETS_DATA = 'ADD_WIDGETS_DATA';

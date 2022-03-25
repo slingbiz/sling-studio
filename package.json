@@ -91,6 +91,7 @@
     "react-image-timeline": "^3.2.13",
     "react-images": "^1.1.7",
     "react-intl": "^5.8.8",
+    "react-material-ui-icon-picker": "0.0.1",
     "react-notifications-component": "^2.4.1",
     "react-number-format": "^4.4.1",
     "react-perfect-scrollbar": "^1.5.8",
