@@ -334,9 +334,9 @@ const WidgetsIntegration = (props) => {
                         <IconButton
                           aria-label='screenshots'
                           fontSize='small'
-                          style={{marginRight: 0, paddingRight: 5}}
+                          style={{margin: 5}}
                           className={clsx(classes.button)}>
-                          <PhotoLibrary />
+                          <Icon>{item.icon}</Icon>
                         </IconButton>
                         Screenshots
                       </Box>

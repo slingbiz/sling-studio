@@ -28,6 +28,9 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
+          <script
+            src='https://kit.fontawesome.com/27f758799b.js'
+            crossOrigin='anonymous'></script>
         </Head>
         <body>
           <div id='root' />

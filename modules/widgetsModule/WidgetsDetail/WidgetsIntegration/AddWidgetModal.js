@@ -14,7 +14,13 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {FormHelperText, InputLabel, MenuItem, Select} from '@material-ui/core';
+import {
+  FormHelperText,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@material-ui/core';
 import {AddCircle, AddIcCallOutlined, CloseOutlined} from '@material-ui/icons';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
@@ -22,7 +28,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
 import {createWidget, updateWidget} from '../../../../redux/actions';
 import {red} from '@material-ui/core/colors';
-
+import {AllIcons} from '../../../../shared/constants/IconList';
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   dialog: {
@@ -304,7 +310,7 @@ var initialValues = {
 };
 const AddWidgetModal = ({open, setOpen, updateProp}) => {
   const classes = useStyles();
-
+  console.log('icon', AllIcons);
   const handleClose = () => {
     setOpen(false);
   };
@@ -477,7 +483,7 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                 className={classes.myTextFieldRoot}
               />
 
-              <input
+              {/* <input
                 name='icon'
                 accept='image/*'
                 className={classes.input}
@@ -507,12 +513,43 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                   src={selectIcon && URL.createObjectURL(selectIcon)}
                   className={classes.iconImage}
                 />
-              </label>
+              </label> */}
+              <MyTextField
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  alignItems: 'center',
+                }}
+                required
+                name='icon'
+                fullWidth
+                select
+                placeholder={messages['common.widgettype']}
+                label={<IntlMessages id='common.widgettype' />}>
+                {AllIcons.map((cat, index) => {
+                  return cat.icons.map((item, i) => {
+                    return (
+                      <MenuItem value={item.ligature} key={`${index}+${i}`}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            width: '100%',
+                            alignItems: 'center',
+                          }}>
+                          <Icon>{item.ligature}</Icon>
+                          <Typography style={{marginLeft: 5}}>
+                            {item.name}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    );
+                  });
+                })}
+              </MyTextField>
               <MyTextField
                 required
                 name='type'
                 fullWidth
-                id='outlined-select-currency'
                 select
                 placeholder={messages['common.widgettype']}
                 label={<IntlMessages id='common.widgettype' />}>
