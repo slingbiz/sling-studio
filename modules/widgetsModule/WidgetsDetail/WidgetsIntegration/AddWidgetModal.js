@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 10,
   },
   titleAddWidget: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     marginTop: 5,
   },
@@ -190,8 +190,6 @@ const validationSchema = yup.object({
 
 const ItemProp = ({props, index, updateState = null}) => {
   const dispatch = useDispatch();
-  const classes = useStyles();
-  const {messages} = useIntl();
 
   return (
     <Box
@@ -310,6 +308,7 @@ var initialValues = {
   icon: '',
   ownership: 'private',
 };
+
 const AddWidgetModal = ({open, setOpen, updateProp}) => {
   const classes = useStyles();
   const handleClose = () => {
@@ -317,6 +316,13 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
   };
 
   useEffect(() => {
+    initialValues = {
+      name: '',
+      description: '',
+      type: '',
+      icon: '',
+      ownership: 'private',
+    };
     if (updateProp) {
       initialValues = {
         ...initialValues,
@@ -332,35 +338,29 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
   const {messages} = useIntl();
   const [props, setprops] = useState([initialProps]);
   const dispatch = useDispatch();
-  const {user, loading} = useSelector(({auth}) => auth);
+  const {user} = useSelector(({auth}) => auth);
 
-  const handleFileChosen = (file) => {
-    // var fileReader = new FileReader();
-    // fileReader.onloadend = handleFileRead;
-    // fileReader.readAsText(file);
-  };
-
-  // const formData = new FormData();
-  // formData.append('file', file);
-  // formData.append('fileName', file.name);
-  // const config = {
-  //   headers: {
-  //     'content-type': 'multipart/form-data',
-  //   },
-  // };
   const handleJsonFileChosen = (file) => {
+    console.log('isfile', file.name);
     if (file) {
       var fileReader = new FileReader();
       fileReader.onloadend = () => {
-        const json = JSON.parse(fileReader.result);
-        initialValues = {
-          ...initialValues,
-          name: json.name,
-          description: json.description,
-          type: json.type,
-          icon: json.icon,
-        };
-        setprops(json.props);
+        try {
+          const json = JSON.parse(fileReader.result);
+          initialValues = {
+            ...initialValues,
+            name: json.name,
+            description: json.description,
+            type: json.type,
+            icon: json.icon,
+          };
+          setprops(json.props);
+        } catch (error) {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: 'Please select valid JSON file',
+          });
+        }
       };
       fileReader.readAsText(file);
     }
@@ -412,7 +412,10 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
             style={{display: 'none'}}
             id='pick-json-file'
             type='file'
-            onChange={(e) => handleJsonFileChosen(e.target.files[0])}
+            onChange={(e) => {
+              handleJsonFileChosen(e.target.files[0]);
+              e.target.value = null;
+            }}
           />
           <label htmlFor='pick-json-file'>
             <Button variant='contained' color='primary' component='span'>
