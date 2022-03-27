@@ -562,11 +562,11 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                 </Typography>
                 <IconButton
                   aria-label='add prop'
-                  onClick={() => setprops(props.concat(initialProps))}>
+                  onClick={() => setprops(props?.concat(initialProps))}>
                   <AddCircle />
                 </IconButton>
               </Box>
-              {props.length > 0 && (
+              {props?.length > 0 && (
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                   {props.map((prop, index) => (
                     <ItemProp
