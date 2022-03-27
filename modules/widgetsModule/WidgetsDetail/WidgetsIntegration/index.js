@@ -325,7 +325,7 @@ const WidgetsIntegration = (props) => {
                         fontWeight={Fonts.MEDIUM}
                         component='h5'
                         className={classes.infoRow}>
-                        {Object.keys(item.props).length || 'No'} props
+                        {Object?.keys(item?.props || {}).length || 'No'} props
                       </Box>
                       <Box
                         fontWeight={Fonts.MEDIUM}
