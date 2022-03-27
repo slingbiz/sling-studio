@@ -34,7 +34,7 @@ module.exports = (phase) => {
     env: {
       SERVICE_URL: 'http://localhost:10001/',
       INIT_CONFIG: 'http://localhost:10001/v1/dashboard/initConfig',
-      GET_WIDGETS: 'http://localhost:10001/v1/widgets',
+      GET_WIDGETS: 'http://localhost:10001/v1/widgets/dash/getWidgets',
       GET_MEDIA_API: 'http://localhost:10001/v1/media/dash/getMedia',
       GET_MEDIA_CONSTANTS_API:
         'http://localhost:10001/v1/media/dash/getMediaConstants',

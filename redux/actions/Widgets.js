@@ -32,7 +32,7 @@ export const createWidget = (widgetData) => {
       })
       .catch((error) => {
         console.log(error);
-        dispatch({type: FETCH_ERROR, payload: error.message});
+        console.log(error.response.data.message);
         return error;
       });
   };
@@ -75,7 +75,7 @@ export const getWidgets = (filters) => {
           payload: <IntlMessages id='message.invalidSession' />,
         });
       }
-      const data = await Api.get(`${GET_WIDGETS}`, {params: filters});
+      const data = await Api.post(`${GET_WIDGETS}`, filters);
       console.log('[getWidgets] actions Response: ', JSON.stringify(data));
 
       if (data.status === 200) {

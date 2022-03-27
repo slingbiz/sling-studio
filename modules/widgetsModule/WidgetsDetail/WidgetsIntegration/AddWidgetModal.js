@@ -80,10 +80,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     // border: '1px solid #000',
     // borderRadius: 5,
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   titleAddWidget: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: '700',
     marginTop: 5,
   },
@@ -116,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyTextField = (props) => {
+const CommonTextField = (props) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
   return (
@@ -208,22 +209,21 @@ const ItemProp = ({props, index, updateState = null}) => {
         size='small'
         label={<IntlMessages id='common.propName' />}
         variant='outlined'
-        className={classes.myTextFieldRoot}
         value={props[index].name}
         onChange={(e) => {
-          // console.log(props[index]);
           var updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             name: e.target.value,
           };
           updateState(updatedState);
-          console.log(e.target.value);
         }}
       />
       <TextField
+        size='small'
+        variant='outlined'
         required
-        style={{width: 120}}
+        style={{width: 150}}
         select
         label={<IntlMessages id='common.dataType' />}
         value={props[index].dataType}
@@ -246,7 +246,6 @@ const ItemProp = ({props, index, updateState = null}) => {
         size='small'
         label={<IntlMessages id='common.default' />}
         variant='outlined'
-        className={classes.myTextFieldRoot}
         value={props[index].default}
         onChange={(e) => {
           var updatedState = [...props];
@@ -258,9 +257,11 @@ const ItemProp = ({props, index, updateState = null}) => {
         }}
       />
       <TextField
+        size='small'
+        variant='outlined'
         required
         label={<IntlMessages id='common.propType' />}
-        style={{width: 120}}
+        style={{width: 150}}
         select
         value={props[index].propType}
         onChange={(e) => {
@@ -306,19 +307,19 @@ var initialValues = {
   name: '',
   description: '',
   type: '',
-  icon: 'Select Icon',
+  icon: '',
+  ownership: 'private',
 };
 const AddWidgetModal = ({open, setOpen, updateProp}) => {
   const classes = useStyles();
-  console.log('icon', AllIcons);
   const handleClose = () => {
     setOpen(false);
   };
 
   useEffect(() => {
-    console.log('updateProp', updateProp);
     if (updateProp) {
       initialValues = {
+        ...initialValues,
         name: updateProp.name,
         description: updateProp.description,
         type: updateProp.type,
@@ -329,13 +330,9 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
   }, []);
 
   const {messages} = useIntl();
-  const [selectIcon, setselectIcon] = useState(false);
   const [props, setprops] = useState([initialProps]);
   const dispatch = useDispatch();
   const {user, loading} = useSelector(({auth}) => auth);
-  const [file, setFile] = useState();
-
-  console.log(props);
 
   const handleFileChosen = (file) => {
     // var fileReader = new FileReader();
@@ -356,8 +353,8 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
       var fileReader = new FileReader();
       fileReader.onloadend = () => {
         const json = JSON.parse(fileReader.result);
-        console.log(json);
         initialValues = {
+          ...initialValues,
           name: json.name,
           description: json.description,
           type: json.type,
@@ -365,7 +362,6 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
         };
         setprops(json.props);
       };
-      console.log('check');
       fileReader.readAsText(file);
     }
   };
@@ -396,8 +392,8 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          padding: '2em',
           paddingTop: '1.5em',
+          padding: '2em',
           alignItems: 'stretch',
           overflowY: 'scroll',
         }}>
@@ -431,30 +427,19 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
           className={classes.titleAddWidget}>
           Add Widget Manually
         </Typography>
-        <Typography
-          variant='h6'
-          component='h2'
-          className={classes.titleRequired}>
-          <Box component='span' color={red[500]}>
-            *
-          </Box>{' '}
-          Required Fields
-        </Typography>
+
         <Formik
           enableReinitialize
           validateOnChange={true}
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
-            console.log(data);
-            console.log(props);
             setSubmitting(true);
             if (updateProp) {
               dispatch(
-                updateWidget(updateProp.id, {
+                updateWidget(updateProp._id, {
                   ...data,
                   props: props,
-                  user: user.uid,
                 }),
               );
             } else {
@@ -465,17 +450,18 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
           }}>
           {({isSubmitting, setFieldValue, values}) => (
             <Form className={classes.body} autoComplete='off'>
-              <MyTextField
+              <CommonTextField
                 required
-                size='large'
+                size='small'
                 fullWidth
                 label={<IntlMessages id='common.title' />}
                 name='name'
                 variant='outlined'
                 className={classes.myTextFieldRoot}
               />
-              <MyTextField
+              <CommonTextField
                 required
+                size='small'
                 fullWidth
                 name='description'
                 label={<IntlMessages id='common.description' />}
@@ -514,18 +500,15 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                   className={classes.iconImage}
                 />
               </label> */}
-              <MyTextField
-                style={{
-                  display: 'flex',
-                  width: '100%',
-                  alignItems: 'center',
-                }}
+              <CommonTextField
+                size='small'
+                variant='outlined'
                 required
                 name='icon'
                 fullWidth
                 select
-                placeholder={messages['common.widgettype']}
-                label={<IntlMessages id='common.widgettype' />}>
+                placeholder={messages['common.widgetIcon']}
+                label={<IntlMessages id='common.widgetIcon' />}>
                 {AllIcons.map((cat, index) => {
                   return cat.icons.map((item, i) => {
                     return (
@@ -545,8 +528,10 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                     );
                   });
                 })}
-              </MyTextField>
-              <MyTextField
+              </CommonTextField>
+              <CommonTextField
+                size='small'
+                variant='outlined'
                 required
                 name='type'
                 fullWidth
@@ -558,7 +543,7 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                     {option.label}
                   </MenuItem>
                 ))}
-              </MyTextField>
+              </CommonTextField>
               <Box
                 sx={{
                   display: 'flex',

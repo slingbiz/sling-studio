@@ -32,7 +32,7 @@ export const onSignUpFirebaseUser = ({email, password, name}) => {
       );
       await regUser.user.sendEmailVerification();
       const user = await registerUser(name, email, password, regUser.user.uid);
-      if (!!user) {
+      if (user) {
         dispatch({type: FETCH_SUCCESS});
         localStorage.setItem('newUser', 'true');
         dispatch({

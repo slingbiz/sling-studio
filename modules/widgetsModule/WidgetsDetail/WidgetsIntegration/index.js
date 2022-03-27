@@ -151,11 +151,11 @@ const getWidgetType = (pageKey) => {
 
 const WidgetsIntegration = (props) => {
   const {titleKey, pageKey} = props;
-  const widgetType = getWidgetType(pageKey);
+  const type = getWidgetType(pageKey);
   const classes = useStyles();
   const dispatch = useDispatch();
   const {widgets} = useSelector(({widgets}) => widgets);
-  const [filter, setFilter] = useState({widgetType});
+  const [filter, setFilter] = useState({type});
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -168,8 +168,8 @@ const WidgetsIntegration = (props) => {
   }, [filter]);
 
   useEffect(() => {
-    setFilter({...filter, widgetType});
-  }, [widgetType]);
+    setFilter({...filter, type});
+  }, [type]);
 
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
@@ -196,12 +196,12 @@ const WidgetsIntegration = (props) => {
           fontWeight={Fonts.BOLD}
           component='h3'
           style={{textTransform: 'capitalize'}}>
-          {widgetType} Integration
+          {type} Integration
         </Box>
         <Box style={{display: 'flex', alignItems: 'center'}}>
           <Box>
             {Object.keys(filter).map((v, key) => {
-              return filter[v] && v != 'widgetType' ? (
+              return filter[v] && v != 'type' ? (
                 <Chip
                   key={key}
                   size={'small'}
@@ -218,7 +218,7 @@ const WidgetsIntegration = (props) => {
             })}
           </Box>
           <Tooltip title='Add a new Widget'>
-            <IconButton>
+            <IconButton onClick={() => setOpenModal(true)}>
               <Icon
                 color='secondary'
                 className={classes.iconDefault}
