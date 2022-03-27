@@ -186,9 +186,12 @@ const validationSchema = yup.object({
   type: yup
     .string()
     .required(<IntlMessages id='validation.widgetTypeRequired' />),
+  icon: yup
+    .string()
+    .required(<IntlMessages id='validation.widgetIconRequired' />),
 });
 
-const ItemProp = ({props, index, updateState = null}) => {
+const ItemProp = ({props, index, updateState}) => {
   const dispatch = useDispatch();
 
   return (
@@ -309,8 +312,13 @@ var initialValues = {
   ownership: 'private',
 };
 
-const AddWidgetModal = ({open, setOpen, updateProp}) => {
+const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
   const classes = useStyles();
+  const {messages} = useIntl();
+  const [props, setprops] = useState([initialProps]);
+  const dispatch = useDispatch();
+  const {user} = useSelector(({auth}) => auth);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -334,11 +342,6 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
       setprops(updateProp.props);
     }
   }, []);
-
-  const {messages} = useIntl();
-  const [props, setprops] = useState([initialProps]);
-  const dispatch = useDispatch();
-  const {user} = useSelector(({auth}) => auth);
 
   const handleJsonFileChosen = (file) => {
     console.log('isfile', file.name);
