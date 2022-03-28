@@ -23,25 +23,25 @@ export const addRoute = (route) => {
         payload: <IntlMessages id='message.invalidSession' />,
       });
     }
-    Api.post('/api/saveRoute', route)
-        .then((data) => {
-          if (data.status === 200) {
-            dispatch({type: FETCH_SUCCESS});
-            dispatch({
-              type: SHOW_MESSAGE,
-              payload: 'New Route Added.',
-            });
-            dispatch(getRoutesList());
-          } else {
-            dispatch({
-              type: FETCH_ERROR,
-              payload: messages['message.somethingWentWrong'],
-            });
-          }
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
+    Api.post(`${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/api/saveRoute`, route)
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'New Route Added.',
+          });
+          dispatch(getRoutesList());
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+      });
   };
 };
 

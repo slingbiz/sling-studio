@@ -29,6 +29,7 @@ import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
 import {createWidget, updateWidget} from '../../../../redux/actions';
 import {red} from '@material-ui/core/colors';
 import {AllIcons} from '../../../../shared/constants/IconList';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   dialog: {
@@ -412,22 +413,40 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
               Save time by importing JSON file
             </Typography>
           </Box>
-          <input
-            accept='*/*'
-            className={classes.input}
-            style={{display: 'none'}}
-            id='pick-json-file'
-            type='file'
-            onChange={(e) => {
-              handleJsonFileChosen(e.target.files[0]);
-              e.target.value = null;
-            }}
-          />
-          <label htmlFor='pick-json-file'>
-            <Button variant='contained' color='primary' component='span'>
-              Import File
-            </Button>
-          </label>
+          <Box>
+            <input
+              accept='*/*'
+              className={classes.input}
+              style={{display: 'none'}}
+              id='pick-json-file'
+              type='file'
+              onChange={(e) => {
+                handleJsonFileChosen(e.target.files[0]);
+                e.target.value = null;
+              }}
+            />
+            <label htmlFor='pick-json-file'>
+              <Button variant='contained' color='primary' component='span'>
+                Import File
+              </Button>
+            </label>
+            <Box className='pointer' mt={'8px'}>
+              <Typography variant='body1' component='h6'>
+                <a
+                  href={'/files/widget.json'}
+                  download={'/files/widget.json'}
+                  style={{
+                    display: 'flex',
+                    color: 'grey',
+                    fontSize: 14,
+                    justifyContent: 'center',
+                  }}>
+                  <span style={{marginRight: 5}}>Sample JSON </span>
+                  <CloudDownloadIcon style={{height: 50, width: 50}} />
+                </a>
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Divider variant='fullWidth' className={classes.divider} />
         <Typography
