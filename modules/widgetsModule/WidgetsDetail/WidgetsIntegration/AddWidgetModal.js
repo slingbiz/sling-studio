@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
   },
   divider: {
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
   },
   textTruncate: {
@@ -78,14 +78,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    background: '#edf5ed',
+    padding: 20,
+    borderRadius: 5,
     // border: '1px solid #000',
     // borderRadius: 5,
-    paddingTop: 10,
-    paddingBottom: 10,
+    // paddingTop: 10,
+    // paddingBottom: 10,
   },
   titleAddWidget: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 18,
+    fontWeight: '600',
     marginTop: 5,
   },
   body: {
@@ -93,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    padding: 20,
+    padding: '10px 20px',
   },
   myTextFieldRoot: {
     marginTop: 10,
@@ -201,7 +204,7 @@ const ItemProp = ({props, index, updateState = null}) => {
         width: '100%',
         justifyContent: 'space-between',
       }}>
-      <Typography variant='h6' style={{marginLeft: 15}}>
+      <Typography variant='h6' style={{marginLeft: 15, fontSize: 18}}>
         {index + 1}
       </Typography>
       <TextField
@@ -564,7 +567,14 @@ const AddWidgetModal = ({open, setOpen, updateProp}) => {
                 </IconButton>
               </Box>
               {props?.length > 0 && (
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    background: '#f6f7fa',
+                    borderRadius: '5px',
+                    padding: '20px 0px',
+                  }}>
                   {props.map((prop, index) => (
                     <ItemProp
                       props={props}
