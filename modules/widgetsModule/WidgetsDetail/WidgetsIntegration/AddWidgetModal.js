@@ -406,7 +406,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
         <Box className={classes.parentHeader}>
           <Box>
             <Typography variant='h6' component='h2'>
-              Autofill Applicaton
+              Autofill Widget
             </Typography>
             <Typography variant='body1' component='h2' mt={5}>
               Save time by importing JSON file
