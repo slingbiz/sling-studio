@@ -1,29 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Divider,
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
+  Divider,
   Grid,
+  IconButton,
+  makeStyles,
   Tooltip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Typography,
 } from '@material-ui/core';
-import {makeStyles, IconButton} from '@material-ui/core';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Edit, Close} from '@material-ui/icons';
+import {Close, Edit} from '@material-ui/icons';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AppSearch from '../../../../@sling/core/SearchBar';
 import DeleteModal from './DeleteModal';
 import {useDispatch, useSelector} from 'react-redux';
 import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {getRoutesList} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';

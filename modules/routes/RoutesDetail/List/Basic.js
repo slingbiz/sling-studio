@@ -8,12 +8,9 @@ import {useEffect} from 'react';
 
 const useStyles = makeStyles((theme) => ({
   typography: {
-    textAlign: 'right',
-    marginTop: 30,
-    marginBottom: 20,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 16,
-    },
+    margin: '20px 0 10px',
+    textAlign: 'left',
+    fontSize: '20px',
   },
   inputLabel: {
     fontSize: 16,
@@ -32,15 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textAlign: 'center',
-    width: 150,
-    marginTop: 15,
-    marginBottom: 15,
+    width: 100,
+    marginTop: 10,
+    marginBottom: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
   saveButton: {
     textAlign: 'center',
-    width: 150,
+    width: 100,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -54,7 +51,7 @@ const Basic = ({setOpen, apiObj}) => {
   const [openModal, setOpenModal] = useState(false);
   const [pageTemplate, setPageTemplate] = useState('');
   const dispatch = useDispatch();
-  var re = /\<.*\>/;
+  const re = /\<.*\>/;
 
   useEffect(() => {
     if (apiObj) {
@@ -110,61 +107,68 @@ const Basic = ({setOpen, apiObj}) => {
       <Grid
         container
         justify='center'
-        spacing={3}
         direction='column'
-        alignItems='center'>
+        alignItems='center'
+        style={{marginBottom: '2em'}}>
         <Grid item xs={12}>
           <Typography
             component='h5'
             variant='h5'
             className={classes.typography}>
-            Add New Route
+            Add route details
           </Typography>
+          <form
+            style={{
+              background: '#fafafa',
+              padding: '20px',
+              borderRadius: '5px',
+            }}
+            onSubmit={re.test(pattern) ? parseUrl : continueWithParse}>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                variant='standard'
+                margin='dense'
+                label='Route Name'
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                  className: classes.inputLabel,
+                }}
+                value={routeName}
+                onChange={(e) => setRouteName(e.target.value)}
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                variant='standard'
+                label='Add Pattern'
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={pattern}
+                onChange={(e) => setPattern(e.target.value)}
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} style={{textAlign: 'right'}}>
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.button}
+                type='submit'>
+                {re.test(pattern) ? 'Parse' : 'Continue'}
+              </Button>
+            </Grid>
+          </form>
         </Grid>
-        <form onSubmit={re.test(pattern) ? parseUrl : continueWithParse}>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              variant='standard'
-              label='Route Name'
-              InputProps={{
-                className: classes.input,
-              }}
-              InputLabelProps={{
-                shrink: true,
-                className: classes.inputLabel,
-              }}
-              value={routeName}
-              onChange={(e) => setRouteName(e.target.value)}
-              required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              variant='standard'
-              label='Add Pattern'
-              InputProps={{
-                className: classes.input,
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={pattern}
-              onChange={(e) => setPattern(e.target.value)}
-              required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} style={{textAlign: 'right'}}>
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              type='submit'>
-              {re.test(pattern) ? 'Parse' : 'Continue'}
-            </Button>
-          </Grid>
-        </form>
       </Grid>
       {!!Object.entries(dynamicParams).length && (
         <Grid
