@@ -4,6 +4,7 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
   GET_WIDGETS_DATA,
+  SHOW_MESSAGE,
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
@@ -13,54 +14,51 @@ import {GET_WIDGETS} from '../../shared/constants/Services';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 
 export const createWidget = (widgetData) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({type: FETCH_START});
-
-    return CreateWidget(widgetData)
-      .then((res) => {
-        console.log(res);
-        if (res.status == 201) {
-          dispatch({
-            type: ADD_WIDGETS_DATA,
-            payload: {widget: res.data.widget},
-          });
-        } else {
-          dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
-        }
-        dispatch({type: FETCH_SUCCESS});
-        return res;
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(error.response.data.message);
-        return error;
-      });
+    try {
+      const data = await CreateWidget(widgetData);
+      if (data.status == 201) {
+        let {widget} = data.data;
+        dispatch({
+          type: ADD_WIDGETS_DATA,
+          payload: {widget},
+        });
+        dispatch({
+          type: SHOW_MESSAGE,
+          payload: `${widget.type} created successfully`,
+        });
+      } else {
+        dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
+      }
+    } catch (error) {
+      dispatch({type: FETCH_ERROR, payload: error.response.data.message});
+      console.log(error.response.data.message);
+    }
   };
 };
 
 export const updateWidget = (id, widgetData) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({type: FETCH_START});
-
-    return UpdateWidget(id, widgetData)
-      .then((res) => {
-        console.log(res);
-        if (res.status == 201) {
-          dispatch({
-            type: GET_WIDGETS_DATA,
-            payload: {widgets: res.data.widgets},
-          });
-        } else {
-          dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
-        }
-        dispatch({type: FETCH_SUCCESS});
-        return res;
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch({type: FETCH_ERROR, payload: error.message});
-        return error;
-      });
+    try {
+      const data = UpdateWidget(id, widgetData);
+      if (data.status == 201) {
+        let {widgets} = data.data;
+        dispatch({
+          type: GET_WIDGETS_DATA,
+          payload: {widgets},
+        });
+        dispatch({
+          type: SHOW_MESSAGE,
+          payload: `${widgets[0].type} updated successfully`,
+        });
+      } else {
+        dispatch({type: FETCH_ERROR, payload: 'something went wrong'});
+      }
+    } catch (error) {
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
   };
 };
 

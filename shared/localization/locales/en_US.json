@@ -551,6 +551,7 @@
   "validation.titleRequired": "Please enter Title!",
   "validation.descriptionRequired": "Please enter description ",
   "validation.widgetTypeRequired": "Please select widget type",
+  "validation.widgetIconRequired": "Please select widget icon",
   "common.pressEnter": "Press enter to comment...",
   "customizer.extension": "extension",
   "customizer.customiseTheme": "Customize the theme",
