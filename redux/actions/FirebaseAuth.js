@@ -31,13 +31,15 @@ export const onSignUpFirebaseUser = ({email, password, name}) => {
         password,
       );
       await regUser.user.sendEmailVerification();
-      await registerUser(name, email, password);
-      dispatch({type: FETCH_SUCCESS});
-      localStorage.setItem('newUser', 'true');
-      dispatch({
-        type: UPDATE_NEW_SIGNUP,
-        payload: getUserObject({...regUser.user}),
-      });
+      const user = await registerUser(name, email, password, regUser.user.uid);
+      if (user) {
+        dispatch({type: FETCH_SUCCESS});
+        localStorage.setItem('newUser', 'true');
+        dispatch({
+          type: UPDATE_NEW_SIGNUP,
+          payload: getUserObject({...regUser.user}),
+        });
+      }
       // return regUser;
       // sendVerificationEmail(tokens.access.token).then((ress) => {
       //   if (ress.status == 204) {

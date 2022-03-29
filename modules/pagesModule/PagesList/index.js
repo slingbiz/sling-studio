@@ -267,7 +267,8 @@ const PageTemplatesList = () => {
           </Grid>
           <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
-              const {meta: {title, description} = {}} = layoutConfig[v] || {};
+              const {meta} = layoutConfig[v] || {};
+              const {title, description} = meta || {};
               return (
                 <Grid
                   key={k}

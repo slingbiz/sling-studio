@@ -15,7 +15,7 @@ const sendVerificationEmail = async (token) => {
     },
   );
 };
-const sendVerificationEmailByToken = async(token) => {
+const sendVerificationEmailByToken = async (token) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
@@ -28,7 +28,7 @@ const sendVerificationEmailByToken = async(token) => {
   );
 };
 
-const verifyEmailAddress = async(token) => {
+const verifyEmailAddress = async (token) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
@@ -41,7 +41,7 @@ const verifyEmailAddress = async(token) => {
   );
 };
 
-const verifyEmailAddressServer = async(token) => {
+const verifyEmailAddressServer = async (token) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
@@ -51,7 +51,7 @@ const verifyEmailAddressServer = async(token) => {
   });
 };
 
-const registerUser = async (name, email, password) => {
+const registerUser = async (name, email, password, id) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
@@ -60,6 +60,7 @@ const registerUser = async (name, email, password) => {
     name: name,
     email: email,
     password: password,
+    _id: id,
   });
 };
 

@@ -22,7 +22,6 @@ import {TextField} from '@material-ui/core';
 export async function getServerSideProps({query}) {
   // Fetch data from external API
   const token = query.token;
-  console.log(token);
   if (token) {
     try {
       const res = await verifyEmailAddressServer(token);
