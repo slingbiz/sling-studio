@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,22 +14,16 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {
-  FormHelperText,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
-import {AddCircle, AddIcCallOutlined, CloseOutlined} from '@material-ui/icons';
+import {Icon, MenuItem} from '@material-ui/core';
+import {AddCircle, CloseOutlined} from '@material-ui/icons';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
 import {createWidget, updateWidget} from '../../../../redux/actions';
-import {red} from '@material-ui/core/colors';
 import {AllIcons} from '../../../../shared/constants/IconList';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   dialog: {
@@ -216,7 +210,7 @@ const ItemProp = ({props, index, updateState}) => {
         variant='outlined'
         value={props[index].name}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             name: e.target.value,
@@ -233,7 +227,7 @@ const ItemProp = ({props, index, updateState}) => {
         label={<IntlMessages id='common.dataType' />}
         value={props[index].dataType}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             dataType: e.target.value,
@@ -253,7 +247,7 @@ const ItemProp = ({props, index, updateState}) => {
         variant='outlined'
         value={props[index].default}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             default: e.target.value,
@@ -270,7 +264,7 @@ const ItemProp = ({props, index, updateState}) => {
         select
         value={props[index].propType}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             propType: e.target.value,
@@ -308,7 +302,7 @@ const initialProps = {
   default: '',
 };
 
-var initialValues = {
+let initialValues = {
   name: '',
   description: '',
   type: '',
@@ -350,7 +344,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
   const handleJsonFileChosen = (file) => {
     console.log('isfile', file.name);
     if (file) {
-      var fileReader = new FileReader();
+      let fileReader = new FileReader();
       fileReader.onloadend = () => {
         try {
           const json = JSON.parse(fileReader.result);
@@ -441,8 +435,8 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                     fontSize: 14,
                     justifyContent: 'center',
                   }}>
-                  <span style={{marginRight: 5}}>Sample JSON </span>
-                  <CloudDownloadIcon style={{height: 50, width: 50}} />
+                  <span style={{marginRight: 5, fontSize: 12}}>Sample JSON </span>
+                  <CloudDownloadIcon style={{height: 20, width: 20}} />
                 </a>
               </Typography>
             </Box>

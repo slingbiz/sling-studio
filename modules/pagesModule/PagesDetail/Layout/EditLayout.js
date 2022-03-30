@@ -86,6 +86,7 @@ const getItems = (count, offset = 0, classes) =>
   });
 
 const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
+  console.log(pageKey, 'pageKey')
   const classes = useStyles();
   const childRef = useRef();
   const dispatch = useDispatch();

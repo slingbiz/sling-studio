@@ -29,6 +29,7 @@ module.exports = (phase) => {
         GET_ROUTES_LIST_API:
           'https://sling.biz/api/v1/pageRoutes/dash/getRoutes',
         SET_CONFIG: 'https://sling.biz/api/v1/dashboard/setConfig',
+        SAVE_ROUTE: 'https://sling.biz/api/v1/pageRoutes/saveRoute',
         FIREBASE_JSON: {
           apiKey,
           authDomain,
@@ -56,6 +57,7 @@ module.exports = (phase) => {
       GET_ROUTES_LIST_API:
         'http://localhost:10001/v1/pageRoutes/dash/getRoutes',
       SET_CONFIG: 'http://localhost:10001/v1/dashboard/setConfig',
+      SAVE_ROUTE: 'http://localhost:10001/v1/pageRoutes/saveRoute',
       FIREBASE_JSON: {
         apiKey,
         authDomain,
