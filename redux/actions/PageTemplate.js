@@ -12,9 +12,9 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 export const getPageTemplates = () => {
   return (dispatch) => {
     dispatch({type: FETCH_START});
+    // TODO : Page tempaltes apis to be changed
     Api.get('/api/getPageTemplates')
       .then((data) => {
-        console.log(data, '@data@getApiList@actions');
         if (data.status === 200) {
           dispatch({type: FETCH_SUCCESS});
           dispatch({type: GET_PAGE_TEMPLATE, payload: data.data});

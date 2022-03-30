@@ -118,6 +118,7 @@ const RoutesList = (props) => {
   const [open, setOpen] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
   const [editRoute, setEditRoute] = useState();
+  const [selectedLayout, setSelectedLayout] = useState('');
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
 
   const handleClose = () => {
@@ -157,7 +158,7 @@ const RoutesList = (props) => {
         setOpen={setOpen}
         open={open}
         titleKey={'Edit Layout'}
-        pageKey={'listing'}
+        pageKey={selectedLayout}
       />
 
       <Box px={6} pb={8}>
@@ -242,7 +243,7 @@ const RoutesList = (props) => {
                           <Tooltip title='Map Sling Keys'>
                             <IconButton
                               className={classes.iconRoot}
-                              aria-label=' picture'
+                              aria-label='picture'
                               disabled={true}
                               component='span'
                               onClick={doAction}>
@@ -253,7 +254,10 @@ const RoutesList = (props) => {
                       </Box>
                       <Box>
                         <Button
-                          onClick={() => setOpen(true)}
+                          onClick={() => {
+                            setSelectedLayout(routeObj.page_template);
+                            setOpen(true);
+                          }}
                           variant='contained'
                           color='primary'
                           style={{marginLeft: 15}}>
