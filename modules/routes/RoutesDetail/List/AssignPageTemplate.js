@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
   Modal,
@@ -55,6 +55,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getObj = (str) => {
+  console.log('str@getObj', str, str?.length);
+  if (!str?.length) {
+    return {};
+  }
+  console.log('returning...');
+  return {
+    label: capital(str.split('_').join(' ')),
+    value: str,
+  };
+};
+
 const AssignPageTemplate = ({
   setOpenModal,
   openModal,
@@ -67,23 +79,24 @@ const AssignPageTemplate = ({
   // const dispatch = useDispatch();
   // const {pageTemplates} = useSelector(({pageTemplate}) => pageTemplate);
   const {layoutConfig} = useSelector(({dashboard}) => dashboard.layoutData);
+  const [pageTemplate, setPageTemplate] = useState(getObj(value));
+
+  console.log(pageTemplate, '[pageTemplate@AssignPageTemplate]', value);
+
+  useEffect(() => {
+    console.log('Changing value ', pageTemplate.value)
+    setValue(pageTemplate.value);
+  }, [JSON.stringify(pageTemplate)]);
 
   const pageTemplates = Object.keys(layoutConfig || {});
   let options = [];
 
-  // useEffect(() => {
-  //   dispatch(getPageTemplates());
-  // }, [dispatch]);
-
-  function handleClose() {
+  const handleClose = () => {
     setOpenModal(false);
-  }
+  };
 
   pageTemplates?.map((item, index) => {
-    const object = {
-      label: capital(item.split('_').join(' ')),
-      value: item,
-    };
+    const object = getObj(item);
     options.push(object);
   });
 
@@ -110,8 +123,8 @@ const AssignPageTemplate = ({
             </Typography>
             <Select
               options={options}
-              value={value}
-              onChange={(selectedOption) => setValue(selectedOption)}
+              value={pageTemplate}
+              onChange={(selectedOption) => setPageTemplate(selectedOption)}
             />
             <Box style={{color: '#d75f5f'}}>{error}</Box>
             <Button

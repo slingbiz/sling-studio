@@ -14,7 +14,7 @@ import {
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Close, Edit} from '@material-ui/icons';
+import {Settings, Edit, Link} from '@material-ui/icons';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AppSearch from '../../../../@sling/core/SearchBar';
 import DeleteModal from './DeleteModal';
@@ -24,6 +24,7 @@ import NewRoute from './NewRoute';
 import {getRoutesList} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
+import PaginationControlled from '../../../../@sling/core/Pagination';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,10 +110,6 @@ const RoutesList = (props) => {
   const dispatch = useDispatch();
   const {routesList, totalCount} = useSelector(({routeList}) => routeList);
 
-  useEffect(() => {
-    dispatch(getRoutesList());
-  }, [dispatch]);
-
   const classes = useStyles(props);
   const [openEditAPI, setOpenEditAPI] = useState(false);
   const [open, setOpen] = useState(false);
@@ -120,6 +117,11 @@ const RoutesList = (props) => {
   const [editRoute, setEditRoute] = useState();
   const [selectedLayout, setSelectedLayout] = useState('');
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
+  const [filter, setFilter] = useState({page: 0, size: 3, query: ''});
+
+  useEffect(() => {
+    dispatch(getRoutesList(filter));
+  }, [dispatch, filter]);
 
   const handleClose = () => {
     setOpenEditAPI(false);
@@ -163,7 +165,7 @@ const RoutesList = (props) => {
 
       <Box px={6} pb={8}>
         <DeleteModal open={openEditAPI} handleClose={handleClose} />
-        <EditApiMappings
+        <NewRoute
           open={mapperDialog}
           setOpen={setMapperDialog}
           titleKey={'Edit Route'}
@@ -175,10 +177,12 @@ const RoutesList = (props) => {
             <Box key={index} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
                 <Grid container>
-                  <Grid item xs={2}>
-                    <Box className={classes.apiCardImage}></Box>
+                  <Grid item xs={1} style={{display: 'flex'}}>
+                    <IconButton color='inherit' style={{width: '100%'}}>
+                      <Link style={{width: '3rem', height: '3rem'}} />
+                    </IconButton>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={6}>
                     <CardContent>
                       <Box
                         fontWeight={Fonts.BOLD}
@@ -187,20 +191,78 @@ const RoutesList = (props) => {
                         mb={2}>
                         {routeObj.title}
                       </Box>
-                      <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
-                        {routeObj.url_string}
-                      </Box>
-                      <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
-                        {routeObj.version}
-                      </Box>
-                      <Box
+                      <Grid
+                        fontWeight={Fonts.MEDIUM}
+                        container
                         style={{
                           display: 'flex',
-                          alignItems: 'baseline',
-                          justifyContent: 'left',
+                          alignItems: 'center',
+                          marginBottom: 5,
                         }}>
-                        <Typography>Filter Keys</Typography>
-                        <KeysArray urlKeys={routeObj?.keys} />
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Route
+                        </Grid>
+                        <Grid item sm={8}>
+                          <code style={{fontWeight: 'bold'}}>
+                            {routeObj.url_string}
+                          </code>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={4}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Sample URL
+                        </Grid>
+                        <Grid item sm={8}>
+                          <code style={{fontWeight: 'bold'}}>
+                            {routeObj.sample_string}
+                          </code>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={2}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Page Template
+                        </Grid>
+                        <Grid item sm={8}>
+                          <span style={{fontWeight: 'bold'}}>
+                            {routeObj.page_template}
+                          </span>
+                        </Grid>
+                      </Grid>
+
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={2}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Dynamic Props
+                        </Grid>
+                        <Grid item sm={8}>
+                          <KeysArray urlKeys={routeObj?.keys} />
+                        </Grid>
+                      </Grid>
+                      <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
+                        {routeObj.version}
                       </Box>
                     </CardContent>
                   </Grid>
@@ -210,30 +272,17 @@ const RoutesList = (props) => {
                       display='flex'
                       alignItems='center'>
                       <Box>
-                        <label htmlFor='icon-button-file'>
-                          <Tooltip title='Remove'>
-                            <IconButton
-                              className={classes.iconRoot}
-                              aria-label='upload picture'
-                              component='span'
-                              onClick={doAction}>
-                              <Close />
-                            </IconButton>
-                          </Tooltip>
-                        </label>
-                      </Box>
-                      <Box>
                         <label htmlFor='icon-edit'>
-                          <Tooltip title='Edit'>
+                          <Tooltip title='Edit Layout'>
                             <IconButton
                               className={classes.iconRoot}
-                              aria-label='edit'
+                              aria-label='Edit Layout'
                               component='span'
                               onClick={() => {
-                                setEditRoute(routeObj);
-                                setMapperDialog(true);
+                                setSelectedLayout(routeObj.page_template);
+                                setOpen(true);
                               }}>
-                              <Edit />
+                              <Settings />
                             </IconButton>
                           </Tooltip>
                         </label>
@@ -255,13 +304,20 @@ const RoutesList = (props) => {
                       <Box>
                         <Button
                           onClick={() => {
-                            setSelectedLayout(routeObj.page_template);
-                            setOpen(true);
+                            setEditRoute(routeObj);
+                            setMapperDialog(true);
                           }}
                           variant='contained'
                           color='primary'
                           style={{marginLeft: 15}}>
-                          Edit Layout
+                          Edit Route
+                        </Button>{' '}
+                        <Button
+                          onClick={doAction}
+                          variant='contained'
+                          color='primary'
+                          style={{marginLeft: 15}}>
+                          Delete Route
                         </Button>
                       </Box>
                     </Box>
@@ -285,11 +341,19 @@ const RoutesList = (props) => {
           );
         })}
 
-        <Divider className={classes.divider} />
-
         {/*<Button className={classes.button} onClick={() => {}}>*/}
         {/*  Save*/}
         {/*</Button>*/}
+      </Box>
+      <Box style={{display: 'flex', justifyContent: 'center', padding: '20px'}}>
+        <PaginationControlled
+          handleChange={(event, page) => {
+            setFilter({...filter, page: page - 1});
+          }}
+          count={Math.ceil(totalCount / filter.size)}
+          page={filter.page + 1}
+        />
+        <Divider className={classes.divider} />
       </Box>
     </>
   );
