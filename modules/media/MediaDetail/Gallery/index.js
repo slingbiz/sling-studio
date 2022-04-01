@@ -26,8 +26,12 @@ import Scrollbar from '../../../../@sling/core/Scrollbar';
 
 const useStyles = makeStyles(() => ({
   input: {
+    '& .MuiOutlinedInput-adornedEnd ': {
+      paddingRight: 0,
+    },
     '& .MuiInputBase-input': {
-      height: 10,
+      height: 0,
+      paddingRight: 0,
     },
   },
   gridPadding: {
@@ -126,7 +130,7 @@ const Gallery = () => {
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment>
+              <InputAdornment style={{marginRight: 0, paddingRight: 0}}>
                 <IconButton>
                   <SearchIcon />
                 </IconButton>

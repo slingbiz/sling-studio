@@ -7,26 +7,36 @@ import {
   Divider,
   Grid,
   IconButton,
+  InputAdornment,
   makeStyles,
+  TextField,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Settings, Edit, Link} from '@material-ui/icons';
+import {Link, Settings} from '@material-ui/icons';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import AppSearch from '../../../../@sling/core/SearchBar';
 import DeleteModal from './DeleteModal';
 import {useDispatch, useSelector} from 'react-redux';
-import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
 import {getRoutesList} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
 import PaginationControlled from '../../../../@sling/core/Pagination';
+import SearchIcon from '@material-ui/icons/Search';
+import {FETCH_WARNING} from "../../../../shared/constants/ActionTypes";
 
 const useStyles = makeStyles((theme) => ({
+  input: {
+    '& .MuiOutlinedInput-adornedEnd ': {
+      paddingRight: 0,
+    },
+    '& .MuiInputBase-input': {
+      height: 0,
+      paddingRight: 0,
+    },
+  },
   root: {
     width: '100%',
     '& .MuiPaper-elevation1': {
@@ -64,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: orange[500],
     color: theme.palette.primary.contrastText,
     fontWeight: Fonts.BOLD,
-    paddingRight: 20,
+    paddingRight: 10,
     marginRight: 20,
-    paddingLeft: 20,
+    paddingLeft: 10,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
       color: theme.palette.primary.contrastText,
@@ -118,6 +128,7 @@ const RoutesList = (props) => {
   const [selectedLayout, setSelectedLayout] = useState('');
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
   const [filter, setFilter] = useState({page: 0, size: 3, query: ''});
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     dispatch(getRoutesList(filter));
@@ -144,9 +155,30 @@ const RoutesList = (props) => {
             onClick={() => setMapperDialogRoute(true)}>
             Add New Route
           </Button>
-          <AppSearch
-            placeholder='Search here'
-            onChange={(e) => e.target.value}
+          <TextField
+            id='filter-routes'
+            placeholder='Search'
+            variant='outlined'
+            className={classes.input}
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setQuery(event.target.value);
+                setFilter({...filter, query: event.target.value});
+              }
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment style={{marginRight: 0, paddingRight: 0}}>
+                  <IconButton>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </Box>
       </AppsHeader>
@@ -279,6 +311,14 @@ const RoutesList = (props) => {
                               aria-label='Edit Layout'
                               component='span'
                               onClick={() => {
+                                if (!routeObj.page_template) {
+                                  dispatch({
+                                    type: FETCH_WARNING,
+                                    payload:
+                                      'Please assign a Page Template to this Route.',
+                                  });
+                                  return;
+                                }
                                 setSelectedLayout(routeObj.page_template);
                                 setOpen(true);
                               }}>
@@ -292,7 +332,7 @@ const RoutesList = (props) => {
                           <Tooltip title='Map Sling Keys'>
                             <IconButton
                               className={classes.iconRoot}
-                              aria-label='picture'
+                              aria-label='Map Sling Keys'
                               disabled={true}
                               component='span'
                               onClick={doAction}>
