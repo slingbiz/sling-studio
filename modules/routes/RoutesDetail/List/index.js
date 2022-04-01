@@ -25,7 +25,7 @@ import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
 import PaginationControlled from '../../../../@sling/core/Pagination';
 import SearchIcon from '@material-ui/icons/Search';
-import {FETCH_WARNING} from "../../../../shared/constants/ActionTypes";
+import {FETCH_WARNING} from '../../../../shared/constants/ActionTypes';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -121,7 +121,7 @@ const RoutesList = (props) => {
   const {routesList, totalCount} = useSelector(({routeList}) => routeList);
 
   const classes = useStyles(props);
-  const [openEditAPI, setOpenEditAPI] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
   const [editRoute, setEditRoute] = useState();
@@ -135,11 +135,11 @@ const RoutesList = (props) => {
   }, [dispatch, filter]);
 
   const handleClose = () => {
-    setOpenEditAPI(false);
+    setOpenDeleteModal(false);
   };
 
   const doAction = () => {
-    setOpenEditAPI(true);
+    setOpenDeleteModal(true);
   };
 
   return (
@@ -196,7 +196,7 @@ const RoutesList = (props) => {
       />
 
       <Box px={6} pb={8}>
-        <DeleteModal open={openEditAPI} handleClose={handleClose} />
+        <DeleteModal open={openDeleteModal} handleClose={handleClose} />
         <NewRoute
           open={mapperDialog}
           setOpen={setMapperDialog}
