@@ -127,7 +127,7 @@ const RoutesList = (props) => {
   const [editRoute, setEditRoute] = useState();
   const [selectedLayout, setSelectedLayout] = useState('');
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
-  const [filter, setFilter] = useState({page: 0, size: 3, query: ''});
+  const [filter, setFilter] = useState({page: 0, size: 8, query: ''});
   const [query, setQuery] = useState('');
 
   useEffect(() => {
