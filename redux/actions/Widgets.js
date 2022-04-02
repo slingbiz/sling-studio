@@ -42,7 +42,7 @@ export const updateWidget = (id, widgetData) => {
   return async (dispatch) => {
     dispatch({type: FETCH_START});
     try {
-      const data = UpdateWidget(id, widgetData);
+      const data = await UpdateWidget(id, widgetData);
       if (data.status == 201) {
         let {widgets} = data.data;
         dispatch({
