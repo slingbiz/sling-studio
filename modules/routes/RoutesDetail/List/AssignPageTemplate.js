@@ -73,6 +73,7 @@ const AssignPageTemplate = ({
   value,
   setValue,
   error,
+  setError,
   handleSave,
 }) => {
   const classes = useStyles();
@@ -80,25 +81,34 @@ const AssignPageTemplate = ({
   // const {pageTemplates} = useSelector(({pageTemplate}) => pageTemplate);
   const {layoutConfig} = useSelector(({dashboard}) => dashboard.layoutData);
   const [pageTemplate, setPageTemplate] = useState(getObj(value));
+  const [options, setOptions] = useState([]);
 
   console.log(pageTemplate, '[pageTemplate@AssignPageTemplate]', value);
 
   useEffect(() => {
-    console.log('Changing value ', pageTemplate.value)
+    console.log('Changing value ', pageTemplate.value);
     setValue(pageTemplate.value);
   }, [JSON.stringify(pageTemplate)]);
-
-  const pageTemplates = Object.keys(layoutConfig || {});
-  let options = [];
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
-  pageTemplates?.map((item, index) => {
-    const object = getObj(item);
-    options.push(object);
-  });
+  useEffect(() => {
+    let optionsTmp = [];
+    const pageTemplates = Object.keys(layoutConfig || {});
+
+    pageTemplates?.map((item, index) => {
+      const object = getObj(item);
+      optionsTmp.push(object);
+    });
+    setOptions(optionsTmp);
+    if (!optionsTmp.length) {
+      setError(
+        'No Templates available. Please Go to Page Templates to create a new tempalte.',
+      );
+    }
+  }, [layoutConfig]);
 
   return (
     <div>

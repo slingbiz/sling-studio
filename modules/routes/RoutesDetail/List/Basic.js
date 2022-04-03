@@ -58,7 +58,7 @@ const Basic = ({setOpen, apiObj}) => {
   const [dynamicParams, setDynamicParams] = useState({});
   const [isDynamic, setIsDynamic] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [pageTemplate, setPageTemplate] = useState(apiObj.page_template);
+  const [pageTemplate, setPageTemplate] = useState(apiObj?.page_template);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const re = /\<.*\>/;
@@ -321,6 +321,7 @@ const Basic = ({setOpen, apiObj}) => {
         openModal={openModal}
         value={pageTemplate}
         error={error}
+        setError={setError}
         setValue={setPageTemplate}
         handleSave={handleSave}
       />
