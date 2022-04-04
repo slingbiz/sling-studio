@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {makeStyles, MenuItem} from '@material-ui/core';
+import {Grid, makeStyles, MenuItem} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {useIntl} from 'react-intl';
 import {orange} from '@material-ui/core/colors';
@@ -16,14 +16,16 @@ import MuiPhoneNumber from 'material-ui-phone-number';
 import {Stack} from '@mui/material';
 import {countries} from '../../../../shared/constants/CountryList';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateCompanyInfo} from '../../../../redux/actions/AccountAction';
+import {
+  updateCompanyInfo,
+  updateStoreInfo,
+} from '../../../../redux/actions/AccountAction';
 
 const CommonTextField = (props) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
   return (
     <TextField
-      required
       {...props}
       {...field}
       helperText={errorText}
@@ -33,16 +35,7 @@ const CommonTextField = (props) => {
   );
 };
 
-const validationSchema = yup.object({
-  storeName: yup
-    .string()
-    .required(<IntlMessages id='validation.titleRequired' />),
-  storeDomain: yup
-    .string()
-    .required(<IntlMessages id='validation.descriptionRequired' />),
-  storeDescription: yup
-    .string()
-    .required(<IntlMessages id='validation.widgetTypeRequired' />),
+const validationStoreSchema = yup.object({
   orgName: yup
     .string()
     .required(<IntlMessages id='validation.orgNameRequired' />),
@@ -59,16 +52,27 @@ const validationSchema = yup.object({
     .required(<IntlMessages id='validation.countryRequired' />),
 });
 
+const validationCompanySchema = yup.object({
+  storeName: yup
+    .string()
+    .required(<IntlMessages id='validation.titleRequired' />),
+  storeDomain: yup
+    .string()
+    .required(<IntlMessages id='validation.descriptionRequired' />),
+  storeDescription: yup
+    .string()
+    .required(<IntlMessages id='validation.widgetTypeRequired' />),
+});
+
 const useStyles = makeStyles((theme) => ({
   formRoot: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 15,
     width: '100%',
     overflow: 'hidden',
     position: 'relative',
     [theme.breakpoints.up('xl')]: {
-      paddingTop: 32,
+      // paddingTop: 32,
     },
     [theme.breakpoints.down('md')]: {
       width: '100%',
@@ -98,12 +102,22 @@ const useStyles = makeStyles((theme) => ({
   basicFormTxt: {
     margin: 10,
   },
+  body: {
+    padding: 20,
+  },
+  navInfo: {
+    textAlign: 'justify',
+    marginTop: 15,
+  },
 }));
 
-const initialValues = {
+const initialValuesCompany = {
   storeName: '',
   storeDomain: '',
   storeDescription: '',
+  wlIp: '',
+};
+const initialValuesStore = {
   email: '',
   orgName: '',
   companyName: '',
@@ -118,41 +132,80 @@ const initialValues = {
 
 const CompanyDetails = (props) => {
   const classes = useStyles(props);
-  const [state, setstate] = useState(initialValues);
+  const [companyState, setCompanyState] = useState(initialValuesCompany);
+  const [storeState, setStoreState] = useState(initialValuesStore);
   const {account} = useSelector(({account}) => account);
   const {user} = useSelector(({auth}) => auth);
   const {messages} = useIntl();
   const {titleKey, pageKey} = props;
   const dispatch = useDispatch();
-  console.log(state);
-  console.log('account ', state);
+
   useEffect(() => {
-    console.log('effect', state);
-    setstate({
-      ...state,
-      ...account,
+    setCompanyState({
+      ...companyState,
+      storeName: account?.storeName,
+      storeDomain: account?.storeDomain,
+      storeDescription: account?.storeDescription,
+      wlIp: account?.wlIp,
+    });
+    setStoreState({
+      ...storeState,
+      email: account?.email,
+      orgName: account?.orgName,
+      companyName: account?.companyName,
+      address1: account?.address1,
+      address2: account?.address2,
+      phoneNumber: account?.phoneNumber,
+      city: account?.city,
+      zipCode: account?.zipCode,
+      country: account?.country,
+      region: account?.region,
     });
   }, [account]);
 
   return (
     <>
-      <AppsHeader>
+      {/* <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
           <Typography variant='h6'>{titleKey}</Typography>
         </Box>
-      </AppsHeader>
-      <Box px={6} pb={8}>
+      </AppsHeader> */}
+      <Grid
+        px={6}
+        pb={8}
+        direction='row'
+        container
+        spacing={10}
+        className={classes.body}>
         {/* <Box fontWeight={Fonts.BOLD} component='h3'> */}
         {/* </Box> */}
-        <Box p={6} mb={6} className={classes.boxSection}>
+        <Grid xs={4} item>
+          <Box>
+            <Typography variant='h5' gutterBottom='true'>
+              Site Settings
+            </Typography>
+            <Typography
+              variant='body1'
+              gutterBottom='true'
+              className={classes.navInfo}>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
+              adipisci quo distinctio totam unde eius error nesciunt repellat
+              nam dolor iure quos nulla quia minima officia fugit dolorem iste,
+              similique dolores libero aliquid! Fuga, quos aspernatur hic
+              exercitationem corporis cum expedita iste. Temporibus beatae
+              ducimus perferendis dolorum molestias incidunt magni!
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid xs={8} className={classes.boxSection} item>
           <Typography variant='h5' gutterBottom='true'>
             General Information
           </Typography>
           <Formik
             enableReinitialize
             validateOnChange={true}
-            initialValues={state}
-            validationSchema={validationSchema}
+            initialValues={companyState}
+            validationSchema={validationCompanySchema}
             onSubmit={(data, {setSubmitting}) => {
               console.log(data);
               setSubmitting(true);
@@ -162,6 +215,7 @@ const CompanyDetails = (props) => {
             {({isSubmitting, setFieldValue, values, handleChange}) => (
               <Form className={classes.formRoot} noValidate autoComplete='off'>
                 <CommonTextField
+                  required
                   size='small'
                   fullWidth
                   label={<IntlMessages id='common.storeName' />}
@@ -170,6 +224,7 @@ const CompanyDetails = (props) => {
                   className={classes.myTextFieldRoot}
                 />
                 <CommonTextField
+                  required
                   size='small'
                   fullWidth
                   name='storeDomain'
@@ -178,6 +233,7 @@ const CompanyDetails = (props) => {
                   className={classes.myTextFieldRoot}
                 />
                 <CommonTextField
+                  required
                   size='small'
                   fullWidth
                   name='storeDescription'
@@ -185,11 +241,67 @@ const CompanyDetails = (props) => {
                   variant='outlined'
                   className={classes.myTextFieldRoot}
                 />
-                {/* <Divider className={classes.divider} /> */}
-                <Typography variant='h5' gutterBottom='true'>
-                  Store Information
-                </Typography>
                 <CommonTextField
+                  size='small'
+                  fullWidth
+                  name='wlIp'
+                  label={<IntlMessages id='common.wlIp' />}
+                  variant='outlined'
+                  className={classes.myTextFieldRoot}
+                />
+
+                <Button
+                  variant='contained'
+                  className={classes.btnSubmit}
+                  type='submit'
+                  disabled={isSubmitting}
+                  color='primary'>
+                  Update
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
+      <Divider />
+      <Grid direction='row' container spacing={10} className={classes.body}>
+        <Grid xs={4} item>
+          <Box>
+            <Typography variant='h5' gutterBottom='true'>
+              Company Information
+            </Typography>
+            <Typography
+              variant='body1'
+              gutterBottom='true'
+              className={classes.navInfo}>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
+              adipisci quo distinctio totam unde eius error nesciunt repellat
+              nam dolor iure quos nulla quia minima officia fugit dolorem iste,
+              similique dolores libero aliquid! Fuga, quos aspernatur hic
+              exercitationem corporis cum expedita iste. Temporibus beatae
+              ducimus perferendis dolorum molestias incidunt magni!
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid xs={8} className={classes.boxSection} item>
+          <Typography variant='h5' gutterBottom='true'>
+            Store Information
+          </Typography>
+          <Formik
+            enableReinitialize
+            validateOnChange={true}
+            initialValues={storeState}
+            validationSchema={validationStoreSchema}
+            onSubmit={(data, {setSubmitting}) => {
+              console.log(data);
+              setSubmitting(true);
+              dispatch(updateStoreInfo(account.id, data));
+              setSubmitting(false);
+            }}>
+            {({isSubmitting, setFieldValue, values, handleChange}) => (
+              <Form className={classes.formRoot} noValidate autoComplete='off'>
+                <CommonTextField
+                  required
                   name='orgName'
                   id='outlined-basic'
                   label='Organization Name'
@@ -197,6 +309,7 @@ const CompanyDetails = (props) => {
                   margin='dense'
                 />
                 <CommonTextField
+                  required
                   name='companyName'
                   id='outlined-basic'
                   label='Company Name '
@@ -204,7 +317,7 @@ const CompanyDetails = (props) => {
                   margin='dense'
                 />
                 <CommonTextField
-                  // disabled
+                  required
                   name='email'
                   id='outlined-basic'
                   label='Primary Email'
@@ -212,6 +325,7 @@ const CompanyDetails = (props) => {
                   margin='dense'
                 />
                 <MuiPhoneNumber
+                  required
                   value={values.phoneNumber}
                   size='small'
                   name='phoneNumber'
@@ -229,6 +343,7 @@ const CompanyDetails = (props) => {
                   <Typography variant='subtitle2'>ADDRESS</Typography>
                 </Box>
                 <CommonTextField
+                  required
                   name='address1'
                   id='outlined-basic'
                   label='Address 1'
@@ -244,6 +359,7 @@ const CompanyDetails = (props) => {
                 />
                 <Stack direction='row' spacing={2} alignItems='baseline'>
                   <CommonTextField
+                    required
                     name='city'
                     id='outlined-basic'
                     label='City '
@@ -252,6 +368,7 @@ const CompanyDetails = (props) => {
                     fullWidth
                   />
                   <CommonTextField
+                    required
                     fullWidth
                     name='zipCode'
                     id='outlined-basic'
@@ -262,6 +379,7 @@ const CompanyDetails = (props) => {
                 </Stack>
                 <Stack direction='row' spacing={2} alignItems='baseline'>
                   <CommonTextField
+                    required
                     name='region'
                     fullWidth
                     id='outlined-basic'
@@ -270,6 +388,7 @@ const CompanyDetails = (props) => {
                     margin='dense'
                   />
                   <CommonTextField
+                    required
                     name='country'
                     fullWidth
                     id='outlined-select-currency'
@@ -297,8 +416,8 @@ const CompanyDetails = (props) => {
               </Form>
             )}
           </Formik>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </>
   );
 };

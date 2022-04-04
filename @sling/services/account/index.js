@@ -31,14 +31,24 @@ const CompanyKeyCodeSetupForm = async (id, formData) => {
     {id: id, data: formData},
   );
 };
-const UpdateCompanyInfo = async (formData) => {
+const UpdateCompanyInfo = async (id, formData) => {
   const Api = await ApiAuth();
   if (!Api) {
     return;
   }
   return Api.post(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/updatecompanyinfo`,
-    {data: formData},
+    {id, formData},
+  );
+};
+const UpdateStoreInfo = async (id, formData) => {
+  const Api = await ApiAuth();
+  if (!Api) {
+    return;
+  }
+  return Api.post(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/company/updatestoreinfo`,
+    {id, formData},
   );
 };
 const GetCompanyInfo = async (email) => {
@@ -58,4 +68,5 @@ export {
   CompanyKeyCodeSetupForm,
   GetCompanyInfo,
   UpdateCompanyInfo,
+  UpdateStoreInfo,
 };

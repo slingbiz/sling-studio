@@ -6,11 +6,11 @@ const InfoView = () => {
   const {error, loading, message} = useSelector(({common}) => common);
 
   const showMessage = () => {
-    return <MessageView variant='success' message={message.toString()} />;
+    return <MessageView variant='success' message={message} />;
   };
 
   const showError = () => {
-    return <MessageView variant='error' message={error.toString()} />;
+    return <MessageView variant='error' message={error} />;
   };
 
   return (
