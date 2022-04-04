@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,21 +14,16 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {
-  FormHelperText,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
-import {AddCircle, AddIcCallOutlined, CloseOutlined} from '@material-ui/icons';
+import {Icon, MenuItem} from '@material-ui/core';
+import {AddCircle, CloseOutlined} from '@material-ui/icons';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
 import {createWidget, updateWidget} from '../../../../redux/actions';
-import {red} from '@material-ui/core/colors';
 import {AllIcons} from '../../../../shared/constants/IconList';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   dialog: {
@@ -55,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
   },
   divider: {
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
   },
   textTruncate: {
@@ -78,14 +73,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    background: '#edf5ed',
+    padding: 20,
+    borderRadius: 5,
     // border: '1px solid #000',
     // borderRadius: 5,
-    paddingTop: 10,
-    paddingBottom: 10,
+    // paddingTop: 10,
+    // paddingBottom: 10,
   },
   titleAddWidget: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     marginTop: 5,
   },
   body: {
@@ -93,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    padding: 20,
+    padding: '10px 20px',
   },
   myTextFieldRoot: {
     marginTop: 10,
@@ -202,7 +200,7 @@ const ItemProp = ({props, index, updateState}) => {
         width: '100%',
         justifyContent: 'space-between',
       }}>
-      <Typography variant='h6' style={{marginLeft: 15}}>
+      <Typography variant='h6' style={{marginLeft: 15, fontSize: 18}}>
         {index + 1}
       </Typography>
       <TextField
@@ -212,7 +210,7 @@ const ItemProp = ({props, index, updateState}) => {
         variant='outlined'
         value={props[index].name}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             name: e.target.value,
@@ -229,7 +227,7 @@ const ItemProp = ({props, index, updateState}) => {
         label={<IntlMessages id='common.dataType' />}
         value={props[index].dataType}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             dataType: e.target.value,
@@ -249,7 +247,7 @@ const ItemProp = ({props, index, updateState}) => {
         variant='outlined'
         value={props[index].default}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             default: e.target.value,
@@ -266,7 +264,7 @@ const ItemProp = ({props, index, updateState}) => {
         select
         value={props[index].propType}
         onChange={(e) => {
-          var updatedState = [...props];
+          let updatedState = [...props];
           updatedState[index] = {
             ...props[index],
             propType: e.target.value,
@@ -304,7 +302,7 @@ const initialProps = {
   default: '',
 };
 
-var initialValues = {
+let initialValues = {
   name: '',
   description: '',
   type: '',
@@ -346,7 +344,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
   const handleJsonFileChosen = (file) => {
     console.log('isfile', file.name);
     if (file) {
-      var fileReader = new FileReader();
+      let fileReader = new FileReader();
       fileReader.onloadend = () => {
         try {
           const json = JSON.parse(fileReader.result);
@@ -403,28 +401,46 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
         <Box className={classes.parentHeader}>
           <Box>
             <Typography variant='h6' component='h2'>
-              Autofill Applicaton
+              Autofill Widget
             </Typography>
             <Typography variant='body1' component='h2' mt={5}>
               Save time by importing JSON file
             </Typography>
           </Box>
-          <input
-            accept='*/*'
-            className={classes.input}
-            style={{display: 'none'}}
-            id='pick-json-file'
-            type='file'
-            onChange={(e) => {
-              handleJsonFileChosen(e.target.files[0]);
-              e.target.value = null;
-            }}
-          />
-          <label htmlFor='pick-json-file'>
-            <Button variant='contained' color='primary' component='span'>
-              Import File
-            </Button>
-          </label>
+          <Box>
+            <input
+              accept='*/*'
+              className={classes.input}
+              style={{display: 'none'}}
+              id='pick-json-file'
+              type='file'
+              onChange={(e) => {
+                handleJsonFileChosen(e.target.files[0]);
+                e.target.value = null;
+              }}
+            />
+            <label htmlFor='pick-json-file'>
+              <Button variant='contained' color='primary' component='span'>
+                Import File
+              </Button>
+            </label>
+            <Box className='pointer' mt={'8px'}>
+              <Typography variant='body1' component='h6'>
+                <a
+                  href={'/files/widget.json'}
+                  download={'/files/widget.json'}
+                  style={{
+                    display: 'flex',
+                    color: 'grey',
+                    fontSize: 14,
+                    justifyContent: 'center',
+                  }}>
+                  <span style={{marginRight: 5, fontSize: 12}}>Sample JSON </span>
+                  <CloudDownloadIcon style={{height: 20, width: 20}} />
+                </a>
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Divider variant='fullWidth' className={classes.divider} />
         <Typography
@@ -570,7 +586,14 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                 </IconButton>
               </Box>
               {props?.length > 0 && (
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    background: '#f6f7fa',
+                    borderRadius: '5px',
+                    padding: '20px 0px',
+                  }}>
                   {props.map((prop, index) => (
                     <ItemProp
                       props={props}

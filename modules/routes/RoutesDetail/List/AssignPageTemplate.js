@@ -11,6 +11,8 @@ import {
 import Select from 'react-select';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPageTemplates} from '../../../../redux/actions';
+import {capital} from '../../../../@sling/utility/Utils';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     // marginBottom: 10,
+    fontSize: 18,
   },
   paper: {
     width: '40%',
@@ -52,29 +55,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RouteModal = ({setOpenModal, openModal, value, setValue, handleSave}) => {
+const AssignPageTemplate = ({
+  setOpenModal,
+  openModal,
+  value,
+  setValue,
+  error,
+  handleSave,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const {pageTemplates} = useSelector(({pageTemplate}) => pageTemplate);
-  const {page_templates} = pageTemplates;
+  // const dispatch = useDispatch();
+  // const {pageTemplates} = useSelector(({pageTemplate}) => pageTemplate);
+  const {layoutConfig} = useSelector(({dashboard}) => dashboard.layoutData);
+
+  const pageTemplates = Object.keys(layoutConfig || {});
   let options = [];
-  useEffect(() => {
-    dispatch(getPageTemplates());
-  }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(getPageTemplates());
+  // }, [dispatch]);
 
   function handleClose() {
     setOpenModal(false);
   }
 
-  page_templates?.map((item, index) => {
+  pageTemplates?.map((item, index) => {
     const object = {
-      label: item.name,
-      value: item.id,
+      label: capital(item.split('_').join(' ')),
+      value: item,
     };
     options.push(object);
   });
-
-  console.log(value);
 
   return (
     <div>
@@ -95,13 +106,14 @@ const RouteModal = ({setOpenModal, openModal, value, setValue, handleSave}) => {
               variant='h6'
               component='h6'
               className={classes.typography}>
-              Select a Page Template
+              Assign Page Template
             </Typography>
             <Select
               options={options}
               value={value}
               onChange={(selectedOption) => setValue(selectedOption)}
             />
+            <Box style={{color: '#d75f5f'}}>{error}</Box>
             <Button
               variant='contained'
               color='primary'
@@ -116,4 +128,4 @@ const RouteModal = ({setOpenModal, openModal, value, setValue, handleSave}) => {
   );
 };
 
-export default RouteModal;
+export default AssignPageTemplate;
