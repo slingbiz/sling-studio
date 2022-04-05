@@ -90,7 +90,6 @@ const MyTextField = (props) => {
   );
 };
 
-
 const CompanyRegistrationform = (props) => {
   const dispatch = useDispatch();
   const {user, loading} = useSelector(({auth}) => auth);
@@ -127,16 +126,14 @@ const CompanyRegistrationform = (props) => {
           onSubmit={(data, {setSubmitting}) => {
             console.log('data', data);
             setSubmitting(true);
-            dispatch(onCompanyRegistrationForm({...data, user: user.id})).then(
-              (res) => {
-                console.dir('company', res);
-                setSubmitting(false);
-                if (res.status == 201) {
-                  props.changeStepper();
-                }
-                console.log('submit');
-              },
-            );
+            dispatch(onCompanyRegistrationForm(data)).then((res) => {
+              console.dir('company', res);
+              setSubmitting(false);
+              if (res.status == 201) {
+                props.changeStepper();
+              }
+              console.log('submit');
+            });
           }}>
           {({isSubmitting, handleChange}, ...props) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>

@@ -101,7 +101,7 @@ export const getCompanyInfo = (email) => {
     return GetCompanyInfo(email)
       .then((res) => {
         console.log('getCompanyInfo', res);
-        if (res.status == 201) {
+        if (res.status == 200) {
           dispatch({type: UPDATE_ACCOUNT, payload: res.data});
         } else {
           dispatch({
