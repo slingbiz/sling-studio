@@ -112,7 +112,7 @@ const KeyUsage = (props) => {
                 variant='subtitle2'
                 component='span'
                 className={classes.linkGuide}>
-                Freshsales API
+                Sling Key Usage and Frontend Setup.
               </Typography>{' '}
             </Typography>{' '}
           </Alert>

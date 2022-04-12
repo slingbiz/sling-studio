@@ -7,7 +7,6 @@ import {useIntl} from 'react-intl';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import TextField from '@material-ui/core/TextField';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import * as yup from 'yup';
 import {Form, Formik, useField} from 'formik';
 import IntlMessages from '../../../../@sling/utility/IntlMessages';
@@ -16,10 +15,7 @@ import MuiPhoneNumber from 'material-ui-phone-number';
 import {Stack} from '@mui/material';
 import {countries} from '../../../../shared/constants/CountryList';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  updateCompanyInfo,
-  updateStoreInfo,
-} from '../../../../redux/actions/AccountAction';
+import {updateCompanyInfo, updateStoreInfo,} from '../../../../redux/actions/AccountAction';
 
 const CommonTextField = (props) => {
   const [field, meta] = useField(props);
@@ -91,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     fontWeight: Fonts.BOLD,
     backgroundColor: orange[500],
-    margin: 'auto',
     marginTop: 20,
     width: 150,
     '&:hover, &:focus': {
@@ -188,12 +183,9 @@ const CompanyDetails = (props) => {
               variant='body1'
               gutterBottom='true'
               className={classes.navInfo}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
-              adipisci quo distinctio totam unde eius error nesciunt repellat
-              nam dolor iure quos nulla quia minima officia fugit dolorem iste,
-              similique dolores libero aliquid! Fuga, quos aspernatur hic
-              exercitationem corporis cum expedita iste. Temporibus beatae
-              ducimus perferendis dolorum molestias incidunt magni!
+              These are general information about your frontend website. They
+              define what is the base URL of your frontend for all the URL
+              routes added in the Studio
             </Typography>
           </Box>
         </Grid>
@@ -250,14 +242,16 @@ const CompanyDetails = (props) => {
                   className={classes.myTextFieldRoot}
                 />
 
-                <Button
-                  variant='contained'
-                  className={classes.btnSubmit}
-                  type='submit'
-                  disabled={isSubmitting}
-                  color='primary'>
-                  Update
-                </Button>
+                <Box style={{display: 'flex', justifyContent: 'right'}}>
+                  <Button
+                    variant='contained'
+                    className={classes.btnSubmit}
+                    type='submit'
+                    disabled={isSubmitting}
+                    color='primary'>
+                    Update
+                  </Button>
+                </Box>
               </Form>
             )}
           </Formik>
@@ -274,12 +268,8 @@ const CompanyDetails = (props) => {
               variant='body1'
               gutterBottom='true'
               className={classes.navInfo}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
-              adipisci quo distinctio totam unde eius error nesciunt repellat
-              nam dolor iure quos nulla quia minima officia fugit dolorem iste,
-              similique dolores libero aliquid! Fuga, quos aspernatur hic
-              exercitationem corporis cum expedita iste. Temporibus beatae
-              ducimus perferendis dolorum molestias incidunt magni!
+              This address will be used to generate invoices. Email address you
+              provide here will be used as a primary contact address.
             </Typography>
           </Box>
         </Grid>
@@ -405,14 +395,16 @@ const CompanyDetails = (props) => {
                     ))}
                   </CommonTextField>
                 </Stack>
-                <Button
-                  variant='contained'
-                  className={classes.btnSubmit}
-                  type='submit'
-                  disabled={isSubmitting}
-                  color='primary'>
-                  Update
-                </Button>
+                <Box style={{display: 'flex', justifyContent: 'right'}}>
+                  <Button
+                    variant='contained'
+                    className={classes.btnSubmit}
+                    type='submit'
+                    disabled={isSubmitting}
+                    color='primary'>
+                    Update
+                  </Button>
+                </Box>
               </Form>
             )}
           </Formik>

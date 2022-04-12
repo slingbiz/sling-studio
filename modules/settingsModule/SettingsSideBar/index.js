@@ -12,7 +12,7 @@ import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderI
 export const folderList = [
   {
     id: 1,
-    name: 'Company Details',
+    name: 'Company',
     alias: 'company-details',
     icon: 'widgets',
   },
