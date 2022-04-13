@@ -25,7 +25,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({}));
 
-const WidgetsIntegration = (props) => {
+const Guide = (props) => {
   const {titleKey, pageKey} = props;
   const classes = useStyles(props);
   const dispatch = useDispatch();
@@ -45,4 +45,4 @@ const WidgetsIntegration = (props) => {
   );
 };
 
-export default WidgetsIntegration;
+export default Guide;
