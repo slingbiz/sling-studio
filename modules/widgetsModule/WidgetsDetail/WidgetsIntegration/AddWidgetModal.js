@@ -23,6 +23,7 @@ import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
 import {createWidget, updateWidget} from '../../../../redux/actions';
 import {AllIcons} from '../../../../shared/constants/IconList';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import {capital} from '../../../../@sling/utility/Utils';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -140,7 +141,7 @@ const componentType = [
   },
   {
     label: 'Block',
-    value: 'blocks',
+    value: 'block',
   },
   {
     label: 'Component',
@@ -154,7 +155,7 @@ const componentType = [
 const propType = [
   {
     label: 'Responsive',
-    value: 'responsive',
+    value: 'response-derived',
   },
   {
     label: 'Static',
@@ -162,7 +163,7 @@ const propType = [
   },
   {
     label: 'Derived',
-    value: 'derived',
+    value: 'static-derived',
   },
 ];
 const propDataType = [
@@ -357,6 +358,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
           };
           setprops(json.props);
         } catch (error) {
+          console.log(error, 'Error uploading JSON');
           dispatch({
             type: FETCH_ERROR,
             payload: 'Please select valid JSON file',
@@ -435,7 +437,9 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                     fontSize: 14,
                     justifyContent: 'center',
                   }}>
-                  <span style={{marginRight: 5, fontSize: 12}}>Sample JSON </span>
+                  <span style={{marginRight: 5, fontSize: 12}}>
+                    Sample JSON{' '}
+                  </span>
                   <CloudDownloadIcon style={{height: 20, width: 20}} />
                 </a>
               </Typography>
@@ -542,8 +546,12 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                             alignItems: 'center',
                           }}>
                           <Icon>{item.ligature}</Icon>
-                          <Typography style={{marginLeft: 5}}>
-                            {item.name}
+                          <Typography
+                            style={{
+                              marginLeft: 5,
+                              textTransform: 'capitalize',
+                            }}>
+                            {capital(item.name)}
                           </Typography>
                         </Box>
                       </MenuItem>

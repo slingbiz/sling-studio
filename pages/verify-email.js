@@ -69,7 +69,7 @@ function EmailVerification(props) {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: 'Something went wrong please try again later',
+            payload: SOMETHING_SMELLS_FISHY,
           });
           route.replace('/');
         }
@@ -78,7 +78,7 @@ function EmailVerification(props) {
         console.log(err);
         dispatch({
           type: FETCH_ERROR,
-          payload: 'Something went wrong please try again later',
+          payload: SOMETHING_SMELLS_FISHY,
         });
         route.replace('/');
       });
