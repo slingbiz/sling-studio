@@ -141,8 +141,8 @@ const useStyles = makeStyles((theme) => ({
 
 const getWidgetType = (pageKey) => {
   let type = 'widget';
-  if (pageKey.includes('blocks')) {
-    type = 'blocks';
+  if (pageKey.includes('block')) {
+    type = 'block';
   } else if (pageKey.includes('component')) {
     type = 'component';
   }

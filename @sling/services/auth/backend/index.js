@@ -1,4 +1,5 @@
 import ApiAuth from '../../ApiAuthConfig.js';
+import {SERVICE_URL} from '../../../../shared/constants/Services';
 
 const sendVerificationEmail = async (token) => {
   const Api = await ApiAuth();
@@ -6,7 +7,7 @@ const sendVerificationEmail = async (token) => {
     return;
   }
   return Api.post(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/send-verification-email`,
+    `${SERVICE_URL}v1/auth/send-verification-email`,
     {},
     {
       headers: {
@@ -20,12 +21,9 @@ const sendVerificationEmailByToken = async (token) => {
   if (!Api) {
     return;
   }
-  return Api.get(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/send-verification-email-bytoken`,
-    {
-      params: {token: token},
-    },
-  );
+  return Api.get(`${SERVICE_URL}v1/auth/send-verification-email-bytoken`, {
+    params: {token: token},
+  });
 };
 
 const verifyEmailAddress = async (token) => {
@@ -33,12 +31,9 @@ const verifyEmailAddress = async (token) => {
   if (!Api) {
     return;
   }
-  return Api.get(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/verify-email`,
-    {
-      params: {token: token},
-    },
-  );
+  return Api.get(`${SERVICE_URL}v1/auth/verify-email`, {
+    params: {token: token},
+  });
 };
 
 const verifyEmailAddressServer = async (token) => {
@@ -56,7 +51,7 @@ const registerUser = async (name, email, password, id) => {
   if (!Api) {
     return;
   }
-  return Api.post(`${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/register`, {
+  return Api.post(`${SERVICE_URL}v1/auth/register`, {
     name: name,
     email: email,
     password: password,
@@ -69,7 +64,7 @@ const loginUser = async (email, password) => {
   if (!Api) {
     return;
   }
-  return Api.post(`${process.env.NEXT_PUBLIC_SERVICE_URL}/v1/auth/login`, {
+  return Api.post(`${SERVICE_URL}v1/auth/login`, {
     email: email,
     password: password,
   });

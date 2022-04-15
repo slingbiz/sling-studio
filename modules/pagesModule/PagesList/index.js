@@ -211,7 +211,7 @@ const PageTemplatesList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
-  const {layoutConfig} = layoutData || {};
+  const {layoutConfig = {}} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);

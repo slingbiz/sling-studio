@@ -99,12 +99,20 @@ const KeyCodeSetupForm = (props) => {
   const [value, setValue] = useState(0);
   const {user, loading} = useSelector(({auth}) => auth);
   const dispatch = useDispatch();
+  const classes = useStyles(props);
+  const router = useRouter();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const {account} = useSelector(({account}) => account);
 
-  const classes = useStyles(props);
-  const router = useRouter();
+  const copyToClipBoard = async () => {
+    if ('clipboard' in navigator) {
+      return await navigator.clipboard.writeText(account.apiKey);
+    } else {
+      return document.execCommand('copy', true, account.apiKey);
+    }
+  };
 
   return (
     <Box
@@ -167,25 +175,26 @@ const KeyCodeSetupForm = (props) => {
                   </Box>
                 </Box>
                 <Card variant='elevation' className={classes.cardBody}>
-                  <Box sx={{fontWeight: 700, fontSize: 14}}>
-                    Environment Details
-                  </Box>
-                  <Box
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: 14,
-                      padding: 20,
-                      background: 'white',
-                    }}>
-                    <code
-                      style={{
-                        background: '#92c68b',
-                        color: 'white',
-                        padding: '8px',
-                        margin: '10px 0',
-                      }}>
-                      your secret
-                    </code>{' '}
+                  <Box sx={{fontWeight: 700, fontSize: 14}}>API Key</Box>
+                  <Box sx={{display: 'flex', marginTop: 10}}>
+                    <TextField
+                      value={account?.apiKey}
+                      size='small'
+                      fullWidth
+                      variant='outlined'
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      className={classes.inputText}
+                    />
+                    <Button
+                      onClick={copyToClipBoard}
+                      variant='contained'
+                      className={classes.btnSubmit}
+                      type='submit'
+                      color='primary'>
+                      Copy
+                    </Button>
                   </Box>
                 </Card>
               </Box>

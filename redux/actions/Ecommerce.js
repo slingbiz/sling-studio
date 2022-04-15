@@ -10,6 +10,7 @@ import {
   SET_FILTER_DATA,
   SET_PRODUCT_DATA,
   SET_PRODUCT_VIEW_TYPE,
+  SOMETHING_SMELLS_FISHY,
   UPDATE_CART_ITEM,
 } from '../../shared/constants/ActionTypes';
 import Api from '../../@sling/services/ApiConfig';
@@ -27,7 +28,7 @@ export const onGetEcommerceData = (filterData) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: 'Something went wrong, Please try again!',
+            payload: SOMETHING_SMELLS_FISHY,
           });
         }
       })
@@ -36,7 +37,6 @@ export const onGetEcommerceData = (filterData) => {
       });
   };
 };
-
 
 export const getProductDetail = (id) => {
   return (dispatch) => {
@@ -51,7 +51,7 @@ export const getProductDetail = (id) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: 'Something went wrong, Please try again!',
+            payload: SOMETHING_SMELLS_FISHY,
           });
         }
       })
@@ -73,7 +73,7 @@ export const getRecentOrders = (search, page) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: 'Something went wrong, Please try again!',
+            payload: SOMETHING_SMELLS_FISHY,
           });
         }
       })
@@ -95,7 +95,7 @@ export const getCustomers = (search, page) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: 'Something went wrong, Please try again!',
+            payload: SOMETHING_SMELLS_FISHY,
           });
         }
       })

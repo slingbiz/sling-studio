@@ -14,8 +14,8 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Link from 'next/link';
-import Backdrop from "@material-ui/core/Backdrop";
-import Box from "@material-ui/core/Box";
+import Backdrop from '@material-ui/core/Backdrop';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -25,9 +25,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 232,
     backgroundColor: '#fff',
   },
-  backdrop: {
-
-  },
+  backdrop: {},
   list: {
     paddingTop: 0,
     paddingBottom: 0,
@@ -80,7 +78,7 @@ const TasksList = ({titleKey, pageKey}) => {
                   {titleKey == 'auto-sync'}Customize your {titleKey} Page.
                 </Typography>
                 <Typography component='p'>
-                  Pages are the main entities linked to Url routes.
+                  Pagess are the main entities linked to Url routes.
                 </Typography>
                 <Typography component='p'>
                   Customize your page here to reflect the changes on all your
