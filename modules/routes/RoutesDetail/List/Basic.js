@@ -58,21 +58,22 @@ const Basic = ({setOpen, apiObj}) => {
   const [dynamicParams, setDynamicParams] = useState({});
   const [isDynamic, setIsDynamic] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [pageTemplate, setPageTemplate] = useState('');
+  const [pageTemplate, setPageTemplate] = useState(apiObj?.page_template);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const re = /\<.*\>/;
 
+  console.log(apiObj, 'p[apiObj');
   useEffect(() => {
     if (apiObj) {
-      setRouteName(apiObj.type);
+      setRouteName(apiObj.title || apiObj.type);
       setPattern(apiObj.url_string);
       setIsDynamic(apiObj.type === 'dynamic' ? true : false);
       setPageTemplate(apiObj.page_template);
     }
   }, []);
 
-  function parseUrl(event) {
+  const parseUrl = (event) => {
     event.preventDefault();
     setIsDynamic(true);
     let matches = pattern.match(/<.+?>/g);
@@ -82,21 +83,21 @@ const Basic = ({setOpen, apiObj}) => {
       object[item] = '';
     });
     setDynamicParams(object);
-  }
+  };
 
-  function continueWithParse(event) {
+  const continueWithParse = (event) => {
     event.preventDefault();
     setDynamicParams({});
     setIsDynamic(false);
-  }
+  };
 
-  function openNewModal(event) {
+  const openNewModal = (event) => {
     event.preventDefault();
     setOpenModal(true);
-  }
+  };
 
-  function handleSave() {
-    if (!pageTemplate.value) {
+  const handleSave = () => {
+    if (!pageTemplate) {
       setError('Please select a Page Template');
       return;
     }
@@ -110,14 +111,14 @@ const Basic = ({setOpen, apiObj}) => {
       addRoute({
         name: routeName,
         keys: Object.keys(dynamicParams),
-        page_template: pageTemplate.value,
+        page_template: pageTemplate,
         sample_string: userInput,
         url: pattern,
       }),
     );
     setOpenModal(false);
     setOpen(false);
-  }
+  };
 
   return (
     <>
@@ -320,6 +321,7 @@ const Basic = ({setOpen, apiObj}) => {
         openModal={openModal}
         value={pageTemplate}
         error={error}
+        setError={setError}
         setValue={setPageTemplate}
         handleSave={handleSave}
       />

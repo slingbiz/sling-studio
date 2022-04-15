@@ -2,6 +2,7 @@ import {
   FETCH_ERROR,
   FETCH_START,
   FETCH_SUCCESS,
+  FETCH_WARNING,
   HIDE_MESSAGE,
   SHOW_MESSAGE,
   TOGGLE_APP_DRAWER,
@@ -10,6 +11,7 @@ import {
 
 const INIT_STATE = {
   error: '',
+  warning: '',
   loading: false,
   isAppDrawerOpen: false,
   updatingContent: false,
@@ -28,6 +30,16 @@ const commonReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: '',
+        message: '',
+        loading: false,
+        updatingContent: false,
+      };
+    }
+    case FETCH_WARNING: {
+      return {
+        ...state,
+        error: '',
+        warning: action.payload,
         message: '',
         loading: false,
         updatingContent: false,
@@ -55,6 +67,7 @@ const commonReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         loading: false,
+        warning: '',
         error: '',
         message: '',
         updatingContent: false,
