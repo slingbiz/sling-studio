@@ -121,7 +121,7 @@ const LanguageSwitcher = (props) => {
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
       <Link href={'https://sling.biz/frontend/dubai/women/clothes/products'}>
-        <Button className={classes.dashboardBtn} color='yellow'>
+        <Button className={classes.dashboardBtn} color='primary'>
           Frontend
         </Button>
       </Link>

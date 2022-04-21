@@ -106,7 +106,7 @@ export const useAuthToken = () => {
     };
 
     const checkAuth = () => {
-      Promise.all([firebaseCheck(), awsAuthUser(), validateAuth()]).then(() => {
+      Promise.all([firebaseCheck(), validateAuth()]).then(() => {
         if (loading) {
           setLoading(false);
           dispatch({

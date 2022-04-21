@@ -11,6 +11,8 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import {makeStyles} from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import {useDispatch} from 'react-redux';
+import {HIDE_MESSAGE} from '../../../shared/constants/ActionTypes';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -45,13 +47,17 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 const AppSnackbar = (props) => {
   const classes = useStyles1();
+  const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(true);
-  const {className, message, variant, ...other} = props;
+  const {className, message, open, setOpen, variant, warning, ...other} = props;
   const Icon = variantIcon[variant];
 
   const onClose = () => {
     setOpen(false);
+    dispatch({
+      type: HIDE_MESSAGE,
+      payload: '',
+    });
   };
 
   return (
@@ -69,7 +75,7 @@ const AppSnackbar = (props) => {
         message={
           <span id='client-snackbar' className={classes.message}>
             <Icon className={clsx(classes.icon, classes.iconVariant)} />
-            {message}
+            {message || warning}
           </span>
         }
         action={[

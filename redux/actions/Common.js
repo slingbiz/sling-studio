@@ -34,11 +34,11 @@ export const hideMessage = () => {
   return (dispatch) => dispatch({type: HIDE_MESSAGE});
 };
 
-export const setCurrentUser = (user) => {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_AUTH_USER,
-      payload: user,
-    });
-  };
-};
+// export const setCurrentUser = (user) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: UPDATE_AUTH_USER,
+//       payload: user,
+//     });
+//   };
+// };

@@ -11,6 +11,8 @@ import SelectBreakpoints from './SelectBreakpoints';
 import {initialWidth} from './NewCellModal';
 import DeviceVisibilitySwitches from './DeviceVisibilitySwitches';
 import TemplateProps from './TemplateProps';
+import {Icon, IconButton} from '@material-ui/core';
+import AddProps from './AddProps';
 
 const Accordion = withStyles({
   root: {
@@ -109,11 +111,12 @@ const getSwitchProps = ({muiHidden}) => {
   return res;
 };
 
-const LayoutSettings = ({settingsObj}) => {
+const LayoutSettings = ({settingsObj, handleClose}) => {
   const classes = useStyles();
   const {key, payload} = settingsObj;
-  console.log(key, '[settingsObj - settingsObj]');
+  console.log(settingsObj, '[settingsObj - settingsObj]');
   const {props: cellProps = {}, muiWidths = {}, muiHidden = {}} = payload || {};
+  console.log(cellProps, '[settingsObj ');
   const [expanded, setExpanded] = useState('panel1');
   const [layoutWidth, setLayoutWidth] = useState(
     Object.keys(muiWidths).length ? muiWidths : initialWidth,
@@ -129,7 +132,6 @@ const LayoutSettings = ({settingsObj}) => {
     console.log(name, value, 'id - value', e.target);
     setLayoutWidth({...layoutWidth, [name]: value});
   };
-
   return (
     <>
       <Box
@@ -172,10 +174,21 @@ const LayoutSettings = ({settingsObj}) => {
         expanded={expanded === 'panel2'}
         onChange={handleChange('panel2')}>
         <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>
-          <Typography>Widget Props</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <Typography>Widget Props</Typography>
+          </Box>
         </AccordionSummary>
         <AccordionDetails>
-          <TemplateProps cellProps={cellProps} />
+          <TemplateProps
+            cellProps={cellProps}
+            handleClose={(toggle) => handleClose(toggle)}
+          />
         </AccordionDetails>
       </Accordion>
       {/*<Accordion*/}

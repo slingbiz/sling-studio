@@ -211,7 +211,7 @@ const PageTemplatesList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
-  const {layoutConfig} = layoutData || {};
+  const {layoutConfig = {}} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -267,7 +267,8 @@ const PageTemplatesList = () => {
           </Grid>
           <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
-              const {meta: {title, description} = {}} = layoutConfig[v] || {};
+              const {meta} = layoutConfig[v] || {};
+              const {title, description} = meta || {};
               return (
                 <Grid
                   key={k}

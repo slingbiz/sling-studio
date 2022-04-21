@@ -14,6 +14,7 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Regex from './Regex';
 import Basic from './Basic';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -36,7 +37,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const NewRoute = ({open, setOpen}) => {
+const NewRoute = ({open, setOpen, routeObj}) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -50,15 +51,27 @@ const NewRoute = ({open, setOpen}) => {
 
   return (
     <Dialog
-      fullScreen
+      fullWidth={'md'}
+      maxWidth={'sm'}
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}>
-      <AppBar className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-          <IconButton onClick={handleClose}>
+      <AppBar className={classes.appBar} color='transparent'>
+        <Toolbar>
+          <IconButton
+            edge='start'
+            color='inherit'
+            onClick={handleClose}
+            aria-label='close'>
             <ArrowBackIcon />
           </IconButton>
+          <Typography variant='h6' className={classes.title}>
+            {' Routes / Add a Route'}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Grid container alignItems='center'>
+        <Grid item xs={12} style={{display: 'flex', justifyContent: 'center'}}>
           <Tabs
             value={value}
             textColor='inherit'
@@ -67,14 +80,13 @@ const NewRoute = ({open, setOpen}) => {
             <Tab label='Basic' />
             <Tab label='Regex' disabled />
           </Tabs>
-          <Button autoFocus color='inherit' onClick={handleClose}>
-            Cancel
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Grid container alignItems='center'>
+        </Grid>
         <Grid item xs={12}>
-          {value === 0 ? <Basic setOpen={setOpen} /> : <Regex />}
+          {value === 0 ? (
+            <Basic setOpen={setOpen} apiObj={routeObj} />
+          ) : (
+            <Regex />
+          )}
         </Grid>
       </Grid>
     </Dialog>
