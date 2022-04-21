@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -15,6 +15,8 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+import {Typography} from '@material-ui/core';
+import AddProps from './AddProps';
 
 const staticHelperMap = {
   'response-derived':
@@ -33,16 +35,21 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: 10,
     padding: 10,
+    width: '100%',
   },
   fontSet: {
     fontSize: '14px',
     fontWeight: '400',
     margin: 5,
   },
+  label: {
+    marginLeft: 5,
+    fontSize: 20,
+  },
 }));
 
-export default function TemplateProps({cellProps}) {
-  const [widgetProps, setWidgetProps] = React.useState(cellProps);
+export default function TemplateProps({cellProps, handleClose}) {
+  const [widgetProps, setWidgetProps] = useState([]);
   const classes = useStyles();
 
   const handleChange = (name) => (event) => {
@@ -54,77 +61,109 @@ export default function TemplateProps({cellProps}) {
     setWidgetProps({...widgetProps, [propKey]: currObj});
   };
 
+  console.log(cellProps, '[Widget Props]');
   console.log(widgetProps, '[Widget Props]');
 
-  if (!Object.keys(widgetProps).length) {
-    return (
-      <FormGroup row>
-        <Box>
-          <IconButton onClick={() => true} disabled={true}>
-            <Icon color='secondary' className={classes.Icon} style={{marginRight:'-10px'}}>
-              add_circle
-            </Icon>
-          </IconButton>
-          Add Prop
-        </Box>
-      </FormGroup>
-    );
-  }
+  // if (!Object.keys(widgetProps).length) {
+  //   return (
+  //     <FormGroup row>
+  //       <Box sx={{cursor: 'pointer'}}>
+  //         <IconButton onClick={() => true} disabled={true}>
+  //           <Icon
+  //             color='secondary'
+  //             className={classes.Icon}
+  //             style={{marginRight: '-10px'}}>
+  //             add_circle
+  //           </Icon>
+  //         </IconButton>
+  //         Add Prop
+  //       </Box>
+  //     </FormGroup>
+  //   );
+  // }
+
+  useEffect(() => {
+    setWidgetProps(cellProps);
+    console.log(cellProps, '[Widget Props]');
+  }, [cellProps]);
+
   return (
     <FormGroup row>
-      {Object.keys(widgetProps).map((propKey, key, {length}) => {
-        const propObj = widgetProps[propKey];
-        const isLast = key < length - 1;
-        return (
-          <>
-            <FormControl
-              key={propKey}
-              className={clsx(classes.formControl, classes.fontSet)}>
-              <InputLabel htmlFor={propKey}>{propKey}</InputLabel>
-              <Select
-                value={propObj.type}
-                onChange={(event) => handleSelectChange({propKey, event})}
-                className={classes.fontSet}
-                inputProps={{
-                  name: {propKey},
-                  id: {propKey},
-                }}>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={'response-derived'}>Response Derived</MenuItem>
-                <MenuItem value={'static'}>Static</MenuItem>
-                <MenuItem value={'static-derived'}>Static Derived</MenuItem>
-                <MenuItem value={'media'}>Media</MenuItem>
-              </Select>
-              <Input
-                className={classes.fontSet}
-                id={`input-${propKey}`}
-                value={propObj.value}
-                onChange={handleChange}
-                aria-describedby='component-helper-text'
-              />
-              <FormHelperText>{staticHelperMap[propObj.type]}</FormHelperText>
-            </FormControl>
-            <Box
-              style={{
-                marginTop: 15,
-                width: '100%',
-                marginBottom: 25,
-              }}>
-              {isLast && (
-                <Divider
-                  style={{
-                    width: '100%',
-                    marginLeft: 0,
-                  }}
-                  variant='inset'
+      {widgetProps.length > 0 &&
+        Object.keys(widgetProps).map((propKey, key, {length}) => {
+          const propObj = widgetProps[propKey];
+          const isLast = key < length - 1;
+          return (
+            <>
+              <FormControl
+                key={propKey}
+                className={clsx(classes.formControl, classes.fontSet)}>
+                {/* <InputLabel className={classes.label} htmlFor={propKey}>
+                {propKey}
+              </InputLabel> */}
+                <Typography className={classes.label} component='h4'>
+                  {propObj.name}
+                </Typography>
+                <Select
+                  value={propObj.propType}
+                  onChange={(event) => handleSelectChange({propKey, event})}
+                  className={classes.fontSet}>
+                  <MenuItem value=''>
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={'response-derived'}>
+                    Response Derived
+                  </MenuItem>
+                  <MenuItem value={'static'}>Static</MenuItem>
+                  <MenuItem value={'static-derived'}>Static Derived</MenuItem>
+                  <MenuItem value={'media'}>Media</MenuItem>
+                </Select>
+                <Input
+                  className={classes.fontSet}
+                  id={`input-${propKey}`}
+                  value={propObj.default}
+                  onChange={handleChange}
+                  aria-describedby='component-helper-text'
                 />
-              )}
-            </Box>
-          </>
-        );
-      })}
+                <FormHelperText>{staticHelperMap[propObj.type]}</FormHelperText>
+              </FormControl>
+              <Box
+                style={{
+                  marginTop: 15,
+                  width: '100%',
+                  marginBottom: 5,
+                }}>
+                {isLast && (
+                  <Divider
+                    style={{
+                      width: '100%',
+                      marginLeft: 0,
+                    }}
+                    variant='inset'
+                  />
+                )}
+              </Box>
+            </>
+          );
+        })}
+      <Divider
+        style={{
+          width: '100%',
+          marginLeft: 0,
+        }}
+        variant='inset'
+      />
+      <Box sx={{cursor: 'pointer'}} onClick={() => handleClose(true)}>
+        <IconButton onClick={() => true} disabled={true}>
+          <Icon
+            color='secondary'
+            className={classes.Icon}
+            style={{marginRight: '-10px'}}>
+            add_circle
+          </Icon>
+        </IconButton>
+        Add Prop
+      </Box>
     </FormGroup>
   );
 }

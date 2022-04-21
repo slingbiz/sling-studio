@@ -165,6 +165,10 @@ const propType = [
     label: 'Derived',
     value: 'static-derived',
   },
+  {
+    label: 'Media',
+    value: 'static-media',
+  },
 ];
 const propDataType = [
   {

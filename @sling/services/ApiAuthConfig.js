@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {auth} from './auth/firebase-config';
 
-const AxiosAuth = async () => {
+const ApiAuth = async () => {
   const user = auth.currentUser;
   const token = await user?.getIdToken();
   if (!token) {
@@ -17,4 +17,4 @@ const AxiosAuth = async () => {
   });
 };
 
-export default AxiosAuth;
+export default ApiAuth;

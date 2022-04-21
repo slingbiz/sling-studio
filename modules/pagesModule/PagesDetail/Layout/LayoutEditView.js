@@ -29,6 +29,7 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import LayoutSettings from './LayoutSettings';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import AddProps from './AddProps';
 
 //Styles
 const useStyles = makeStyles((theme) => ({
@@ -384,9 +385,29 @@ const LayoutEditView = forwardRef((props, ref) => {
       // });
     }
   };
-
+  const [openAddProp, setOpenAddProp] = useState(false);
+  const handleClose = (toggle) => setOpenAddProp(toggle);
+  const addProps = (prop) => {
+    console.log(prop);
+    const updatedProps = settingsObj.payload.props?.push(prop) ?? [prop];
+    setSettingsObj({
+      ...settingsObj,
+      payload: {
+        ...settingsObj.payload,
+        props: updatedProps,
+      },
+    });
+  };
+  console.log(settingsObj);
+  console.log(openAddProp);
   return (
     <Grid container>
+      {openAddProp && (
+        <AddProps
+          handleClose={(toggle) => handleClose(toggle)}
+          addProps={(prop) => addProps(prop)}
+        />
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <Grid item lg={3}>
           <Hidden mdDown>
@@ -614,7 +635,11 @@ const LayoutEditView = forwardRef((props, ref) => {
               padding: '1.5em',
               marginTop: '1.5em',
             }}>
-            <LayoutSettings settingsObj={settingsObj} key={settingsObj.boxId} />
+            <LayoutSettings
+              settingsObj={settingsObj}
+              key={settingsObj.boxId}
+              handleClose={(toggle) => handleClose(toggle)}
+            />
           </Card>
         </Grid>
       </DragDropContext>
@@ -633,4 +658,5 @@ const LayoutEditView = forwardRef((props, ref) => {
     </Grid>
   );
 });
+
 export default LayoutEditView;
