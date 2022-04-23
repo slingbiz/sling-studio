@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -15,6 +15,8 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+import {Accordion, AccordionDetails, AccordionSummary} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const staticHelperMap = {
   'response-derived':
@@ -31,103 +33,137 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
   },
   formControl: {
-    margin: 10,
-    padding: 10,
+    marginTop: -10,
+    width: '100%',
+    fontSize: '14px',
+    fontWeight: '400',
+    padding: '0 10',
   },
   fontSet: {
     fontSize: '14px',
     fontWeight: '400',
-    margin: 5,
+    margin: '5px 10px',
+  },
+  accordianDetails: {
+    padding: 0,
   },
 }));
 
+const NewProp = ({classes}) => {
+  return (
+    <FormGroup row>
+      <Box style={{width: '100%'}}>
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
+          <IconButton onClick={() => true} disabled={true}>
+            <Icon
+              color='secondary'
+              className={classes.Icon}
+              style={{marginRight: '-5px'}}>
+              add_circle
+            </Icon>
+          </IconButton>
+          <Box style={{fontWeight: 'bold'}}>Add New Prop? </Box>
+        </Box>
+        <Box style={{padding: '0 20px'}}>
+          Add new props for this Widget in the Widgets section. New props will
+          automatically reflect here.{' '}
+        </Box>
+      </Box>
+    </FormGroup>
+  );
+};
+
 export default function TemplateProps({cellProps}) {
-  const [widgetProps, setWidgetProps] = React.useState(cellProps);
+  const [widgetProps, setWidgetProps] = useState(cellProps);
   const classes = useStyles();
+  const [propsExpanded, setPropsExpanded] = useState(false);
+
+  const handlePanelChange = (panel) => (event, isExpanded) => {
+    setPropsExpanded(isExpanded ? panel : false);
+  };
 
   const handleChange = (name) => (event) => {
     setWidgetProps({...widgetProps, [name]: event.target.checked});
   };
+
   const handleSelectChange = ({propKey, event}) => {
     const currObj = widgetProps[propKey];
     currObj.type = event.target.value;
     setWidgetProps({...widgetProps, [propKey]: currObj});
   };
 
-  // console.log(widgetProps, '[Widget Props]');
-
   if (!Object.keys(widgetProps).length) {
-    return (
-      <FormGroup row>
-        <Box>
-          <IconButton onClick={() => true} disabled={true}>
-            <Icon
-              color='secondary'
-              className={classes.Icon}
-              style={{marginRight: '-10px'}}>
-              add_circle
-            </Icon>
-          </IconButton>
-          Add Prop
-        </Box>
-      </FormGroup>
-    );
+    return <NewProp classes={classes} />;
   }
+
   return (
     <FormGroup row>
       {Object.keys(widgetProps).map((propKey, key, {length}) => {
         const propObj = widgetProps[propKey];
-        const isLast = key < length - 1;
         return (
           <>
-            <FormControl
-              key={propKey}
-              className={clsx(classes.formControl, classes.fontSet)}>
-              <Box htmlFor={propKey}>{propKey}</Box>
-              <Select
-                value={propObj.type}
-                onChange={(event) => handleSelectChange({propKey, event})}
-                className={classes.fontSet}
-                inputProps={{
-                  name: {propKey},
-                  id: {propKey},
-                }}>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={'response-derived'}>Response Derived</MenuItem>
-                <MenuItem value={'static'}>Static</MenuItem>
-                <MenuItem value={'static-derived'}>Static Derived</MenuItem>
-                <MenuItem value={'media'}>Media</MenuItem>
-              </Select>
-              <Input
-                className={classes.fontSet}
-                id={`input-${propKey}`}
-                value={propObj.value}
-                onChange={handleChange}
-                aria-describedby='component-helper-text'
-              />
-              <FormHelperText>{staticHelperMap[propObj.type]}</FormHelperText>
-            </FormControl>
-            <Box
-              style={{
-                marginTop: 15,
-                width: '100%',
-                marginBottom: 25,
-              }}>
-              {isLast && (
-                <Divider
-                  style={{
-                    width: '100%',
-                    marginLeft: 0,
-                  }}
-                  variant='inset'
-                />
-              )}
-            </Box>
+            <Accordion
+              style={{width: '100%'}}
+              expanded={propsExpanded === propKey}
+              onChange={handlePanelChange(propKey)}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls='panel1bh-content'
+                id='panel1bh-header'>
+                {propKey}
+              </AccordionSummary>
+              <AccordionDetails classes={{root: classes.accordianDetails}}>
+                <FormControl
+                  key={propKey}
+                  className={clsx(classes.formControl)}>
+                  {/*<Box htmlFor={propKey}>{propKey}</Box>*/}
+                  <Select
+                    value={propObj.type}
+                    onChange={(event) => handleSelectChange({propKey, event})}
+                    className={classes.fontSet}
+                    inputProps={{
+                      name: {propKey},
+                      id: {propKey},
+                    }}>
+                    <MenuItem value=''>
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={'response-derived'}>
+                      Response Derived
+                    </MenuItem>
+                    <MenuItem value={'static'}>Static</MenuItem>
+                    <MenuItem value={'static-derived'}>Static Derived</MenuItem>
+                    <MenuItem value={'media'}>Media</MenuItem>
+                  </Select>
+                  <Input
+                    className={classes.fontSet}
+                    id={`input-${propKey}`}
+                    value={propObj.value}
+                    onChange={handleChange}
+                    aria-describedby='component-helper-text'
+                  />
+                  <FormHelperText style={{padding: '0 10px', marginBottom: 10}}>
+                    {staticHelperMap[propObj.type]}
+                  </FormHelperText>
+                </FormControl>
+              </AccordionDetails>
+            </Accordion>
+            {/*<Box*/}
+            {/*  style={{*/}
+            {/*    marginTop: 15,*/}
+            {/*    width: '100%',*/}
+            {/*    marginBottom: 25,*/}
+            {/*  }}>*/}
+            {/*</Box>*/}
           </>
         );
       })}
+      <NewProp classes={classes} />
     </FormGroup>
   );
 }
