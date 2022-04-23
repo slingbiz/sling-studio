@@ -387,7 +387,7 @@
   "validation.databaseRequired": "Please select database ! ",
   "message.thankYouSubscription": "Thank you for subscribing to our Newsletter.",
   "message.invalidSession": "Something went wrong, Please refresh & try logging again!",
-  "message.updatedSuccessfully": "updated successfully",
+  "message.updatedSuccessfully": "Updated successfully",
   "invoice.client": "Client",
   "invoice.invoice": "Invoice",
   "invoice.id": "ID",

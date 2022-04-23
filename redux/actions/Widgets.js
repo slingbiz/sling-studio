@@ -4,7 +4,8 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
   GET_WIDGETS_DATA,
-  SHOW_MESSAGE, SOMETHING_SMELLS_FISHY,
+  SHOW_MESSAGE,
+  SOMETHING_SMELLS_FISHY,
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
@@ -13,6 +14,7 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 import {GET_WIDGETS} from '../../shared/constants/Services';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 import {capital} from '../../@sling/utility/Utils';
+import _ from 'lodash';
 
 export const createWidget = (widgetData) => {
   return async (dispatch) => {
@@ -52,7 +54,9 @@ export const updateWidget = (id, widgetData) => {
         });
         dispatch({
           type: SHOW_MESSAGE,
-          payload: `${widgets[0].type} updated successfully`,
+          payload: `${_.upperFirst(widgets[0].type)} '${
+            widgets[0].key
+          }' updated successfully`,
         });
       } else {
         dispatch({type: FETCH_ERROR, payload: SOMETHING_SMELLS_FISHY});

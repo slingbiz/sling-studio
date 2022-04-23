@@ -30,7 +30,8 @@ const commonReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: '',
-        message: '',
+        _v: Date.now(),
+        message: action.payload || '',
         loading: false,
         updatingContent: false,
       };
@@ -39,6 +40,7 @@ const commonReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: '',
+        _v: Date.now(),
         warning: action.payload,
         message: '',
         loading: false,

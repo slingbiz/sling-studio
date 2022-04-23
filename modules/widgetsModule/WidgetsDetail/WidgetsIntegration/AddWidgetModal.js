@@ -147,10 +147,10 @@ const componentType = [
     label: 'Component',
     value: 'component',
   },
-  {
-    label: 'Editable',
-    value: 'editable',
-  },
+  // {
+  //   label: 'Editable',
+  //   value: 'editable',
+  // },
 ];
 const propType = [
   {
@@ -185,6 +185,7 @@ const validationSchema = yup.object({
   type: yup
     .string()
     .required(<IntlMessages id='validation.widgetTypeRequired' />),
+  key: yup.string().required('Please enter a Unique Key for your Widget'),
   icon: yup
     .string()
     .required(<IntlMessages id='validation.widgetIconRequired' />),
@@ -307,6 +308,7 @@ let initialValues = {
   name: '',
   description: '',
   type: '',
+  key: '',
   icon: '',
   ownership: 'private',
 };
@@ -327,6 +329,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
       name: '',
       description: '',
       type: '',
+      key: '',
       icon: '',
       ownership: 'private',
     };
@@ -335,6 +338,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
         ...initialValues,
         name: updateProp.name,
         description: updateProp.description,
+        key: updateProp.key,
         type: updateProp.type,
         icon: updateProp.icon,
       };
@@ -343,7 +347,6 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
   }, []);
 
   const handleJsonFileChosen = (file) => {
-    console.log('isfile', file.name);
     if (file) {
       let fileReader = new FileReader();
       fileReader.onloadend = () => {
@@ -489,6 +492,15 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                 required
                 size='small'
                 fullWidth
+                label={'Key'}
+                name='key'
+                variant='outlined'
+                className={classes.myTextFieldRoot}
+              />
+              <CommonTextField
+                required
+                size='small'
+                fullWidth
                 name='description'
                 label={<IntlMessages id='common.description' />}
                 variant='outlined'
@@ -624,7 +636,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                   type='submit'
                   variant='contained'
                   color='secondary'>
-                  {updateProp ? 'update' : 'Save'}
+                  {updateProp ? 'Update' : 'Save'}
                 </Button>
               </Box>
             </Form>

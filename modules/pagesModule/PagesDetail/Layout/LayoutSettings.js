@@ -11,7 +11,7 @@ import SelectBreakpoints from './SelectBreakpoints';
 import {initialWidth} from './NewCellModal';
 import DeviceVisibilitySwitches from './DeviceVisibilitySwitches';
 import TemplateProps from './TemplateProps';
-import {useSelector} from "react-redux";
+import {useSelector} from 'react-redux';
 
 const Accordion = withStyles({
   root: {
@@ -115,8 +115,20 @@ const LayoutSettings = ({settingsObj}) => {
   const {key, payload} = settingsObj;
   const {widgets} = useSelector(({widgets}) => widgets);
 
-  console.log(key, '[settingsObj - settingsObj]', settingsObj);
   const {props: cellProps = {}, muiWidths = {}, muiHidden = {}} = payload || {};
+
+  const selectedWidget = widgets.find((w) => w.key === key);
+  let widgetProps = {};
+  if (selectedWidget) {
+    (selectedWidget.props || []).map(
+      ({name, propType, dataType, default: defaultVal}) => {
+        if (!cellProps[name]) {
+          cellProps[name] = {type: propType, dataType, default: defaultVal};
+        }
+      },
+    );
+  }
+  console.log(widgetProps, cellProps, '[widgetProps - cellProps]');
   const [expanded, setExpanded] = useState('panel1');
   const [layoutWidth, setLayoutWidth] = useState(
     Object.keys(muiWidths).length ? muiWidths : initialWidth,
@@ -172,7 +184,8 @@ const LayoutSettings = ({settingsObj}) => {
       <Accordion
         square
         disabled={!key ? true : false}
-        expanded={expanded === 'panel2'}
+        // expanded={expanded === 'panel2'}
+        expanded={true}
         onChange={handleChange('panel2')}>
         <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>
           <Typography>Widget Props</Typography>

@@ -54,14 +54,17 @@ export default function TemplateProps({cellProps}) {
     setWidgetProps({...widgetProps, [propKey]: currObj});
   };
 
-  console.log(widgetProps, '[Widget Props]');
+  // console.log(widgetProps, '[Widget Props]');
 
   if (!Object.keys(widgetProps).length) {
     return (
       <FormGroup row>
         <Box>
           <IconButton onClick={() => true} disabled={true}>
-            <Icon color='secondary' className={classes.Icon} style={{marginRight:'-10px'}}>
+            <Icon
+              color='secondary'
+              className={classes.Icon}
+              style={{marginRight: '-10px'}}>
               add_circle
             </Icon>
           </IconButton>
@@ -80,7 +83,7 @@ export default function TemplateProps({cellProps}) {
             <FormControl
               key={propKey}
               className={clsx(classes.formControl, classes.fontSet)}>
-              <InputLabel htmlFor={propKey}>{propKey}</InputLabel>
+              <Box htmlFor={propKey}>{propKey}</Box>
               <Select
                 value={propObj.type}
                 onChange={(event) => handleSelectChange({propKey, event})}

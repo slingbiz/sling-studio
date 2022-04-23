@@ -220,8 +220,8 @@ const PageTemplatesList = () => {
 
   const addPageTemplate = (pageKey, meta) => {
     setOpen(false);
-    const root = {header: {}, body: {}, footer: {}};
-    dispatch(setLayoutConfig(pageKey, root, meta, !edit));
+    // const root = {header: {}, body: {}, footer: {}};
+    dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit}));
   };
 
   return (

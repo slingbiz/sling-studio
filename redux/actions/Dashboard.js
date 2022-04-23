@@ -19,7 +19,7 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
 
 //Set Layout Config
-export const setLayoutConfig = (pageKey, root, meta, isNewRecord) => {
+export const setLayoutConfig = ({pageKey, root, meta, isNewRecord}) => {
   return async (dispatch) => {
     try {
       //Pass user info in the header

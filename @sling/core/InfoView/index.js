@@ -3,14 +3,16 @@ import {Loader, MessageView} from '../../../@sling';
 import {useDispatch, useSelector} from 'react-redux';
 
 const InfoView = () => {
-  const {error, loading, message, warning} = useSelector(({common}) => common);
+  const {error, loading, message, warning, _v} = useSelector(
+    ({common}) => common,
+  );
   const [open, setOpen] = React.useState(true);
 
   useEffect(() => {
     setOpen(true);
-  }, [message, warning]);
+  }, [message, warning, _v]);
 
-  console.log(warning, 'error, loading, message, warning', open);
+  console.log(warning, 'error, loading, message, warning', message, open, _v);
   const showMessage = () => {
     return (
       <MessageView
