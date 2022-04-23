@@ -131,8 +131,9 @@ const Layout = (props) => {
           className={classes.layoutBox}>
           <Fab
             onClick={() => setOpen(true)}
+            color='secondary'
             style={{position: 'absolute', right: '0px'}}>
-            <EditIcon />
+            <EditIcon style={{color: 'white'}} />
           </Fab>
           <LayoutView pageKey={pageKey} isEditable={false} />
           <Divider className={classes.divider} />

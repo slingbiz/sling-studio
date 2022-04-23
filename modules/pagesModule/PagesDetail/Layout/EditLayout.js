@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _ from 'lodash';
+import {orange} from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
@@ -58,6 +59,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  button: {
+    backgroundColor: orange[500],
+    marginBottom: 20,
+    color: theme.palette.primary.contrastText,
+    fontWeight: Fonts.BOLD,
+    paddingRight: 20,
+    paddingLeft: 20,
+    '&:hover, &:focus': {
+      backgroundColor: orange[700],
+      color: theme.palette.secondary.contrastText,
+    },
   },
 }));
 
@@ -155,7 +168,11 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           <Button autoFocus color='inherit' onClick={handleClose}>
             Cancel
           </Button>
-          <Button autoFocus color='inherit' onClick={handleRootSave}>
+          <Button
+            style={{backgroundColor: orange[500], color: 'white'}}
+            classes={classes.button}
+            autoFocus
+            onClick={handleRootSave}>
             Save
           </Button>
         </Toolbar>

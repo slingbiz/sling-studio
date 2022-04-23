@@ -1,10 +1,5 @@
 import React, {useContext} from 'react';
-import languageData from './data';
-import Menu from '@material-ui/core/Menu';
 import AppContext from '../../utility/AppContext';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
@@ -14,22 +9,6 @@ import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
 
 const LanguageSwitcher = (props) => {
-  const {iconOnly} = props;
-  const {changeLocale, rtlLocale, locale, setRTL} = useContext(AppContext);
-  const [anchorElLng, setAnchorElLng] = React.useState(null);
-
-  const onClickMenu = (event) => {
-    setAnchorElLng(event.currentTarget);
-  };
-  const changeLanguage = (language) => {
-    if (rtlLocale.indexOf(language.locale) !== -1) {
-      setRTL(true);
-    } else {
-      setRTL(false);
-    }
-    changeLocale(language);
-    setAnchorElLng(null);
-  };
 
   const useStyles = makeStyles((theme) => ({
     langBtn: {

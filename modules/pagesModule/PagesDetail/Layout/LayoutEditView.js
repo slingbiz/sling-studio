@@ -281,7 +281,6 @@ const LayoutEditView = forwardRef((props, ref) => {
       sectionBlocks.rows = [];
     }
     sectionBlocks.rows.push({cells: []});
-    console.log(sectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
     setSectionBlocks({...sectionBlocks});
   };
 
@@ -316,7 +315,6 @@ const LayoutEditView = forwardRef((props, ref) => {
       const {nodeType, pos} = getNodeType(dInd);
 
       // Create drop object and show mui widths form. On save add the widget
-      console.log(source, '[sourcesourcesourcesourcesource]');
       setNewWidgetCell(source.index);
       handleAddCell(nodeType, pos);
       return;

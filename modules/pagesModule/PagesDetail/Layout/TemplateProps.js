@@ -69,7 +69,7 @@ const NewProp = ({classes}) => {
           </IconButton>
           <Box style={{fontWeight: 'bold'}}>Add New Prop? </Box>
         </Box>
-        <Box style={{padding: '0 20px'}}>
+        <Box style={{padding: '0 20px', marginBottom: 10}}>
           Add new props for this Widget in the Widgets section. New props will
           automatically reflect here.{' '}
         </Box>
@@ -115,7 +115,7 @@ export default function TemplateProps({cellProps}) {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls='panel1bh-content'
                 id='panel1bh-header'>
-                {propKey}
+                <span style={{fontWeight: 500}}>{propKey}</span>
               </AccordionSummary>
               <AccordionDetails classes={{root: classes.accordianDetails}}>
                 <FormControl
