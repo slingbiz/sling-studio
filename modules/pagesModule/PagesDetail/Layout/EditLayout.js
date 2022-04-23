@@ -86,14 +86,14 @@ const getItems = (count, offset = 0, classes) =>
   });
 
 const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
-  console.log(pageKey, 'pageKey')
+  console.log(pageKey, 'pageKey');
   const classes = useStyles();
   const childRef = useRef();
   const dispatch = useDispatch();
   const {widgets} = useSelector(({widgets}) => widgets);
 
   useEffect(() => {
-    dispatch(getWidgets({}));
+    dispatch(getWidgets({size: 1000}));
   }, []);
 
   const handleClose = () => {

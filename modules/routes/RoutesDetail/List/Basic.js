@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const Basic = ({setOpen, apiObj}) => {
   const classes = useStyles();
   const [routeName, setRouteName] = useState('');
+  const [id, setId] = useState('');
   const [pattern, setPattern] = useState('');
   const [dynamicParams, setDynamicParams] = useState({});
   const [isDynamic, setIsDynamic] = useState(true);
@@ -66,6 +67,7 @@ const Basic = ({setOpen, apiObj}) => {
   console.log(apiObj, 'p[apiObj');
   useEffect(() => {
     if (apiObj) {
+      setId(apiObj._id);
       setRouteName(apiObj.title || apiObj.type);
       setPattern(apiObj.url_string);
       setIsDynamic(apiObj.type === 'dynamic' ? true : false);
@@ -109,6 +111,7 @@ const Basic = ({setOpen, apiObj}) => {
     setPattern(userInput);
     dispatch(
       addRoute({
+        _id: id,
         name: routeName,
         keys: Object.keys(dynamicParams),
         page_template: pageTemplate,

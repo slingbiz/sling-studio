@@ -11,6 +11,7 @@ import SelectBreakpoints from './SelectBreakpoints';
 import {initialWidth} from './NewCellModal';
 import DeviceVisibilitySwitches from './DeviceVisibilitySwitches';
 import TemplateProps from './TemplateProps';
+import {useSelector} from "react-redux";
 
 const Accordion = withStyles({
   root: {
@@ -112,7 +113,9 @@ const getSwitchProps = ({muiHidden}) => {
 const LayoutSettings = ({settingsObj}) => {
   const classes = useStyles();
   const {key, payload} = settingsObj;
-  console.log(key, '[settingsObj - settingsObj]');
+  const {widgets} = useSelector(({widgets}) => widgets);
+
+  console.log(key, '[settingsObj - settingsObj]', settingsObj);
   const {props: cellProps = {}, muiWidths = {}, muiHidden = {}} = payload || {};
   const [expanded, setExpanded] = useState('panel1');
   const [layoutWidth, setLayoutWidth] = useState(

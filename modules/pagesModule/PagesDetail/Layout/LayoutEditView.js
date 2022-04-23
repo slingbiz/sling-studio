@@ -11,6 +11,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
 import * as AllIcons from '@material-ui/icons';
+import {WidgetsOutlined} from '@material-ui/icons';
+
+const _ = require('lodash');
 
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
@@ -117,6 +120,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
+// eslint-disable-next-line react/display-name
 const LayoutEditView = forwardRef((props, ref) => {
   const {pageKey, getItems, widgets} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
@@ -129,7 +133,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [snackOpen, setOpenSnack] = useState(false);
   const [isActiveTab, setIsActiveTab] = useState(false);
   const [settingsObj, setSettingsObj] = useState({});
-  console.log(settingsObj, '[settingsObjsettingsObjsettingsObj]');
+
   const sectionBlocksMap = {
     headerBlocks,
     setHeaderBlocks,
@@ -152,6 +156,8 @@ const LayoutEditView = forwardRef((props, ref) => {
       dispatch(setLayoutConfig(pageKey, root));
     },
   }));
+
+  //Update ActiveWidget
 
   //Update root on any change in head,body or footer.
   useEffect(() => {
@@ -404,13 +410,13 @@ const LayoutEditView = forwardRef((props, ref) => {
                 color='text.primary'
                 alignSelf='flex-start'
                 fontWeight={Fonts.BOLD}>
-                {'Components'}
+                {/*{'Widgets'}*/}
               </Box>
               <Paper className={classes.root}>
                 <InputBase
                   className={classes.input}
-                  placeholder='Search Components'
-                  inputProps={{'aria-label': 'search components'}}
+                  placeholder='Search Widgets'
+                  inputProps={{'aria-label': 'search widgets'}}
                 />
                 <IconButton className={classes.iconButton} aria-label='search'>
                   <SearchIcon />
@@ -425,7 +431,13 @@ const LayoutEditView = forwardRef((props, ref) => {
                   {(provided, snapshot) => (
                     <Box
                       ref={provided.innerRef}
-                      style={{display: 'flex', flexWrap: 'wrap'}}>
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        height: '100%',
+                        maxHeight: '550px',
+                        overflowY: 'scroll',
+                      }}>
                       {widgets.map((item, index) => {
                         return (
                           <Draggable
@@ -433,9 +445,14 @@ const LayoutEditView = forwardRef((props, ref) => {
                             draggableId={item['_id']}
                             index={item['_id']}>
                             {(provided, snapshot) => {
-                              let WidgetIcon;
+                              let WidgetIcon = WidgetsOutlined;
                               if (item.icon) {
-                                WidgetIcon = AllIcons[item.icon];
+                                const iconKey = _.capitalize(
+                                  _.camelCase(item.icon),
+                                );
+                                if (AllIcons[iconKey]) {
+                                  WidgetIcon = AllIcons[iconKey];
+                                }
                               }
 
                               return (

@@ -2,7 +2,6 @@ import React from 'react';
 import ApisSideBar from './RoutesSideBar/index';
 import RoutesList from './RoutesList';
 import RoutesDetail from './RoutesDetail';
-import {useDispatch} from 'react-redux';
 import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
@@ -25,7 +24,6 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 const Index = (props) => {
-  const dispatch = useDispatch();
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
@@ -48,9 +46,6 @@ const Index = (props) => {
   const {messages} = useIntl();
   const basePath = all ? `` : `routes/`;
 
-  if (!all) {
-    // return <ApisList />;
-  }
   return (
     <AppsContainer
       pagesClasses={classes}

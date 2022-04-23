@@ -9,6 +9,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
+import {Build, Edit} from '@material-ui/icons';
 import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -305,6 +306,7 @@ const PageTemplatesList = () => {
                       style={{display: 'flex', justifyContent: 'right'}}>
                       <Link href={`/pages/${v}/layout`} passHref>
                         <Button className={classes.button} aria-label='Edit'>
+                          <Build style={{width: '20px', margin: '0 5px'}} />{' '}
                           Configure
                         </Button>
                       </Link>
@@ -320,6 +322,7 @@ const PageTemplatesList = () => {
                             description,
                           });
                         }}>
+                        <Edit style={{width: '20px', margin: '0 5px'}} />
                         Edit Meta
                       </Button>
                     </CardActions>
