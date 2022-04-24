@@ -55,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const urlList = [
-  'https://sling.biz/frontend/dubai/women/clothes/products',
+  'https://demo.sling.biz/dubai/women/clothes/products',
   'https://sling.biz/',
+  'https://demo.sling.biz/',
   'https://www.booking.com/',
 ];
 const Preview = () => {

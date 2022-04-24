@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCompanyInfo} from '../../../redux/actions/AccountAction';
 
 const LanguageSwitcher = (props) => {
   const {account} = useSelector(({account}) => account);
+  const {user} = useSelector(({auth}) => auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (account == null || account == '') {
+      dispatch(getCompanyInfo(user.email));
+    }
+  }, [dispatch]);
+
   const useStyles = makeStyles((theme) => ({
     langBtn: {
       justifyContent: 'flex-start',
@@ -95,13 +105,13 @@ const LanguageSwitcher = (props) => {
   }));
 
   const classes = useStyles(props);
-
+  console.log(account, '[account]');
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
       <a
         target={'_blank'}
         style={{textDecoration: 'none'}}
-        href={`${account?.clientUrl}`}
+        href={`${account?.clientUrl || '/'}`}
         rel='noreferrer'>
         <Button className={classes.dashboardBtn} color='primary'>
           Frontend
