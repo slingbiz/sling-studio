@@ -20,7 +20,7 @@ module.exports = (phase) => {
         ignoreDuringBuilds: true,
       },
       env: {
-        SERVICE_URL: 'https://sling.biz/api',
+        SERVICE_URL: 'https://sling.biz/api/',
         INIT_CONFIG: 'https://sling.biz/api/v1/dashboard/initConfig',
         GET_WIDGETS: 'https://sling.biz/api/v1/widgets/dash/getWidgets',
         GET_MEDIA_API: 'https://sling.biz/api/v1/media/dash/getMedia',
