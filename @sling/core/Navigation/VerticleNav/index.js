@@ -1,22 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import List from '@material-ui/core/List';
 
 import routesConfig from '../../../../modules/routesConfig';
 import VerticalCollapse from './VerticalCollapse';
 import VerticalItem from './VerticalItem';
 import VerticalNavGroup from './VerticalNavGroup';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchLayoutConfig} from '../../../../redux/actions';
 
-const Navigation = () => {
-  // const dispatch = useDispatch();
-  // const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
-  // const {layoutConfig} = layoutData || {};
-  // const pages = Object.keys(layoutConfig || {});
-
-  // useEffect(() => {
-  //   dispatch(fetchLayoutConfig());
-  // }, [dispatch]);
+const Navigation = (props) => {
 
   return (
     <List>
@@ -36,7 +26,9 @@ const Navigation = () => {
               <VerticalCollapse item={item} level={0} />
             )}
 
-            {item.type === 'item' && <VerticalItem item={item} level={0} />}
+            {item.type === 'item' && (
+              <VerticalItem item={item} level={0} />
+            )}
           </React.Fragment>
         );
       })}

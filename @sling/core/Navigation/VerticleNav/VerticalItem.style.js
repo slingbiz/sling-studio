@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => {
       whiteSpace: 'nowrap',
       fontWeight: Fonts.REGULAR,
     },
+    disabled: {
+      color: '#cfcfcf',
+    },
   };
 });
 export default useStyles;

@@ -12,20 +12,20 @@ import {checkPermission} from '../../../utility/Utils';
 import {useSelector} from 'react-redux';
 import Link from 'next/link';
 
-const VerticalItem = ({level, router, item}) => {
+const VerticalItem = ({level, router, item, classes: classesProps}) => {
   const {themeMode} = useContext(AppContext);
   const classes = useStyles({level, themeMode});
   const {user} = useSelector(({auth}) => auth);
   const {pathname} = router;
-  const hasPermission = useMemo(() => checkPermission(item.auth, user.role), [
-    item.auth,
-    user.role,
-  ]);
+  const hasPermission = useMemo(
+    () => checkPermission(item.auth, user.role),
+    [item.auth, user.role],
+  );
   if (!hasPermission) {
     return null;
   }
   return (
-    <Link href={item.url} as={item.as}>
+    <Link href={item.disabled ? '' : item.url} as={item.as}>
       <ListItem
         button
         className={clsx(classes.navItem, 'nav-item', {
@@ -36,14 +36,16 @@ const VerticalItem = ({level, router, item}) => {
           <Box component='span' mr={6}>
             <Icon
               className={clsx(classes.listIcon, 'nav-item-icon')}
-              color='action'>
+              color={item.disabled ? '#cfcfcf' : 'action'}>
               {item.icon}
             </Icon>
           </Box>
         )}
         <ListItemText
           primary={<IntlMessages id={item.messageId} />}
-          classes={{primary: 'nav-item-text'}}
+          classes={{
+            primary: item.disabled ? classes.disabled : 'nav-item-text',
+          }}
         />
         {item.count && (
           <Box mr={1} clone>
