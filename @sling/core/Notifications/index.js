@@ -96,7 +96,7 @@ const Notifications = (props) => {
   };
 
   const classes = useStyles(props);
-
+  return <></>;
   return (
     <>
       <IconButton
@@ -112,6 +112,7 @@ const Notifications = (props) => {
             className={clsx(classes.notiIcon, 'notiIcon')}
           />
         </Badge>
+
         <Hidden mdUp>
           <Box
             ml={4}

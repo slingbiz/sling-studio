@@ -1,15 +1,14 @@
-import React, {useContext} from 'react';
-import AppContext from '../../utility/AppContext';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Link from 'next/link';
 import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
+import {useSelector} from 'react-redux';
 
 const LanguageSwitcher = (props) => {
-
+  const {account} = useSelector(({account}) => account);
   const useStyles = makeStyles((theme) => ({
     langBtn: {
       justifyContent: 'flex-start',
@@ -99,11 +98,15 @@ const LanguageSwitcher = (props) => {
 
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
-      <Link href={'https://sling.biz/frontend/dubai/women/clothes/products'}>
+      <a
+        target={'_blank'}
+        style={{textDecoration: 'none'}}
+        href={`${account?.storeDomain}`}
+        rel='noreferrer'>
         <Button className={classes.dashboardBtn} color='primary'>
           Frontend
         </Button>
-      </Link>
+      </a>
       {/*<IconButton*/}
       {/*  className={clsx(*/}
       {/*    classes.langBtn,*/}

@@ -10,6 +10,8 @@ import Switch from '@material-ui/core/Switch';
 import ApiCheckList from './ApiCheckList';
 import orange from '@material-ui/core/colors/orange';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
+import {SHOW_MESSAGE} from '../../../../shared/constants/ActionTypes';
+import {useDispatch} from "react-redux";
 
 const DataSource = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -49,6 +51,7 @@ const DataSource = (props) => {
 
   const {messages} = useIntl();
   const {titleKey} = props;
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -74,7 +77,14 @@ const DataSource = (props) => {
 
         <Divider className={classes.divider} />
 
-        <Button className={classes.button} onClick={() => {}}>
+        <Button
+          className={classes.button}
+          onClick={() => {
+            dispatch({
+              type: SHOW_MESSAGE,
+              payload: `Sling is running in read-only mode. Changes will not be saved.`,
+            });
+          }}>
           Save
         </Button>
       </Box>

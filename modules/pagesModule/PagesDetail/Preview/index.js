@@ -12,10 +12,12 @@ import {
 import PreviewModal from './Modal';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import {addURL} from '../../../../redux/actions';
+import {addURL, getRoutesList} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
+import {generateSlug} from 'random-word-slugs';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -52,29 +54,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const urlList = [
+  'https://sling.biz/frontend/dubai/women/clothes/products',
+  'https://www.sling.biz/',
+  'https://www.booking.com/',
+];
 const Preview = () => {
   const dispatch = useDispatch();
-  const {urlList} = useSelector(({UrlList}) => UrlList);
+  const {routesList} = useSelector(({routeList}) => routeList);
+  const {account} = useSelector(({account}) => account);
+  const {user} = useSelector(({auth}) => auth);
+
   const classes = useStyles();
   const [query, setQuery] = useState('');
-  const [filterData, setFilterData] = useState();
+
   const [urlToPreview, setUrlToPreview] = useState('');
   const [previewMapperDialog, setPreviewMapperDialog] = useState(false);
 
-  useEffect(() => {
-    dispatch(addURL());
-  }, [dispatch]);
-  useEffect(() => {
-    let result = [];
-    result = urlList?.filter((data) => {
-      return data.search(query) != -1;
-    });
-    setFilterData(result);
-  }, [query]);
+  const getList = () => {
+    console.log(account, '[accountaccountaccount]');
+    const re = /\<.*\>/;
+    const {storeDomain} = account || {};
+    const list = routesList.map(
+      ({sample_string: sampleString, url_string: urlString}) => {
+        //get url
+        let url = sampleString || urlString;
+        //Get random slug.
+        const slug = generateSlug();
+        url = url.replace(/\<.*?\>/g, slug);
+
+        //Check if slash already exists
+        const slash =
+          url.startsWith('/') || storeDomain.endsWith('/') ? '' : '/';
+        return `${storeDomain}` + slash + url;
+      },
+    );
+    let res = [...list, ...urlList];
+    if (query) {
+      res = res?.filter((data) => {
+        return data?.search(query) != -1;
+      });
+    }
+    return res;
+  };
 
   useEffect(() => {
-    setFilterData(urlList);
-  }, [urlList]);
+    if (account == null || account == '') {
+      dispatch(getCompanyInfo(user.email));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!routesList.length) {
+      dispatch(getRoutesList({size: 100}));
+    }
+  }, []);
+
   const handleClick = (item) => {
     setQuery(item);
     setUrlToPreview(item);
@@ -116,7 +151,7 @@ const Preview = () => {
         <Grid item xs={10} sm={8}>
           <Paper className={classes.urlContainer}>
             <List className={classes.listRoot}>
-              {filterData?.map((item, index) => (
+              {getList()?.map((item, index) => (
                 <ListItem
                   value={item}
                   key={index}
