@@ -8,7 +8,8 @@ import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import {useRouter, withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchLayoutConfig} from "../../redux/actions";
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -28,6 +29,14 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
+  const dispatch = useDispatch();
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+
+  useEffect(() => {
+    if (!layoutData) {
+      dispatch(fetchLayoutConfig());
+    }
+  }, [dispatch]);
 
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'all';

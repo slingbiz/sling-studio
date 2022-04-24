@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import Select from 'react-select';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPageTemplates} from '../../../../redux/actions';
+import {fetchLayoutConfig, getPageTemplates} from '../../../../redux/actions';
 import {capital} from '../../../../@sling/utility/Utils';
 import Box from '@material-ui/core/Box';
 
@@ -79,11 +79,17 @@ const AssignPageTemplate = ({
   const classes = useStyles();
   // const dispatch = useDispatch();
   // const {pageTemplates} = useSelector(({pageTemplate}) => pageTemplate);
-  const {layoutConfig} = useSelector(({dashboard}) => dashboard.layoutData);
+  const dispatch = useDispatch();
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+
   const [pageTemplate, setPageTemplate] = useState(getObj(value));
   const [options, setOptions] = useState([]);
 
-  console.log(pageTemplate, '[pageTemplate@AssignPageTemplate]', value);
+  useEffect(() => {
+    if (!layoutData) {
+      dispatch(fetchLayoutConfig());
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     console.log('Changing value ', pageTemplate.value);
@@ -95,7 +101,11 @@ const AssignPageTemplate = ({
   };
 
   useEffect(() => {
+    if (!layoutData) {
+      return;
+    }
     let optionsTmp = [];
+    const {layoutConfig} = layoutData;
     const pageTemplates = Object.keys(layoutConfig || {});
 
     pageTemplates?.map((item, index) => {
@@ -108,7 +118,7 @@ const AssignPageTemplate = ({
         'No Templates available. Please Go to Page Templates to create a new tempalte.',
       );
     }
-  }, [layoutConfig]);
+  }, [layoutData]);
 
   return (
     <div>

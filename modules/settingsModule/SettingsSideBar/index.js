@@ -22,6 +22,12 @@ export const folderList = [
     alias: 'keys-usage',
     icon: 'view_quilt',
   },
+  {
+    id: 2,
+    name: 'Theme',
+    alias: 'theme',
+    icon: 'palette',
+  },
   {id: 3, name: 'Guide', alias: 'guide', icon: 'web'},
 ];
 

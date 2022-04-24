@@ -9,14 +9,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchLayoutConfig} from '../../../../redux/actions';
 
 const Navigation = () => {
-  const dispatch = useDispatch();
-  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
-  const {layoutConfig} = layoutData || {};
-  const pages = Object.keys(layoutConfig || {});
+  // const dispatch = useDispatch();
+  // const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  // const {layoutConfig} = layoutData || {};
+  // const pages = Object.keys(layoutConfig || {});
 
-  useEffect(() => {
-    dispatch(fetchLayoutConfig());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchLayoutConfig());
+  // }, [dispatch]);
 
   return (
     <List>

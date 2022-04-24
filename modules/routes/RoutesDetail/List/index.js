@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: '1px solid #eae8e8',
     padding: 15,
-    background: '#f1f1f1',
+    background: '#ffffff',
     borderRadius: 5,
   },
   apiCardImage: {

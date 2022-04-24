@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import CompanyDetails from './CompanyDetails';
 import Guide from './Guide';
 import KeyUsage from './KeysUsage';
+import Theme from './Theme';
 
 const SettingsDetail = (props) => {
   const {query} = useRouter();
@@ -15,6 +16,7 @@ const SettingsDetail = (props) => {
     'company-details': CompanyDetails,
     'keys-usage': KeyUsage,
     guide: Guide,
+    theme: Theme,
   };
 
   const RenderSection = sectionMapper[id];
