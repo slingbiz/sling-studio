@@ -33,13 +33,13 @@ export default function AlertModal(props) {
   return (
     <div>
       <Dialog
+        fullWidth={'md'}
+        maxWidth={'sm'}
         open={open}
         onClose={handleClose}
         PaperProps={{
           style: {
-            height: '20vh',
-            minWidth: '40vw',
-            padding: '0 10px 10px 0',
+            padding: '10px',
           },
         }}
         classes={classes.confirmModal}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "global": false,
+  "name": "Your Awesome Widget Name",
+  "key": "UniqueWidgetKey",
+  "description": "Small description explaining your widget.",
+  "type": "pure",
+  "availableToAllPages": true,
+  "config": {
+
+  },
+  "props": [],
+}

@@ -2,16 +2,15 @@ import React from 'react';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core';
-import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import Box from '@material-ui/core/Box';
-import {useIntl} from 'react-intl';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import TextField from '@material-ui/core/TextField';
-import ListItemText from '@material-ui/core/ListItemText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
+import {useDispatch} from "react-redux";
+import {SHOW_MESSAGE} from "../../../../shared/constants/ActionTypes";
 
 const Basic = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -74,8 +73,8 @@ const Basic = (props) => {
   }));
 
   const classes = useStyles(props);
+  const dispatch = useDispatch();
 
-  const {messages} = useIntl();
   const {titleKey} = props;
   return (
     <>
@@ -131,7 +130,14 @@ const Basic = (props) => {
 
         <Divider className={classes.divider} />
 
-        <Button className={classes.button} onClick={() => {}}>
+        <Button
+          className={classes.button}
+          onClick={() => {
+            dispatch({
+              type: SHOW_MESSAGE,
+              payload: `Sling is running in read-only mode. Changes will not be saved.`,
+            });
+          }}>
           Save
         </Button>
       </Box>

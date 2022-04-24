@@ -84,7 +84,7 @@ const HeaderUser = (props) => {
     }
   };
   const getUserAvatarView = () => {
-    if (user.photoURL) {
+    if (user?.photoURL) {
       return <Avatar className={classes.profilePic} src={user.photoURL} />;
     } else {
       return <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>;
@@ -137,7 +137,11 @@ const HeaderUser = (props) => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                <MenuItem>My account</MenuItem>
+                <a
+                  href={'/settings'}
+                  style={{textDecoration: 'none', color: 'inherit'}}>
+                  <MenuItem>My account</MenuItem>
+                </a>
                 <MenuItem
                   onClick={() => {
                     if (user && user.authType === AuthType.AWS_COGNITO) {

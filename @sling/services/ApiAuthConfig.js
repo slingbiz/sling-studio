@@ -11,7 +11,8 @@ const AxiosAuth = async () => {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      authorization: '' + token,
+      Accept: '*',
+      Authorization: 'Bearer ' + token,
     },
   });
 };

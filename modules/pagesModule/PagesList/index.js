@@ -9,6 +9,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
+import {Build, Edit} from '@material-ui/icons';
 import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -211,7 +212,7 @@ const PageTemplatesList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
-  const {layoutConfig} = layoutData || {};
+  const {layoutConfig = {}} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -219,8 +220,8 @@ const PageTemplatesList = () => {
 
   const addPageTemplate = (pageKey, meta) => {
     setOpen(false);
-    const root = {header: {}, body: {}, footer: {}};
-    dispatch(setLayoutConfig(pageKey, root, meta, !edit));
+    // const root = {header: {}, body: {}, footer: {}};
+    dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit}));
   };
 
   return (
@@ -267,7 +268,8 @@ const PageTemplatesList = () => {
           </Grid>
           <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
-              const {meta: {title, description} = {}} = layoutConfig[v] || {};
+              const {meta} = layoutConfig[v] || {};
+              const {title, description} = meta || {};
               return (
                 <Grid
                   key={k}
@@ -304,6 +306,7 @@ const PageTemplatesList = () => {
                       style={{display: 'flex', justifyContent: 'right'}}>
                       <Link href={`/pages/${v}/layout`} passHref>
                         <Button className={classes.button} aria-label='Edit'>
+                          <Build style={{width: '20px', margin: '0 5px'}} />{' '}
                           Configure
                         </Button>
                       </Link>
@@ -319,6 +322,7 @@ const PageTemplatesList = () => {
                             description,
                           });
                         }}>
+                        <Edit style={{width: '20px', margin: '0 5px'}} />
                         Edit Meta
                       </Button>
                     </CardActions>

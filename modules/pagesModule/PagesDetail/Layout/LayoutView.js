@@ -74,7 +74,7 @@ const LayoutView = forwardRef((props, ref) => {
     saveLayoutConfig() {
       alert('Saving Root');
       console.log(root, 'root');
-      dispatch(setLayoutConfig(pageKey, root));
+      dispatch(setLayoutConfig({pageKey, root}));
     },
   }));
 

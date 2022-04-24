@@ -2,6 +2,7 @@
 export const FETCH_START = 'fetch_start';
 export const FETCH_SUCCESS = 'fetch_success';
 export const FETCH_ERROR = 'fetch_error';
+export const FETCH_WARNING = 'FETCH_WARNING';
 export const SHOW_MESSAGE = 'show_message';
 export const HIDE_MESSAGE = 'hide_message';
 export const TOGGLE_APP_DRAWER = 'toggle_app_drawer';
@@ -13,9 +14,14 @@ export const SET_INITIAL_PATH = 'set_initial_path';
 
 //AUTH0
 export const UPDATE_AUTH_USER = 'update_auth_user';
+export const UPDATE_NEW_USER_STATUS = 'UPDATE_NEW_USER_STATUS';
+export const UPDATE_NEW_SIGNUP = 'update_new_signup';
 export const USER_LOADED = 'user_loaded';
 export const SET_AUTH_TOKEN = 'set_auth_token';
 export const SIGNOUT_AUTH_SUCCESS = 'signout_auth_success';
+
+//Account
+export const UPDATE_ACCOUNT = 'update_account';
 
 //ANALYTICS-DASHBOARD
 export const GET_ANALYTICS_DATA = 'get_analytics_data';
@@ -171,3 +177,6 @@ export const GET_MEDIA_DATA = `GET_MEDIA_DATA`;
 
 // Widgets
 export const GET_WIDGETS_DATA = 'GET_WIDGETS_DATA';
+export const ADD_WIDGETS_DATA = 'ADD_WIDGETS_DATA';
+export const SOMETHING_SMELLS_FISHY =
+  'Something Smells Fishy. Please try again.';

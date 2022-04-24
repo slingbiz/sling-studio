@@ -11,6 +11,9 @@ import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+import Router from 'next/router';
 
 const Layout = (props) => {
   const {titleKey, pageKey} = props;
@@ -99,6 +102,14 @@ const Layout = (props) => {
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Page Layout
         </Box>
+        <Box>
+          <IconButton
+            onClick={() => {
+              Router.push('/pages');
+            }}>
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
       </AppsHeader>
       <Box
         px={6}
@@ -120,8 +131,9 @@ const Layout = (props) => {
           className={classes.layoutBox}>
           <Fab
             onClick={() => setOpen(true)}
+            color='secondary'
             style={{position: 'absolute', right: '0px'}}>
-            <EditIcon />
+            <EditIcon style={{color: 'white'}} />
           </Fab>
           <LayoutView pageKey={pageKey} isEditable={false} />
           <Divider className={classes.divider} />

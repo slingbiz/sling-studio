@@ -15,6 +15,11 @@ import LayoutView from './LayoutEditView';
 import {getWidgets} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import _ from 'lodash';
+import {orange} from '@material-ui/core/colors';
+
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   appBar: {
@@ -55,6 +60,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  button: {
+    backgroundColor: orange[500],
+    marginBottom: 20,
+    color: theme.palette.primary.contrastText,
+    fontWeight: Fonts.BOLD,
+    paddingRight: 20,
+    paddingLeft: 20,
+    '&:hover, &:focus': {
+      backgroundColor: orange[700],
+      color: theme.palette.secondary.contrastText,
+    },
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -85,24 +102,37 @@ const getItems = (count, offset = 0, classes) =>
     };
   });
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
+  console.log(pageKey, 'pageKey');
   const classes = useStyles();
   const childRef = useRef();
   const dispatch = useDispatch();
   const {widgets} = useSelector(({widgets}) => widgets);
 
   useEffect(() => {
-    dispatch(getWidgets({}));
+    dispatch(getWidgets({size: 1000}));
   }, []);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleRootSave = () => {
+  const handleRootSave = async () => {
     childRef.current.saveLayoutConfig();
+    notify();
+    await sleep(3000);
     handleClose();
   };
+
+  const notify = () =>
+    toast.info(`Updating Page Template '${_.upperFirst(pageKey)}'.`, {
+      position: 'bottom-right',
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+    });
 
   return (
     <Dialog
@@ -110,6 +140,19 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}>
+      <ToastContainer
+        position='bottom-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover>
+        {/* Same as */}
+      </ToastContainer>
+
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -125,7 +168,11 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           <Button autoFocus color='inherit' onClick={handleClose}>
             Cancel
           </Button>
-          <Button autoFocus color='inherit' onClick={handleRootSave}>
+          <Button
+            style={{backgroundColor: orange[500], color: 'white'}}
+            classes={classes.button}
+            autoFocus
+            onClick={handleRootSave}>
             Save
           </Button>
         </Toolbar>

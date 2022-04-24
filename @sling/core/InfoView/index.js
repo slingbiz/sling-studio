@@ -1,23 +1,58 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Loader, MessageView} from '../../../@sling';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const InfoView = () => {
-  const {error, loading, message} = useSelector(({common}) => common);
+  const {error, loading, message, warning, _v} = useSelector(
+    ({common}) => common,
+  );
+  const [open, setOpen] = React.useState(true);
 
+  useEffect(() => {
+    setOpen(true);
+  }, [message, warning, _v]);
+
+  console.log(warning, 'error, loading, message, warning', message, open, _v);
   const showMessage = () => {
-    return <MessageView variant='success' message={message.toString()} />;
+    return (
+      <MessageView
+        open={open}
+        setOpen={setOpen}
+        variant='success'
+        message={message.toString()}
+      />
+    );
   };
 
   const showError = () => {
-    return <MessageView variant='error' message={error.toString()} />;
+    return (
+      <MessageView
+        open={open}
+        setOpen={setOpen}
+        showToast={true}
+        variant='error'
+        message={error.toString()}
+      />
+    );
+  };
+
+  const showWarning = () => {
+    return (
+      <MessageView
+        open={open}
+        setOpen={setOpen}
+        showToast={true}
+        variant='warning'
+        warning={warning.toString()}
+      />
+    );
   };
 
   return (
     <>
       {loading && <Loader />}
-
       {message && showMessage()}
+      {warning && showWarning()}
       {error && showError()}
     </>
   );

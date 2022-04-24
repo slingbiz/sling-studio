@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ApisSideBar from './PagesSideBar/index';
 import PagesList from './PagesList';
 import RoutesDetail from './PagesDetail';
@@ -6,8 +6,10 @@ import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
-import {withRouter} from 'next/router';
+import {useRouter, withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchLayoutConfig} from "../../redux/actions";
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -27,10 +29,17 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
-  console.log('Page Key ==> ', all?.[0] || 'all');
+  const dispatch = useDispatch();
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+
+  useEffect(() => {
+    if (!layoutData) {
+      dispatch(fetchLayoutConfig());
+    }
+  }, [dispatch]);
+
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'all';
-    console.log(all?.length, '@@@@all?.length@@@@');
     if (all?.length >= 1) {
       return <RoutesDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {
@@ -49,6 +58,16 @@ const Index = (props) => {
   if (!all) {
     // return <ApisList />;
   }
+
+  // const {account} = useSelector(({account}) => account);
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!account) {
+  //     router.replace('/account-setup');
+  //   }
+  // }, [account]);
+
   return (
     <AppsContainer
       pagesClasses={classes}

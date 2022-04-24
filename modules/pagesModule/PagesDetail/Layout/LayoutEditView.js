@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import React, {forwardRef, useEffect, useImperativeHandle, useState,} from 'react';
 import Box from '@material-ui/core/Box';
 import DragMe from './DragMeEdit';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -11,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
 import * as AllIcons from '@material-ui/icons';
-
+import {WidgetsOutlined} from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
 import clsx from 'clsx';
@@ -29,6 +24,9 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import LayoutSettings from './LayoutSettings';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import {FETCH_SUCCESS,} from '../../../../shared/constants/ActionTypes';
+
+const _ = require('lodash');
 
 //Styles
 const useStyles = makeStyles((theme) => ({
@@ -117,8 +115,9 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
+// eslint-disable-next-line react/display-name
 const LayoutEditView = forwardRef((props, ref) => {
-  const {pageKey, getItems, widgets} = props;
+  const {pageKey, widgets} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
   const [bodyBlocks, setBodyBlocks] = useState([]);
   const [footerBlocks, setFooterBlocks] = useState([]);
@@ -129,7 +128,8 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [snackOpen, setOpenSnack] = useState(false);
   const [isActiveTab, setIsActiveTab] = useState(false);
   const [settingsObj, setSettingsObj] = useState({});
-  console.log(settingsObj, '[settingsObjsettingsObjsettingsObj]');
+  const [searchWidgets, setSearchWidgets] = useState(widgets);
+
   const sectionBlocksMap = {
     headerBlocks,
     setHeaderBlocks,
@@ -140,6 +140,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   };
 
   const [root, setRoot] = useState([]);
+  const [query, setQuery] = useState('');
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
   const dispatch = useDispatch();
@@ -147,13 +148,23 @@ const LayoutEditView = forwardRef((props, ref) => {
   //To call onSave from parent EditLayout
   useImperativeHandle(ref, () => ({
     saveLayoutConfig() {
-      alert('Saving Root');
-      console.log(root, 'root');
-      dispatch(setLayoutConfig(pageKey, root));
+      // alert('Saving Root');
+      // console.log(root, 'root');
+      dispatch(setLayoutConfig({pageKey, root}));
+      dispatch({
+        type: FETCH_SUCCESS,
+        payload: `${pageKey} updated successfully.`,
+      });
     },
   }));
 
+  //Update ActiveWidget
+
   //Update root on any change in head,body or footer.
+  useEffect(() => {
+    setSearchWidgets(widgets);
+  }, [widgets]);
+
   useEffect(() => {
     console.log('Calling Root save on body change', root);
     setRoot({
@@ -182,12 +193,11 @@ const LayoutEditView = forwardRef((props, ref) => {
     const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
     const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
 
-    sectionBlocks.rows.map((v, k) => {
+    sectionBlocks?.rows.map((v, k) => {
       //If parentKey is empty, find and update the root body object.
       if (!parentKey) {
         //If row matches
         if (rowKey === k) {
-          console.log(items, '@items@itemsitemsitemsitems');
           sectionBlocks.rows[k].cells = items.map((subObj) => {
             return subObj.contents;
           });
@@ -232,8 +242,16 @@ const LayoutEditView = forwardRef((props, ref) => {
     if (newWidgetCell) {
       const matchingWidget = widgets.find((v) => v['_id'] === newWidgetCell);
       const {type} = matchingWidget;
+      let matchingWidgetKey = matchingWidget.key;
+      if (!matchingWidgetKey) {
+        matchingWidgetKey = matchingWidget.name || '';
+        matchingWidgetKey = matchingWidgetKey
+          .replace(/\s+/g, '_')
+          .toLowerCase();
+        matchingWidgetKey = _.upperFirst(_.camelCase(matchingWidgetKey));
+      }
       cell = {
-        key: matchingWidget.name,
+        key: matchingWidgetKey,
         payload: {muiWidths: config},
         type,
       };
@@ -263,7 +281,6 @@ const LayoutEditView = forwardRef((props, ref) => {
       sectionBlocks.rows = [];
     }
     sectionBlocks.rows.push({cells: []});
-    console.log(sectionBlocks, '@@@setSectionBlocks@@@handleNewRow');
     setSectionBlocks({...sectionBlocks});
   };
 
@@ -310,7 +327,6 @@ const LayoutEditView = forwardRef((props, ref) => {
       const sectionBlocks = sectionBlocksMap[`${nodeType}Blocks`];
       const sectionFn = nodeType.charAt(0).toUpperCase() + nodeType.slice(1);
       const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
-      console.log(sectionBlocks, ' sectionBlockssectionBlockssectionBlocks');
       sectionBlocks.rows.map((v, k) => {
         //If row matches
         if (pos === k) {
@@ -385,6 +401,17 @@ const LayoutEditView = forwardRef((props, ref) => {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      const filteredWidgets = widgets.filter(
+        (widget) =>
+          widget.name.toLowerCase().indexOf(query) > -1 ||
+          widget.key.toLowerCase().indexOf(query) > -1,
+      );
+      setSearchWidgets(filteredWidgets);
+    }
+  };
+
   return (
     <Grid container>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -404,13 +431,16 @@ const LayoutEditView = forwardRef((props, ref) => {
                 color='text.primary'
                 alignSelf='flex-start'
                 fontWeight={Fonts.BOLD}>
-                {'Components'}
+                {/*{'Widgets'}*/}
               </Box>
               <Paper className={classes.root}>
                 <InputBase
                   className={classes.input}
-                  placeholder='Search Components'
-                  inputProps={{'aria-label': 'search components'}}
+                  placeholder='Search Widgets'
+                  inputProps={{'aria-label': 'search widgets'}}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleEnter}
                 />
                 <IconButton className={classes.iconButton} aria-label='search'>
                   <SearchIcon />
@@ -425,17 +455,28 @@ const LayoutEditView = forwardRef((props, ref) => {
                   {(provided, snapshot) => (
                     <Box
                       ref={provided.innerRef}
-                      style={{display: 'flex', flexWrap: 'wrap'}}>
-                      {widgets.map((item, index) => {
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        height: '100%',
+                        maxHeight: '550px',
+                        overflowY: 'scroll',
+                      }}>
+                      {searchWidgets.map((item, index) => {
                         return (
                           <Draggable
                             key={item['_id']}
                             draggableId={item['_id']}
                             index={item['_id']}>
                             {(provided, snapshot) => {
-                              let WidgetIcon;
+                              let WidgetIcon = WidgetsOutlined;
                               if (item.icon) {
-                                WidgetIcon = AllIcons[item.icon];
+                                const iconKey = _.upperFirst(
+                                  _.camelCase(item.icon),
+                                );
+                                if (AllIcons[iconKey]) {
+                                  WidgetIcon = AllIcons[iconKey];
+                                }
                               }
 
                               return (

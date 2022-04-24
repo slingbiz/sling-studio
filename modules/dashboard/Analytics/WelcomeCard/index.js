@@ -87,14 +87,6 @@ const WelcomeCard = ({data}) => {
               fontSize={20}>
               {'Admin'}
             </Box>
-            <Box
-              component='h6'
-              color='text.primary'
-              fontWeight={Fonts.LIGHT}
-              fontSize={12}>
-              This is a Sample Dashboard.<br></br> Actual Dashboard and data may
-              vary.
-            </Box>
           </Box>
           <Box
             display='flex'

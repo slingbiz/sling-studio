@@ -1,36 +1,14 @@
-import React, {useContext} from 'react';
-import languageData from './data';
-import Menu from '@material-ui/core/Menu';
-import AppContext from '../../utility/AppContext';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import clsx from 'clsx';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Link from 'next/link';
 import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
+import {useSelector} from 'react-redux';
 
 const LanguageSwitcher = (props) => {
-  const {iconOnly} = props;
-  const {changeLocale, rtlLocale, locale, setRTL} = useContext(AppContext);
-  const [anchorElLng, setAnchorElLng] = React.useState(null);
-
-  const onClickMenu = (event) => {
-    setAnchorElLng(event.currentTarget);
-  };
-  const changeLanguage = (language) => {
-    if (rtlLocale.indexOf(language.locale) !== -1) {
-      setRTL(true);
-    } else {
-      setRTL(false);
-    }
-    changeLocale(language);
-    setAnchorElLng(null);
-  };
-
+  const {account} = useSelector(({account}) => account);
   const useStyles = makeStyles((theme) => ({
     langBtn: {
       justifyContent: 'flex-start',
@@ -120,11 +98,15 @@ const LanguageSwitcher = (props) => {
 
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
-      <Link href={'https://sling.biz/frontend/dubai/women/clothes/products'}>
-        <Button className={classes.dashboardBtn} color='yellow'>
+      <a
+        target={'_blank'}
+        style={{textDecoration: 'none'}}
+        href={`${account?.storeDomain}`}
+        rel='noreferrer'>
+        <Button className={classes.dashboardBtn} color='primary'>
           Frontend
         </Button>
-      </Link>
+      </a>
       {/*<IconButton*/}
       {/*  className={clsx(*/}
       {/*    classes.langBtn,*/}

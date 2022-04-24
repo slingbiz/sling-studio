@@ -17,7 +17,7 @@ import {
   signInUserWithGoogle,
   signInUserWithTwitter,
 } from '../../../redux/actions';
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
@@ -211,13 +211,14 @@ const SigninFirebase = (props) => {
                     <IntlMessages id='common.dontHaveAccount' />
                   </Box>
                   <Box component='span'>
-                    <Link
-                      href='/signup'
-                     >
-                      <a  className={clsx(
-                        classes.underlineNone,
-                        classes.colorTextPrimary,
-                      )}><IntlMessages id='common.signup' /></a>
+                    <Link href='/signup'>
+                      <a
+                        className={clsx(
+                          classes.underlineNone,
+                          classes.colorTextPrimary,
+                        )}>
+                        <IntlMessages id='common.signup' />
+                      </a>
                     </Link>
                   </Box>
                 </Box>

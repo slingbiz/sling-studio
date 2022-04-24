@@ -10,23 +10,47 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
   UPDATE_AUTH_USER,
+  UPDATE_NEW_SIGNUP,
+  UPDATE_NEW_USER_STATUS,
 } from '../../shared/constants/ActionTypes';
 import {AuthType} from '../../shared/constants/AppEnums';
-import { defaultUser } from "../../shared/constants/AppConst";
+import {defaultUser} from '../../shared/constants/AppConst';
+import {
+  loginUser,
+  registerUser,
+  sendVerificationEmail,
+} from '../../@sling/services/auth/backend/index';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../shared/constants/General';
 
-export const onSignUpFirebaseUser = ({email, password}) => {
-  return (dispatch) => {
+export const onSignUpFirebaseUser = ({email, password, name}) => {
+  return async (dispatch) => {
     dispatch({type: FETCH_START});
     try {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((data) => {
-          dispatch({type: FETCH_SUCCESS});
-          dispatch({type: UPDATE_AUTH_USER, payload: getUserObject(data)});
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
+      const regUser = await auth.createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      await regUser.user.sendEmailVerification();
+      const user = await registerUser(name, email, password, regUser.user.uid);
+      if (user) {
+        dispatch({type: FETCH_SUCCESS});
+        localStorage.setItem('newUser', 'true');
+        dispatch({
+          type: UPDATE_NEW_SIGNUP,
+          payload: getUserObject({...regUser.user}),
         });
+      }
+      // return regUser;
+      // sendVerificationEmail(tokens.access.token).then((ress) => {
+      //   if (ress.status == 204) {
+      //     dispatch({type: FETCH_SUCCESS});
+      //     dispatch({
+      //       type: UPDATE_NEW_SIGNUP,
+      //       payload: getU
+      //       serObject({...data, ...res.data.user}),
+      //     });
+      //   }
+      // });
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
@@ -75,6 +99,7 @@ export const onGetFirebaseSignInUser = () => {
 };
 
 const getUserObject = (authUser) => {
+  console.log(authUser, 'authUser @getUserObject');
   return {
     authType: AuthType.FIREBASE,
     role: defaultUser.role,
@@ -83,24 +108,28 @@ const getUserObject = (authUser) => {
     email: authUser.email,
     photoURL: authUser.photoURL,
     token: authUser.refreshToken,
+    // id: authUser.id || authUser.uid,
   };
 };
 export const onSignInFirebaseUser = (email, password) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
       dispatch({type: FETCH_START});
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .then((data) => {
-          dispatch({type: FETCH_SUCCESS});
-          dispatch({
-            type: UPDATE_AUTH_USER,
-            payload: getUserObject(data),
-          });
-        })
-        .catch((error) => {
-          dispatch({type: FETCH_ERROR, payload: error.message});
-        });
+      const regUser = await auth.signInWithEmailAndPassword(email, password);
+      const {user: loggedInUser} = regUser;
+      if (!loggedInUser.emailVerified) {
+        await loggedInUser.sendEmailVerification();
+      }
+      localStorage.setItem('newUser', 'false');
+      dispatch({type: UPDATE_NEW_USER_STATUS, payload: 'false'});
+
+      //Update session in Sling. Not needed. To be removed.
+      await loginUser(email, password);
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({
+        type: UPDATE_AUTH_USER,
+        payload: getUserObject({...loggedInUser}),
+      });
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
@@ -116,6 +145,7 @@ export const onSignOutFirebaseUser = () => {
         .then((data) => {
           dispatch({type: FETCH_SUCCESS});
           dispatch({type: UPDATE_AUTH_USER, payload: null});
+          localStorage.clear();
         })
         .catch((error) => {
           dispatch({type: FETCH_ERROR, payload: error.message});

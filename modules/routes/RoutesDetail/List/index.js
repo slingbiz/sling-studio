@@ -1,34 +1,42 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Divider,
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
+  Divider,
   Grid,
+  IconButton,
+  InputAdornment,
+  makeStyles,
+  TextField,
   Tooltip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
 } from '@material-ui/core';
-import {makeStyles, IconButton} from '@material-ui/core';
 import {orange} from '@material-ui/core/colors';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Edit, Close} from '@material-ui/icons';
+import {Link, Settings} from '@material-ui/icons';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import AppSearch from '../../../../@sling/core/SearchBar';
 import DeleteModal from './DeleteModal';
 import {useDispatch, useSelector} from 'react-redux';
-import EditApiMappings from './EditApiMappings';
 import NewRoute from './NewRoute';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {getRoutesList} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
+import PaginationControlled from '../../../../@sling/core/Pagination';
+import SearchIcon from '@material-ui/icons/Search';
+import {FETCH_WARNING} from '../../../../shared/constants/ActionTypes';
 
 const useStyles = makeStyles((theme) => ({
+  input: {
+    '& .MuiOutlinedInput-adornedEnd ': {
+      paddingRight: 0,
+    },
+    '& .MuiInputBase-input': {
+      height: 0,
+      paddingRight: 0,
+    },
+  },
   root: {
     width: '100%',
     '& .MuiPaper-elevation1': {
@@ -66,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: orange[500],
     color: theme.palette.primary.contrastText,
     fontWeight: Fonts.BOLD,
-    paddingRight: 20,
+    paddingRight: 10,
     marginRight: 20,
-    paddingLeft: 20,
+    paddingLeft: 10,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
       color: theme.palette.primary.contrastText,
@@ -84,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: '1px solid #eae8e8',
     padding: 15,
-    background: '#f1f1f1',
+    background: '#ffffff',
     borderRadius: 5,
   },
   apiCardImage: {
@@ -112,23 +120,26 @@ const RoutesList = (props) => {
   const dispatch = useDispatch();
   const {routesList, totalCount} = useSelector(({routeList}) => routeList);
 
-  useEffect(() => {
-    dispatch(getRoutesList());
-  }, [dispatch]);
-
   const classes = useStyles(props);
-  const [openEditAPI, setOpenEditAPI] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [mapperDialog, setMapperDialog] = useState(false);
   const [editRoute, setEditRoute] = useState();
+  const [selectedLayout, setSelectedLayout] = useState('');
   const [mapperDialogRoute, setMapperDialogRoute] = useState(false);
+  const [filter, setFilter] = useState({page: 0, size: 8, query: ''});
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    dispatch(getRoutesList(filter));
+  }, [dispatch, filter]);
 
   const handleClose = () => {
-    setOpenEditAPI(false);
+    setOpenDeleteModal(false);
   };
 
   const doAction = () => {
-    setOpenEditAPI(true);
+    setOpenDeleteModal(true);
   };
 
   return (
@@ -144,9 +155,30 @@ const RoutesList = (props) => {
             onClick={() => setMapperDialogRoute(true)}>
             Add New Route
           </Button>
-          <AppSearch
-            placeholder='Search here'
-            onChange={(e) => e.target.value}
+          <TextField
+            id='filter-routes'
+            placeholder='Search'
+            variant='outlined'
+            className={classes.input}
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setQuery(event.target.value);
+                setFilter({...filter, query: event.target.value});
+              }
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment style={{marginRight: 0, paddingRight: 0}}>
+                  <IconButton>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </Box>
       </AppsHeader>
@@ -160,12 +192,12 @@ const RoutesList = (props) => {
         setOpen={setOpen}
         open={open}
         titleKey={'Edit Layout'}
-        pageKey={'listing'}
+        pageKey={selectedLayout}
       />
 
       <Box px={6} pb={8}>
-        <DeleteModal open={openEditAPI} handleClose={handleClose} />
-        <EditApiMappings
+        <DeleteModal open={openDeleteModal} handleClose={handleClose} />
+        <NewRoute
           open={mapperDialog}
           setOpen={setMapperDialog}
           titleKey={'Edit Route'}
@@ -177,10 +209,12 @@ const RoutesList = (props) => {
             <Box key={index} pt={6} className={classes.boxSection}>
               <Card className={classes.apiCard}>
                 <Grid container>
-                  <Grid item xs={2}>
-                    <Box className={classes.apiCardImage}></Box>
+                  <Grid item xs={1} style={{display: 'flex'}}>
+                    <IconButton color='inherit' style={{width: '100%'}}>
+                      <Link style={{width: '3rem', height: '3rem'}} />
+                    </IconButton>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={6}>
                     <CardContent>
                       <Box
                         fontWeight={Fonts.BOLD}
@@ -189,20 +223,78 @@ const RoutesList = (props) => {
                         mb={2}>
                         {routeObj.title}
                       </Box>
-                      <Box fontWeight={Fonts.MEDIUM} component='h5' mb={2}>
-                        {routeObj.url_string}
-                      </Box>
-                      <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
-                        {routeObj.version}
-                      </Box>
-                      <Box
+                      <Grid
+                        fontWeight={Fonts.MEDIUM}
+                        container
                         style={{
                           display: 'flex',
-                          alignItems: 'baseline',
-                          justifyContent: 'left',
+                          alignItems: 'center',
+                          marginBottom: 5,
                         }}>
-                        <Typography>Filter Keys</Typography>
-                        <KeysArray urlKeys={routeObj?.keys} />
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Route
+                        </Grid>
+                        <Grid item sm={8}>
+                          <code style={{fontWeight: 'bold'}}>
+                            {routeObj.url_string}
+                          </code>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={4}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Sample URL
+                        </Grid>
+                        <Grid item sm={8}>
+                          <code style={{fontWeight: 'bold'}}>
+                            {routeObj.sample_string}
+                          </code>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={2}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Page Template
+                        </Grid>
+                        <Grid item sm={8}>
+                          <span style={{fontWeight: 'bold'}}>
+                            {routeObj.page_template}
+                          </span>
+                        </Grid>
+                      </Grid>
+
+                      <Grid
+                        container
+                        fontWeight={Fonts.MEDIUM}
+                        mb={2}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Grid style={{color: 'grey'}} item sm={4}>
+                          Dynamic Props
+                        </Grid>
+                        <Grid item sm={8}>
+                          <KeysArray urlKeys={routeObj?.keys} />
+                        </Grid>
+                      </Grid>
+                      <Box fontWeight={Fonts.MEDIUM} component='h6' mb={2}>
+                        {routeObj.version}
                       </Box>
                     </CardContent>
                   </Grid>
@@ -212,30 +304,25 @@ const RoutesList = (props) => {
                       display='flex'
                       alignItems='center'>
                       <Box>
-                        <label htmlFor='icon-button-file'>
-                          <Tooltip title='Remove'>
-                            <IconButton
-                              className={classes.iconRoot}
-                              aria-label='upload picture'
-                              component='span'
-                              onClick={doAction}>
-                              <Close />
-                            </IconButton>
-                          </Tooltip>
-                        </label>
-                      </Box>
-                      <Box>
                         <label htmlFor='icon-edit'>
-                          <Tooltip title='Edit'>
+                          <Tooltip title='Edit Layout'>
                             <IconButton
                               className={classes.iconRoot}
-                              aria-label='edit'
+                              aria-label='Edit Layout'
                               component='span'
                               onClick={() => {
-                                setEditRoute(routeObj);
-                                setMapperDialog(true);
+                                if (!routeObj.page_template) {
+                                  dispatch({
+                                    type: FETCH_WARNING,
+                                    payload:
+                                      'Please assign a Page Template to this Route.',
+                                  });
+                                  return;
+                                }
+                                setSelectedLayout(routeObj.page_template);
+                                setOpen(true);
                               }}>
-                              <Edit />
+                              <Settings />
                             </IconButton>
                           </Tooltip>
                         </label>
@@ -245,7 +332,7 @@ const RoutesList = (props) => {
                           <Tooltip title='Map Sling Keys'>
                             <IconButton
                               className={classes.iconRoot}
-                              aria-label=' picture'
+                              aria-label='Map Sling Keys'
                               disabled={true}
                               component='span'
                               onClick={doAction}>
@@ -256,11 +343,21 @@ const RoutesList = (props) => {
                       </Box>
                       <Box>
                         <Button
-                          onClick={() => setOpen(true)}
+                          onClick={() => {
+                            setEditRoute(routeObj);
+                            setMapperDialog(true);
+                          }}
                           variant='contained'
                           color='primary'
                           style={{marginLeft: 15}}>
-                          Edit Layout
+                          Edit Route
+                        </Button>{' '}
+                        <Button
+                          onClick={doAction}
+                          variant='contained'
+                          color='primary'
+                          style={{marginLeft: 15}}>
+                          Delete Route
                         </Button>
                       </Box>
                     </Box>
@@ -284,11 +381,19 @@ const RoutesList = (props) => {
           );
         })}
 
-        <Divider className={classes.divider} />
-
         {/*<Button className={classes.button} onClick={() => {}}>*/}
         {/*  Save*/}
         {/*</Button>*/}
+      </Box>
+      <Box style={{display: 'flex', justifyContent: 'center', padding: '20px'}}>
+        <PaginationControlled
+          handleChange={(event, page) => {
+            setFilter({...filter, page: page - 1});
+          }}
+          count={Math.ceil(totalCount / filter.size)}
+          page={filter.page + 1}
+        />
+        <Divider className={classes.divider} />
       </Box>
     </>
   );

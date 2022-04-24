@@ -51,7 +51,7 @@ export default function KeysArray({urlKeys}) {
             key={data.key}
             icon={icon}
             label={data.label}
-            onDelete={handleDelete(data)}
+            // onDelete={handleDelete(data)}
             className={classes.chip}
           />
         );
