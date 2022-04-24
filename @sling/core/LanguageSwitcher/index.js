@@ -101,7 +101,7 @@ const LanguageSwitcher = (props) => {
       <a
         target={'_blank'}
         style={{textDecoration: 'none'}}
-        href={`${account?.storeDomain}`}
+        href={`${account?.clientUrl}`}
         rel='noreferrer'>
         <Button className={classes.dashboardBtn} color='primary'>
           Frontend
