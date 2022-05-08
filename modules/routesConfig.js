@@ -45,7 +45,7 @@ const routesConfig = [
     messageId: 'sidebar.app.media',
     type: 'item',
     icon: 'photo_camera',
-    url: '/media',
+    url: '/media/gallery',
   },
   {
     id: 'settings',

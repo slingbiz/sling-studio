@@ -66,12 +66,12 @@ const TasksList = ({titleKey, pageKey}) => {
   return (
     <>
       <AppsHeader>Headless Api Integration Guide</AppsHeader>
-      <AppsContent>
-        <Paper className={classes.root}>
+      <Box>
+        <Box className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
-                {titleKey == 'auto-sync'}Manage your APIs.
+                Manage your APIs.
               </Typography>
               <Typography component='p'>
                 Did you know you can add APIs from the Studio and automatically
@@ -115,23 +115,23 @@ const TasksList = ({titleKey, pageKey}) => {
                       Note: All APIs integrated from the Studio are fetched and
                       served server side.
                     </Typography>
+                    <CardActions>
+                      <Link href={`/headless-apis/api-list`} passHref>
+                        <Button
+                          size='medium'
+                          color='secondary'
+                          style={{marginTop: 15, border: '1px solid '}}>
+                          Manage APIs
+                        </Button>
+                      </Link>
+                    </CardActions>
                   </CardContent>
                 </Box>
-                {/*<CardActions>*/}
-                {/*  <Link href={`${pageKey}/basic`} passHref>*/}
-                {/*    <Button size='small' color='primary'>*/}
-                {/*      Edit Basics*/}
-                {/*    </Button>*/}
-                {/*  </Link>*/}
-                {/*  /!*<Button size='small' color='primary'>*!/*/}
-                {/*  /!*  Learn More*!/*/}
-                {/*  /!*</Button>*!/*/}
-                {/*</CardActions>*/}
               </Box>
             </Grid>
           </Grid>
-        </Paper>
-      </AppsContent>
+        </Box>
+      </Box>
     </>
   );
 };

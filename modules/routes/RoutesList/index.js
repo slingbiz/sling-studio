@@ -73,7 +73,7 @@ const RoutesList = ({titleKey, pageKey}) => {
   return (
     <>
       <AppsHeader>Routes Guide</AppsHeader>
-      <AppsContent>
+      <Box>
         <Paper className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
@@ -134,6 +134,16 @@ const RoutesList = ({titleKey, pageKey}) => {
                         />
                       </a>
                     </Typography>
+                    <CardActions>
+                      <Link href={`/routes/routes-list`} passHref>
+                        <Button
+                          size='medium'
+                          color='secondary'
+                          style={{marginTop: 15, border: '1px solid '}}>
+                          Manage Routes
+                        </Button>
+                      </Link>
+                    </CardActions>
                   </CardContent>
                 </Box>
               </Box>
@@ -210,7 +220,7 @@ const RoutesList = ({titleKey, pageKey}) => {
             {/*</Grid>*/}
           </Grid>
         </Paper>
-      </AppsContent>
+      </Box>
     </>
   );
 };

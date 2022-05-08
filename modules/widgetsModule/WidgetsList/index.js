@@ -1,13 +1,14 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core';
+import {CardActions, makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -60,14 +61,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WidgetsList = ({titleKey, pageKey}) => {
+const WidgetsList = () => {
   const classes = useStyles();
 
   return (
     <>
       <AppsHeader>Widgets Guide</AppsHeader>
       <Box>
-        <Paper className={classes.root}>
+        <Box className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
@@ -118,6 +119,16 @@ const WidgetsList = ({titleKey, pageKey}) => {
                       Sling FE client. This is for the global handler to pick
                       from the initial response.
                     </Typography>
+                    <CardActions>
+                      <Link href={`/widgets`} passHref>
+                        <Button
+                          size='medium'
+                          color='secondary'
+                          style={{marginTop: 15, border: '1px solid '}}>
+                          Manage APIs
+                        </Button>
+                      </Link>
+                    </CardActions>
                   </CardContent>
                 </Box>
               </Box>
@@ -193,7 +204,7 @@ const WidgetsList = ({titleKey, pageKey}) => {
             {/*  </Card>*/}
             {/*</Grid>*/}
           </Grid>
-        </Paper>
+        </Box>
       </Box>
     </>
   );
