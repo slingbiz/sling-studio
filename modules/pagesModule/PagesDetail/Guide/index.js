@@ -48,8 +48,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'top',
   },
   cardDesc: {
-    height: '80px',
+    height: '100px',
   },
+  card: {},
 }));
 
 const Guide = ({titleKey, pageKey}) => {
@@ -57,20 +58,20 @@ const Guide = ({titleKey, pageKey}) => {
 
   return (
     <>
-      <AppsHeader>Guide to customizing your Page Templates</AppsHeader>
+      <AppsHeader>Guide to managing your Page Templates</AppsHeader>
       <AppsContent>
         <Paper className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
-                {titleKey == 'auto-sync'}Customize your {titleKey} Page.
+                Manage your Page Templates.
               </Typography>
               <Typography component='p'>
-                Pages are the main entities linked to Url routes.
+                Page Templates are a Blueprint for the URL Routes.
               </Typography>
               <Typography component='p'>
-                Customize your page here to reflect the changes on all your
-                urls.
+                Create as many page templates and customize it by adding &
+                arranging widgets.
               </Typography>
             </Grid>
             <Grid item sm={12} md={4} lg={4}>
@@ -83,28 +84,28 @@ const Guide = ({titleKey, pageKey}) => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      Basics
+                      Add Widgets
                     </Typography>
                     <Typography
                       variant='body2'
                       className={classes.cardDesc}
                       color='text.secondary'
                       component='p'>
-                      Customize the basics of your {titleKey} page. With Spacing
-                      and margin to meta tags. Everything at your finger tips.
+                      Customize your template blueprint by adding and updating
+                      React widgets and rearranging them from the UI.
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/basic`} passHref>
-                    <Button size='small' color='primary'>
-                      Edit Basics
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
+                {/*<CardActions>*/}
+                {/*  <Link href={`${pageKey}/basic`} passHref>*/}
+                {/*    <Button size='small' color='primary'>*/}
+                {/*      Edit Basics*/}
+                {/*    </Button>*/}
+                {/*  </Link>*/}
+                {/*  /!*<Button size='small' color='primary'>*!/*/}
+                {/*  /!*  Learn More*!/*/}
+                {/*  /!*</Button>*!/*/}
+                {/*</CardActions>*/}
               </Card>
             </Grid>
             <Grid item sm={12} md={4} lg={4}>
@@ -124,22 +125,21 @@ const Guide = ({titleKey, pageKey}) => {
                       variant='body2'
                       color='text.secondary'
                       component='p'>
-                      Modify and rearrange your page components. Simply Drag &
-                      Drop to save new Layout or Pick a widget and deploy in an
-                      instant.
+                      Update widgets widths by easily updating CSS Grids. Make a
+                      widget visible on specific device only.
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/layout`} passHref>
-                    <Button size='small' color='primary'>
-                      Modify Layout
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
+                {/*<CardActions>*/}
+                {/*  <Link href={`${pageKey}/layout`} passHref>*/}
+                {/*    <Button size='small' color='primary'>*/}
+                {/*      Modify Layout*/}
+                {/*    </Button>*/}
+                {/*  </Link>*/}
+                {/*  /!*<Button size='small' color='primary'>*!/*/}
+                {/*  /!*  Learn More*!/*/}
+                {/*  /!*</Button>*!/*/}
+                {/*</CardActions>*/}
               </Card>
             </Grid>
             <Grid item sm={12} md={4} lg={4}>
@@ -152,29 +152,30 @@ const Guide = ({titleKey, pageKey}) => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      Data Apis
+                      Widget Props
                     </Typography>
                     <Typography
                       className={classes.cardDesc}
                       variant='body2'
                       color='text.secondary'
                       component='p'>
-                      Select the list of Apis you would need to fetch the server
-                      side rendered page. Sling uses NextJs and fetches these
-                      Data Apis before the initial rendering of the page.
+                      All widgets have props and its values can also be updated
+                      from the Edit template section. Update these values to
+                      immediately reflect them on the Sling Frontend Client
+                      Webapp.
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/data`} passHref>
-                    <Button size='small' color='primary'>
-                      Select Apis
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
+                {/*<CardActions>*/}
+                {/*  <Link href={`${pageKey}/data`} passHref>*/}
+                {/*    <Button size='small' color='primary'>*/}
+                {/*      Select Apis*/}
+                {/*    </Button>*/}
+                {/*  </Link>*/}
+                {/*  /!*<Button size='small' color='primary'>*!/*/}
+                {/*  /!*  Learn More*!/*/}
+                {/*  /!*</Button>*!/*/}
+                {/*</CardActions>*/}
               </Card>
             </Grid>
           </Grid>

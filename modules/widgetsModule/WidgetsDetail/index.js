@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import Box from '@material-ui/core/Box';
-import Basic from './Basic';
+import MarketPlace from './MarketPlace';
 import WidgetsIntegration from './WidgetsIntegration';
 import WidgetsList from '../WidgetsList';
 
@@ -12,8 +12,8 @@ const PagesDetail = (props) => {
     'widgets-integration': WidgetsIntegration,
     'blocks-integration': WidgetsIntegration,
     'components-integration': WidgetsIntegration,
-    'market-place': Basic,
-    guide: Basic,
+    'market-place': MarketPlace,
+    // guide: Basic,
   };
 
   const RenderSection = sectionMapper[id];

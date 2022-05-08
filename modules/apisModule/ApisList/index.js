@@ -14,6 +14,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Link from 'next/link';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -49,7 +50,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'top',
   },
   cardDesc: {
-    height: '80px',
+    height: '100%',
+    width: '60%',
+    textAlign: 'center',
+  },
+  card: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
@@ -64,119 +71,63 @@ const TasksList = ({titleKey, pageKey}) => {
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
-                {titleKey == 'auto-sync'}Customize your {titleKey} Page.
+                {titleKey == 'auto-sync'}Manage your APIs.
               </Typography>
               <Typography component='p'>
-                Pages are the main entities linked to Url routes.
+                Did you know you can add APIs from the Studio and automatically
+                get the response in your Widgets?{' '}
               </Typography>
-              <Typography component='p'>
-                Customize your page here to reflect the changes on all your
-                urls.
-              </Typography>
+              {/*<Typography component='p'>*/}
+              {/*  Customize your page here to reflect the changes on all your*/}
+              {/*  urls.*/}
+              {/*</Typography>*/}
             </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
+            <Grid item sm={12} md={12} lg={12}>
+              <Box className={classes.card}>
+                <Box>
                   <CardMedia
                     className={classes.media}
-                    image={'/images/cards/sling-basic.png'}
-                    title='Contemplative Reptile'
+                    image={'/images/cards/guide-api.png'}
+                    title='API Guide'
                   />
-                  <CardContent>
+                  <CardContent
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      Basics
+                      Integrate your APIs in one place
                     </Typography>
                     <Typography
                       variant='body2'
                       className={classes.cardDesc}
                       color='text.secondary'
                       component='p'>
-                      Customize the basics of your {titleKey} page. With Spacing
-                      and margin to meta tags. Everything at your finger tips.
+                      Some of the widgets props are dependent on API Response.
+                      It is very easy and convenient to switch to your custom
+                      APIs. For example, A Product Listing Widget might expect
+                      the key position of the total count and products in the
+                      API Response.
+                      <br></br>
+                      <br></br>
+                      Note: All APIs integrated from the Studio are fetched and
+                      served server side.
                     </Typography>
                   </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/basic`} passHref>
-                    <Button size='small' color='primary'>
-                      Edit Basics
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={'/images/cards/sling-layout-pick.png'}
-                    title=''
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      Layout
-                    </Typography>
-                    <Typography
-                      className={classes.cardDesc}
-                      variant='body2'
-                      color='text.secondary'
-                      component='p'>
-                      Modify and rearrange your page components. Simply Drag &
-                      Drop to save new Layout or Pick a widget and deploy in an
-                      instant.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/layout`} passHref>
-                    <Button size='small' color='primary'>
-                      Modify Layout
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={'/images/cards/sling-pick-api.png'}
-                    title='Pick your headless api'
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      Data Apis
-                    </Typography>
-                    <Typography
-                      className={classes.cardDesc}
-                      variant='body2'
-                      color='text.secondary'
-                      component='p'>
-                      Select the list of Apis you would need to fetch the server
-                      side rendered page. Sling uses NextJs and fetches these
-                      Data Apis before the initial rendering of the page.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/data`} passHref>
-                    <Button size='small' color='primary'>
-                      Select Apis
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
+                </Box>
+                {/*<CardActions>*/}
+                {/*  <Link href={`${pageKey}/basic`} passHref>*/}
+                {/*    <Button size='small' color='primary'>*/}
+                {/*      Edit Basics*/}
+                {/*    </Button>*/}
+                {/*  </Link>*/}
+                {/*  /!*<Button size='small' color='primary'>*!/*/}
+                {/*  /!*  Learn More*!/*/}
+                {/*  /!*</Button>*!/*/}
+                {/*</CardActions>*/}
+              </Box>
             </Grid>
           </Grid>
         </Paper>

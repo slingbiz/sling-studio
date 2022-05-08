@@ -28,7 +28,7 @@ export const folderList = [
     alias: 'theme',
     icon: 'palette',
   },
-  {id: 3, name: 'Guide', alias: 'guide', icon: 'web'},
+  // {id: 3, name: 'Guide', alias: 'guide', icon: 'web'},
 ];
 
 const useStyle = makeStyles((theme) => ({
