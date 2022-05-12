@@ -25,7 +25,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({}));
 
-const Guide = (props) => {
+const ThemeSettings = (props) => {
   const {titleKey, pageKey} = props;
   const classes = useStyles(props);
   const dispatch = useDispatch();
@@ -73,4 +73,4 @@ const Guide = (props) => {
   );
 };
 
-export default Guide;
+export default ThemeSettings;

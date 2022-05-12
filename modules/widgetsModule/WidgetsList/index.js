@@ -1,19 +1,14 @@
 import React from 'react';
-// import AddNewTask from '../AddNewTask';
-import {makeStyles} from '@material-ui/core';
+import {CardActions, makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
-import AppsContent from '../../../@sling/core/AppsContainer/AppsContent';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from 'next/link';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -43,146 +38,176 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   media: {
-    height: 200,
+    height: 300,
     backgroundSize: 'auto 100%',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'top',
   },
+  mediaBottom: {
+    height: 250,
+    backgroundSize: '100% auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '20px',
+    border: '1px solid #eeeeee',
+  },
   cardDesc: {
-    height: '80px',
+    height: '100%',
+    width: '70%',
+    textAlign: 'center',
+  },
+  card: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
-const RoutesList = ({titleKey, pageKey}) => {
+const WidgetsList = () => {
   const classes = useStyles();
 
   return (
     <>
-      <AppsHeader>Widget Integration</AppsHeader>
-      <AppsContent>
-        <Paper className={classes.root}>
+      <AppsHeader>Widgets Guide</AppsHeader>
+      <Box>
+        <Box className={classes.root}>
           <Grid container className={classes.guideList} spacing={10}>
             <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
               <Typography variant='h5' component='h3'>
-                {titleKey == 'auto-sync'}Customize your {titleKey} Page.
+                Manage your Widgets.
               </Typography>
               <Typography component='p'>
-                Pages are the main entities linked to Url routes.
+                Every Page in Sling is made up of small react components called
+                Widgets.
               </Typography>
               <Typography component='p'>
-                Customize your page here to reflect the changes on all your
-                urls.
+                Multiple widgets can combine to become a Block and a component
+                is a list of blocks and widgets.
+              </Typography>{' '}
+              <Typography component='p'>
+                This is inspired by the ATOMIC Web Design concept.
               </Typography>
             </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
+            <Grid item sm={12} md={12} lg={12}>
+              <Box className={classes.card}>
+                <Box>
                   <CardMedia
                     className={classes.media}
-                    image={'/images/cards/sling-basic.png'}
-                    title='Contemplative Reptile'
+                    image={'/images/cards/guide-widgets.png'}
+                    title='Routes Guide'
                   />
-                  <CardContent>
+                  <CardContent
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      Basics
+                      Widgets, Blocks & Components{' '}
                     </Typography>
                     <Typography
                       variant='body2'
                       className={classes.cardDesc}
                       color='text.secondary'
                       component='p'>
-                      Customize the basics of your {titleKey} page. With Spacing
-                      and margin to meta tags. Everything at your finger tips.
+                      Widgets are the core building blocks of a Page.
+                      <br></br>
+                      Create a new Widget in your web frontend and upload the
+                      widget on the Studio using the JSON file or manually.
+                      <br></br>
+                      <br></br>A widget matching the Widget Key should be
+                      available in the exported index.js file of the widgets in
+                      Sling FE client. This is for the global handler to pick
+                      from the initial response.
                     </Typography>
+                    <CardActions>
+                      <Link href={`/widgets`} passHref>
+                        <Button
+                          size='medium'
+                          color='secondary'
+                          style={{marginTop: 15, border: '1px solid '}}>
+                          Manage APIs
+                        </Button>
+                      </Link>
+                    </CardActions>
                   </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/basic`} passHref>
-                    <Button size='small' color='primary'>
-                      Edit Basics
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
+                </Box>
+              </Box>
             </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={'/images/cards/sling-layout-pick.png'}
-                    title=''
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      Layout
-                    </Typography>
-                    <Typography
-                      className={classes.cardDesc}
-                      variant='body2'
-                      color='text.secondary'
-                      component='p'>
-                      Modify and rearrange your page components. Simply Drag &
-                      Drop to save new Layout or Pick a widget and deploy in an
-                      instant.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/layout`} passHref>
-                    <Button size='small' color='primary'>
-                      Modify Layout
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item sm={12} md={4} lg={4}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={'/images/cards/sling-pick-api.png'}
-                    title='Pick your headless api'
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      Data Apis
-                    </Typography>
-                    <Typography
-                      className={classes.cardDesc}
-                      variant='body2'
-                      color='text.secondary'
-                      component='p'>
-                      Select the list of Apis you would need to fetch the server
-                      side rendered page. Sling uses NextJs and fetches these
-                      Data Apis before the initial rendering of the page.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Link href={`${pageKey}/data`} passHref>
-                    <Button size='small' color='primary'>
-                      Select Apis
-                    </Button>
-                  </Link>
-                  {/*<Button size='small' color='primary'>*/}
-                  {/*  Learn More*/}
-                  {/*</Button>*/}
-                </CardActions>
-              </Card>
-            </Grid>
+            {/*<Grid item sm={12} md={4} lg={4}>*/}
+            {/*  <Card className={classes.card}>*/}
+            {/*    <CardActionArea>*/}
+            {/*      <CardMedia*/}
+            {/*        className={classes.media}*/}
+            {/*        image={'/images/cards/sling-layout-pick.png'}*/}
+            {/*        title=''*/}
+            {/*      />*/}
+            {/*      <CardContent>*/}
+            {/*        <Typography gutterBottom variant='h5' component='h2'>*/}
+            {/*          Layout*/}
+            {/*        </Typography>*/}
+            {/*        <Typography*/}
+            {/*          className={classes.cardDesc}*/}
+            {/*          variant='body2'*/}
+            {/*          color='text.secondary'*/}
+            {/*          component='p'>*/}
+            {/*          Modify and rearrange your page components. Simply Drag &*/}
+            {/*          Drop to save new Layout or Pick a widget and deploy in an*/}
+            {/*          instant.*/}
+            {/*        </Typography>*/}
+            {/*      </CardContent>*/}
+            {/*    </CardActionArea>*/}
+            {/*    <CardActions>*/}
+            {/*      <Link href={`${pageKey}/layout`} passHref>*/}
+            {/*        <Button size='small' color='primary'>*/}
+            {/*          Modify Layout*/}
+            {/*        </Button>*/}
+            {/*      </Link>*/}
+            {/*      /!*<Button size='small' color='primary'>*!/*/}
+            {/*      /!*  Learn More*!/*/}
+            {/*      /!*</Button>*!/*/}
+            {/*    </CardActions>*/}
+            {/*  </Card>*/}
+            {/*</Grid>*/}
+            {/*<Grid item sm={12} md={4} lg={4}>*/}
+            {/*  <Card className={classes.card}>*/}
+            {/*    <CardActionArea>*/}
+            {/*      <CardMedia*/}
+            {/*        className={classes.media}*/}
+            {/*        image={'/images/cards/sling-pick-api.png'}*/}
+            {/*        title='Pick your headless api'*/}
+            {/*      />*/}
+            {/*      <CardContent>*/}
+            {/*        <Typography gutterBottom variant='h5' component='h2'>*/}
+            {/*          Data Apis*/}
+            {/*        </Typography>*/}
+            {/*        <Typography*/}
+            {/*          className={classes.cardDesc}*/}
+            {/*          variant='body2'*/}
+            {/*          color='text.secondary'*/}
+            {/*          component='p'>*/}
+            {/*          Select the list of Apis you would need to fetch the server*/}
+            {/*          side rendered page. Sling uses NextJs and fetches these*/}
+            {/*          Data Apis before the initial rendering of the page.*/}
+            {/*        </Typography>*/}
+            {/*      </CardContent>*/}
+            {/*    </CardActionArea>*/}
+            {/*    <CardActions>*/}
+            {/*      <Link href={`${pageKey}/data`} passHref>*/}
+            {/*        <Button size='small' color='primary'>*/}
+            {/*          Select Apis*/}
+            {/*        </Button>*/}
+            {/*      </Link>*/}
+            {/*      /!*<Button size='small' color='primary'>*!/*/}
+            {/*      /!*  Learn More*!/*/}
+            {/*      /!*</Button>*!/*/}
+            {/*    </CardActions>*/}
+            {/*  </Card>*/}
+            {/*</Grid>*/}
           </Grid>
-        </Paper>
-      </AppsContent>
+        </Box>
+      </Box>
     </>
   );
 };
 
-export default RoutesList;
+export default WidgetsList;

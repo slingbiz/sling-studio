@@ -52,9 +52,9 @@ const validationCompanySchema = yup.object({
   storeName: yup
     .string()
     .required(<IntlMessages id='validation.titleRequired' />),
-  storeDomain: yup
+  clientUrl: yup
     .string()
-    .required(<IntlMessages id='validation.descriptionRequired' />),
+    .required('A base domain url of your frontend is required for previews'),
   storeDescription: yup
     .string()
     .required(<IntlMessages id='validation.widgetTypeRequired' />),
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
 
 const initialValuesCompany = {
   storeName: '',
-  storeDomain: '',
+  clientUrl: '',
   storeDescription: '',
   wlIp: '',
 };
@@ -139,7 +139,7 @@ const CompanyDetails = (props) => {
     setCompanyState({
       ...companyState,
       storeName: account?.storeName,
-      storeDomain: account?.storeDomain,
+      clientUrl: account?.clientUrl,
       storeDescription: account?.storeDescription,
       wlIp: account?.wlIp,
     });
@@ -219,8 +219,8 @@ const CompanyDetails = (props) => {
                   required
                   size='small'
                   fullWidth
-                  name='storeDomain'
-                  label={<IntlMessages id='common.storeDomain' />}
+                  name='clientUrl'
+                  label={'Your Frontend Store domain'}
                   variant='outlined'
                   className={classes.myTextFieldRoot}
                 />

@@ -55,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const urlList = [
-  'https://sling.biz/frontend/dubai/women/clothes/products',
+  'https://demo.sling.biz/dubai/women/clothes/products',
   'https://sling.biz/',
+  'https://demo.sling.biz/',
   'https://www.booking.com/',
 ];
 const Preview = () => {
@@ -74,7 +75,7 @@ const Preview = () => {
   const getList = () => {
     console.log(account, '[accountaccountaccount]');
     const re = /\<.*\>/;
-    const {storeDomain} = account || {};
+    const {clientUrl} = account || {};
     const list = routesList.map(
       ({sample_string: sampleString, url_string: urlString}) => {
         //get url
@@ -85,8 +86,8 @@ const Preview = () => {
 
         //Check if slash already exists
         const slash =
-          url.startsWith('/') || storeDomain.endsWith('/') ? '' : '/';
-        return `${storeDomain}` + slash + url;
+          url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
+        return `${clientUrl}` + slash + url;
       },
     );
     let res = [...list, ...urlList];
