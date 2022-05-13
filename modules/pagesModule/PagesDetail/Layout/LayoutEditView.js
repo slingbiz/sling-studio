@@ -1,9 +1,14 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useState,} from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import Box from '@material-ui/core/Box';
 import DragMe from './DragMeEdit';
 import ListItemText from '@material-ui/core/ListItemText';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLayoutConfig} from '../../../../redux/actions';
+import {setLayoutConfig, updateRoute} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
 import * as AllIcons from '@material-ui/icons';
 import {WidgetsOutlined} from '@material-ui/icons';
@@ -24,7 +29,7 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import LayoutSettings from './LayoutSettings';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import {FETCH_SUCCESS,} from '../../../../shared/constants/ActionTypes';
+import {FETCH_SUCCESS} from '../../../../shared/constants/ActionTypes';
 
 const _ = require('lodash');
 
@@ -117,7 +122,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 // eslint-disable-next-line react/display-name
 const LayoutEditView = forwardRef((props, ref) => {
-  const {pageKey, widgets} = props;
+  const {pageKey, widgets, isEditRoute, route} = props;
   const [headerBlocks, setHeaderBlocks] = useState([]);
   const [bodyBlocks, setBodyBlocks] = useState([]);
   const [footerBlocks, setFooterBlocks] = useState([]);
@@ -142,6 +147,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [root, setRoot] = useState([]);
   const [query, setQuery] = useState('');
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  const routesList = useSelector(({routeList}) => routeList.routesList);
   const {layoutConfig} = layoutData || {};
   const dispatch = useDispatch();
 
@@ -149,8 +155,22 @@ const LayoutEditView = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     saveLayoutConfig() {
       // alert('Saving Root');
-      // console.log(root, 'root');
-      dispatch(setLayoutConfig({pageKey, root}));
+      console.log(root, 'root');
+      if (route) {
+        dispatch(
+          updateRoute({
+            _id: route._id,
+            name: route.title,
+            keys: route.keys,
+            page_template: route.page_template,
+            sample_string: route.sample_string,
+            url: route.url_string,
+            page_layout_config: root,
+          }),
+        );
+      } else {
+        dispatch(setLayoutConfig({pageKey, root}));
+      }
       dispatch({
         type: FETCH_SUCCESS,
         payload: `${pageKey} updated successfully.`,

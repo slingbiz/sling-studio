@@ -45,6 +45,39 @@ export const addRoute = (route) => {
   };
 };
 
+export const updateRoute = (route) => {
+  const {messages} = appIntl();
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    const Api = await ApiAuth();
+    if (!Api) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: <IntlMessages id='message.invalidSession' />,
+      });
+    }
+    return Api.put(`${SAVE_ROUTE}`, {...route})
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'Route Updated.',
+          });
+          dispatch(getRoutesList());
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+      });
+  };
+};
+
 export const getRoutesList = (filters) => {
   return async (dispatch) => {
     try {

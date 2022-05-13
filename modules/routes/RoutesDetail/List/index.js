@@ -189,10 +189,12 @@ const RoutesList = (props) => {
         pageKey={'new-route'}
       />
       <EditLayout
+        isEditRoute={true}
         setOpen={setOpen}
         open={open}
         titleKey={'Edit Layout'}
-        pageKey={selectedLayout}
+        pageKey={selectedLayout.page_template}
+        route={selectedLayout}
       />
 
       <Box px={6} pb={8}>
@@ -319,7 +321,7 @@ const RoutesList = (props) => {
                                   });
                                   return;
                                 }
-                                setSelectedLayout(routeObj.page_template);
+                                setSelectedLayout(routeObj);
                                 setOpen(true);
                               }}>
                               <Settings />

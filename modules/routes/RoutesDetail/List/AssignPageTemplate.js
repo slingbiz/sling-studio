@@ -75,6 +75,7 @@ const AssignPageTemplate = ({
   error,
   setError,
   handleSave,
+  setLayoutConfig,
 }) => {
   const classes = useStyles();
   // const dispatch = useDispatch();
@@ -94,6 +95,11 @@ const AssignPageTemplate = ({
   useEffect(() => {
     console.log('Changing value ', pageTemplate.value);
     setValue(pageTemplate.value);
+    if (layoutData) {
+      console.log(layoutData.layoutConfig[pageTemplate.value]);
+      console.log([pageTemplate.label]);
+      setLayoutConfig(layoutData.layoutConfig[pageTemplate.value].root);
+    }
   }, [JSON.stringify(pageTemplate)]);
 
   const handleClose = () => {
@@ -104,8 +110,9 @@ const AssignPageTemplate = ({
     if (!layoutData) {
       return;
     }
-    let optionsTmp = [];
     const {layoutConfig} = layoutData;
+
+    let optionsTmp = [];
     const pageTemplates = Object.keys(layoutConfig || {});
 
     pageTemplates?.map((item, index) => {

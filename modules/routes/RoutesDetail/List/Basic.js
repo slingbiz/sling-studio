@@ -60,6 +60,7 @@ const Basic = ({setOpen, apiObj}) => {
   const [isDynamic, setIsDynamic] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [pageTemplate, setPageTemplate] = useState(apiObj?.page_template);
+  const [pageLayoutConfig, setPageLayoutConfig] = useState({});
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const re = /\<.*\>/;
@@ -99,7 +100,7 @@ const Basic = ({setOpen, apiObj}) => {
   };
 
   const handleSave = () => {
-    if (!pageTemplate) {
+    if (!pageTemplate || pageLayoutConfig == {}) {
       setError('Please select a Page Template');
       return;
     }
@@ -117,6 +118,7 @@ const Basic = ({setOpen, apiObj}) => {
         page_template: pageTemplate,
         sample_string: userInput,
         url: pattern,
+        page_layout_config: pageLayoutConfig,
       }),
     );
     setOpenModal(false);
@@ -326,6 +328,7 @@ const Basic = ({setOpen, apiObj}) => {
         error={error}
         setError={setError}
         setValue={setPageTemplate}
+        setLayoutConfig={setPageLayoutConfig}
         handleSave={handleSave}
       />
     </>

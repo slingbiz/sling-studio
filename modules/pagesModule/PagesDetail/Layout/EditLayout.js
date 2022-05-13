@@ -104,7 +104,7 @@ const getItems = (count, offset = 0, classes) =>
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
+const EditLayout = ({open, setOpen, titleKey, pageKey, route}) => {
   console.log(pageKey, 'pageKey');
   const classes = useStyles();
   const childRef = useRef();
@@ -184,6 +184,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
         pageKey={pageKey}
         isEditable={true}
         key={'edit'}
+        route={route}
       />
     </Dialog>
   );
