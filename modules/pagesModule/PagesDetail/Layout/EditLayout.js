@@ -173,7 +173,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             classes={classes.button}
             autoFocus
             onClick={handleRootSave}>
-            Save
+            Apply Changes
           </Button>
         </Toolbar>
       </AppBar>

@@ -3,16 +3,30 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-export default function SwitchLabels({swithProps}) {
-  const [state, setState] = React.useState(swithProps);
+const DeviceWidthMapper = {
+    'mobile' : 'sm',
+    'tablet': 'md',
+    'desktop': 'lg',
+};
+export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus, disabled}) {
+  const [state, setState] = React.useState(switchProps); 
 
   const handleChange = (name) => (event) => {
     setState({...state, [name]: event.target.checked});
+    const deviceWidth = DeviceWidthMapper[name];
+    if(!event.target.checked && !hiddenStatus?.only?.includes(deviceWidth)){
+        hiddenStatus.only = [...hiddenStatus?.only, deviceWidth];
+    }
+    if(event.target.checked){
+        hiddenStatus.only = hiddenStatus?.only.filter(e => e !== deviceWidth);
+    }
+    setHiddenStatus({...hiddenStatus});
   };
 
   return (
-    <FormGroup row>
+    <FormGroup row >
       <FormControlLabel
+        disabled={disabled}
         control={
           <Switch
             checked={state.mobile}
@@ -23,6 +37,7 @@ export default function SwitchLabels({swithProps}) {
         label='Show on Mobile'
       />
       <FormControlLabel
+        disabled={disabled}
         control={
           <Switch
             checked={state.tablet}
@@ -34,6 +49,7 @@ export default function SwitchLabels({swithProps}) {
         label='Show on Tablet'
       />
       <FormControlLabel
+        disabled={disabled}
         control={
           <Switch
             checked={state.desktop}

@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -12,7 +9,6 @@ import blue from '@material-ui/core/colors/blue';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import {Accordion, AccordionDetails, AccordionSummary} from '@material-ui/core';
@@ -78,7 +74,7 @@ const NewProp = ({classes}) => {
   );
 };
 
-export default function TemplateProps({cellProps}) {
+export default function TemplateProps({cellProps, disabled}) {
   const [widgetProps, setWidgetProps] = useState(cellProps);
   const classes = useStyles();
   const [propsExpanded, setPropsExpanded] = useState(false);
@@ -87,8 +83,9 @@ export default function TemplateProps({cellProps}) {
     setPropsExpanded(isExpanded ? panel : false);
   };
 
-  const handleChange = (name) => (event) => {
-    setWidgetProps({...widgetProps, [name]: event.target.checked});
+  const handleChange = ({propKey, event}) => {
+    widgetProps[propKey].value = event.target.value;
+    setWidgetProps({...widgetProps});
   };
 
   const handleSelectChange = ({propKey, event}) => {
@@ -102,7 +99,7 @@ export default function TemplateProps({cellProps}) {
   }
 
   return (
-    <FormGroup row>
+    <FormGroup row disabled={disabled}>
       {Object.keys(widgetProps).map((propKey, key, {length}) => {
         const propObj = widgetProps[propKey];
         return (
@@ -144,7 +141,7 @@ export default function TemplateProps({cellProps}) {
                     className={classes.fontSet}
                     id={`input-${propKey}`}
                     value={propObj.value}
-                    onChange={handleChange}
+                    onChange={(event)=>handleChange({propKey, event})}
                     aria-describedby='component-helper-text'
                   />
                   <FormHelperText style={{padding: '0 10px', marginBottom: 10}}>

@@ -59,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductImageSlide = ({product}) => {
+  if(!product){
+    return;
+  }
   const [value, setValue] = useState(0);
   const dispatch = useDispatch();
   const router = useRouter();

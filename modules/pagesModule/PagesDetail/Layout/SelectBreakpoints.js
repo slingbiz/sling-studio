@@ -27,11 +27,11 @@ const mtColumns = [
   {title: 12, id: 12},
 ];
 
-const SelectBreakpoints = ({classes, layoutWidth, handleWidth}) => (
+const SelectBreakpoints = ({classes, layoutWidth, handleWidth, disabled}) => (
   <Box className={classes.layoutBox}>
     {mtBreakPoints.map((bp) => {
       return (
-        <FormControl key={`select-${bp.id}`} className={classes.formControl}>
+        <FormControl key={`select-${bp.id}`} className={classes.formControl} disabled={disabled}>
           <InputLabel shrink id={`${bp.id}-label`}>
             {bp.title}
           </InputLabel>
