@@ -76,7 +76,7 @@ const validationSchema = yup.object({
   clientUrl: yup
     .string()
     .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?|((localhost|[\w-]+):[0-9]+)$/,
       'Enter correct url!',
     )
     .required('Please enter a valid domain'),
