@@ -205,11 +205,11 @@ const SigninAwsCognito = (props) => {
                   <Box component='span'>
                     <Link
                       href='/signup'
-                      >
-                      <a className={clsx(
+                      className={clsx(
                         classes.underlineNone,
                         classes.colorTextPrimary,
-                      )}><IntlMessages id='common.signup' /></a>
+                      )}>
+                      <IntlMessages id='common.signup' />
                     </Link>
                   </Box>
                 </Box>

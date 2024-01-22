@@ -38,7 +38,7 @@ function HorizontalItem(props) {
   }
 
   return (
-    <Link href={item.url} as={item.as}>
+    <Link href={item.url} as={item.as} legacyBehavior>
       <ListItem
         className={clsx('navItemSubmenu', classes.root, dense && 'dense', {
           active: item.url === props.router.pathname,

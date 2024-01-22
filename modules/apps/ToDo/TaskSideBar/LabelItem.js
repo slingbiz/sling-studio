@@ -22,7 +22,7 @@ const LabelItem = ({label}) => {
   const classes = useStyles();
   const {query} = useRouter();
   return (
-    <Link href={`/apps/todo/label/${label.alias}`}>
+    <Link href={`/apps/todo/label/${label.alias}`} legacyBehavior>
       <ListItem
         button
         key={label.id}

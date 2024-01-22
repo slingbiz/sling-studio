@@ -13,7 +13,7 @@ const LabelItem = ({label}) => {
   const classes = useStyles();
   const {query} = useRouter();
   return (
-    <Link href={`/apps/contact/label/${label.alias}`}>
+    <Link href={`/apps/contact/label/${label.alias}`} legacyBehavior>
       <ListItem
         button
         className={clsx(classes.listItem, {

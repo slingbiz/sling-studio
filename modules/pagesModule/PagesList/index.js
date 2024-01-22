@@ -227,117 +227,115 @@ const PageTemplatesList = () => {
         dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit}));
     };
 
-    return (
-        <>
-            <AppsHeader>
-                All Page Templates{' '}
-                <Box display='flex' alignItems='center'>
-                    <Button
-                        className={classes.dashboardBtn}
-                        aria-label='add'
-                        disabled={false}
-                        onClick={() => {
-                            setCurrentTemplate({});
-                            setEdit(false);
-                            setOpen(true);
-                        }}>
-                        Add Template
-                    </Button>
-                    <AppSearch
-                        placeholder='Search templates'
-                        onChange={(e) => e.target.value}
-                    />
-                </Box>
-            </AppsHeader>
-            <Paper className={classes.root}>
-                <ModalPageTemplate
-                    edit={edit}
-                    currentTemplate={currentTemplate}
-                    open={open}
-                    classes={classes}
-                    setOpen={setOpen}
-                    addPageTemplate={addPageTemplate}
+    return <>
+        <AppsHeader>
+            All Page Templates{' '}
+            <Box display='flex' alignItems='center'>
+                <Button
+                    className={classes.dashboardBtn}
+                    aria-label='add'
+                    disabled={false}
+                    onClick={() => {
+                        setCurrentTemplate({});
+                        setEdit(false);
+                        setOpen(true);
+                    }}>
+                    Add Template
+                </Button>
+                <AppSearch
+                    placeholder='Search templates'
+                    onChange={(e) => e.target.value}
                 />
-                <Grid container className={classes.guideList} spacing={10}>
-                    <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
-                        <Typography
-                            component='p'
-                            style={{fontSize: 18, fontWeight: 'bold'}}>
-                            List of available Page Templates.
-                        </Typography>
-                        <Typography component='p'>
-                            Showing {totalPageTemplates} templates
-                        </Typography>
-                    </Grid>
-                    <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
-                        {Object.keys(layoutConfig).map((v, k) => {
-                            const {meta} = layoutConfig[v] || {};
-                            const {title, description} = meta || {};
-                            return (
-                                <Grid
-                                    key={k}
-                                    item
-                                    sm={12}
-                                    md={4}
-                                    lg={4}
-                                    style={{marginLeft: 10, marginRight: 10}}>
-                                    <Card className={classes.card}>
-                                        <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                image={'/images/cards/pagelayout_default.png'}
-                                                title={title}
-                                            />
-                                            <CardContent>
-                                                <Typography
-                                                    gutterBottom
-                                                    className={classes.templateTitle}
-                                                    variant='h5'
-                                                    component='h2'>
-                                                    {title}
-                                                </Typography>
-                                                <Typography
-                                                    variant='body2'
-                                                    className={classes.cardDesc}
-                                                    color='text.secondary'
-                                                    component='p'>
-                                                    {description}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                        <CardActions
-                                            style={{display: 'flex', justifyContent: 'right'}}>
-                                            <Link href={`/pages/${v}/layout`} passHref>
-                                                <Button className={classes.button} aria-label='Edit'>
-                                                    <Build style={{width: '20px', margin: '0 5px'}}/>{' '}
-                                                    Configure
-                                                </Button>
-                                            </Link>
-                                            <Button
-                                                // size='small'
-                                                className={classes.button}
-                                                onClick={() => {
-                                                    setOpen(true);
-                                                    setEdit(true);
-                                                    setCurrentTemplate({
-                                                        templateKey: v,
-                                                        title,
-                                                        description,
-                                                    });
-                                                }}>
-                                                <Edit style={{width: '20px', margin: '0 5px'}}/>
-                                                Edit Meta
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
+            </Box>
+        </AppsHeader>
+        <Paper className={classes.root}>
+            <ModalPageTemplate
+                edit={edit}
+                currentTemplate={currentTemplate}
+                open={open}
+                classes={classes}
+                setOpen={setOpen}
+                addPageTemplate={addPageTemplate}
+            />
+            <Grid container className={classes.guideList} spacing={10}>
+                <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
+                    <Typography
+                        component='p'
+                        style={{fontSize: 18, fontWeight: 'bold'}}>
+                        List of available Page Templates.
+                    </Typography>
+                    <Typography component='p'>
+                        Showing {totalPageTemplates} templates
+                    </Typography>
                 </Grid>
-            </Paper>
-        </>
-    );
+                <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
+                    {Object.keys(layoutConfig).map((v, k) => {
+                        const {meta} = layoutConfig[v] || {};
+                        const {title, description} = meta || {};
+                        return (
+                            <Grid
+                                key={k}
+                                item
+                                sm={12}
+                                md={4}
+                                lg={4}
+                                style={{marginLeft: 10, marginRight: 10}}>
+                                <Card className={classes.card}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={'/images/cards/pagelayout_default.png'}
+                                            title={title}
+                                        />
+                                        <CardContent>
+                                            <Typography
+                                                gutterBottom
+                                                className={classes.templateTitle}
+                                                variant='h5'
+                                                component='h2'>
+                                                {title}
+                                            </Typography>
+                                            <Typography
+                                                variant='body2'
+                                                className={classes.cardDesc}
+                                                color='text.secondary'
+                                                component='p'>
+                                                {description}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions
+                                        style={{display: 'flex', justifyContent: 'right'}}>
+                                        <Link href={`/pages/${v}/layout`} passHref legacyBehavior>
+                                            <Button className={classes.button} aria-label='Edit'>
+                                                <Build style={{width: '20px', margin: '0 5px'}}/>{' '}
+                                                Configure
+                                            </Button>
+                                        </Link>
+                                        <Button
+                                            // size='small'
+                                            className={classes.button}
+                                            onClick={() => {
+                                                setOpen(true);
+                                                setEdit(true);
+                                                setCurrentTemplate({
+                                                    templateKey: v,
+                                                    title,
+                                                    description,
+                                                });
+                                            }}>
+                                            <Edit style={{width: '20px', margin: '0 5px'}}/>
+                                            Edit Meta
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </Grid>
+        </Paper>
+    </>;
 };
 
 export default PageTemplatesList;

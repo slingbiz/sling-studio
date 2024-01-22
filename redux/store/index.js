@@ -1,18 +1,14 @@
 import {useMemo} from 'react';
 import {applyMiddleware, createStore} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk';
+// import thunk from 'redux-thunk';
+import {thunk} from 'redux-thunk';
+
 import reducers from '../reducers';
-import {setAuthToken} from '../../@sling/services/auth/jwt-auth/jwt-api';
 
 let store;
 
 function initStore(initialState) {
-  return createStore(
-    reducers,
-    initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware)),
-  );
+  return createStore(reducers, initialState, applyMiddleware(thunk));
 }
 
 export const initializeStore = (preloadedState) => {
@@ -34,19 +30,21 @@ export const initializeStore = (preloadedState) => {
   // Create the store once in the client
   if (!store) store = _store;
 
-  let currentState = store.getState();
-  store.subscribe(() => {
-    // keep track of the previous and current state to compare changesAppLayout/index.j
-    let previousState = currentState;
-    currentState = store.getState();
-    // if the token changes set the value in localStorage and axios headers
-    if (previousState.auth.token !== currentState.auth.token) {
-      const token = currentState.auth.token;
-      setAuthToken(token);
-    }
-  });
+  // let currentState = store.getState();
+  // store.subscribe(() => {
+  //   // keep track of the previous and current state to compare changesAppLayout/index.j
+  //   // let previousState = currentState;
+  //   // currentState = store.getState();
+  //   // if the token changes set the value in localStorage and axios headers
+  //   // if (previousState.auth.token !== currentState.auth.token) {
+  //   //   const token = currentState.auth.token;
+  //   //   setAuthToken(token);
+  //   // }
+  // });
   return _store;
 };
+
+// export const wrapper = createWrapper(initializeStore, {debug: true});
 
 export function useStore(initialState) {
   return useMemo(() => initializeStore(initialState), [initialState]);

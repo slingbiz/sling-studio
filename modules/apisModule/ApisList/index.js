@@ -63,77 +63,75 @@ const useStyles = makeStyles((theme) => ({
 const TasksList = ({titleKey, pageKey}) => {
   const classes = useStyles();
 
-  return (
-    <>
-      <AppsHeader>Headless Api Integration Guide</AppsHeader>
-      <Box>
-        <Box className={classes.root}>
-          <Grid container className={classes.guideList} spacing={10}>
-            <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
-              <Typography variant='h5' component='h3'>
-                Manage your APIs.
-              </Typography>
-              <Typography component='p'>
-                Did you know you can add APIs from the Studio and automatically
-                get the response in your Widgets?{' '}
-              </Typography>
-              {/*<Typography component='p'>*/}
-              {/*  Customize your page here to reflect the changes on all your*/}
-              {/*  urls.*/}
-              {/*</Typography>*/}
-            </Grid>
-            <Grid item sm={12} md={12} lg={12}>
-              <Box className={classes.card}>
-                <Box>
-                  <CardMedia
-                    className={classes.media}
-                    image={'/images/cards/guide-api.png'}
-                    title='API Guide'
-                  />
-                  <CardContent
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      Integrate your APIs in one place
-                    </Typography>
-                    <Typography
-                      variant='body2'
-                      className={classes.cardDesc}
-                      color='text.secondary'
-                      component='p'>
-                      Some of the widgets props are dependent on API Response.
-                      It is very easy and convenient to switch to your custom
-                      APIs. For example, A Product Listing Widget might expect
-                      the key position of the total count and products in the
-                      API Response.
-                      <br></br>
-                      <br></br>
-                      Note: All APIs integrated from the Studio are fetched and
-                      served server side.
-                    </Typography>
-                    <CardActions>
-                      <Link href={`/headless-apis/api-list`} passHref>
-                        <Button
-                          size='medium'
-                          color='secondary'
-                          style={{marginTop: 15, border: '1px solid '}}>
-                          Manage APIs
-                        </Button>
-                      </Link>
-                    </CardActions>
-                  </CardContent>
-                </Box>
-              </Box>
-            </Grid>
+  return <>
+    <AppsHeader>Headless Api Integration Guide</AppsHeader>
+    <Box>
+      <Box className={classes.root}>
+        <Grid container className={classes.guideList} spacing={10}>
+          <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
+            <Typography variant='h5' component='h3'>
+              Manage your APIs.
+            </Typography>
+            <Typography component='p'>
+              Did you know you can add APIs from the Studio and automatically
+              get the response in your Widgets?{' '}
+            </Typography>
+            {/*<Typography component='p'>*/}
+            {/*  Customize your page here to reflect the changes on all your*/}
+            {/*  urls.*/}
+            {/*</Typography>*/}
           </Grid>
-        </Box>
+          <Grid item sm={12} md={12} lg={12}>
+            <Box className={classes.card}>
+              <Box>
+                <CardMedia
+                  className={classes.media}
+                  image={'/images/cards/guide-api.png'}
+                  title='API Guide'
+                />
+                <CardContent
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}>
+                  <Typography gutterBottom variant='h5' component='h2'>
+                    Integrate your APIs in one place
+                  </Typography>
+                  <Typography
+                    variant='body2'
+                    className={classes.cardDesc}
+                    color='text.secondary'
+                    component='p'>
+                    Some of the widgets props are dependent on API Response.
+                    It is very easy and convenient to switch to your custom
+                    APIs. For example, A Product Listing Widget might expect
+                    the key position of the total count and products in the
+                    API Response.
+                    <br></br>
+                    <br></br>
+                    Note: All APIs integrated from the Studio are fetched and
+                    served server side.
+                  </Typography>
+                  <CardActions>
+                    <Link href={`/headless-apis/api-list`} passHref legacyBehavior>
+                      <Button
+                        size='medium'
+                        color='secondary'
+                        style={{marginTop: 15, border: '1px solid '}}>
+                        Manage APIs
+                      </Button>
+                    </Link>
+                  </CardActions>
+                </CardContent>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
-    </>
-  );
+    </Box>
+  </>;
 };
 
 export default TasksList;

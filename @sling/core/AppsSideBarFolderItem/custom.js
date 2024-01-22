@@ -82,7 +82,7 @@ const AppsSideBarFolderItemCustom = ({item, path, noSubChild}) => {
     return data[data.length - 1];
   };
   return (
-    <Link href={path}>
+    <Link href={path} legacyBehavior>
       <ListItem
         button
         key={item.id}

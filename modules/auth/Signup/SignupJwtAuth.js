@@ -226,11 +226,11 @@ const SignupJwtAuth = (props) => {
                   <Box component='span'>
                     <Link
                       href='/signin'
-                     >
-                      <a  className={clsx(
+                      className={clsx(
                         classes.underlineNone,
                         classes.colorTextPrimary,
-                      )}> <IntlMessages id='common.signIn' /></a>
+                      )}>
+                       <IntlMessages id='common.signIn' />
                     </Link>
                   </Box>
                 </Box>s

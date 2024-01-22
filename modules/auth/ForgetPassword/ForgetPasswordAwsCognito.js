@@ -181,11 +181,11 @@ const ForgetPasswordAwsCognito = () => {
                   <IntlMessages id='common.alreadyHavePassword' />
                   <Link
                     href='/signin'
-                   >
-                    <a  className={clsx(
+                    className={clsx(
                       classes.underlineNone,
                       classes.textSecondary,
-                    )}><IntlMessages id='common.signIn' /></a>
+                    )}>
+                    <IntlMessages id='common.signIn' />
                   </Link>
                 </Box>
               </Form>

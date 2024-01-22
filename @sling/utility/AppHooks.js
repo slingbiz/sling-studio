@@ -114,18 +114,18 @@ export const useAuthToken = () => {
           });
         }
       });
-      Hub.listen('auth', ({payload: {event, data}}) => {
-        switch (event) {
-          case 'signIn':
-            dispatch(onGetLoggedInCognitoUser());
-            break;
-          case 'signOut':
-            dispatch({type: UPDATE_AUTH_USER, payload: null});
-            break;
-          default:
-            return false;
-        }
-      });
+      // Hub.listen('auth', ({payload: {event, data}}) => {
+      //   switch (event) {
+      //     case 'signIn':
+      //       dispatch(onGetLoggedInCognitoUser());
+      //       break;
+      //     case 'signOut':
+      //       dispatch({type: UPDATE_AUTH_USER, payload: null});
+      //       break;
+      //     default:
+      //       return false;
+      //   }
+      // });
     };
     checkAuth();
   }, [dispatch]);

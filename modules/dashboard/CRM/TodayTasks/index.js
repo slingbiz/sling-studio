@@ -40,15 +40,13 @@ const TodayTasks = (props) => {
       action={
         <Box>
           <Hidden xsDown>
-            <Link
-             href='#'><a  className={clsx(classes.link, classes.linkGrey)}>
-              <IntlMessages id='common.createTask' /></a>
+            <Link href='#' className={clsx(classes.link, classes.linkGrey)}>
+              <IntlMessages id='common.createTask' />
             </Link>
           </Hidden>
-          <Link
-          href='#'>
-            <a className={classes.link}>
-            <IntlMessages id='common.viewAll' /></a>
+          <Link href='#' className={classes.link}>
+
+            <IntlMessages id='common.viewAll' />
           </Link>
         </Box>
       }>

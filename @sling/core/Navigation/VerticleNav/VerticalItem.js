@@ -25,7 +25,7 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
     return null;
   }
   return (
-    <Link href={item.disabled ? '' : item.url} as={item.as}>
+    <Link href={item.disabled ? '' : item.url} as={item.as} legacyBehavior>
       <ListItem
         button
         className={clsx(classes.navItem, 'nav-item', {

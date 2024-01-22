@@ -109,12 +109,12 @@ const ConnectionListHoverPopUp = (props) => {
           <IntlMessages id='mailApp.addToContacts' />
         </Box>
         <Box ml='auto'>
-          <Link href='/apps/mail/compose'>
-            <a className={classes.marginLeft}>
-              <Tooltip title={<IntlMessages id='mailApp.sendMail' />}>
-                <MailIcon />
-              </Tooltip>
-            </a>
+          <Link href='/apps/mail/compose' className={classes.marginLeft}>
+
+            <Tooltip title={<IntlMessages id='mailApp.sendMail' />}>
+              <MailIcon />
+            </Tooltip>
+
           </Link>
           <Tooltip
             className={classes.toolTip}

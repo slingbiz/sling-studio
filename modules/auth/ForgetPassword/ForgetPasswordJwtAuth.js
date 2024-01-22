@@ -182,13 +182,12 @@ const ForgetPasswordJwtAuth = () => {
                   className={classes.textGrey}>
                   <IntlMessages id='common.alreadyHavePassword' />
                   <Link
-                    href='/signin'>
-                    <a
+                    href='/signin'
                     className={clsx(
                       classes.underlineNone,
                       classes.textSecondary,
-                    )}> <IntlMessages id='common.signIn' /></a>
-
+                    )}>
+                     <IntlMessages id='common.signIn' />
                   </Link>
                 </Box>
               </Form>

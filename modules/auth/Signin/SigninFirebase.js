@@ -211,14 +211,15 @@ const SigninFirebase = (props) => {
                     <IntlMessages id='common.dontHaveAccount' />
                   </Box>
                   <Box component='span'>
-                    <Link href='/signup'>
-                      <a
-                        className={clsx(
-                          classes.underlineNone,
-                          classes.colorTextPrimary,
-                        )}>
-                        <IntlMessages id='common.signup' />
-                      </a>
+                    <Link
+                      href='/signup'
+                      className={clsx(
+                        classes.underlineNone,
+                        classes.colorTextPrimary,
+                      )}>
+
+                      <IntlMessages id='common.signup' />
+
                     </Link>
                   </Box>
                 </Box>

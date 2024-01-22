@@ -22,7 +22,7 @@ const LabelItem = ({label}) => {
   const classes = useStyles();
   const {query} = useRouter();
   return (
-    <Link href={`/apps/mail/label/${label.alias}`}>
+    <Link href={`/apps/mail/label/${label.alias}`} legacyBehavior>
       <ListItem
         key={label.id}
         button
