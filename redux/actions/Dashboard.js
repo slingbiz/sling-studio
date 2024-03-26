@@ -16,7 +16,11 @@ import {
   GET_WIDGETS_DATA,
 } from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
-import {INIT_CONFIG, SET_CONFIG} from '../../shared/constants/Services';
+import {
+  INIT_CONFIG,
+  SERVICE_URL,
+  SET_CONFIG,
+} from '../../shared/constants/Services';
 
 //Set Layout Config
 export const setLayoutConfig = ({pageKey, root, meta, isNewRecord}) => {
@@ -52,6 +56,43 @@ export const setLayoutConfig = ({pageKey, root, meta, isNewRecord}) => {
       }
     } catch (error) {
       console.log(error, '@error @actions/dashboard/fetchconfig');
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
+  };
+};
+
+export const deletePageTemplateAction = ({pageKey}) => {
+  return async (dispatch) => {
+    try {
+      //Pass user info in the header
+      const Api = await ApiAuth();
+      if (!Api) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.invalidSession' />,
+        });
+      }
+      const data = await Api.post(
+        `${SERVICE_URL}v1/dashboard/deletePageTemplate`,
+        {
+          pageKey,
+        },
+      );
+      const {data: responseObj} = data;
+      if (data.status === 200 && responseObj.status) {
+        dispatch({type: FETCH_SUCCESS, payload: 'Deleted Successfully.'});
+        dispatch(fetchLayoutConfig());
+      } else {
+        console.log('@deletePageTemplate Error', data);
+        dispatch({
+          type: FETCH_ERROR,
+          payload: responseObj.msg || (
+            <IntlMessages id='message.somethingWentWrong' />
+          ),
+        });
+      }
+    } catch (error) {
+      console.log(error, '@error @actions/dashboard/deletePageTemplate');
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
   };

@@ -55,7 +55,7 @@ const BoardDetail = props => {
             onClick={onGoToBoardList}>
             Scrum Board
           </Box>
-          > {boardDetail.name}
+          {'>'} {boardDetail.name}
         </>
       }>
       <BoardDetailView boardDetail={boardDetail} />

@@ -27,7 +27,12 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 import Box from '@material-ui/core/Box';
 import AppSearch from '../../../@sling/core/SearchBar';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import {setLayoutConfig} from '../../../redux/actions';
+import {
+  deletePageTemplateAction,
+  setLayoutConfig,
+} from '../../../redux/actions';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -56,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopWidth: 1,
   },
   gridTileInfo: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     display: 'flex',
   },
   gridItemInfo: {
@@ -222,11 +227,16 @@ const PageTemplatesList = () => {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [currentTemplate, setCurrentTemplate] = useState({});
+  const [showDelete, setShowDelete] = useState({});
 
   const addPageTemplate = (pageKey, meta) => {
     setOpen(false);
     const rootObj = !edit ? {root: {header: {}, body: {}, footer: {}}} : {};
     dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit, ...rootObj}));
+  };
+
+  const deletePageTemplate = (pageKey) => {
+    dispatch(deletePageTemplateAction({pageKey}));
   };
 
   return (
@@ -271,7 +281,12 @@ const PageTemplatesList = () => {
               Showing {totalPageTemplates} templates
             </Typography>
           </Grid>
-          <Grid item className={classes.gridTileInfo} sm={12} md={12} lg={12}>
+          <Grid
+            container
+            className={classes.gridTileInfo}
+            sm={12}
+            md={12}
+            lg={12}>
             {Object.keys(layoutConfig).map((v, k) => {
               const {meta} = layoutConfig[v] || {};
               const {title, description} = meta || {};
@@ -280,11 +295,26 @@ const PageTemplatesList = () => {
                   key={k}
                   item
                   sm={12}
-                  md={4}
+                  md={6}
                   lg={4}
-                  style={{marginLeft: 10, marginRight: 10}}>
+                  style={{borderColor: 'black', padding: 10}}
+                  onMouseOver={() => setShowDelete({[v]: true})}
+                  onMouseOut={() => setShowDelete({})}>
                   <Card className={classes.card}>
                     <CardActionArea>
+                      {showDelete[v] && (
+                        <IconButton
+                          aria-label='delete'
+                          onClick={() => deletePageTemplate(v)}
+                          style={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                          }}>
+                          <CloseIcon />
+                        </IconButton>
+                      )}
                       <CardMedia
                         className={classes.media}
                         image={'/images/cards/pagelayout_default.png'}
