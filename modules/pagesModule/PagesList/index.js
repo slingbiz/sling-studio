@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopWidth: 1,
   },
   gridTileInfo: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-left',
     display: 'flex',
   },
   gridItemInfo: {
@@ -72,16 +72,21 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 200,
-    backgroundSize: 'auto',
+    backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'top',
     'background-position-y': '45%',
   },
   cardDesc: {
-    height: '80px',
+    height: '60px',
+    overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: '3',
+    lineClamp: 3,
+    WebkitBoxOrient: 'vertical',
   },
   templateTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
