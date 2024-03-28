@@ -33,7 +33,7 @@ import {
 } from '../../../redux/actions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import {useSearchParams} from 'next/navigation';
+import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -130,7 +130,7 @@ const ModalPageTemplate = ({
     description: descriptionInit,
     templateKey: templateKeyInit,
     title: titleInit,
-  } = currentTemplate;
+  } = edit ? currentTemplate : {};
   const [templateKey, setTemplateKey] = useState(templateKeyInit);
   const [title, setTitle] = useState(titleInit);
   const [description, setDescription] = useState(descriptionInit);
@@ -142,7 +142,14 @@ const ModalPageTemplate = ({
   }, [templateKeyInit, descriptionInit, titleInit]);
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+        setTemplateKey('');
+        setTitle('');
+        setDescription('');
+      }}>
       <DialogTitle>Add Template Id</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -177,7 +184,6 @@ const ModalPageTemplate = ({
             </Typography>
             <Box style={{padding: 5}}>
               <TextField
-                autoFocus
                 className={classes.textField}
                 margin='dense'
                 placeholder='New Year Sale Template'
@@ -192,9 +198,9 @@ const ModalPageTemplate = ({
               <TextField
                 className={classes.textField}
                 rows={2}
+                // error={!description?.length}
                 maxRows={4}
                 multiline={true}
-                autoFocus
                 margin='dense'
                 placeholder='This will be used for all the Promotional Landing Pages from Christmas to New Year'
                 id='description'
@@ -213,6 +219,9 @@ const ModalPageTemplate = ({
         <Button
           onClick={() => {
             setOpen(false);
+            setTemplateKey('');
+            setTitle('');
+            setDescription('');
           }}>
           Cancel
         </Button>
@@ -239,6 +248,14 @@ const PageTemplatesList = () => {
   const isAdmin = params.get('isAdmin');
 
   const addPageTemplate = (pageKey, meta) => {
+    if (!pageKey || !meta?.title || !meta?.description) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: 'Please add valid values for the new template',
+      });
+
+      return;
+    }
     setOpen(false);
     const rootObj = !edit ? {root: {header: {}, body: {}, footer: {}}} : {};
     dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit, ...rootObj}));
