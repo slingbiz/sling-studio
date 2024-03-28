@@ -150,7 +150,7 @@ const AddCardForm = (props) => {
           mb={{xs: 3, sm: 0}}
           fontWeight={Fonts.MEDIUM}
           fontSize={16}>
-          {board.name} > {list.name}
+          {board.name} {'>'} {list.name}
         </Box>
 
         <Box ml={{sm: 'auto'}}>

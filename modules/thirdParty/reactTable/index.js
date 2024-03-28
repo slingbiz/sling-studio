@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import 'react-table/react-table.css';
+// import 'react-table/react-table.css';
 
 import ComponentCard from '../../../@sling/core/ComponentCard';
 import ComponentHeader from '../../../@sling/core/ComponentHeader';

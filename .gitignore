@@ -23,6 +23,7 @@ react-sortable-hoc# See https://help.github.com/articles/ignoring-files/ for mor
 # next.js
 /.next/
 /out/
+.next
 
 # production
 /build
