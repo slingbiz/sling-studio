@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
 import Router, {useRouter} from 'next/router';
 import {
@@ -32,7 +34,9 @@ const withData = (ComposedComponent) => (props) => {
       if (!loading) {
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       } else {
-        return <Loader />;
+        return () => {}; // no-op
+
+        // return <Loader />;
       }
     }
   }, [user, loading, newUser, isVerified]);
