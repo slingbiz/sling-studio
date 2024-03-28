@@ -33,6 +33,7 @@ import {
 } from '../../../redux/actions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {useSearchParams} from 'next/navigation';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -233,6 +234,9 @@ const PageTemplatesList = () => {
   const [edit, setEdit] = useState(false);
   const [currentTemplate, setCurrentTemplate] = useState({});
   const [showDelete, setShowDelete] = useState({});
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const isAdmin = params.get('isAdmin');
 
   const addPageTemplate = (pageKey, meta) => {
     setOpen(false);
@@ -307,7 +311,7 @@ const PageTemplatesList = () => {
                   onMouseOut={() => setShowDelete({})}>
                   <Card className={classes.card}>
                     <CardActionArea>
-                      {showDelete[v] && (
+                      {showDelete[v] && isAdmin && (
                         <IconButton
                           aria-label='delete'
                           onClick={() => deletePageTemplate(v)}
