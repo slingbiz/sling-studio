@@ -1,0 +1,6 @@
+# Set default behavior to normalize line endings
+* text=auto
+
+# Override text=auto for specific file types
+*.txt text
+*.md text
