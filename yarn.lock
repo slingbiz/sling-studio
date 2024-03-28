@@ -4942,11 +4942,6 @@ cross-spawn@^7.0.1, cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto-extra@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crypto-extra/-/crypto-extra-1.0.1.tgz#91d9e3d8d35f9a16d548c073c31b147f34eab11e"
-  integrity sha512-EDJ07p6UDdyX+7GL6Bb6FqCuCHY34GuII9esE/xXZtW7tlB+A7MYT9O/c1M/ov2aGTdwvw0b3z5OcO50zYBG5Q==
-
 css-box-model@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/css-box-model/-/css-box-model-1.2.1.tgz#59951d3b81fd6b2074a62d49444415b0d2b4d7c1"
@@ -7749,13 +7744,6 @@ ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
-
-namor@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/namor/-/namor-3.0.1.tgz#1e9338587bc395a2f83937bebb5a7c069abe1a92"
-  integrity sha512-DuXHrPcpgSe9p/P7xS+8JdcHNasd6/eyOYa6oKSLK/Lx0tqrdzUIcWhF2HgtoFvZmoSILjzMJeWBo3Lt7T8F8A==
-  dependencies:
-    crypto-extra "1.0.1"
 
 nanoid@^3.3.6:
   version "3.3.7"
