@@ -125,7 +125,6 @@ export const updateCompanyInfo = (id, formData) => {
 
     return UpdateCompanyInfo(id, formData)
       .then((res) => {
-        console.log('getCompanyInfo', res);
         if (res.status == 201) {
           dispatch({type: UPDATE_ACCOUNT, payload: res.data});
           dispatch({
