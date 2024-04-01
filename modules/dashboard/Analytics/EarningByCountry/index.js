@@ -1,7 +1,6 @@
 import React from 'react';
 import AppCard from '../../../../@sling/core/AppCard';
 import {makeStyles} from '@material-ui/core/styles';
-import MapChart from '../../Widgets/CountryMap/MapChart';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppSelect from '../../../../@sling/core/AppSelect';
@@ -37,9 +36,6 @@ const EarningByCountry = ({earningData}) => {
           onChange={handleSelectionType}
         />
       }>
-      <Box className={classes.mapChartRoot}>
-        <MapChart />
-      </Box>
 
       <Box
         display='flex'
