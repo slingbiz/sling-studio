@@ -1,25 +1,14 @@
 import React from 'react';
 import AppCard from '../../../../@sling/core/AppCard';
-import {makeStyles} from '@material-ui/core/styles';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppSelect from '../../../../@sling/core/AppSelect';
 import {useIntl} from 'react-intl';
 
-const useStyles = makeStyles((theme) => ({
-  mapChartRoot: {
-    height: 224,
-    '& .map-chart': {
-      width: '100%',
-      height: '100%',
-    },
-  },
-}));
 const EarningByCountry = ({earningData}) => {
   const handleSelectionType = (data) => {
     console.log('data: ', data);
   };
-  const classes = useStyles();
   const {messages} = useIntl();
   return (
     <AppCard
@@ -36,7 +25,6 @@ const EarningByCountry = ({earningData}) => {
           onChange={handleSelectionType}
         />
       }>
-
       <Box
         display='flex'
         alignItems='center'
@@ -45,7 +33,7 @@ const EarningByCountry = ({earningData}) => {
         {earningData.map((data) => (
           <Box px={4.5} mb={2} key={data.id}>
             <Box component='p' mb={1} fontWeight={Fonts.MEDIUM} fontSize={20}>
-              {data.amount }
+              {data.amount}
             </Box>
             <Box display='flex' alignItems='center'>
               <Box
