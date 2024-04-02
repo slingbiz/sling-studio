@@ -21,7 +21,7 @@
   },
   "rules": {
     "react/prop-types": 0,
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": ["error", "unix", "windows"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }

@@ -38,7 +38,6 @@ const Index = (props) => {
   console.log('Page Key ==> ', all?.[0] || 'company-details');
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'company-details';
-    console.log(all?.length, '@@@@all?.length@@@@');
     return <SettingsDetail titleKey={getTitle()} pageKey={pageKey} />;
   };
 

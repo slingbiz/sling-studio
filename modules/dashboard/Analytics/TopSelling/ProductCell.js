@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {makeStyles} from '@material-ui/core';
-import AppCircularProgress from '../../../../@sling/core/AppCircularProgress';
+import SlingCircularProgress from '../../../../@sling/core/SlingCircularProgress';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -62,7 +62,7 @@ const ProductCell = ({data}) => {
           alignItems='center'
           justifyContent='flex-end'>
           <Box height={50} width={50}>
-            <AppCircularProgress
+            <SlingCircularProgress
               minWidth={50}
               maxWidth={50}
               activeColor={data.color}

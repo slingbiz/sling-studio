@@ -31,8 +31,7 @@ const Index = (props) => {
   const { all } = query;
   console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
-    let pageKey = all?.[0] || 'guide';
-    console.log(all?.length, '@@@@all?.length@@@@');
+    let pageKey = all?.[0] || 'guide'; 
     if (all?.length >= 1) {
       return <MediaDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {

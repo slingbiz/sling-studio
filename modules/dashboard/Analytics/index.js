@@ -16,7 +16,7 @@ import TicketsSupport from './TicketsSupport';
 import PageVisits from './PageVisits';
 import TrafficSource from './TrafficSource';
 import InfoWidget from './InfoWidget';
-import AppAnimate from '../../../@sling/core/AppAnimate';
+import AnimateComponent from '../../../@sling/core/Animate';
 
 const CRM = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const CRM = () => {
   return (
     <>
       {analyticsData ? (
-        <AppAnimate animation='transition.slideUpIn' delay={0}>
+        <AnimateComponent animation='transition.slideUpIn' delay={0}>
           <Box pt={{xl: 4}} clone>
             <GridContainer>
               <Grid item xs={12} md={6}>
@@ -87,7 +87,7 @@ const CRM = () => {
               </Grid>
             </GridContainer>
           </Box>
-        </AppAnimate>
+        </AnimateComponent>
       ) : null}
 
       <InfoView />

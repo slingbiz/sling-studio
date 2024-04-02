@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import {highlightTheme} from './highlightTheme';
 import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import AppAnimate from '../AppAnimate';
+import AnimateComponent from '../Animate';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -54,7 +54,7 @@ const ComponentCard = ({
   const classes = useStyles();
 
   return (
-    <AppAnimate animation='transition.slideUpIn' delay={0}>
+    <AnimateComponent animation='transition.slideUpIn' delay={0}>
       <Card>
         <CardHeader
           className={classes.cardHeader}
@@ -133,7 +133,7 @@ const ComponentCard = ({
           </Scrollbar>
         </CardContent>
       </Card>
-    </AppAnimate>
+    </AnimateComponent>
   );
 };
 

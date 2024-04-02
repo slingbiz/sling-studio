@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Box, makeStyles} from '@material-ui/core';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AppLinearProgress from '../../../../@sling/core/AppLinearProgress';
@@ -36,7 +36,7 @@ const TicketsSupport = ({tickets}) => {
     setExpanded(isExpanded ? panel : false);
   };
   return (
-    <AppCard
+    <SlingCard
       contentStyle={{padding: 0}}
       mb={{xs: 5, md: 8}}
       footer={
@@ -119,7 +119,7 @@ const TicketsSupport = ({tickets}) => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </AppCard>
+    </SlingCard>
   );
 };
 

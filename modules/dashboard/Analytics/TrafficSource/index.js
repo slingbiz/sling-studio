@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -59,7 +59,7 @@ const TrafficSource = ({trafficData}) => {
   };
   const {messages} = useIntl();
   return (
-    <AppCard title={messages['dashboard.analytics.trafficSource']}>
+    <SlingCard title={messages['dashboard.analytics.trafficSource']}>
       {trafficData.map((data) => (
         <Accordion
           key={data.id}
@@ -99,7 +99,7 @@ const TrafficSource = ({trafficData}) => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </AppCard>
+    </SlingCard>
   );
 };
 

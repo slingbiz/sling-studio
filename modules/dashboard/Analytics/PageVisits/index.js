@@ -1,17 +1,17 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import VisitsTable from './VisitsTable';
 import {useIntl} from 'react-intl';
 
 const PageVisits = ({pageVisits}) => {
   const {messages} = useIntl();
   return (
-    <AppCard
+    <SlingCard
       contentStyle={{paddingLeft: 0, paddingRight: 0}}
       title={messages['dashboard.analytics.pageVisits']}
       action={messages['common.viewAll']}>
       <VisitsTable visitsData={pageVisits} />
-    </AppCard>
+    </SlingCard>
   );
 };
 

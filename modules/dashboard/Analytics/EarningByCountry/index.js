@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppSelect from '../../../../@sling/core/AppSelect';
@@ -11,7 +11,7 @@ const EarningByCountry = ({earningData}) => {
   };
   const {messages} = useIntl();
   return (
-    <AppCard
+    <SlingCard
       height={1}
       title={'Traffic Sources by Country'}
       action={
@@ -57,7 +57,7 @@ const EarningByCountry = ({earningData}) => {
           </Box>
         ))}
       </Box>
-    </AppCard>
+    </SlingCard>
   );
 };
 

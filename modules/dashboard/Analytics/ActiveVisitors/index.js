@@ -6,7 +6,7 @@ import VisitorsGraph from './VisitorsGraph';
 import {green, red} from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useIntl} from 'react-intl';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,7 @@ const ActiveVisitors = ({data}) => {
   const classes = useStyles();
   const {messages} = useIntl();
   return (
-    <AppCard contentStyle={{padding: 0}}>
+    <SlingCard contentStyle={{padding: 0}}>
       <Box pt={{xs: 5, sm: 5, xl: 5}} bgcolor='#49bd65'>
         <Box px={6}>
           <Box
@@ -72,7 +72,7 @@ const ActiveVisitors = ({data}) => {
           </Button>
         </Box>
       </Box>
-    </AppCard>
+    </SlingCard>
   );
 };
 

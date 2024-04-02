@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StatGraphs from './StatGraphs';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import AppSelect from '../../../../@sling/core/AppSelect';
 import {useIntl} from 'react-intl';
 
@@ -11,7 +11,7 @@ const VisitorPageView = ({data}) => {
   };
   const {messages} = useIntl();
   return (
-    <AppCard
+    <SlingCard
       height={1}
       title={messages['dashboard.analytics.visitorsPageViews']}
       action={
@@ -26,7 +26,7 @@ const VisitorPageView = ({data}) => {
         />
       }>
       <StatGraphs data={data} />
-    </AppCard>
+    </SlingCard>
   );
 };
 export default VisitorPageView;
