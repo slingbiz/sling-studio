@@ -65,30 +65,33 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
             <ArrowBackIcon />
           </IconButton>
           <Box my={3} mx={3}>
-            <IconButton
+            <Button
+              style={{
+                borderRadius: '1% !important',
+              }}
               color={getIconColor('DESKTOP')}
               onClick={() => setScreenMode('DESKTOP')}>
               <LaptopIcon />
               <Typography variant='caption' component='span'>
                 Laptop
               </Typography>
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               color={getIconColor('TABLET')}
               onClick={() => setScreenMode('TABLET')}>
               <TabletAndroidIcon />
               <Typography variant='caption' component='span'>
                 Tablet
               </Typography>
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               color={getIconColor('MOBILE')}
               onClick={() => setScreenMode('MOBILE')}>
               <PhoneAndroidIcon />
               <Typography variant='caption' component='span'>
                 Mobile
               </Typography>
-            </IconButton>
+            </Button>
           </Box>
           <Button autoFocus color='inherit' onClick={handleClose}>
             Cancel
