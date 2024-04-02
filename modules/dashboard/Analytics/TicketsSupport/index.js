@@ -7,7 +7,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import SlingCard from '../../../../@sling/core/SlingCard';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AppLinearProgress from '../../../../@sling/core/AppLinearProgress';
+import LinearProgress from '../../../../@sling/core/AppLinearProgress';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +77,7 @@ const TicketsSupport = ({tickets}) => {
                 <Box mb={1}>Open</Box>
                 <Box display='flex' alignItems='center'>
                   <Box flex={1}>
-                    <AppLinearProgress
+                    <LinearProgress
                       value={data.overAllPercentage.open}
                       activeColor='#5ABE20'
                     />
@@ -91,7 +91,7 @@ const TicketsSupport = ({tickets}) => {
                 <Box mb={1}>Closed</Box>
                 <Box display='flex' alignItems='center'>
                   <Box flex={1}>
-                    <AppLinearProgress
+                    <LinearProgress
                       value={data.overAllPercentage.close}
                       activeColor='#F44D54'
                     />
@@ -105,7 +105,7 @@ const TicketsSupport = ({tickets}) => {
                 <Box mb={1}>On Hold</Box>
                 <Box display='flex' alignItems='center'>
                   <Box flex={1}>
-                    <AppLinearProgress
+                    <LinearProgress
                       value={data.overAllPercentage.hold}
                       activeColor='#F59821'
                     />
