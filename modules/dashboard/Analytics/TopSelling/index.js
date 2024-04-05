@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import ProductCell from './ProductCell';
 import {useIntl} from 'react-intl';
 import AppList from '../../../../@sling/core/AppList';
@@ -7,7 +7,7 @@ import AppList from '../../../../@sling/core/AppList';
 const TopSelling = ({products}) => {
   const {messages} = useIntl();
   return (
-    <AppCard
+    <SlingCard
       contentStyle={{paddingRight: 0, paddingLeft: 0}}
       height={1}
       title={'Top Pages'}
@@ -17,7 +17,7 @@ const TopSelling = ({products}) => {
         data={products}
         renderRow={(data, index) => <ProductCell key={index} data={data} />}
       />
-    </AppCard>
+    </SlingCard>
   );
 };
 

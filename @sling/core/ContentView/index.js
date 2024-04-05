@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import AppFooter from '../AppLayout/AppFooter';
 import Box from '@material-ui/core/Box';
 import {RouteTransition} from '../../../shared/constants/AppEnums';
-import AppErrorBoundary from '../AppErrorBoundary';
+import SlingErrorBoundary from '../SlingErrorBoundary';
 
 const TransitionWrapper = ({children}) => {
   const {rtAnim} = useContext(AppContext);
@@ -41,9 +41,9 @@ const ContentView = (props) => {
         flexDirection='column'
         className='main-content-view'>
         <AppSuspense>
-          <AppErrorBoundary>
+          <SlingErrorBoundary>
             <TransitionWrapper>{props.children}</TransitionWrapper>
-          </AppErrorBoundary>
+          </SlingErrorBoundary>
         </AppSuspense>
       </Box>
       <AppFooter />

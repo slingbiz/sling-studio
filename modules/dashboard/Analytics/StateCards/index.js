@@ -5,7 +5,7 @@ import {green, red} from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import {makeStyles} from '@material-ui/core';
 import StatGraphs from './StatGraphs';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 
 const StateCard = ({data}) => {
   const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const StateCard = ({data}) => {
   const classes = useStyles();
 
   return (
-    <AppCard className={classes.statsCard}>
+    <SlingCard className={classes.statsCard}>
       <Box display='flex' flex={1} flexDirection='column'>
         <Box display='flex' flex={1} flexDirection='row'>
           <Box position='relative' mr={{xs: 3, xl: 6}}>
@@ -56,7 +56,7 @@ const StateCard = ({data}) => {
           <StatGraphs data={data.graphData} strokeColor={data.strokeColor} />
         </Box>
       </Box>
-    </AppCard>
+    </SlingCard>
   );
 };
 

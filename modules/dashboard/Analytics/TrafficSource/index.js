@@ -1,10 +1,10 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import {Box} from '@material-ui/core';
-import AppLinearProgress from '../../../../@sling/core/AppLinearProgress';
+import LinearProgress from '../../../../@sling/core/AppLinearProgress';
 import {withStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
@@ -59,7 +59,7 @@ const TrafficSource = ({trafficData}) => {
   };
   const {messages} = useIntl();
   return (
-    <AppCard title={messages['dashboard.analytics.trafficSource']}>
+    <SlingCard title={messages['dashboard.analytics.trafficSource']}>
       {trafficData.map((data) => (
         <Accordion
           key={data.id}
@@ -80,7 +80,7 @@ const TrafficSource = ({trafficData}) => {
                   {data.value}%
                 </Box>
               </Box>
-              <AppLinearProgress
+              <LinearProgress
                 value={data.value}
                 thickness={10}
                 activeColor='#0698EC'
@@ -99,7 +99,7 @@ const TrafficSource = ({trafficData}) => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </AppCard>
+    </SlingCard>
   );
 };
 

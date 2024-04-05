@@ -5,7 +5,7 @@ const routesConfig = [
     messageId: 'sidebar.app.home',
     type: 'item',
     icon: 'home',
-    url: '/dashboards/analytics',
+    url: '/dashboards/',
   },
   {
     id: 'pages',

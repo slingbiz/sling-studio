@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import MUILinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +31,7 @@ export function CustomLinearProgress({
     borderRadius,
   });
   return (
-    <LinearProgress
+    <MUILinearProgress
       className={classes.root}
       classes={{colorPrimary: classes.colorPrimary, bar: classes.bar}}
       {...rest}
@@ -52,7 +52,7 @@ CustomLinearProgress.defaultProps = {
   borderRadius: 10,
 };
 
-const AppLinearProgress = ({
+const LinearProgress = ({
   pathColor,
   borderRadius,
   activeColor,
@@ -70,7 +70,7 @@ const AppLinearProgress = ({
   );
 };
 
-AppLinearProgress.defaultProps = {
+LinearProgress.defaultProps = {
   thickness: 5,
   borderRadius: 10,
   pathColor: '#d6d6d6',
@@ -78,7 +78,7 @@ AppLinearProgress.defaultProps = {
   variant: 'determinate',
 };
 
-AppLinearProgress.prototype = {
+LinearProgress.prototype = {
   thickness: PropTypes.number,
   borderRadius: PropTypes.number,
   pathColor: PropTypes.string,
@@ -86,4 +86,4 @@ AppLinearProgress.prototype = {
   variant: PropTypes.oneOf(['buffer', 'determinate', 'indeterminate', 'query']),
 };
 
-export default AppLinearProgress;
+export default LinearProgress;

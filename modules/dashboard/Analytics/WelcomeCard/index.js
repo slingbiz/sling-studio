@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 
 const WelcomeCard = ({data}) => {
   const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,7 @@ const WelcomeCard = ({data}) => {
   const classes = useStyles();
   const {messages} = useIntl();
   return (
-    <AppCard mb={{xs: 5, md: 8}}>
+    <SlingCard mb={{xs: 5, md: 8}}>
       <Box flex={1} display='flex' flexDirection={{xs: 'column', sm: 'row'}}>
         <Box
           mr={{xs: 2, xl: 10}}
@@ -118,7 +118,7 @@ const WelcomeCard = ({data}) => {
           <img alt='welcome' src={'/images/dashboard/welcomImage.png'} />
         </Box>
       </Box>
-    </AppCard>
+    </SlingCard>
   );
 };
 

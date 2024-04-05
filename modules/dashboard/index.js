@@ -6,7 +6,7 @@ export const dashBoardConfigs = [
     auth: authRole.user,
     routes: [
       {
-        path: '/dashboards/analytics',
+        path: '/dashboards/',
         component: React.lazy(() => import('./Analytics')),
       },
     ],

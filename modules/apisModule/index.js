@@ -32,7 +32,6 @@ const Index = (props) => {
   console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'guide';
-    console.log(all?.length, '@@@@all?.length@@@@');
     if (all?.length >= 1) {
       return <ApisDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {
@@ -47,7 +46,6 @@ const Index = (props) => {
 
   const {messages} = useIntl();
   const basePath = all ? `` : `headless-apis/`;
-  console.log(all, '@@@@@@@@@@@all@@@@@@@@@@@@@');
   if (!all) {
     // return <ApisList />;
   }

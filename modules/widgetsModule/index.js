@@ -30,7 +30,6 @@ const Index = (props) => {
   console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
     let pageKey = all?.[0] || 'guide';
-    console.log(all?.length, '@@@@all?.length@@@@');
     if (all?.length >= 1) {
       return <WidgetsDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {

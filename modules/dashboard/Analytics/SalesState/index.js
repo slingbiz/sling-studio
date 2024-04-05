@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import GridContainer from '../../../../@sling/core/GridContainer';
 import Grid from '@material-ui/core/Grid';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 
 import ReactSvgPieChart from 'react-svg-piechart';
 import {isBreakPointDown} from '../../../../@sling/utility/Utils';
@@ -28,7 +28,7 @@ const SalesState = ({salesState, chartData}) => {
   };
   const {messages} = useIntl();
   return (
-    <AppCard
+    <SlingCard
       title={'Google Analytics Stats'}
       height={1}
       action={
@@ -108,7 +108,7 @@ const SalesState = ({salesState, chartData}) => {
           </Box>
         </Grid>
       </GridContainer>
-    </AppCard>
+    </SlingCard>
   );
 };
 export default SalesState;

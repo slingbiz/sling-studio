@@ -37,8 +37,8 @@ const SlingLayout = ({children}) => {
   useStyles();
   const {navStyle} = useContext(AppContext);
   const {user} = useSelector(({auth}) => auth);
+  console.log(navStyle, 'navStylenavStylenavStyle')
   const AppLayout = Layouts[navStyle];
-  console.log(navStyle, 'navstyle');
   const classes = useStyle();
   return (
     <>

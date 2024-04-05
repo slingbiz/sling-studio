@@ -8,7 +8,7 @@ import {makeStyles} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import {initialUrl} from '../../../shared/constants/AppConst';
-import AppAnimate from '../../../@sling/core/AppAnimate';
+import AnimateComponent from '../../../@sling/core/Animate';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -33,7 +33,7 @@ const Error500 = () => {
   const classes = useStyles();
 
   return (
-    <AppAnimate animation='transition.slideUpIn' delay={200}>
+    <AnimateComponent animation='transition.slideUpIn' delay={200}>
       <Box
         py={{xl: 8}}
         flex={1}
@@ -81,7 +81,7 @@ const Error500 = () => {
           </Button>
         </Box>
       </Box>
-    </AppAnimate>
+    </AnimateComponent>
   );
 };
 

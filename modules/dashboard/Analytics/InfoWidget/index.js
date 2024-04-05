@@ -1,11 +1,11 @@
 import React from 'react';
-import AppCard from '../../../../@sling/core/AppCard';
+import SlingCard from '../../../../@sling/core/SlingCard';
 import {Box} from '@material-ui/core';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const InfoWidget = ({data}) => {
   return (
-    <AppCard
+    <SlingCard
       height={1}
       style={{backgroundColor: data.bgColor}}
       contentStyle={{paddingLeft: 8, paddingRight: 8}}>
@@ -32,7 +32,7 @@ const InfoWidget = ({data}) => {
           </Box>
         </Box>
       </Box>
-    </AppCard>
+    </SlingCard>
   );
 };
 
