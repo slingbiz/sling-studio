@@ -17,17 +17,17 @@ module.exports = (phase) => {
         ignoreDuringBuilds: true,
       },
       env: {
-        SERVICE_URL: 'https://sling.biz/api/',
-        INIT_CONFIG: 'https://sling.biz/api/v1/dashboard/initConfig',
-        GET_WIDGETS: 'https://sling.biz/api/v1/widgets/dash/getWidgets',
-        GET_MEDIA_API: 'https://sling.biz/api/v1/media/dash/getMedia',
+        SERVICE_URL: 'https://api.sling.biz/',
+        INIT_CONFIG: 'https://api.sling.biz/v1/dashboard/initConfig',
+        GET_WIDGETS: 'https://api.sling.biz/v1/widgets/dash/getWidgets',
+        GET_MEDIA_API: 'https://api.sling.biz/v1/media/dash/getMedia',
         GET_MEDIA_CONSTANTS_API:
-          'https://sling.biz/api/v1/media/dash/getMediaConstants',
+          'https://api.sling.biz/v1/media/dash/getMediaConstants',
         GET_ROUTES_LIST_API:
-          'https://sling.biz/api/v1/pageRoutes/dash/getRoutes',
-        SET_CONFIG: 'https://sling.biz/api/v1/dashboard/setConfig',
+          'https://api.sling.biz/v1/pageRoutes/dash/getRoutes',
+        SET_CONFIG: 'https://api.sling.biz/v1/dashboard/setConfig',
         GUIDE_URL: 'https://sling.biz/documentation',
-        SAVE_ROUTE: 'https://sling.biz/api/v1/pageRoutes/saveRoute',
+        SAVE_ROUTE: 'https://api.sling.biz/v1/pageRoutes/saveRoute',
         FIREBASE_JSON: {
           apiKey,
           authDomain,
