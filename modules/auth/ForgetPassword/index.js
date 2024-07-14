@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router';
 import ForgetPasswordFirebase from './ForgetPasswordFirebase';
 import ForgetPasswordAwsCognito from './ForgetPasswordAwsCognito';
 import ForgetPasswordJwtAuth from './ForgetPasswordJwtAuth';
@@ -7,7 +7,7 @@ import ForgetPasswordJwtAuth from './ForgetPasswordJwtAuth';
 const ForgetPassword = () => {
   const location = useRouter();
 
-  const tab = (location.state && location.state.tab) || 'firebase';
+  const tab = (location.state && location.state.tab) || 'jwtAuth';
 
   return (
     <>

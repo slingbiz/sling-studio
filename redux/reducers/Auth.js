@@ -1,3 +1,4 @@
+// redux/reducers/authReducer.js
 import {
   SET_AUTH_TOKEN,
   SIGNOUT_AUTH_SUCCESS,
@@ -7,15 +8,16 @@ import {
   UPDATE_NEW_USER_STATUS,
 } from '../../shared/constants/ActionTypes';
 
-const INIT_STATE = {
+const initialState = {
   loading: true,
   isVerified: undefined,
   newUser: typeof window !== 'undefined' && localStorage.getItem('newUser'),
-  user: null,
-  token: null,
+  user:
+    typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user')),
+  token: typeof window !== 'undefined' && localStorage.getItem('token'),
 };
 
-const authReducer = (state = INIT_STATE, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_NEW_USER_STATUS: {
       return {
@@ -24,7 +26,7 @@ const authReducer = (state = INIT_STATE, action) => {
       };
     }
     case UPDATE_AUTH_USER: {
-      return {
+      const newState = {
         ...state,
         newUser:
           (typeof window !== 'undefined' && localStorage.getItem('newUser')) ||
@@ -32,26 +34,25 @@ const authReducer = (state = INIT_STATE, action) => {
         loading: false,
         user: action.payload,
       };
-    }
-    case UPDATE_NEW_SIGNUP: {
-      return {
-        ...state,
-        newUser: 'true',
-        isVerified: false,
-        loading: false,
-        user: action.payload,
-      };
+      localStorage.setItem('user', JSON.stringify(action.payload));
+      return newState;
     }
     case SIGNOUT_AUTH_SUCCESS: {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('newUser');
       return {
         ...state,
         user: null,
+        token: null,
+        newUser: null,
       };
     }
     case USER_LOADED: {
       return {...state, loading: false};
     }
     case SET_AUTH_TOKEN: {
+      localStorage.setItem('token', action.payload);
       return {
         ...state,
         token: action.payload,
@@ -61,4 +62,5 @@ const authReducer = (state = INIT_STATE, action) => {
       return state;
   }
 };
+
 export default authReducer;

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SigninFirebase from './SigninFirebase';
+import SigninJwtAuth from './SigninJwtAuth';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
@@ -131,9 +132,9 @@ const Signin = (props) => {
           </Tabs>
 
           <>
-            {value === 0 && <SigninFirebase />}
-            {value === 1 && <SigninFirebase />}
-            {value === 2 && <SigninFirebase />}
+            {value === 0 && <SigninJwtAuth />}
+            {value === 1 && <SigninJwtAuth />}
+            {value === 2 && <SigninJwtAuth />}
           </>
         </Card>
       </Box>

@@ -9,3 +9,4 @@ export * from './Route';
 export * from './PageTemplate';
 export * from './Media';
 export * from './Widgets';
+export * from './Auth';

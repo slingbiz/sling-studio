@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import SignupAwsCognito from './SignupAwsCognito';
 import SignupJwtAuth from './SignupJwtAuth';
-import SignupFirebase from './SignupFirebase';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
@@ -132,9 +130,9 @@ const Signup = (props) => {
           </Tabs>
 
           <>
-            {value === 0 && <SignupFirebase />}
-            {value === 1 && <SignupFirebase />}
-            {value === 2 && <SignupFirebase />}
+            {value === 0 && <SignupJwtAuth />}
+            {value === 1 && <SignupJwtAuth />}
+            {value === 2 && <SignupJwtAuth />}
           </>
         </Card>
       </Box>

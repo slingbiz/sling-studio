@@ -7,8 +7,8 @@ import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
 
 import InfoView from '../../../@sling/core/InfoView';
-import {onJwtSignIn, onSignInAuth0User} from '../../../redux/actions';
-import { useRouter } from 'next/router'
+import {onJwtSignIn} from '../../../redux/actions';
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
@@ -16,7 +16,6 @@ import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import grey from '@material-ui/core/colors/grey';
 
 const MyTextField = (props) => {
   const [field, meta] = useField(props);
@@ -117,8 +116,7 @@ const SigninJwtAuth = (props) => {
           onSubmit={(data, {setSubmitting}) => {
             setSubmitting(true);
             dispatch(
-              onJwtSignIn({email: data.email, password: data.password}),
-              router,
+              onJwtSignIn({email: data.email, password: data.password}, router),
             );
             setSubmitting(false);
           }}>
@@ -199,7 +197,7 @@ const SigninJwtAuth = (props) => {
                         classes.underlineNone,
                         classes.colorTextPrimary,
                       )}>
-                       <IntlMessages id='common.signup' />
+                      <IntlMessages id='common.signup' />
                     </Link>
                   </Box>
                 </Box>
@@ -207,21 +205,6 @@ const SigninJwtAuth = (props) => {
             </Form>
           )}
         </Formik>
-      </Box>
-      <Box
-        bgcolor={grey[100]}
-        px={{xs: 6, sm: 10, xl: 15}}
-        py={{xs: 3, xl: 4}}
-        display='flex'
-        justifyContent='center'
-        alignItems='center'>
-        <Button
-          variant='contained'
-          color='primary'
-          className={clsx(classes.btnRoot, classes.btnRootFull)}
-          onClick={() => dispatch(onSignInAuth0User())}>
-          <IntlMessages id='auth.loginWithAuth0' />
-        </Button>
       </Box>
 
       <InfoView />

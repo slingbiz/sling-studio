@@ -23,57 +23,6 @@ export const useAuthToken = () => {
   const {user} = useSelector(({auth}) => auth);
 
   useEffect(() => {
-    const awsAuthUser = () =>
-      new Promise((resolve) => {
-        awsAuth
-          .currentAuthenticatedUser()
-          .then((user) => {
-            resolve();
-            if (user) {
-              setLoading(false);
-              dispatch({
-                type: UPDATE_AUTH_USER,
-                payload: {
-                  authType: AuthType.AWS_COGNITO,
-                  uid: user.username,
-                  displayName: user.attributes.name,
-                  email: user.attributes.email,
-                  role: defaultUser.role,
-                  photoURL: user.photoURL,
-                  token: user.signInUserSession.accessToken.jwtToken,
-                },
-              });
-            }
-          })
-          .catch(function (error) {
-            resolve();
-          });
-        return Promise.resolve();
-      });
-
-    const firebaseCheck = () =>
-      new Promise((resolve) => {
-        firebaseAuth.onAuthStateChanged((authUser) => {
-          if (authUser) {
-            setLoading(false);
-            dispatch({
-              type: UPDATE_AUTH_USER,
-              payload: {
-                authType: AuthType.FIREBASE,
-                uid: authUser.uid,
-                displayName: authUser.displayName,
-                email: authUser.email,
-                role: defaultUser.role,
-                photoURL: authUser.photoURL,
-                token: authUser.refreshToken,
-              },
-            });
-          }
-          resolve();
-        });
-        return Promise.resolve();
-      });
-
     const validateAuth = async () => {
       dispatch(fetchStart());
       const cookies = new Cookies();
@@ -106,7 +55,7 @@ export const useAuthToken = () => {
     };
 
     const checkAuth = () => {
-      Promise.all([firebaseCheck(), validateAuth()]).then(() => {
+      Promise.all([validateAuth()]).then(() => {
         if (loading) {
           setLoading(false);
           dispatch({
@@ -114,18 +63,6 @@ export const useAuthToken = () => {
           });
         }
       });
-      // Hub.listen('auth', ({payload: {event, data}}) => {
-      //   switch (event) {
-      //     case 'signIn':
-      //       dispatch(onGetLoggedInCognitoUser());
-      //       break;
-      //     case 'signOut':
-      //       dispatch({type: UPDATE_AUTH_USER, payload: null});
-      //       break;
-      //     default:
-      //       return false;
-      //   }
-      // });
     };
     checkAuth();
   }, [dispatch]);
