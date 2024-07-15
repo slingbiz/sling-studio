@@ -6,6 +6,7 @@ import {
   SET_AUTH_TOKEN,
   UPDATE_NEW_SIGNUP,
   UPDATE_AUTH_USER,
+  SIGNOUT_AUTH_SUCCESS,
 } from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import React from 'react';
@@ -127,5 +128,40 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
+  };
+};
+
+export const onJwtAuthSignout = () => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    const Api = await ApiAuth();
+    if (!Api) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: <IntlMessages id='message.invalidSession' />,
+      });
+    }
+    // Optionally, make an API call to the backend to log out
+    Api.post(`${SERVICE_URL}v1/auth/logout`, {})
+      .then((response) => {
+        dispatch({type: FETCH_SUCCESS});
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+      });
+
+    // Clear tokens from local storage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('newUser');
+
+    // Dispatch the sign-out action
+    dispatch({type: SIGNOUT_AUTH_SUCCESS});
+
+    dispatch({type: FETCH_SUCCESS});
+
+    // Redirect to login page
+    window.location.href = '/signin';
   };
 };

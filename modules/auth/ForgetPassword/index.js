@@ -1,7 +1,5 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import ForgetPasswordFirebase from './ForgetPasswordFirebase';
-import ForgetPasswordAwsCognito from './ForgetPasswordAwsCognito';
 import ForgetPasswordJwtAuth from './ForgetPasswordJwtAuth';
 
 const ForgetPassword = () => {
@@ -11,9 +9,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      {tab === 'firebase' && <ForgetPasswordFirebase />}
-      {tab === 'awsCognito' && <ForgetPasswordAwsCognito />}
-      {tab === 'jwtAuth' && <ForgetPasswordJwtAuth />}
+      <ForgetPasswordJwtAuth />
     </>
   );
 };

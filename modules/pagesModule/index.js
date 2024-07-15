@@ -9,7 +9,7 @@ import AppsContainer from '../../@sling/core/AppsContainer';
 import {useRouter, withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchLayoutConfig} from "../../redux/actions";
+import {fetchLayoutConfig} from '../../redux/actions';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -54,7 +54,6 @@ const Index = (props) => {
 
   const {messages} = useIntl();
   const basePath = all ? `/pages/${all.join('/')}` : `pages/`;
-  console.log(all, '[alllll]');
   if (!all) {
     // return <ApisList />;
   }

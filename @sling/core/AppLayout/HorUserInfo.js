@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {useDispatch} from 'react-redux';
 import {
   onCognitoUserSignOut,
-  onJWTAuthSignout,
+  onJwtAuthSignout,
   onSignOutAuth0User,
   onSignOutFirebaseUser,
 } from '../../../redux/actions';
@@ -101,15 +101,7 @@ const HorUserInfo = ({bgType = 'colored'}) => {
           <MenuItem>My account</MenuItem>
           <MenuItem
             onClick={() => {
-              if (user && user.authType === AuthType.AWS_COGNITO) {
-                dispatch(onCognitoUserSignOut());
-              } else if (user && user.authType === AuthType.FIREBASE) {
-                dispatch(onSignOutFirebaseUser());
-              } else if (user && user.authType === AuthType.AUTH0) {
-                dispatch(onSignOutAuth0User());
-              } else if (user && user.authType === AuthType.JWT_AUTH) {
-                dispatch(onJWTAuthSignout());
-              }
+              dispatch(onJwtAuthSignout());
             }}>
             Logout
           </MenuItem>

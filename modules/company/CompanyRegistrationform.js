@@ -8,12 +8,11 @@ import Stack from '@mui/material/Stack';
 import {Button, Divider, TextField} from '@material-ui/core';
 import MenuItem from '@mui/material/MenuItem';
 import MuiPhoneNumber from 'material-ui-phone-number';
-// import ReCAPTCHA from 'react-google-recaptcha';
 import {countries} from '../../shared/constants/CountryList';
 import {Form, Formik, useField} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {onCompanyRegistrationForm} from '../../redux/actions/AccountAction';
-import {onSignOutFirebaseUser} from '../../redux/actions';
+import {onJwtAuthSignout} from '../../redux/actions';
 
 const useStyles = makeStyles((theme) => ({
   cardRoot: {
@@ -93,7 +92,6 @@ const MyTextField = (props) => {
 const CompanyRegistrationform = (props) => {
   const dispatch = useDispatch();
   const {user, loading} = useSelector(({auth}) => auth);
-  console.log(user, 'user[[[[]]]]');
   const classes = useStyles(props);
 
   return (
@@ -153,7 +151,7 @@ const CompanyRegistrationform = (props) => {
                 <Box sx={{fontSize: 14, alignSelf: 'start'}}>
                   Logged in as {user.email} &nbsp;
                   <Box
-                    onClick={() => dispatch(onSignOutFirebaseUser())}
+                    onClick={() => dispatch(onJwtAuthSignout())}
                     color='primary.main'
                     sx={{
                       textDecoration: 'underline',

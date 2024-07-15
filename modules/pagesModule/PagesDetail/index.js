@@ -13,7 +13,6 @@ import Guide from './Guide';
 const PagesDetail = (props) => {
   const {query} = useRouter();
   const id = query.all[1] || query.all[0];
-  console.log(id, 'idddddd', query.all[1]);
   const sectionMapper =
     id === 'templates' || id === 'guide'
       ? {
