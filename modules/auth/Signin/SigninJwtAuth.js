@@ -109,8 +109,8 @@ const SigninJwtAuth = (props) => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            email: 'demo@sling.biz',
-            password: 'demo@sling.biz',
+            email: 'demo2@sling.biz',
+            password: 'demo2@sling.biz',
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
