@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import SigninFirebase from './SigninFirebase';
+import SigninJwtAuth from './SigninJwtAuth';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
@@ -113,27 +113,11 @@ const Signin = (props) => {
             textColor='primary'
             aria-label='simple tabs example'
             className={classes.muiTabsFull}>
-            {/*<Tab*/}
-            {/*  className={classes.muiTab}*/}
-            {/*  label='aws cognito'*/}
-            {/*  {...a11yProps(1)}*/}
-            {/*/>*/}
-            {/*<Tab*/}
-            {/*  className={classes.muiTab}*/}
-            {/*  label='jwt auth'*/}
-            {/*  {...a11yProps(2)}*/}
-            {/*/>*/}
-            <Tab
-              className={classes.muiTab}
-              // label='firebase'
-              {...a11yProps(0)}
-            />
+            <Tab className={classes.muiTab} {...a11yProps(0)} />
           </Tabs>
 
           <>
-            {value === 0 && <SigninFirebase />}
-            {value === 1 && <SigninFirebase />}
-            {value === 2 && <SigninFirebase />}
+            <SigninJwtAuth />
           </>
         </Card>
       </Box>

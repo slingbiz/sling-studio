@@ -109,6 +109,7 @@ export const fetchLayoutConfig = () => {
       });
     }
     try {
+      console.log(INIT_CONFIG, 'INIT_CONFIGINIT_CONFIG');
       const data = await Api.get(`${INIT_CONFIG}`);
       if (data.status === 200) {
         dispatch({type: FETCH_SUCCESS});

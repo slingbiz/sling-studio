@@ -1,19 +1,18 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-// Initialize Firebase
-const firebaseConfig = process.env.FIREBASE_JSON;
-console.log(firebaseConfig, '[firebaseConfig @firebaseConfig]');
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// Placeholder methods to replace Firebase functionalities
+const placeholderMethod = () => {
+  console.log('Firebase method placeholder');
+};
 
-const auth = firebase.auth();
+const auth = {
+  signInWithPopup: placeholderMethod,
+  signOut: placeholderMethod,
+  onAuthStateChanged: placeholderMethod,
+};
 
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-const githubAuthProvider = new firebase.auth.GithubAuthProvider();
-const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-const twitterAuthProvider = new firebase.auth.TwitterAuthProvider();
+const googleAuthProvider = {};
+const githubAuthProvider = {};
+const facebookAuthProvider = {};
+const twitterAuthProvider = {};
 
 export {
   auth,

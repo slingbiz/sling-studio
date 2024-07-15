@@ -1,42 +1,57 @@
 import axios from 'axios';
-import {auth} from './auth/firebase-config';
+import {SERVICE_URL} from '../../shared/constants/Services';
 
-const AxiosAuth = async () => {
-  const user = auth.currentUser;
-  const token = await user?.getIdToken();
-  if (!token) {
-    return;
-  }
+const AxiosAuth = () => {
+  const token = localStorage.getItem('accessToken');
+
   const axiosInst = axios.create({
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       Accept: '*',
-      Authorization: 'Bearer ' + token,
+      Authorization: token ? `Bearer ${token}` : '',
     },
   });
 
-  // Add a response interceptor
+  // Request interceptor to add the token to headers
+  axiosInst.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error),
+  );
+
+  // Response interceptor to handle token expiration and retry
   axiosInst.interceptors.response.use(
     (response) => {
-      // If the request succeeds, return the response
       return response;
     },
-    (error) => {
-      // If there's an error in the request or response, handle it here
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log('API AUTH CONFIG | Response error:', error.response.data);
-        console.log('Status code:', error.response.status);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log('API AUTH CONFIG | Request error:', error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('API AUTH CONFIG | Error:', error.message);
+    async (error) => {
+      const originalRequest = error.config;
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        !originalRequest._retry
+      ) {
+        originalRequest._retry = true;
+        try {
+          const newToken = await refreshAccessToken(); // Method to refresh the token
+          if (newToken) {
+            localStorage.setItem('accessToken', newToken);
+            axios.defaults.headers.common['Authorization'] =
+              `Bearer ${newToken}`;
+            originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+            return axiosInst(originalRequest);
+          }
+        } catch (refreshError) {
+          console.error('Token refresh error:', refreshError);
+        }
       }
-      return Promise.reject(error); // Reject the promise with the caught error
+      return Promise.reject(error);
     },
   );
 
@@ -44,3 +59,39 @@ const AxiosAuth = async () => {
 };
 
 export default AxiosAuth;
+
+//
+export const getCurrentToken = () => {
+  return localStorage.getItem('accessToken');
+};
+
+export const refreshAccessToken = async () => {
+  // Retrieve the refresh token from local storage
+  const refreshToken = localStorage.getItem('refreshToken');
+  const currentAccessToken = localStorage.getItem('accessToken');
+
+  try {
+    const response = await axios.post(
+      `${SERVICE_URL}v1/auth/refresh-tokens`,
+      {refreshToken},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: currentAccessToken
+            ? `Bearer ${currentAccessToken}`
+            : '',
+        },
+      },
+    );
+    const {accessToken} = response.data;
+    return accessToken;
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    // Handle token refresh error by clearing the tokens and logging the user out
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/signin'; // Redirect to login page
+    throw error;
+  }
+};

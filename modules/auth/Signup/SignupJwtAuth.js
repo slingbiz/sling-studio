@@ -16,7 +16,6 @@ import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import {GridContainer} from '../../../@sling';
-import grey from '@material-ui/core/colors/grey';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -214,7 +213,6 @@ const SignupJwtAuth = (props) => {
                   type='submit'>
                   <IntlMessages id='common.signup' />
                 </Button>
-
                 <Box
                   color='text.secondary'
                   ml={{sm: 4}}
@@ -230,32 +228,15 @@ const SignupJwtAuth = (props) => {
                         classes.underlineNone,
                         classes.colorTextPrimary,
                       )}>
-                       <IntlMessages id='common.signIn' />
+                      <IntlMessages id='common.signIn' />
                     </Link>
                   </Box>
-                </Box>s
+                </Box>
               </Box>
             </Form>
           )}
         </Formik>
       </Box>
-
-      <Box
-        bgcolor={grey[100]}
-        px={{xs: 6, sm: 10, xl: 15}}
-        py={{xs: 3, xl: 4}}
-        display='flex'
-        justifyContent='center'
-        alignItems='center'>
-        <Button
-          variant='contained'
-          color='primary'
-          type='submit'
-          className={clsx(classes.btnRoot, classes.btnRootFull)}>
-          <IntlMessages id='auth.signupWithJwt' />
-        </Button>
-      </Box>
-
       <InfoView />
     </Box>
   );
