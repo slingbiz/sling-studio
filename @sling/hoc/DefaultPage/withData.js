@@ -12,7 +12,7 @@ import {
 const withData = (ComposedComponent) => (props) => {
   const {user, loading, newUser} = useSelector(({auth}) => auth);
   const dispatch = useDispatch();
-  const {asPath} = useRouter();
+  const {asPath, pathname} = useRouter();
   const queryParams = asPath.split('?')[1];
 
   useEffect(() => {
@@ -40,11 +40,15 @@ const withData = (ComposedComponent) => (props) => {
           localStorage.getItem('newUser') === 'true' ||
           (newUser && newUser === 'true')
         ) {
+          console.log('Redirecting to company registration page');
           Router.push(
             companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
           );
+        } else {
+          console.log('User authenticated, no need to redirect');
         }
-      } else {
+      } else if (pathname !== '/signup') {
+        console.log('No user authenticated, redirecting to sign in');
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       }
     }
