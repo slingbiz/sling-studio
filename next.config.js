@@ -13,6 +13,7 @@ module.exports = (phase) => {
         ignoreDuringBuilds: true,
       },
       env: {
+        SERVICE_URL: `${serviceUrl}`,
         INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,
         GET_WIDGETS: `${serviceUrl}v1/widgets/dash/getWidgets`,
         GET_MEDIA_API: `${serviceUrl}v1/media/dash/getMedia`,
@@ -29,6 +30,7 @@ module.exports = (phase) => {
       ignoreDuringBuilds: true,
     },
     env: {
+      SERVICE_URL: `${serviceUrl}`,
       INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,
       GET_WIDGETS: `${serviceUrl}v1/widgets/dash/getWidgets`,
       GET_MEDIA_API: `${serviceUrl}v1/media/dash/getMedia`,
