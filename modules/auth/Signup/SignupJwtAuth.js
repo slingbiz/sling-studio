@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   btnRoot: {
     borderRadius: theme.overrides.MuiCard.root.borderRadius,
     width: '10rem',
-    fontWeight: Fonts.LIGHT,
     fontSize: 16,
+    color: theme.palette.common.white,
+    fontWeight: Fonts.BOLD,
     textTransform: 'capitalize',
   },
   btnRootFull: {

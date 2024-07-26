@@ -68,8 +68,9 @@ const SigninJwtAuth = (props) => {
     btnRoot: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
       width: '10rem',
-      fontWeight: Fonts.REGULAR,
       fontSize: 16,
+      color: theme.palette.common.white,
+      fontWeight: Fonts.BOLD,
       textTransform: 'capitalize',
     },
     btnRootFull: {

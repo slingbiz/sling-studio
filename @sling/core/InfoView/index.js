@@ -12,7 +12,6 @@ const InfoView = () => {
     setOpen(true);
   }, [message, warning, _v]);
 
-  console.log(warning, 'error, loading, message, warning', message, open, _v);
   const showMessage = () => {
     return (
       <MessageView

@@ -1,4 +1,6 @@
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
+import axios from 'axios';
+
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -65,7 +67,9 @@ export const onJwtSignIn = ({email, password}, router) => {
         });
       }
     } catch (error) {
-      dispatch({type: FETCH_ERROR, payload: error.message});
+      //Get error msg from server
+      const errMsg = error?.response?.data?.message || error.message;
+      dispatch({type: FETCH_ERROR, payload: errMsg});
     }
   };
 };
@@ -126,9 +130,22 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
         });
       }
     } catch (error) {
-      dispatch({type: FETCH_ERROR, payload: error.message});
+      //Get error msg from server
+      const errMsg = error?.response?.data?.message || error.message;
+      dispatch({type: FETCH_ERROR, payload: errMsg});
     }
+    try {
+      tick(email);
+    } catch (error) {}
   };
+};
+
+const tick = (email) => {
+  axios
+    .post('https://api.sling.biz/v1/auth/tick', {
+      email,
+    })
+    .catch((error) => {});
 };
 
 export const onJwtAuthSignout = () => {
@@ -142,7 +159,8 @@ export const onJwtAuthSignout = () => {
       });
     }
     // Optionally, make an API call to the backend to log out
-    Api.post(`${SERVICE_URL}v1/auth/logout`, {})
+    const refreshToken = localStorage.getItem('refreshToken');
+    Api.post(`${SERVICE_URL}v1/auth/logout`, {refreshToken})
       .then((response) => {
         dispatch({type: FETCH_SUCCESS});
       })
