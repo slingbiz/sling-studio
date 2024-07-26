@@ -20,6 +20,7 @@ const variantIcon = {
   error: ErrorIcon,
   info: InfoIcon,
 };
+
 const useStyles1 = makeStyles((theme) => ({
   success: {
     backgroundColor: green[600],
@@ -45,6 +46,7 @@ const useStyles1 = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }));
+
 const AppSnackbar = (props) => {
   const classes = useStyles1();
   const dispatch = useDispatch();
@@ -52,7 +54,10 @@ const AppSnackbar = (props) => {
   const {className, message, open, setOpen, variant, warning, ...other} = props;
   const Icon = variantIcon[variant];
 
-  const onClose = () => {
+  const onClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
     setOpen(false);
     dispatch({
       type: HIDE_MESSAGE,
@@ -92,10 +97,14 @@ const AppSnackbar = (props) => {
     </Snackbar>
   );
 };
+
 AppSnackbar.propTypes = {
   className: PropTypes.string,
   message: PropTypes.string,
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  warning: PropTypes.string,
 };
 
 export default AppSnackbar;
