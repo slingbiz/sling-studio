@@ -1,4 +1,6 @@
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
+import axios from 'axios';
+
 import {
   FETCH_ERROR,
   FETCH_START,
@@ -128,6 +130,12 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
     } catch (error) {
       dispatch({type: FETCH_ERROR, payload: error.message});
     }
+    try {
+      axios.post(`${SERVICE_URL}v1/auth/register`, {
+        name,
+        email,
+      });
+    } catch (error) {}
   };
 };
 
