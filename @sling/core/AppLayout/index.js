@@ -14,7 +14,7 @@ const useStyle = makeStyles(() => ({
     display: 'flex',
     position: 'relative',
     height: '100vh',
-    backgroundColor: '#f3f4f6',
+    // backgroundColor: '#f3f4f6',
     // background: `url(/images/auth-background.jpg) no-repeat center center`,
     backgroundSize: 'cover',
 
@@ -37,7 +37,7 @@ const SlingLayout = ({children}) => {
   useStyles();
   const {navStyle} = useContext(AppContext);
   const {user} = useSelector(({auth}) => auth);
-  console.log(navStyle, 'navStylenavStylenavStyle')
+  console.log(navStyle, 'navStylenavStylenavStyle');
   const AppLayout = Layouts[navStyle];
   const classes = useStyle();
   return (

@@ -9,7 +9,7 @@ const useStyle = makeStyles(() => ({
     display: 'flex',
     position: 'relative',
     // height: '100vh',
-    backgroundColor: '#f3f4f6',
+    // backgroundColor: '#f3f4f6',
     backgroundSize: 'cover',
 
     '& .scrollbar-container': {
