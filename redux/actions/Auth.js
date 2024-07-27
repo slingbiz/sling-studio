@@ -149,7 +149,7 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
 
 const setAuthCookie = (token) => {
   // Set a cookie to indicate the user is logged in
-  setCookie(null, 'loginToken', tokens.access.token, {
+  setCookie(null, 'loginToken', token, {
     maxAge: 60 * 60 * 24 * 7, // 1 week
     path: '/',
     domain: '.sling.biz', // Ensure the cookie is accessible on all subdomains
