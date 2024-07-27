@@ -1,5 +1,6 @@
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 import axios from 'axios';
+import {setCookie} from 'nookies'; // Import nookies for cookie handling
 
 import {
   FETCH_ERROR,
@@ -41,6 +42,9 @@ export const onJwtSignIn = ({email, password}, router) => {
         localStorage.setItem('accessToken', tokens.access.token);
         localStorage.setItem('refreshToken', tokens.refresh.token);
         // localStorage.setItem('newUser', 'true');
+
+        //Set auth in cookie
+        setAuthCookie(tokens.access.token);
 
         //TODO Use flag isCompanySetup from the backend to use newUser and take user to company-setup page
 
@@ -101,6 +105,9 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
         localStorage.setItem('newUser', 'true');
         //TODO Use flag isCompanySetup from the backend to use newUser and take user to company-setup page
 
+        //Set auth in cookie
+        setAuthCookie(tokens.access.token);
+
         // Dispatch SET_AUTH_TOKEN action with the access token
         dispatch({
           type: SET_AUTH_TOKEN,
@@ -140,6 +147,15 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
   };
 };
 
+const setAuthCookie = (token) => {
+  // Set a cookie to indicate the user is logged in
+  setCookie(null, 'loginToken', token, {
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+    path: '/',
+    sameSite: 'Lax',
+    secure: process.env.NODE_ENV !== 'development',
+  });
+};
 const tick = (email) => {
   axios
     .post('https://api.sling.biz/v1/auth/tick', {
@@ -167,6 +183,11 @@ export const onJwtAuthSignout = () => {
       .catch((error) => {
         dispatch({type: FETCH_ERROR, payload: error.message});
       });
+
+    //Clear all the cookies
+    setCookie(null, 'loginToken', '', {
+      maxAge: 0, // 1 week 0
+    });
 
     // Clear tokens from local storage
     localStorage.removeItem('accessToken');

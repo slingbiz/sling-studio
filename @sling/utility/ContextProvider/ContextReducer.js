@@ -62,7 +62,7 @@ export function contextReducer(state, action) {
         theme.palette.type = ThemeMode.LIGHT;
         theme.palette.background = {
           paper: '#FFFFFF',
-          default: '#f3f4f6',
+          // default: '#f3f4f6',
         };
         theme.palette.text = {
           primary: 'rgba(0, 0, 0, 0.87)',

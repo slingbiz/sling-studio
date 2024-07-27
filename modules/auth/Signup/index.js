@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     position: 'relative',
     paddingTop: 20,
+    paddingBottom: 20,
     [theme.breakpoints.up('xl')]: {
       paddingTop: 32,
     },
