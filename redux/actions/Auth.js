@@ -149,11 +149,12 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
 
 const setAuthCookie = (token) => {
   // Set a cookie to indicate the user is logged in
-  setCookie(null, 'loginToken', token, {
+  setCookie(null, 'loginToken', tokens.access.token, {
     maxAge: 60 * 60 * 24 * 7, // 1 week
     path: '/',
-    sameSite: 'Lax',
-    secure: process.env.NODE_ENV !== 'development',
+    domain: '.sling.biz', // Ensure the cookie is accessible on all subdomains
+    sameSite: 'None', // Allow cross-domain access
+    secure: true, // Ensure cookies are only sent over HTTPS
   });
 };
 const tick = (email) => {
