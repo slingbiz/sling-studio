@@ -16,7 +16,6 @@ const withData = (ComposedComponent) => (props) => {
   const queryParams = asPath.split('?')[1];
 
   const [verifying, setVerifying] = useState(true);
-  const [showComponent, setShowComponent] = useState(false);
 
   useEffect(() => {
     console.log('useEffect triggered for user verification');
@@ -51,20 +50,18 @@ const withData = (ComposedComponent) => (props) => {
           Router.push(
             companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
           );
-        } else {
-          console.log('User authenticated, redirecting to initial URL');
+        } else if (pathname === '/signin' || pathname === '/signup') {
+          console.log('Redirecting to initial URL');
           Router.push(initialUrl);
         }
       } else if (pathname !== '/signup' && pathname !== '/signin') {
         console.log('No user authenticated, redirecting to sign in');
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
-      } else {
-        setShowComponent(true);
       }
     }
   }, [loading, user, newUser, queryParams, pathname, verifying]);
 
-  if (loading || verifying || !showComponent) return <Loader />;
+  if (loading || verifying) return <Loader />;
 
   return <ComposedComponent {...props} />;
 };
