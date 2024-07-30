@@ -12,7 +12,7 @@ import {
 const withData = (ComposedComponent) => (props) => {
   const {user, loading, newUser} = useSelector(({auth}) => auth);
   const dispatch = useDispatch();
-  const {asPath} = useRouter();
+  const {asPath, pathname} = useRouter();
   const queryParams = asPath.split('?')[1];
 
   useEffect(() => {

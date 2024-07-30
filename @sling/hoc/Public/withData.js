@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import Router, {useRouter} from 'next/router';
-import {companyRegistrationUrl} from '../../../shared/constants/AppConst';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import { companyRegistrationUrl, initialUrl } from '../../../shared/constants/AppConst';
+import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../core/Loader';
 import {
   USER_LOADED,
@@ -10,13 +10,16 @@ import {
 } from '../../../shared/constants/ActionTypes';
 
 const withData = (ComposedComponent) => (props) => {
-  const {user, loading, newUser} = useSelector(({auth}) => auth);
+  const { user, loading, newUser } = useSelector(({ auth }) => auth);
   const dispatch = useDispatch();
-  const {asPath, pathname} = useRouter();
+  const { asPath, pathname } = useRouter();
   const queryParams = asPath.split('?')[1];
 
+  const [verifying, setVerifying] = useState(true);
+  const [showComponent, setShowComponent] = useState(false);
+
   useEffect(() => {
-    console.log('useEffect triggered');
+    console.log('useEffect triggered for user verification');
     console.log('user:', user);
     console.log('loading:', loading);
     console.log('newUser:', newUser);
@@ -26,15 +29,19 @@ const withData = (ComposedComponent) => (props) => {
 
     if (storedUser && storedToken && !user) {
       console.log('Setting user and token from local storage');
-      dispatch({type: SET_AUTH_TOKEN, payload: storedToken});
-      dispatch({type: UPDATE_AUTH_USER, payload: storedUser});
-      dispatch({type: USER_LOADED});
+      dispatch({ type: SET_AUTH_TOKEN, payload: storedToken });
+      dispatch({ type: UPDATE_AUTH_USER, payload: storedUser });
+      dispatch({ type: USER_LOADED });
     } else if (!storedUser && !storedToken) {
       console.log('No user found in local storage, setting loading to false');
-      dispatch({type: USER_LOADED}); // Set loading to false if no user in local storage
+      dispatch({ type: USER_LOADED }); // Set loading to false if no user in local storage
     }
 
-    if (!loading) {
+    setVerifying(false);
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    if (!verifying && !loading) {
       if (user) {
         if (
           localStorage.getItem('newUser') === 'true' ||
@@ -45,16 +52,19 @@ const withData = (ComposedComponent) => (props) => {
             companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
           );
         } else {
-          console.log('User authenticated, no need to redirect');
+          console.log('User authenticated, redirecting to initial URL');
+          Router.push(initialUrl);
         }
-      } else if (pathname !== '/signup') {
+      } else if (pathname !== '/signup' && pathname !== '/signin') {
         console.log('No user authenticated, redirecting to sign in');
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
+      } else {
+        setShowComponent(true);
       }
     }
-  }, [user, loading, newUser, queryParams, dispatch]);
+  }, [loading, user, newUser, queryParams, pathname, verifying]);
 
-  if (loading) return <Loader />;
+  if (loading || verifying || !showComponent) return <Loader />;
 
   return <ComposedComponent {...props} />;
 };
