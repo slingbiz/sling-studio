@@ -36,6 +36,8 @@ module.exports = (phase) => {
       GET_MEDIA_API: `${serviceUrl}v1/media/dash/getMedia`,
       GET_MEDIA_CONSTANTS_API: `${serviceUrl}v1/media/dash/getMediaConstants`,
       GET_ROUTES_LIST_API: `${serviceUrl}v1/pageRoutes/dash/getRoutes`,
+      DELETE_ROUTE: `${serviceUrl}v1/pageRoutes/delete`,
+      UPDATE_ROUTE: `${serviceUrl}v1/pageRoutes/update`,
       SET_CONFIG: `${serviceUrl}v1/dashboard/setConfig`,
       GUIDE_URL: `https://sling.biz/documentation`,
       SAVE_ROUTE: `${serviceUrl}v1/pageRoutes/saveRoute`,

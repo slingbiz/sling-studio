@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PaginationControlled({handleChange, count, page}) {
-  console.log(count, page,' [count, page]')
   const classes = useStyles();
   return (
     <div className={classes.root}>

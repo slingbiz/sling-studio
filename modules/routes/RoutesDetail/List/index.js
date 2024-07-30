@@ -20,7 +20,7 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import DeleteModal from './DeleteModal';
 import {useDispatch, useSelector} from 'react-redux';
 import NewRoute from './NewRoute';
-import {getRoutesList} from '../../../../redux/actions';
+import {getRoutesList, deleteRoute, editRoute} from '../../../../redux/actions';
 import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
 import PaginationControlled from '../../../../@sling/core/Pagination';
@@ -142,6 +142,16 @@ const RoutesList = (props) => {
     setOpenDeleteModal(true);
   };
 
+  const handleUpdate = () => {
+    dispatch(deleteRoute(editRoute._id));
+    setOpenDeleteModal(false);
+  }
+
+  const handleDelete = () => {
+     dispatch(deleteRoute(editRoute._id));
+    setOpenDeleteModal(false);
+  };
+
   return (
     <>
       <AppsHeader>
@@ -196,7 +206,11 @@ const RoutesList = (props) => {
       />
 
       <Box px={6} pb={8}>
-        <DeleteModal open={openDeleteModal} handleClose={handleClose} />
+        <DeleteModal
+          open={openDeleteModal}
+          handleClose={handleClose}
+          handleDelete={handleDelete}
+        />
         <NewRoute
           open={mapperDialog}
           setOpen={setMapperDialog}
@@ -353,7 +367,10 @@ const RoutesList = (props) => {
                           Edit Route
                         </Button>{' '}
                         <Button
-                          onClick={doAction}
+                          onClick={() => {
+                            setEditRoute(routeObj);
+                            doAction();
+                          }}
                           variant='contained'
                           color='primary'
                           style={{marginLeft: 15}}>

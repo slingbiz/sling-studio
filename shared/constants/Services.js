@@ -7,3 +7,5 @@ export const SAVE_ROUTE = `${process.env.SAVE_ROUTE}`;
 export const GET_MEDIA_API = `${process.env.GET_MEDIA_API}`;
 export const GET_MEDIA_CONSTANTS_API = `${process.env.GET_MEDIA_CONSTANTS_API}`;
 export const GET_ROUTES_LIST_API = `${process.env.GET_ROUTES_LIST_API}`;
+export const DELETE_ROUTE = `${process.env.DELETE_ROUTE}`;
+export const UPDATE_ROUTE = `${process.env.UPDATE_ROUTE}`;

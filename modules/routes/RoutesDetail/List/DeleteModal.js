@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AlertModal(props) {
-  const {open, handleClose} = props;
+  const {open, handleClose, handleDelete} = props;
   const classes = useStyles(props);
 
   return (
@@ -55,7 +55,7 @@ export default function AlertModal(props) {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={handleClose}
+            onClick={handleDelete}
             color='primary'
             className={classes.btnBack}>
             Yes
