@@ -64,7 +64,6 @@ const Basic = ({setOpen, apiObj}) => {
   const dispatch = useDispatch();
   const re = /\<.*\>/;
 
-  console.log(apiObj, 'p[apiObj');
   useEffect(() => {
     if (apiObj) {
       setId(apiObj._id);

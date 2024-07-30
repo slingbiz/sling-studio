@@ -9,8 +9,6 @@ const initialState = {
 };
 
 const widgetsReducer = (state = initialState, action) => {
-  console.log(action.type, '@reducer action.type', action.payload);
-  console.log(action.type, '@reducer action.type state', state.widgets);
   switch (action.type) {
     case GET_WIDGETS_DATA:
       return {
