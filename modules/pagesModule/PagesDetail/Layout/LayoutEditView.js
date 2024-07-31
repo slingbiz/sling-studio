@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import DragMe from './DragMeEdit';
 import ListItemText from '@material-ui/core/ListItemText';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLayoutConfig} from '../../../../redux/actions';
+import {fetchLayoutConfig, setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
 import * as AllIcons from '@material-ui/icons';
 import {WidgetsOutlined} from '@material-ui/icons';
@@ -144,6 +144,12 @@ const LayoutEditView = forwardRef((props, ref) => {
     const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
     const {layoutConfig} = layoutData || {};
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!layoutData) {
+          dispatch(fetchLayoutConfig());
+        }
+      }, [dispatch]);
 
     //To call onSave from parent EditLayout
     useImperativeHandle(ref, () => ({

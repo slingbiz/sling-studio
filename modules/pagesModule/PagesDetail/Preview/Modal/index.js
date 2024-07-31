@@ -22,7 +22,23 @@ import Mobile from './Mobile';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
-
+  activeIcon: {
+    color: '#FFFFFF',
+    backgroundColor: '#0288d1',
+    '&:hover': {
+      backgroundColor: '#0277bd',
+    },
+  },
+  titlePreview:{
+    fontWeight: 'bold',
+  },
+  inactiveIcon: {
+    color: '#B0BEC5',
+    backgroundColor: 'transparent',
+    '&:hover': {
+      backgroundColor: '#eceff1',
+    },
+  },
   appBar: {
     position: 'relative',
   },
@@ -49,8 +65,8 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
     setOpen(false);
   };
 
-  const getIconColor = (curr) => {
-    return curr === screenMode ? 'inherit' : 'default';
+  const getIconColorClass = (curr) => {
+    return curr === screenMode ? classes.activeIcon : classes.inactiveIcon;
   };
 
   return (
@@ -61,41 +77,54 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
       TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
-          <IconButton onClick={handleClose}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Box my={3} mx={3}>
-            <Button
-              style={{
-                borderRadius: '1% !important',
-              }}
-              color={getIconColor('DESKTOP')}
-              onClick={() => setScreenMode('DESKTOP')}>
-              <LaptopIcon />
-              <Typography variant='caption' component='span'>
-                Laptop
-              </Typography>
-            </Button>
-            <Button
-              color={getIconColor('TABLET')}
-              onClick={() => setScreenMode('TABLET')}>
-              <TabletAndroidIcon />
-              <Typography variant='caption' component='span'>
-                Tablet
-              </Typography>
-            </Button>
-            <Button
-              color={getIconColor('MOBILE')}
-              onClick={() => setScreenMode('MOBILE')}>
-              <PhoneAndroidIcon />
-              <Typography variant='caption' component='span'>
-                Mobile
-              </Typography>
-            </Button>
-          </Box>
-          <Button autoFocus color='inherit' onClick={handleClose}>
-            Cancel
-          </Button>
+          <Grid container direction='row' alignItems='center'>
+            <Grid item xs={4}>
+              <Box style={{display: 'flex', alignItems: 'center'}}>
+                <IconButton onClick={handleClose}>
+                  <ArrowBackIcon />
+                </IconButton>
+                <Typography  className={classes.titlePreview}>
+                  {urlToPreview}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4} style={{textAlign: 'center'}}>
+              <Box my={3} mx={3}>
+                <Button
+                  style={{
+                    borderRadius: '1% !important',
+                  }}
+                  className={getIconColorClass('DESKTOP')}
+                  onClick={() => setScreenMode('DESKTOP')}>
+                  <LaptopIcon className={getIconColorClass('DESKTOP')} />
+                  <Typography variant='caption' component='span'>
+                    &nbsp; Laptop
+                  </Typography>
+                </Button>
+                <Button
+                  className={getIconColorClass('TABLET')}
+                  onClick={() => setScreenMode('TABLET')}>
+                  <TabletAndroidIcon className={getIconColorClass('TABLET')} />
+                  <Typography variant='caption' component='span'>
+                  &nbsp;Tablet
+                  </Typography>
+                </Button>
+                <Button
+                  className={getIconColorClass('MOBILE')}
+                  onClick={() => setScreenMode('MOBILE')}>
+                  <PhoneAndroidIcon className={getIconColorClass('MOBILE')} />
+                  <Typography variant='caption' component='span'>
+                  &nbsp; Mobile
+                  </Typography>
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={4} style={{textAlign: 'end'}}>
+              <Button autoFocus color='inherit' onClick={handleClose}>
+                Close
+              </Button>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Grid
@@ -116,4 +145,5 @@ const PreviewModal = ({open, setOpen, urlToPreview}) => {
     </Dialog>
   );
 };
+
 export default PreviewModal;
