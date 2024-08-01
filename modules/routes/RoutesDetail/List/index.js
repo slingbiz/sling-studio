@@ -35,7 +35,7 @@ import PaginationControlled from '../../../../@sling/core/Pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import { FETCH_WARNING } from '../../../../shared/constants/ActionTypes';
 import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
-import {generateSlug} from 'random-word-slugs';
+import { generateSlug } from 'random-word-slugs';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -144,7 +144,7 @@ const RoutesList = (props) => {
   const [filter, setFilter] = useState({ page: 0, size: 8, query: '' });
   const [query, setQuery] = useState('');
 
-  const {account} = useSelector(({account}) => account);
+  const { account } = useSelector(({ account }) => account);
 
   useEffect(() => {
     dispatch(getRoutesList(filter));
@@ -229,13 +229,13 @@ const RoutesList = (props) => {
         titleKey={'Edit Layout'}
         pageKey={selectedLayout}
       />
-        <PreviewModal
+      <PreviewModal
         open={previewMapperDialog}
         setOpen={setPreviewMapperDialog}
         urlToPreview={urlToPreview}
       />
 
-      <Box px={6} pb={8} style={{padding: 0}}>
+      <Box px={6} pb={8} style={{ padding: 0 }}>
         <DeleteModal
           open={openDeleteModal}
           handleClose={handleClose}
@@ -252,6 +252,7 @@ const RoutesList = (props) => {
           <Table className={classes.table} aria-label='routes table'>
             <TableHead>
               <TableRow>
+                <TableCell>ID</TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Route</TableCell>
                 <TableCell>Sample URL</TableCell>
@@ -264,6 +265,7 @@ const RoutesList = (props) => {
             <TableBody>
               {routesList?.map((routeObj, index) => (
                 <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell component='th' scope='row'>
                     {routeObj.title}
                   </TableCell>
@@ -312,15 +314,15 @@ const RoutesList = (props) => {
                           component='span'
                           onClick={() => {
                             setPreviewMapperDialog(true);
-                            const {clientUrl} = account || {};
-                            const {sample_string: sampleString, url_string: urlString} = routeObj;
+                            const { clientUrl } = account || {};
+                            const { sample_string: sampleString, url_string: urlString } = routeObj;
                             let url = sampleString || urlString;
-                            
-                            //Get random slug.
+
+                            // Get random slug.
                             const slug = generateSlug();
                             url = url.replace(/\<.*?\>/g, slug);
-                    
-                            //Check if slash already exists
+
+                            // Check if slash already exists
                             const slash =
                               url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
 

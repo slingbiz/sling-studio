@@ -10,7 +10,7 @@ import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleto
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
 
 export const folderList = [
-  {id: 120, name: 'All Routes', alias: 'routes-list', icon: 'playlist_add'},
+  {id: 120, name: 'All Page Routes', alias: 'routes-list', icon: 'playlist_add'},
   {id: 125, name: 'Guide', alias: 'guide', icon: 'help_center'},
 ];
 
