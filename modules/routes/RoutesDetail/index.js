@@ -7,7 +7,7 @@ import RoutesList from '../RoutesList';
 
 const PagesDetail = (props) => {
   const {query} = useRouter();
-  const id = query.all[0];
+  const id = query?.all?.[0] || 'routes-list';
   const sectionMapper = {
     basic: Basic,
     'routes-list': List,

@@ -76,17 +76,14 @@ const RoutesList = ({titleKey, pageKey}) => {
       <Paper className={classes.root}>
         <Grid container className={classes.guideList} spacing={10}>
           <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
-            <Typography variant='h5' component='h3'>
-              Manage URL Routes.
+            <Typography variant='h5' component='h3' style={{fontSize: '2rem'}}>
+              Manage Page Routes.
             </Typography>
-            <Typography component='p'>
-              URL Routes in Sling are route patterns or static urls which use
+            <Typography component='p' style={{fontSize: '1rem'}}>
+              Page Routes in Sling are route patterns or static urls which use
               a page template to render the Page.
             </Typography>
-            {/*<Typography component='p'>*/}
-            {/*  Customize your page here to reflect the changes on all your*/}
-            {/*  urls.*/}
-            {/*</Typography>*/}
+    
           </Grid>
           <Grid item sm={12} md={12} lg={12}>
             <Box className={classes.card}>

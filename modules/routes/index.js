@@ -27,18 +27,18 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
-  console.log('Page Key ==> ', all?.[0] || 'guide');
   const onGetMainComponent = () => {
-    let pageKey = all?.[0] || 'guide';
+    let pageKey = all?.[0] || 'routes-list';
     if (all?.length >= 1) {
       return <RoutesDetail titleKey={getTitle()} pageKey={pageKey} />;
     } else {
-      return <RoutesList titleKey={getTitle()} pageKey={pageKey} />;
+      // return <RoutesList titleKey={getTitle()} pageKey={pageKey} />;
+      return <RoutesDetail titleKey={getTitle()} pageKey={'routes-list'} />;
     }
   };
 
   const getTitle = () => {
-    const titleKey = all?.join('.') || 'guide';
+    const titleKey = all?.join('.') || 'routes-list';
     return messages[titleKey] || all?.map((v) => capitalize(v)).join(' / ');
   };
 
