@@ -56,7 +56,7 @@ const withData = (ComposedComponent) => (props) => {
           console.log('Redirecting to initial URL');
           Router.push(initialUrl);
         }
-      } else if (pathname !== '/signup' && pathname !== '/signin') {
+      } else if (pathname !== '/signup' && pathname !== '/signin' && pathname !== '/forget-password') {
         console.log('No user authenticated, redirecting to sign in');
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       }

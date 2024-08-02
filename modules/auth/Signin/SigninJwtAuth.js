@@ -158,13 +158,18 @@ const SigninJwtAuth = (props) => {
                   </Box>
                 </Box>
                 <Box
-                  color='primary.main'
                   component='span'
+                  color='primary.main'
                   ml={{sm: 4}}
-                  className={classes.pointer}
-                  onClick={onGoToForgetPassword}
-                  fontSize={15}>
-                  <IntlMessages id='common.forgetPassword' />
+                  className={classes.pointer}>
+                  <Link
+                    href='/forget-password'
+                    className={clsx(
+                      classes.underlineNone,
+                      classes.colorTextPrimary,
+                    )}>
+                    <IntlMessages id='common.forgetPassword' />
+                  </Link>
                 </Box>
               </Box>
 

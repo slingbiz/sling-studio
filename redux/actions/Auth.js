@@ -205,3 +205,38 @@ export const onJwtAuthSignout = () => {
     window.location.href = '/signin';
   };
 };
+
+
+// Forget Password
+export const onJwtAuthForgetPassword = (email) => {
+  return async (dispatch) => {
+    dispatch({ type: FETCH_START });
+    try {
+      const Api = await ApiAuth();
+      if (!Api) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.invalidSession' />,
+        });
+        return;
+      }
+      const response = await Api.post(`${SERVICE_URL}v1/auth/forgot-password`, {
+        email,
+      });
+
+      if (response.status === 200) {
+        dispatch({ type: FETCH_SUCCESS });
+        // You can dispatch other actions or show a success message as needed
+      } else {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.somethingWentWrong' />,
+        });
+      }
+    } catch (error) {
+      // Get error msg from server
+      const errMsg = error?.response?.data?.message || error.message;
+      dispatch({ type: FETCH_ERROR, payload: errMsg });
+    }
+  };
+};

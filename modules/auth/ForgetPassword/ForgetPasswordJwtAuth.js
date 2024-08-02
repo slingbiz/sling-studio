@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
-import {onResetCognitoPassword} from '../../../redux/actions';
+import {onJwtAuthForgetPassword} from '../../../redux/actions';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import InfoView from '../../../@sling/core/InfoView';
@@ -63,8 +63,9 @@ const useStyles = makeStyles((theme) => ({
   },
   btnRoot: {
     width: '100%',
-    fontWeight: Fonts.REGULAR,
+    fontWeight: Fonts.BOLD,
     textTransform: 'capitalize',
+    color: theme.palette.common.white,
     fontSize: 16,
     paddingTop: 12,
     paddingBottom: 12,
@@ -148,7 +149,7 @@ const ForgetPasswordJwtAuth = () => {
             validationSchema={validationSchema}
             onSubmit={(data, {setSubmitting, resetForm}) => {
               setSubmitting(true);
-              dispatch(onResetCognitoPassword(data.email, router));
+              dispatch(onJwtAuthForgetPassword(data.email));
               setSubmitting(false);
               resetForm();
             }}>

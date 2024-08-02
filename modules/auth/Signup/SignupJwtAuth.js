@@ -16,6 +16,7 @@ import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import {GridContainer} from '../../../@sling';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -92,6 +93,7 @@ const validationSchema = yup.object({
 
 const SignupJwtAuth = (props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const classes = useStyles(props);
   return (
@@ -125,7 +127,7 @@ const SignupJwtAuth = (props) => {
                   email: data.email,
                   password: data.password,
                   name: data.name,
-                }),
+                }, router),
               );
               setSubmitting(false);
             }
