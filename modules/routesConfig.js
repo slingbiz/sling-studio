@@ -12,23 +12,16 @@ const routesConfig = [
     title: 'Page Templates',
     messageId: 'sidebar.app.pagesTemplates',
     type: 'item',
-    icon: 'insert_chart',
+    icon: 'view_quilt',
     url: '/pages/',
   },
-  {
-    id: 'headless-apis',
-    title: 'Apis',
-    messageId: 'sidebar.app.backendApis',
-    type: 'item',
-    icon: 'storage',
-    url: '/headless-apis',
-  },
+
   {
     id: 'routes',
     title: 'Routes',
     messageId: 'sidebar.app.routes',
     type: 'item',
-    icon: 'swap_vert',
+    icon: 'http',
     url: '/routes',
   },
   {
@@ -46,6 +39,14 @@ const routesConfig = [
     type: 'item',
     icon: 'photo_camera',
     url: '/media/gallery',
+  },
+  {
+    id: 'headless-apis',
+    title: 'Apis',
+    messageId: 'sidebar.app.backendApis',
+    type: 'item',
+    icon: 'storage',
+    url: '/headless-apis',
   },
   {
     id: 'settings',
