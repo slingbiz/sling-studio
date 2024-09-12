@@ -125,7 +125,7 @@ const WidgetsList = () => {
                           size='medium'
                           color='secondary'
                           style={{marginTop: 15, border: '1px solid '}}>
-                          Manage APIs
+                          Manage Widgets
                         </Button>
                       </Link>
                     </CardActions>

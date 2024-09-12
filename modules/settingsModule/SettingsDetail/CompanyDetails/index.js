@@ -308,6 +308,7 @@ const CompanyDetails = (props) => {
                 />
                 <CommonTextField
                   required
+                  disabled
                   name='email'
                   id='outlined-basic'
                   label='Primary Email'

@@ -220,6 +220,7 @@ const KeyCodeSetupForm = (props) => {
                     marginTop={15}
                     name='clientUrl'
                     id='outlined-basic'
+                    value="http://localhost:4087"
                     label='Frontend Domain URL *'
                     placeholder='http://localhost:4087'
                     breadcrumb={'sling.biz'}

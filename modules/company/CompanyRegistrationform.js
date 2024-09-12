@@ -192,7 +192,7 @@ const CompanyRegistrationform = (props) => {
                 margin='dense'
               />
               <MyTextField
-                // disabled
+                disabled
                 name='email'
                 id='outlined-basic'
                 label='Primary Email'

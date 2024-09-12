@@ -113,6 +113,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: blue['100'],
     minHeight: 150,
     width: '100%',
+    background:
+      'radial-gradient(circle, rgb(255 255 255) 0%, rgba(255, 152, 0, 0.413624824929972) 100%)',
+    backgroundColor: '#bbdefb',
   },
   itemImage: {
     width: '100%',
@@ -251,100 +254,111 @@ const WidgetsIntegration = (props) => {
         container
         alignItems='baseline'
         className={classes.gridPadding}
-        spacing={5}>
+        spacing={5}
+        style={{padding: 20}}>
         {widgets?.map((item, index) => (
-          <Grid item xs={6} sm={4} md={3} key={index} style={{height: 350}}>
-            <Grid
-              container
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
+            key={index}
+            style={{
+              minHeight: 365,
+            }}>
+            <Box
               alignItems='flex-start'
-              className={classes.gridPadding}>
-              <Grid item xs={12}>
+              className={classes.gridPadding}
+              style={{
+                boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                borderRadius: '8px',
+                minHeight: 365,
+              }}>
+              <Grid
+                container
+                alignItems='flex-start'
+                direction='column'
+                className={classes.itemContainer}>
                 <Grid
-                  container
-                  alignItems='flex-start'
-                  direction='column'
-                  className={classes.itemContainer}>
-                  <Grid
-                    item
-                    xs={12}
-                    className={
-                      item.image ? classes.imgContainer : classes.noImgContainer
-                    }>
-                    <IconButton
-                      onClick={() => {
-                        console.log(item);
-                        setupdateProp(item);
-                        setOpenUpdateModal(true);
-                      }}
-                      aria-label='edit'
-                      className={clsx(classes.button, classes.editBtn)}>
-                      <Edit />
-                    </IconButton>
-                    {item.image ? (
-                      <>
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className={classes.itemImage}
-                          onClick={() => toggleDrawer(true, item)}
-                        />
-                      </>
-                    ) : (
-                      <span>{item.name}</span>
-                    )}
-                  </Grid>
-                  <Grid item xs={12}>
+                  item
+                  xs={12}
+                  className={
+                    item.image ? classes.imgContainer : classes.noImgContainer
+                  }>
+                  <IconButton
+                    onClick={() => {
+                      console.log(item);
+                      setupdateProp(item);
+                      setOpenUpdateModal(true);
+                    }}
+                    aria-label='edit'
+                    className={clsx(classes.button, classes.editBtn)}>
+                    <Edit />
+                  </IconButton>
+                  {item.image ? (
+                    <>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className={classes.itemImage}
+                        onClick={() => toggleDrawer(true, item)}
+                      />
+                    </>
+                  ) : (
+                    <span>{item.name}</span>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    color='text.primary'
+                    fontWeight={Fonts.BOLD}
+                    fontSize={16}
+                    component='h4'
+                    className={clsx(classes.truncate, classes.titleTruncate)}>
+                    {item.name}
+                  </Box>
+                  <Typography
+                    component='h6'
+                    color='text.secondary'
+                    className={clsx(
+                      classes.truncate,
+                      classes.textSm,
+                      classes.descpMargin,
+                    )}>
+                    {item.description}
+                  </Typography>
+                  <Box fontWeight={Fonts.MEDIUM} component='h5'>
+                    Version: {item.version}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}>
                     <Box
-                      color='text.primary'
-                      fontWeight={Fonts.BOLD}
-                      fontSize={16}
-                      component='h4'
-                      className={clsx(classes.truncate, classes.titleTruncate)}>
-                      {item.name}
-                    </Box>
-                    <Typography
-                      component='h6'
-                      color='text.secondary'
-                      className={clsx(
-                        classes.truncate,
-                        classes.textSm,
-                        classes.descpMargin,
-                      )}>
-                      {item.description}
-                    </Typography>
-                    <Box fontWeight={Fonts.MEDIUM} component='h5'>
-                      Version: {item.version}
+                      fontWeight={Fonts.MEDIUM}
+                      component='h5'
+                      className={classes.infoRow}>
+                      {Object?.keys(item?.props || {}).length || 'No'} props
                     </Box>
                     <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}>
-                      <Box
-                        fontWeight={Fonts.MEDIUM}
-                        component='h5'
-                        className={classes.infoRow}>
-                        {Object?.keys(item?.props || {}).length || 'No'} props
-                      </Box>
-                      <Box
-                        fontWeight={Fonts.MEDIUM}
-                        component='h5'
-                        className={classes.infoRow}>
-                        <IconButton
-                          aria-label='screenshots'
-                          fontSize='small'
-                          style={{margin: 5}}
-                          className={clsx(classes.button)}>
-                          <Icon>{item.icon}</Icon>
-                        </IconButton>
-                        Screenshots
-                      </Box>
+                      fontWeight={Fonts.MEDIUM}
+                      component='h5'
+                      className={classes.infoRow}>
+                      <IconButton
+                        aria-label='screenshots'
+                        fontSize='small'
+                        style={{margin: 5}}
+                        className={clsx(classes.button)}>
+                        <Icon>{item.icon}</Icon>
+                      </IconButton>
+                      Screenshots
                     </Box>
-                  </Grid>
+                  </Box>
                 </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Grid>
         ))}
 
