@@ -1,98 +1,167 @@
-import React, {useEffect} from 'react';
-import {Box, Grid} from '@material-ui/core';
-import {useDispatch, useSelector} from 'react-redux';
-import GridContainer from '../../../@sling/core/GridContainer';
-import InfoView from '../../../@sling/core/InfoView';
+import React from 'react';
+import {Box, Grid, Typography, Container} from '@mui/material';
 
-import {onGetAnalyticsData} from '../../../redux/actions';
-import WelcomeCard from './WelcomeCard/index';
-import SalesState from './SalesState';
-import StateCard from './StateCards';
-import VisitorPageView from './VisitorPageView';
-import ActiveVisitors from './ActiveVisitors';
-import TopSelling from './TopSelling';
-import EarningByCountry from './EarningByCountry';
-import TicketsSupport from './TicketsSupport';
-import PageVisits from './PageVisits';
-import TrafficSource from './TrafficSource';
-import InfoWidget from './InfoWidget';
-import AnimateComponent from '../../../@sling/core/Animate';
+const defaultImage = `/images/sling-fe.png`;
 
-const CRM = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(onGetAnalyticsData());
-  }, [dispatch]);
-
-  const analyticsData = useSelector(({dashboard}) => dashboard.analyticsData);
-
+const SlingEntryPage = () => {
   return (
-    <>
-      {analyticsData ? (
-        <AnimateComponent animation='transition.slideUpIn' delay={0}>
-          <Box pt={{xl: 4}} clone>
-            <GridContainer>
-              <Grid item xs={12} md={6}>
-                <WelcomeCard data={analyticsData.welcomeCard} />
+    // Full-screen box with vertical and horizontal centering
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100%',
+        backgroundColor: '#f4f5f7',
+      }}>
+      <Container maxWidth='lg'>
+        {/* Header Section */}
+        <Box textAlign='center' mb={5}>
+          <img
+            src={defaultImage}
+            alt='Sling Logo'
+            style={{width: '150px', marginBottom: '20px'}}
+          />
+          <Typography
+            variant='h3'
+            component='h1'
+            gutterBottom
+            style={{fontFamily: 'Open Sans, sans-serif'}}>
+            Modify{' '}
+            <Box component='span' sx={{color: '#f89f28'}}>
+              Frontend
+            </Box>{' '}
+            on the Fly.
+          </Typography>
+        </Box>
 
-                <GridContainer>
-                  <Grid item xs={12} sm={6}>
-                    <StateCard data={analyticsData.revenueCards[0]} />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <StateCard data={analyticsData.revenueCards[1]} />
-                  </Grid>
-                </GridContainer>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <SalesState
-                  salesState={analyticsData.salesState}
-                  chartData={analyticsData.salesChartData}
-                />
-              </Grid>
-              <Grid item xs={12} md={8} xl={9}>
-                <VisitorPageView data={analyticsData.visitorsPageView} />
-              </Grid>
-              <Grid item xs={12} md={4} xl={3}>
-                <ActiveVisitors data={analyticsData.activeVisitors} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TopSelling products={analyticsData.topSellingProduct} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <EarningByCountry earningData={analyticsData.earningData} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TicketsSupport tickets={analyticsData.tickets} />
+        {/* Tiles Section */}
+        <Grid container spacing={3}>
+          {/* Tile 1 */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: '#fff',
+                borderRadius: '10px',
+                padding: '20px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                textAlign: 'center',
+                minHeight: '550px',
+              }}>
+              <Typography variant='h2' component='div' color='#f89f28' style={{padding: 20}}> 
+                1
+              </Typography>
+              <img
+                src='/images/page-routes-bg.png'
+                alt='Create Routes'
+                style={{
+                  width: '200px',
+                  height: '200px',
+                  marginBottom: '15px',
+                }}
+              />
+              <Typography
+                variant='h5'
+                component='h3'
+                gutterBottom
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                Create Pages Routes
+              </Typography>
+              <Typography
+                variant='body1'
+                color='textSecondary'
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                Page Routes in Sling are simple URLs for your web pages that use
+                page templates and widgets to render content.
+              </Typography>
+            </Box>
+          </Grid>
 
-                <GridContainer>
-                  {analyticsData.infoWidgets.map((data, index) => (
-                    <Grid item xs={12} md={4} key={'grid-' + index}>
-                      <InfoWidget data={data} />
-                    </Grid>
-                  ))}
-                </GridContainer>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <PageVisits pageVisits={analyticsData.pageVisits} />
-              </Grid>
-              {/*<Grid item xs={12} md={9}>*/}
-              {/*  <OrderNTransaction*/}
-              {/*    transactionData={analyticsData.transactionData}*/}
-              {/*  />*/}
-              {/*</Grid>*/}
-              <Grid item xs={12} md={6}>
-                <TrafficSource trafficData={analyticsData.trafficData} />
-              </Grid>
-            </GridContainer>
-          </Box>
-        </AnimateComponent>
-      ) : null}
+          {/* Tile 2 */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: '#fff',
+                borderRadius: '10px',
+                padding: '20px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                textAlign: 'center',
+                minHeight: '550px',
+              }}>
+              <Typography variant='h2' component='div' color='#f89f28' style={{padding: 20}}> 
+                2
+              </Typography>
+              <img
+                src='/images/page-templates-bg.png'
+                alt='Manage Templates'
+                style={{
+                  width: '200px',
+                  height: '200px',
+                  marginBottom: '15px',
+                }}
+              />
+              <Typography
+                variant='h5'
+                component='h3'
+                gutterBottom
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                Manage Page Templates
+              </Typography>
+              <Typography
+                variant='body1'
+                color='textSecondary'
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                Page Templates are blueprints for your Web Pages. You can create
+                multiple page templates and customize them by adding and
+                arranging widgets and attaching a template to your WebPage.
+              </Typography>
+            </Box>
+          </Grid>
 
-      <InfoView />
-    </>
+          {/* Tile 3 */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: '#fff',
+                borderRadius: '10px',
+                padding: '20px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                textAlign: 'center',
+                minHeight: '550px',
+              }}>
+              <Typography variant='h2' component='div' color='#f89f28' style={{padding: 20}}> 
+                3
+              </Typography>
+              <img
+                src='/images/widgets-bg.png'
+                alt='Create Widgets'
+                style={{
+                  width: '200px',
+                  height: '200px',
+                  marginBottom: '15px',
+                }}
+              />
+              <Typography
+                variant='h5'
+                component='h3'
+                gutterBottom
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                Create Widgets
+              </Typography>
+              <Typography
+                variant='body1'
+                color='textSecondary'
+                style={{fontFamily: 'Open Sans, sans-serif'}}>
+                In Sling, pages are built from small React components called
+                widgets. You can create and upload widgets to the Studio or
+                manually.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
-export default CRM;
+export default SlingEntryPage;
