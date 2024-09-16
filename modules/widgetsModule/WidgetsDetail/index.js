@@ -7,13 +7,12 @@ import WidgetsList from '../WidgetsList';
 
 const PagesDetail = (props) => {
   const {query} = useRouter();
-  const id = query.all[0];
+  const id = query?.all?.[0] || 'widgets-integration';
   const sectionMapper = {
     'widgets-integration': WidgetsIntegration,
     'blocks-integration': WidgetsIntegration,
     'components-integration': WidgetsIntegration,
     'market-place': MarketPlace,
-    // guide: Basic,
   };
 
   const RenderSection = sectionMapper[id];

@@ -27,14 +27,13 @@ const Index = (props) => {
   const classes = useStyle();
   const query = props.router.query || {};
   const {all} = query;
-  console.log('Page Key ==> ', all?.[0] || 'guide');
+  console.log('Page Key ==> ', all?.[0] || 'widgets-integration');
+
   const onGetMainComponent = () => {
-    let pageKey = all?.[0] || 'guide';
-    if (all?.length >= 1) {
-      return <WidgetsDetail titleKey={getTitle()} pageKey={pageKey} />;
-    } else {
-      return <WidgetsList titleKey={getTitle()} pageKey={pageKey} />;
-    }
+    let pageKey = all?.[0] || 'widgets-integration';
+
+    console.log(pageKey, 'p[age key', all);
+    return <WidgetsDetail titleKey={getTitle()} pageKey={pageKey} />;
   };
 
   const getTitle = () => {
@@ -44,7 +43,6 @@ const Index = (props) => {
 
   const {messages} = useIntl();
   const basePath = all ? `` : `widgets/`;
-
 
   return (
     <AppsContainer
