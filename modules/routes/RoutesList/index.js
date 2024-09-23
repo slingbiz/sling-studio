@@ -121,7 +121,7 @@ const RoutesList = ({titleKey, pageKey}) => {
                     <br></br>
                     <a
                       target={'_blank'}
-                      href={'https://sling.biz/documentation/'}
+                      href={'https://sling.biz/documentation'}
                       rel='noreferrer'>
                       <CardMedia
                         className={classes.mediaBottom}
