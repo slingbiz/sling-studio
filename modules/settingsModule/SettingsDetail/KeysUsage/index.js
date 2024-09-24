@@ -14,6 +14,7 @@ import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {useSelector, useDispatch} from 'react-redux';
 import {Alert} from '@mui/material';
 import InfoIcon from '@material-ui/icons/Info';
+import CopyButton from './CopyButton';
 
 const useStyles = makeStyles((theme) => ({
   btnSubmit: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     width: 150,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
-      color: theme.palette.secondary.contrastText,
+      color: '#fff',
     },
   },
   inputText: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     marginTop: 20,
+    alignItems: 'center',
   },
   linkGuide: {
     cursor: 'pointer',
@@ -54,14 +56,6 @@ const KeyUsage = (props) => {
   const {titleKey, pageKey} = props;
   const {account} = useSelector(({account}) => account);
 
-  const copyToClipBoard = async () => {
-    if ('clipboard' in navigator) {
-      return await navigator.clipboard.writeText(account.apiKey);
-    } else {
-      return document.execCommand('copy', true, account.apiKey);
-    }
-  };
-
   return (
     <>
       <AppsHeader>
@@ -74,12 +68,13 @@ const KeyUsage = (props) => {
           API Authentication
         </Typography>
         <Grid spacing={2} container direction='row' className={classes.main}>
-          <Grid xs={4} item>
+          <Grid xs={12} lg={4} item>
             <Typography variant='h6' noWrap>
               Your API Key
             </Typography>
+            <Typography noWrap>NEXT_PUBLIC_CLIENT_KEY_SECRET </Typography>
           </Grid>
-          <Grid xs={6} item container>
+          <Grid xs={10} lg={6} item container>
             <TextField
               value={account?.apiKey}
               size='small'
@@ -91,14 +86,39 @@ const KeyUsage = (props) => {
               className={classes.inputText}
             />
           </Grid>
-          <Button
-            onClick={copyToClipBoard}
-            variant='contained'
-            className={classes.btnSubmit}
-            type='submit'
-            color='primary'>
-            Copy
-          </Button>
+          <Grid xs={2} lg={2} item container style={{display: 'flex'}}>
+            <CopyButton content={account?.apiKey} />
+          </Grid>
+        </Grid>
+        <Grid spacing={2} container direction='row' className={classes.main}>
+          <Grid xs={12} lg={4} item>
+            <Typography variant='h6' noWrap>
+              Your Client Id
+            </Typography>
+            <Typography noWrap>NEXT_PUBLIC_CLIENT_ID </Typography>
+          </Grid>
+          <Grid xs={10} lg={6} item container>
+            <TextField
+              value={account?.user}
+              size='small'
+              fullWidth
+              variant='outlined'
+              InputProps={{
+                readOnly: true,
+              }}
+              className={classes.inputText}
+            />
+          </Grid>
+          <Grid xs={2} item container style={{display: 'flex'}}>
+            <CopyButton content={account?.user} />
+          </Grid>
+        </Grid>
+        <Grid
+          spacing={2}
+          container
+          direction='row'
+          style={{marginTop: 35}}
+          className={classes.main}>
           <Alert
             icon={<InfoIcon />}
             severity='info'

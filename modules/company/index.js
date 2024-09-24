@@ -24,8 +24,20 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ['Company Details', 'Select Plan', 'Keys & Code Setup'];
 
+ import {CheckCircleRounded, CheckCircleOutlineRounded} from '@material-ui/icons';
+
+const CustomStepIcon = (props) => {
+  const {active, completed} = props;
+
+  return (
+    <div style={{color: active ? '#455a45' : completed ? 'green' : 'gray'}}>
+      {completed ? <CheckCircleRounded /> : <CheckCircleOutlineRounded />}
+    </div>
+  );
+};
+
 const CompanyRegistration = (props) => {
-  const [stepperIndex, setStepperIndex] = useState(1);
+  const [stepperIndex, setStepperIndex] = useState(0);
   //   const account = useSelector((account) => account);
   const {user, loading} = useSelector(({auth}) => auth);
   const router = useRouter();
@@ -62,7 +74,11 @@ const CompanyRegistration = (props) => {
           <Stepper activeStep={stepperIndex} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
-                <StepLabel className={classes.stepLabel}>{label}</StepLabel>
+                <StepLabel
+                  StepIconComponent={CustomStepIcon}
+                  className={classes.stepLabel}>
+                  {label}
+                </StepLabel>
               </Step>
             ))}
           </Stepper>

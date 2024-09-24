@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
+import {orange, grey} from '@material-ui/core/colors';
 
 import {Button, Divider, TextField} from '@material-ui/core';
 import {Form, Formik, useField} from 'formik';
@@ -10,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {onCompanyKeyCodeSetupForm} from '../../redux/actions/AccountAction';
 import {useRouter} from 'next/router';
+import {Fonts} from '../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({
   cardRoot: {
@@ -41,8 +43,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btnSubmit: {
-    width: 150,
+    fontSize: 16,
+    fontWeight: Fonts.BOLD,
+    backgroundColor: orange[500],
     marginLeft: 15,
+    width: 150,
+    '&:hover, &:focus': {
+      backgroundColor: orange[700],
+    },
+  },
+  btnCancel: {
+    fontSize: 16,
+    fontWeight: Fonts.BOLD,
+    // backgroundColor: 'gray',
+    marginLeft: 15,
+    width: 150,
+    '&:hover, &:focus': {
+      backgroundColor: grey[300],
+    },
   },
   cardBody: {
     width: '100%',
@@ -128,7 +146,7 @@ const KeyCodeSetupForm = (props) => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            clientUrl: '',
+            clientUrl: 'http://localhost:4087',
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
@@ -145,7 +163,7 @@ const KeyCodeSetupForm = (props) => {
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: ['column', 'column', 'row'],
+                  flexDirection: ['column', 'column', 'column'],
                   justifyContent: 'space-between',
                 }}
                 style={{marginBottom: 10}}>
@@ -153,10 +171,20 @@ const KeyCodeSetupForm = (props) => {
                   sx={{
                     fontWeight: '500',
                     fontSize: 20,
+                    marginBottom: 10,
                   }}>
                   Environment Setup
                 </Box>
-                <Box>Fields marked with * are required</Box>{' '}
+                {/* <Box style={{marginBottom: 10}}> Note</Box> */}
+                <Box style={{marginBottom: 10, fontWeight: 600}}>
+                  Note: Please copy and update API Key in the .env of your
+                  Sling FE repository.
+                </Box>{' '}
+                {/* <Box style={{marginBottom: 10}}>
+                  This can also be copied later from the URL
+                  https://studio.sling.biz/settings/keys-usage or{' '}
+                  {`<your-studio>/settings/keys-usage`}
+                </Box> */}
               </Box>
               <Divider variant='fullWidth' />
               <Box className={classes.entryBox}>
@@ -187,6 +215,7 @@ const KeyCodeSetupForm = (props) => {
                       }}
                       className={classes.inputText}
                     />
+
                     <Button
                       onClick={copyToClipBoard}
                       variant='contained'
@@ -220,7 +249,6 @@ const KeyCodeSetupForm = (props) => {
                     marginTop={15}
                     name='clientUrl'
                     id='outlined-basic'
-                    value="http://localhost:4087"
                     label='Frontend Domain URL *'
                     placeholder='http://localhost:4087'
                     breadcrumb={'sling.biz'}
@@ -287,7 +315,8 @@ const KeyCodeSetupForm = (props) => {
                 }}>
                 <Button
                   variant='text'
-                  color='primary'
+                  color='gray'
+                  className={classes.btnCancel}
                   onClick={() => router.replace('/')}>
                   Cancel
                 </Button>

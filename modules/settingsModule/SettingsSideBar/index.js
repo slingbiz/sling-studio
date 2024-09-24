@@ -20,7 +20,7 @@ export const folderList = [
     id: 2,
     name: 'Keys & Usage',
     alias: 'keys-usage',
-    icon: 'view_quilt',
+    icon: 'key',
   },
   {
     id: 2,

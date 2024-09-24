@@ -55,7 +55,8 @@ const ThemeSettings = (props) => {
               alignItems: 'center',
             }}>
             <Box style={{fontWeight: 'bold'}}>
-              Customize your MUI theme and Styles
+              Customize your MUI theme and Styles{' '}
+              <sup style={{fontSize: 10}}>Coming Soon.</sup>
             </Box>
             <Box style={{display: 'flex', alignItems: 'center', fontSize: 14}}>
               <Button

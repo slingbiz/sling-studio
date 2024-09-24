@@ -15,7 +15,10 @@ import MuiPhoneNumber from 'material-ui-phone-number';
 import {Stack} from '@mui/material';
 import {countries} from '../../../../shared/constants/CountryList';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateCompanyInfo, updateStoreInfo,} from '../../../../redux/actions/AccountAction';
+import {
+  updateCompanyInfo,
+  updateStoreInfo,
+} from '../../../../redux/actions/AccountAction';
 
 const CommonTextField = (props) => {
   const [field, meta] = useField(props);
@@ -174,7 +177,7 @@ const CompanyDetails = (props) => {
         className={classes.body}>
         {/* <Box fontWeight={Fonts.BOLD} component='h3'> */}
         {/* </Box> */}
-        <Grid xs={4} item>
+        <Grid xs={12} lg={4} item>
           <Box>
             <Typography variant='h5' gutterBottom='true'>
               Site Settings
@@ -189,7 +192,7 @@ const CompanyDetails = (props) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid xs={8} className={classes.boxSection} item>
+        <Grid xs={12} lg={8} className={classes.boxSection} item>
           <Typography variant='h5' gutterBottom='true'>
             General Information
           </Typography>
@@ -259,7 +262,7 @@ const CompanyDetails = (props) => {
       </Grid>
       <Divider />
       <Grid direction='row' container spacing={10} className={classes.body}>
-        <Grid xs={4} item>
+        <Grid xs={12} lg={4} item>
           <Box>
             <Typography variant='h5' gutterBottom='true'>
               Company Information
@@ -273,7 +276,7 @@ const CompanyDetails = (props) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid xs={8} className={classes.boxSection} item>
+        <Grid xs={12} lg={8} className={classes.boxSection} item>
           <Typography variant='h5' gutterBottom='true'>
             Store Information
           </Typography>
