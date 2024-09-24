@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Hidden,
   makeStyles,
   TextField,
 } from '@material-ui/core';
@@ -62,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
     borderTopWidth: 1,
   },
   gridTileInfo: {
-    justifyContent: 'flex-left',
+    justifyContent: 'center',
+    flexDirection: 'row',
     display: 'flex',
   },
   gridItemInfo: {
@@ -98,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText,
     fontWeight: Fonts.BOLD,
     paddingRight: 20,
-    marginRight: 20,
     paddingLeft: 20,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
@@ -267,8 +268,8 @@ const PageTemplatesList = () => {
 
   return (
     <>
-      <AppsHeader>
-        All Page Templates{' '}
+      <AppsHeader style={{justifyContent: 'space-between'}}>
+        <Box>All Page Templates </Box>
         <Box display='flex' alignItems='center'>
           <Button
             className={classes.dashboardBtn}
@@ -281,10 +282,12 @@ const PageTemplatesList = () => {
             }}>
             Add Template
           </Button>
-          <AppSearch
-            placeholder='Search templates'
-            onChange={(e) => e.target.value}
-          />
+          <Hidden mdDown>
+            <AppSearch
+              placeholder='Search templates'
+              onChange={(e) => e.target.value}
+            />
+          </Hidden>
         </Box>
       </AppsHeader>
       <Paper className={classes.root}>
@@ -307,12 +310,7 @@ const PageTemplatesList = () => {
               Showing {totalPageTemplates} templates
             </Typography>
           </Grid>
-          <Grid
-            container
-            className={classes.gridTileInfo}
-            sm={12}
-            md={12}
-            lg={12}>
+          <Grid container className={classes.gridTileInfo}>
             {Object.keys(layoutConfig).map((v, k) => {
               const {meta} = layoutConfig[v] || {};
               const {title, description} = meta || {};
