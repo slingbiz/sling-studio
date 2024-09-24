@@ -67,7 +67,8 @@ const SigninJwtAuth = (props) => {
     },
     btnRoot: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
-      width: '10rem',
+      width: '100%',
+      height: 50,
       fontSize: 16,
       color: theme.palette.common.white,
       fontWeight: Fonts.BOLD,
@@ -157,20 +158,6 @@ const SigninJwtAuth = (props) => {
                     <IntlMessages id='common.rememberMe' />
                   </Box>
                 </Box>
-                <Box
-                  component='span'
-                  color='primary.main'
-                  ml={{sm: 4}}
-                  className={classes.pointer}>
-                  <Link
-                    href='/forget-password'
-                    className={clsx(
-                      classes.underlineNone,
-                      classes.colorTextPrimary,
-                    )}>
-                    <IntlMessages id='common.forgetPassword' />
-                  </Link>
-                </Box>
               </Box>
 
               <Box
@@ -187,7 +174,27 @@ const SigninJwtAuth = (props) => {
                   className={classes.btnRoot}>
                   <IntlMessages id='common.login' />
                 </Button>
-
+              </Box>
+              <Box
+                mb={6}
+                mt={6}
+                display='flex'
+                flexDirection={{xs: 'column', sm: 'row'}}
+                alignItems={{sm: 'center'}}
+                justifyContent={{sm: 'space-between'}}>
+                <Box
+                  component='span'
+                  color='primary.main'
+                  className={classes.pointer}>
+                  <Link
+                    href='/forget-password'
+                    className={clsx(
+                      classes.underlineNone,
+                      classes.colorTextPrimary,
+                    )}>
+                    <IntlMessages id='common.forgetPassword' />
+                  </Link>
+                </Box>
                 <Box
                   ml={{xs: 0, sm: 4}}
                   mt={{xs: 3, sm: 0}}

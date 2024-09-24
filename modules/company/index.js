@@ -17,12 +17,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     width: 140,
   },
+  stepLabel: {
+    fontFamily: 'Open Sans !important',
+  },
 }));
 
 const steps = ['Company Details', 'Select Plan', 'Keys & Code Setup'];
 
 const CompanyRegistration = (props) => {
-  const [stepperIndex, setStepperIndex] = useState(0);
+  const [stepperIndex, setStepperIndex] = useState(1);
   //   const account = useSelector((account) => account);
   const {user, loading} = useSelector(({auth}) => auth);
   const router = useRouter();
@@ -53,12 +56,13 @@ const CompanyRegistration = (props) => {
           flexDirection: 'column',
           justifyContent: 'start',
           alignItems: 'center',
+          fontFamily: 'Open Sans',
         }}>
         <Box sx={{width: '100%'}}>
           <Stepper activeStep={stepperIndex} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
-                <StepLabel style={{color: 'grey'}}>{label}</StepLabel>
+                <StepLabel className={classes.stepLabel}>{label}</StepLabel>
               </Step>
             ))}
           </Stepper>

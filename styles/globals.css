@@ -17,6 +17,10 @@ body {
   padding: 0;
 }
 
+.MuiStepLabel-label {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size:15px !important;
+}
 *,
 *:before,
 *:after {

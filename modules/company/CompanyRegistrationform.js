@@ -13,16 +13,17 @@ import {Form, Formik, useField} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {onCompanyRegistrationForm} from '../../redux/actions/AccountAction';
 import {onJwtAuthSignout} from '../../redux/actions';
+import {Fonts} from '../../shared/constants/AppEnums';
 
 const useStyles = makeStyles((theme) => ({
   cardRoot: {
-    minHeight: '70vh',
+    // minHeight: '70vh',
     width: '45%',
     display: 'flex',
     flexDirection: 'column',
     marginTop: 15,
     margin: 5,
-    padding: 25,
+    padding: 45,
     overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
       width: '100%',
@@ -48,6 +49,21 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     marginTop: 10,
     width: 150,
+    color: '#fff',
+  },
+  btnRoot: {
+    borderRadius: theme.overrides.MuiCard.root.borderRadius,
+    width: '100%',
+    height: 50,
+    marginTop: 20,
+    fontSize: 16,
+    color: theme.palette.common.white,
+    fontWeight: Fonts.BOLD,
+    textTransform: 'capitalize',
+  },
+  rowStack: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 }));
 
@@ -56,22 +72,22 @@ const phoneRegExp =
 
 const validationSchema = yup.object({
   // phoneNumber: yup
-  //   .number()
+  //   .string() // Change this from number to string to validate phone numbers
   //   .required(<IntlMessages id='validation.phoneRequired' />),
-  orgName: yup
-    .string()
-    .required(<IntlMessages id='validation.orgNameRequired' />),
-  companyName: yup
-    .string()
-    .required(<IntlMessages id='validation.companyNameRequired' />),
-  address1: yup
-    .string()
-    .required(<IntlMessages id='validation.address1Required' />),
-  city: yup.string().required(<IntlMessages id='validation.cityRequired' />),
+  // orgName: yup
+  //   .string()
+  //   .required(<IntlMessages id='validation.orgNameRequired' />),
+  // companyName: yup
+  //   .string()
+  //   .required(<IntlMessages id='validation.companyNameRequired' />),
+  // address1: yup
+  //   .string()
+  //   .required(<IntlMessages id='validation.address1Required' />),
+  // city: yup.string().required(<IntlMessages id='validation.cityRequired' />),
   // phoneNumber: yup.number().required('Phone number is not valid'),
-  country: yup
-    .string()
-    .required(<IntlMessages id='validation.countryRequired' />),
+  // country: yup
+  //   .string()
+  //   .required(<IntlMessages id='validation.countryRequired' />),
 });
 
 const MyTextField = (props) => {
@@ -80,9 +96,9 @@ const MyTextField = (props) => {
   // console.log(field);
   return (
     <TextField
-      style={{margin: 10}}
       {...props}
       {...field}
+      style={{margin: 10, height: '2rem'}}
       helperText={errorText}
       error={!!errorText}
     />
@@ -133,7 +149,7 @@ const CompanyRegistrationform = (props) => {
               console.log('submit');
             });
           }}>
-          {({isSubmitting, handleChange}, ...props) => (
+          {({isSubmitting, handleChange, values, setFieldValue}, ...props) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>
               <Box
                 style={{
@@ -177,37 +193,60 @@ const CompanyRegistrationform = (props) => {
                 }}>
                 <Box>Fields marked with * are required</Box>{' '}
               </Box>
-              <MyTextField
+              {/* <MyTextField
                 name='orgName'
                 id='outlined-basic'
                 label='Organization Name *'
                 variant='outlined'
                 margin='dense'
-              />
-              <MyTextField
-                name='companyName'
-                id='outlined-basic'
-                label='Company Name *'
-                variant='outlined'
-                margin='dense'
-              />
-              <MyTextField
-                disabled
-                name='email'
-                id='outlined-basic'
-                label='Primary Email'
-                variant='outlined'
-                margin='dense'
-              />
-              <MuiPhoneNumber
-                name='phoneNumber'
-                style={{margin: 10}}
-                label={'Phone *'}
-                variant='outlined'
-                margin='dense'
-                defaultCountry={'ae'}
-                onChange={handleChange('phoneNumber')}
-              />
+              /> */}
+              <Stack
+                direction='row'
+                spacing={2}
+                alignItems='baseline'
+                className={classes.rowStack}>
+                <MyTextField
+                  name='companyName'
+                  fullWidth
+                  id='outlined-basic'
+                  label='Company Name'
+                  variant='outlined'
+                  // margin='dense'
+                />
+              </Stack>
+
+              <Stack
+                direction='row'
+                spacing={2}
+                alignItems='baseline'
+                className={classes.rowStack}>
+                <MyTextField
+                  disabled
+                  fullWidth
+                  name='email'
+                  // id='outlined-basic'
+                  label='Primary Email'
+                  variant='outlined'
+                  // margin='dense'
+                  style={{
+                    margin: 10,
+                    padding: '0', // Ensure no extra padding is added
+                    height: '3.5rem', // Consistent height
+                  }}
+                />
+                <MuiPhoneNumber
+                  name='phoneNumber'
+                  style={{margin: 10}}
+                  fullWidth
+                  label={'Phone *'}
+                  variant='outlined'
+                  margin='dense'
+                  defaultCountry={'ae'}
+                  value={values.phoneNumber} // Make sure this is connected to form state
+                  onChange={(value) => setFieldValue('phoneNumber', value)} // Manually update the form field
+                />
+              </Stack>
+
               <Box
                 sx={{
                   typography: 'subtitle2',
@@ -216,46 +255,32 @@ const CompanyRegistrationform = (props) => {
                 }}>
                 ADDRESS
               </Box>
-              <MyTextField
-                name='address1'
-                id='outlined-basic'
-                label='Address 1 *'
-                variant='outlined'
-                margin='dense'
-              />
-              <MyTextField
-                name='address2'
-                id='outlined-basic'
-                label='Address 2'
-                variant='outlined'
-                margin='dense'
-              />
-              <Stack direction='row' spacing={2} alignItems='baseline'>
+              <Stack
+                direction='row'
+                spacing={2}
+                alignItems='baseline'
+                style={{marginTop: 0}}
+                className={classes.rowStack}>
+                <MyTextField
+                  name='address1'
+                  fullWidth
+                  id='outlined-basic'
+                  label='Address'
+                  variant='outlined'
+                />
+              </Stack>
+
+              <Stack
+                direction='row'
+                spacing={2}
+                alignItems='baseline'
+                className={classes.rowStack}>
                 <MyTextField
                   name='city'
                   id='outlined-basic'
-                  label='City *'
+                  label='City'
                   variant='outlined'
-                  margin='dense'
                   fullWidth
-                />
-                <MyTextField
-                  fullWidth
-                  name='zipCode'
-                  id='outlined-basic'
-                  label='ZIP / Postal code'
-                  variant='outlined'
-                  margin='dense'
-                />
-              </Stack>
-              <Stack direction='row' spacing={2} alignItems='baseline'>
-                <MyTextField
-                  name='region'
-                  fullWidth
-                  id='outlined-basic'
-                  label='Region'
-                  variant='outlined'
-                  margin='dense'
                 />
                 <MyTextField
                   name='country'
@@ -263,8 +288,7 @@ const CompanyRegistrationform = (props) => {
                   id='outlined-select-currency'
                   select
                   variant='outlined'
-                  margin='dense'
-                  label='Country *'
+                  label='Country'
                   style={{margin: 10}}
                   helperText='Please select your country'>
                   {countries.map((option) => (
@@ -273,17 +297,26 @@ const CompanyRegistrationform = (props) => {
                     </MenuItem>
                   ))}
                 </MyTextField>
+                {/* <MyTextField
+                  fullWidth
+                  name='zipCode'
+                  id='outlined-basic'
+                  label='ZIP / Postal code'
+                  variant='outlined'
+                  margin='dense'
+                /> */}
               </Stack>
+
               {/*<ReCAPTCHA*/}
               {/*  sitekey='6LdBA_YeAAAAAGjA_tg6stXHgjy4azk8QIK-buFc'*/}
               {/*  style={{margin: 'auto', marginTop: '20px'}}*/}
               {/*/>*/}
               <Button
                 variant='contained'
-                className={classes.btnSubmit}
+                color='secondary'
                 type='submit'
                 disabled={isSubmitting}
-                color='primary'>
+                className={classes.btnRoot}>
                 Finish
               </Button>
             </Form>

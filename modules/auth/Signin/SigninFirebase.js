@@ -170,7 +170,7 @@ const SigninFirebase = (props) => {
                 alignItems={{sm: 'center'}}
                 justifyContent={{sm: 'space-between'}}
                 fontSize={15}>
-                <Box display='flex' alignItems='center'>
+                <Box display='flex' alignItems='center' style={{disabled : 1}}>
                   <Checkbox className={classes.checkboxRoot} />
                   <Box className={classes.textGrey} component='span'>
                     <IntlMessages id='common.rememberMe' />

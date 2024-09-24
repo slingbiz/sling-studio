@@ -16,7 +16,7 @@ import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import {GridContainer} from '../../../@sling';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   btnRoot: {
     borderRadius: theme.overrides.MuiCard.root.borderRadius,
-    width: '10rem',
+    width: '100%',
     fontSize: 16,
+    height: 50,
     color: theme.palette.common.white,
     fontWeight: Fonts.BOLD,
     textTransform: 'capitalize',
@@ -123,11 +124,14 @@ const SignupJwtAuth = (props) => {
             } else {
               setSubmitting(true);
               dispatch(
-                onJwtUserSignUp({
-                  email: data.email,
-                  password: data.password,
-                  name: data.name,
-                }, router),
+                onJwtUserSignUp(
+                  {
+                    email: data.email,
+                    password: data.password,
+                    name: data.name,
+                  },
+                  router,
+                ),
               );
               setSubmitting(false);
             }
@@ -183,7 +187,7 @@ const SignupJwtAuth = (props) => {
                 display='flex'
                 alignItems='center'
                 fontSize={15}>
-                <Box display='flex' alignItems='center'>
+                {/* <Box display='flex' alignItems='center'>
                   <Checkbox className={classes.checkboxRoot} />
                   <Box
                     className={classes.textGrey}
@@ -192,18 +196,19 @@ const SignupJwtAuth = (props) => {
                     fontSize={15}>
                     <IntlMessages id='common.iAgreeTo' />
                   </Box>
-                </Box>
-                <Box
+                </Box> */}
+                {/* <Box
                   component='span'
                   color='primary.main'
                   fontSize={15}
                   className={classes.pointer}>
                   <IntlMessages id='common.termConditions' />
-                </Box>
+                </Box> */}
               </Box>
 
               <Box
                 mb={6}
+                mt={6}
                 display='flex'
                 flexDirection={{xs: 'column', sm: 'row'}}
                 alignItems={{sm: 'center'}}
@@ -216,6 +221,14 @@ const SignupJwtAuth = (props) => {
                   type='submit'>
                   <IntlMessages id='common.signup' />
                 </Button>
+              </Box>
+              <Box
+                mb={6}
+                mt={6}
+                display='flex'
+                flexDirection={{xs: 'column', sm: 'row'}}
+                alignItems={{sm: 'center'}}
+                justifyContent={{sm: 'flex-end'}}>
                 <Box
                   color='text.secondary'
                   ml={{sm: 4}}

@@ -14,180 +14,243 @@ import {onCompanyMembershipForm} from '../../redux/actions/AccountAction';
 
 const useStyles = makeStyles((theme) => ({
   headerText: {
-    cursor: 'pointer',
-    fontWeight: 900,
-    fontSize: 20,
-    color: 'text.primary',
+    fontWeight: 400,
+    fontSize: '1.5rem',
+    color: theme.palette.text.primary,
     marginTop: 20,
-    marginBottom: 20,
+  },
+  subHeaderText: {
+    fontSize: '1rem',
+    color: theme.palette.text.secondary,
+    marginBottom: 30,
   },
   stack: {
-    minHeight: '70vh',
-    display: 'flex',
-    flexDirection: 'column',
+    width: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
-    width: '70%',
-    overflow: 'hidden',
-    position: 'relative',
-    paddingTop: 20,
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: 32,
-    },
-    [theme.breakpoints.down('md')]: {
-      paddingTop: 32,
-      width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
     },
   },
   cardChild: {
-    width: '100%',
-    cursor: 'pointer',
+    width: '350px',
+    height: '500px',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    borderRadius: '10px',
+    border: `1px solid ${theme.palette.grey[300]}`,
     '&:hover': {
-      border: '3px solid',
-      borderColor: 'rgba(8, 240, 34, .5)',
+      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
     },
   },
-  mostTitle: {
-    backgroundColor: 'success',
+  highlightCard: {
+    border: `3px solid ${theme.palette.warning.main}`,
   },
-  btnSubmit: {
-    margin: 'auto',
-    marginTop: 10,
-    width: 150,
-  },
-  annual: {
-    fontSize: 20,
-    fontStyle: 'bold',
+  planTitle: {
     fontWeight: 900,
+    textTransform: 'uppercase',
+    color: theme.palette.text.primary,
   },
-  billValue: {
-    color: 'text.secondary',
-    fontSize: 15,
+  planDescription: {
+    color: theme.palette.text.secondary,
+    marginBottom: 20,
   },
-
-  price: {
-    fontSize: 15,
+  priceText: {
     fontWeight: 800,
+    fontSize: '1.5rem',
+    color: theme.palette.text.primary,
+    marginBottom: 20,
   },
-  save: {
-    backgroundColor: 'rgba(8, 240, 34, 0.27)',
-    paddingLeft: 5,
-    paddingRight: 5,
-    width: 'fit-content',
-    fontWeight: 600,
-    borderRadius: 5,
-    textAlign: 'center',
+  feature: {
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.text.secondary,
+    marginBottom: 8,
+  },
+  planButton: {
+    marginTop: 20,
+    width: '100%',
+    color: 'white',
   },
 }));
 
-const PackageComponent = (prop) => {
-  const dispatch = useDispatch();
-
+const PackageComponent = ({
+  label,
+  description,
+  price,
+  features,
+  buttonText,
+  buttonColor,
+  highlight,
+  classes,
+  onSelect,
+  isDisabled = false, // default to false
+}) => {
   return (
-    <Card className={prop.classes.cardChild}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          p: 3,
-          width: '100%',
-          justifyContent: 'space-between',
-        }}
-        style={prop.disable ? {opacity: 0.5} : {opacity: 1}}>
-        <Box sx={{display: 'flex', flexDirection: 'column'}}>
-          <Box
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              borderRadius: 5,
-              width: 'fit-content',
-              px: 1,
-              textTransform: 'uppercase',
-              fontWeight: 900,
-            }}>
-            <Typography>{prop.popularType}</Typography>
-          </Box>
-          <Typography className={prop.classes.annual}>{prop.annual}</Typography>
-          <Typography className={prop.classes.billValue}>
-            {`Billed as one payment of ${prop.price}`}
-          </Typography>
+    <Card
+      className={`${classes.cardChild} ${highlight ? classes.highlightCard : ''}`}
+      style={isDisabled ? {opacity: 0.5} : {opacity: 1}} // Grey out when disabled
+    >
+      <Box sx={{p: 3, width: '100%', textAlign: 'center'}}>
+        {/* Plan Title */}
+        <Typography variant='h6' className={classes.planTitle}>
+          {label}
+        </Typography>
+
+        {/* Plan Description */}
+        <Typography variant='subtitle2' className={classes.planDescription}>
+          {description}
+        </Typography>
+
+        {/* Price */}
+        <Typography variant='h4' className={classes.priceText}>
+          {price}
+        </Typography>
+
+        {/* Feature List */}
+        <Box sx={{textAlign: 'left', mt: 2, padding: '0 20px'}}>
+          {features.map((feature, index) => (
+            <Box
+              key={index}
+              sx={{display: 'flex', alignItems: 'center', mb: 1}}>
+              <span
+                style={{
+                  color: 'green',
+                  fontWeight: 'bold',
+                  marginRight: '8px',
+                }}>
+                &#10004; {/* Unicode for checkmark */}
+              </span>{' '}
+              <Typography variant='body2' className={classes.feature}>
+                {feature}
+              </Typography>
+            </Box>
+          ))}
         </Box>
-        <Box sx={{display: 'flex', alignItems: 'center'}}>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
-            <Typography className={prop.classes.price}>
-              {`${prop.price} / month`}
-            </Typography>
-            <Typography
-              className={prop.classes.save}>{`Save ${prop.save}%`}</Typography>
-          </Box>
+
+        <Box sx={{mt: 2, padding: '0 20px'}}>
+          {/* Button */}
           <Button
-            disabled={prop.disable}
-            size='large'
             variant='contained'
-            color='primary'
-            onClick={() => {
-              dispatch(
-                onCompanyMembershipForm(prop.user.id, {packageType: 'free'}),
-              ).then((res) => {
-                if (res.status == 201) {
-                  prop.changeStepper();
-                }
-              });
-            }}>
-            Select
+            style={{backgroundColor: isDisabled ? '#d3d3d3' : buttonColor}} // Grey out the button if disabled
+            className={classes.planButton}
+            disabled={isDisabled} // Disable the button
+            onClick={onSelect}>
+            {buttonText}
           </Button>
         </Box>
       </Box>
     </Card>
   );
 };
-const CompanySelectForm = (props) => {
-  // const []
-  const dispatch = useDispatch();
 
+const CompanySelectForm = (props) => {
   const classes = useStyles(props);
-  const [pkgSelect, setpkgSelect] = useState(0);
-  const {user, loading} = useSelector(({auth}) => auth);
+  const {user} = useSelector(({auth}) => auth);
+  const dispatch = useDispatch();
 
   return (
     <Box
       sx={{
         width: '100%',
         padding: 10,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'start',
-        alignItems: 'center',
         minHeight: '100vh',
+        textAlign: 'center',
       }}>
-      <Typography variant='h3' className={classes.headerText}>
-        Choose Your Plan
+      <Typography variant='h4' className={classes.headerText}>
+        Pricing Plans
       </Typography>
-      <Stack direction='column' spacing={5} className={classes.stack}>
-        <PackageComponent
-          annual='Free'
-          billValue='Free'
-          save='$100'
-          price='Free'
-          disable={false}
+      <Typography variant='h6' className={classes.subHeaderText}>
+        Find the tier tailored for you.
+      </Typography>
+
+      <Stack direction='row' spacing={5} className={classes.stack}>
+        {/* <PackageComponent
+          label='COMMUNITY'
+          description='SELF HOSTED - Host and manage Studio locally.'
+          price='Free Forever'
+          features={[
+            'Open-source',
+            'Community Support',
+            'Unlimited Page Templates',
+            'Unlimited Self and Free Widgets',
+          ]}
+          buttonText='GET STARTED'
+          buttonColor='#e0e0e0' // grey color for community plan
           classes={classes}
-          changeStepper={props.changeStepper}
-          user={user}
+          onSelect={() => {
+            dispatch(
+              onCompanyMembershipForm(user.id, {packageType: 'free'}),
+            ).then((res) => {
+              if (res.status == 201) {
+                props.changeStepper();
+              }
+            });
+          }}
+        /> */}
+
+        <PackageComponent
+          label='DEVELOPER'
+          description='Self or Cloudd Hosted Studio.'
+          price='Free Forever'
+          features={[
+            'Open-source',
+            'Community Support',
+            'Unlimited Page Templates',
+            'Unlimited Self and Free Widgets',
+            'Self Host or Cloud Managed Admin Studio',
+          ]}
+          buttonText='Next'
+          buttonColor='#FFA500' // orange color for developer plan
+          highlight={true}
+          classes={classes}
+          onSelect={() => {
+            dispatch(
+              onCompanyMembershipForm(user.id, {packageType: 'free'}),
+            ).then((res) => {
+              if (res.status == 201) {
+                props.changeStepper();
+              }
+            });
+          }}
         />
+
         <PackageComponent
-          annual='Annual'
-          billValue='$50.00'
-          save='50'
-          price='$100.00'
-          disable={true}
+          label='PRO'
+          description='CLOUD HOSTED - Everything in Developer.'
+          price='99 USD pm'
+          features={[
+            'Cloud Managed Admin Studio',
+            'Access to Paid Widgets and Templates',
+            'Multi User and Role management',
+          ]}
+          buttonText='SIGN UP NOW !'
+          buttonColor='#28a745' // green color for pro plan
           classes={classes}
-          changeStepper={props.changeStepper}
-          user={user}
+          isDisabled={true}
+          onSelect={() => console.log('Pro Plan selected')}
+        />
+
+        <PackageComponent
+          label='ENTERPRISE'
+          description='CLOUD HOSTED - Everything in Pro.'
+          price='Custom'
+          features={[
+            'Single Sign-On for CMS (SSO)',
+            'Audit Logs (90+ days)',
+            'Support SLAs',
+            'Technical Audit',
+            'Premium Support',
+            'Review Workflows',
+          ]}
+          buttonText='SIGN UP NOW !'
+          isDisabled={true}
+          Í
+          buttonColor='#007bff' // blue color for enterprise plan
+          classes={classes}
+          onSelect={() => console.log('Enterprise Plan selected')}
         />
       </Stack>
     </Box>
