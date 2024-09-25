@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     height: '8em',
     width: '100%',
     background:
-      'radial-gradient(circle, rgb(255 255 255) 0%, rgba(255, 152, 0, 0.413624824929972) 100%)',
+      'radial-gradient(circle, rgb(255 255 255) 0%, rgb(176 196 222 / 69%) 100%)',
     padding: 15,
     boxShadow: 'rgb(136 136 136) 0px 0.5px 1px',
     backgroundColor: '',
@@ -470,6 +470,7 @@ const LayoutEditView = forwardRef((props, ref) => {
               <Paper className={classes.root}>
                 <InputBase
                   className={classes.input}
+                  disabled  // Disable search for now
                   placeholder='Search Widgets'
                   inputProps={{'aria-label': 'search widgets'}}
                   value={query}
