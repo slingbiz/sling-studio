@@ -159,7 +159,7 @@ const ModalPageTemplate = ({
           this page template.
         </DialogContentText>
         <TextField
-          autoFocus
+          autoFocus={true}
           className={classes.textField}
           margin='dense'
           placeholder='newyear-sale'

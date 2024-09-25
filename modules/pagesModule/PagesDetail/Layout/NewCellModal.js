@@ -151,11 +151,11 @@ const NewCellModal = (props) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCloseNewCell} color='primary'>
+        <Button autoFocus={true} onClick={handleCloseNewCell} color='primary'>
           Cancel
         </Button>
         <Button
-          autoFocus
+          autoFocus={true}
           onClick={() => {
             handleSaveNewCell(newCellRowIndex, section, layoutWidth);
           }}

@@ -136,7 +136,7 @@ const PreviewModal = ({ open, setOpen, urlToPreview }) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={4} style={{ textAlign: 'end' }}>
-              <Button autoFocus color='inherit' onClick={handleClose}>
+              <Button autoFocus={true} color='inherit' onClick={handleClose}>
                 Close
               </Button>
             </Grid>

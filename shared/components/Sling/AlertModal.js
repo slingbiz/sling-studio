@@ -55,7 +55,7 @@ export default function AlertModal(props) {
             onClick={handleClose}
             color='secondary'
             className={classes.alertBtn}
-            autoFocus>
+            autoFocus={true}>
             Save
           </Button>
         </DialogActions>

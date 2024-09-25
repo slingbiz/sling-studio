@@ -187,10 +187,10 @@ const EditApiMappings = ({open, setOpen, titleKey, pageKey}) => {
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
-          <Button autoFocus color='inherit' onClick={handleClose}>
+          <Button autoFocus={true} color='inherit' onClick={handleClose}>
             Cancel
           </Button>
-          <Button autoFocus color='inherit' onClick={handleRootSave}>
+          <Button autoFocus={true} color='inherit' onClick={handleRootSave}>
             Save
           </Button>
         </Toolbar>

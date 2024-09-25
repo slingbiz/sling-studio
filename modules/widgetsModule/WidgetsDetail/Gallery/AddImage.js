@@ -97,7 +97,7 @@ const AddImage = ({ open, setOpen }) => {
           <IconButton onClick={handleClose}>
             <ArrowBackIcon />
           </IconButton>
-          <Button autoFocus color='inherit' onClick={handleClose}>
+          <Button autoFocus={true} color='inherit' onClick={handleClose}>
             Cancel
           </Button>
         </Toolbar>

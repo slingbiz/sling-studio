@@ -65,7 +65,7 @@ export default function AlertModal(props) {
             onClick={handleClose}
             color='secondary'
             className={classes.alertBtn}
-            autoFocus>
+            autoFocus={true}>
             No
           </Button>
           <Button
@@ -73,7 +73,7 @@ export default function AlertModal(props) {
             onClick={handleClose}
             color='secondary'
             className={classes.alertBtn}
-            autoFocus
+            autoFocus={true}
             disabled>
             Reroute <sup style={{color: '#fdadad', padding: '0 2px'}}> Pro</sup>
           </Button>

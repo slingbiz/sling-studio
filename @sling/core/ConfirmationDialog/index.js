@@ -50,7 +50,7 @@ const ConfirmationDialog = ({open, onDeny, onConfirm, title, dialogTitle}) => {
             className={classes.btn}
             onClick={onConfirm}
             color='primary'
-            autoFocus>
+            autoFocus={true}>
             <IntlMessages id='common.yes' />
           </Button>
         </Box>

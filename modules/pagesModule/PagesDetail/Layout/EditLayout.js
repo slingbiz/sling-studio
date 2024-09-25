@@ -165,13 +165,13 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
-          <Button autoFocus color='inherit' onClick={handleClose}>
+          <Button autoFocus={true} color='inherit' onClick={handleClose}>
             Cancel
           </Button>
           <Button
             style={{backgroundColor: orange[500], color: 'white'}}
             classes={classes.button}
-            autoFocus
+            autoFocus={true}
             onClick={handleRootSave}>
             Apply Changes
           </Button>

@@ -67,7 +67,7 @@ const EditRoute = ({setOpen, open, titleKey, pageKey, apiObj}) => {
             <Tab label='Basic' />
             <Tab label='Regex' disabled />
           </Tabs>
-          <Button autoFocus color='inherit' onClick={handleClose}>
+          <Button autoFocus={true} color='inherit' onClick={handleClose}>
             Cancel
           </Button>
         </Toolbar>
