@@ -130,6 +130,7 @@ const useStyles = makeStyles((theme) => ({
 const RoutesList = (props) => {
   const dispatch = useDispatch();
   const { routesList, totalCount } = useSelector(({ routeList }) => routeList);
+  const {user} = useSelector(({auth}) => auth);
 
   const classes = useStyles(props);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
