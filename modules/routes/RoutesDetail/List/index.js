@@ -36,6 +36,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { FETCH_WARNING } from '../../../../shared/constants/ActionTypes';
 import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
 import { generateSlug } from 'random-word-slugs';
+import { getCompanyInfo } from '../../../../redux/actions/AccountAction';
 
 const useStyles = makeStyles((theme) => ({
   input: {
