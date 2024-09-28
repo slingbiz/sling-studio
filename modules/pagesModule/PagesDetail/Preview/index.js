@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import AppHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {
   Grid,
@@ -13,10 +13,10 @@ import {
 } from '@material-ui/core';
 import PreviewModal from './Modal';
 import orange from '@material-ui/core/colors/orange';
-import { Fonts } from '../../../../shared/constants/AppEnums';
-import { getRoutesList, getCompanyInfo } from '../../../../redux/actions';
-import { useSelector, useDispatch } from 'react-redux';
-import { generateSlug } from 'random-word-slugs';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import {getRoutesList, getCompanyInfo} from '../../../../redux/actions';
+import {useSelector, useDispatch} from 'react-redux';
+import {generateSlug} from 'random-word-slugs';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -79,9 +79,9 @@ const urlList = [
 
 const Preview = () => {
   const dispatch = useDispatch();
-  const { routesList } = useSelector(({ routeList }) => routeList);
-  const { account } = useSelector(({ account }) => account);
-  const { user } = useSelector(({ auth }) => auth);
+  const {routesList} = useSelector(({routeList}) => routeList);
+  const {account} = useSelector(({account}) => account);
+  const {user} = useSelector(({auth}) => auth);
 
   const classes = useStyles();
   const [query, setQuery] = useState('');
@@ -89,14 +89,16 @@ const Preview = () => {
   const [previewMapperDialog, setPreviewMapperDialog] = useState(false);
 
   const getList = () => {
-    const { clientUrl } = account || {};
-    const list = routesList.map(({ sample_string: sampleString, url_string: urlString }) => {
-      let url = sampleString || urlString;
-      const slug = generateSlug();
-      url = url.replace(/\<.*?\>/g, slug);
-      const slash = url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
-      return `${clientUrl}${slash}${url}`;
-    });
+    const {clientUrl} = account || {};
+    const list = routesList.map(
+      ({sample_string: sampleString, url_string: urlString}) => {
+        let url = sampleString || urlString;
+        const slug = generateSlug();
+        url = url.replace(/\<.*?\>/g, slug);
+        const slash = url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
+        return `${clientUrl}${slash}${url}`;
+      },
+    );
     let res = [...list, ...urlList];
     if (query) {
       res = res.filter((data) => data.search(query) !== -1);
@@ -112,7 +114,7 @@ const Preview = () => {
 
   useEffect(() => {
     if (!routesList.length) {
-      dispatch(getRoutesList({ size: 100 }));
+      dispatch(getRoutesList({size: 100}));
     }
   }, [dispatch, routesList.length]);
 
@@ -126,8 +128,12 @@ const Preview = () => {
       <AppHeader>Preview Page</AppHeader>
       <Grid container direction='column' className={classes.mainContainer}>
         <Grid item xs={12}>
-          <Box fontWeight={Fonts.MEDIUM} component='h5' className={classes.descriptionText}>
-            The list shows Page Urls matching this Page Template. Select and click Preview to preview a page.
+          <Box
+            fontWeight={Fonts.MEDIUM}
+            component='h5'
+            className={classes.descriptionText}>
+            The list shows Page Urls matching this Page Template. Select and
+            click Preview to preview a page.
           </Box>
         </Grid>
         <Grid item xs={12}>
