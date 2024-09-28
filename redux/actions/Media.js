@@ -5,6 +5,7 @@ import {
   GET_MEDIA_CONSTANTS,
   GET_MEDIA_DATA,
   SHOW_MESSAGE,
+  UPLOAD_IMAGE,
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
@@ -14,6 +15,7 @@ import {appIntl} from '../../@sling/utility/Utils';
 import {
   GET_MEDIA_API,
   GET_MEDIA_CONSTANTS_API,
+  SERVICE_URL,
 } from '../../shared/constants/Services';
 
 export const addImage = (imageMeta) => {
@@ -27,7 +29,9 @@ export const addImage = (imageMeta) => {
         payload: <IntlMessages id='message.invalidSession' />,
       });
     }
-    Api.post('/api/saveImage', imageMeta)
+    Api.post(`${SERVICE_URL}v1/media/saveImage`, imageMeta, {
+      headers: {'Content-Type': 'multipart/form-data'},
+    })
       .then((data) => {
         if (data.status === 200) {
           dispatch({type: FETCH_SUCCESS});
@@ -36,6 +40,45 @@ export const addImage = (imageMeta) => {
             payload: 'New Image Added.',
           });
           dispatch(getMedia());
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_ERROR, payload: error.message});
+      });
+  };
+};
+
+export const uploadImage = (imageMeta) => {
+  const {messages} = appIntl();
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    const Api = await ApiAuth();
+    if (!Api) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: <IntlMessages id='message.invalidSession' />,
+      });
+    }
+    Api.post(`${SERVICE_URL}v1/media/uploadImage`, imageMeta)
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'Uploaded.',
+          });
+
+          // Take imageUrl and dispatch store update.
+          const imageUrl = data.data.imageUrl;
+          dispatch({
+            type: 'UPLOAD_IMAGE',
+            payload: imageUrl,
+          });
         } else {
           dispatch({
             type: FETCH_ERROR,

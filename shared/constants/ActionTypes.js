@@ -174,6 +174,7 @@ export const GET_MEDIA_CONSTANTS = `get_media_constants`;
 export const SAVE_IMAGES = `save_images`;
 export const UPDATE_MEDIA_CONSTANTS = `get_media_constants`;
 export const GET_MEDIA_DATA = `GET_MEDIA_DATA`;
+export const UPLOAD_IMAGE = `UPLOAD_IMAGE`;
 
 // Widgets
 export const GET_WIDGETS_DATA = 'GET_WIDGETS_DATA';

@@ -6,7 +6,7 @@ const AxiosAuth = () => {
 
   const axiosInst = axios.create({
     headers: {
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       Accept: '*',
       Authorization: token ? `Bearer ${token}` : '',

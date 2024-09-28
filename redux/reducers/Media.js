@@ -2,14 +2,16 @@ import {
   GET_MEDIA_IMAGES,
   GET_MEDIA_CONSTANTS,
   GET_MEDIA_DATA,
+  UPLOAD_IMAGE,
 } from '../../shared/constants/ActionTypes';
 
 const initialState = {
   mediaImages: [],
   mediaConstants: [],
+  uploadedImageUrl: '',
 };
 
-const wallReducer = (state = initialState, action) => {
+const mediaReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MEDIA_IMAGES:
       return {
@@ -30,9 +32,15 @@ const wallReducer = (state = initialState, action) => {
         mediaConstants: action.payload,
       };
 
+    case UPLOAD_IMAGE:
+      return {
+        ...state,
+        uploadedImageUrl: action.payload,
+      };
+
     default: {
       return state;
     }
   }
 };
-export default wallReducer;
+export default mediaReducer;

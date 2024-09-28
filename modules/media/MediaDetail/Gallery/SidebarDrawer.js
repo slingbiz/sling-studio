@@ -10,6 +10,8 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
+import FileCopyIcon from '@material-ui/icons/FileCopy'; // Import FileCopyIcon
+
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -38,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   imgSize: {
     width: 320,
-    height: 320,
+    height: 'auto',
+    maxHeight: 320,
     padding: 20,
 
     [theme.breakpoints.down('sm')]: {
@@ -65,11 +68,25 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
   const [openAccordion, setOpenAccordion] = useState(true);
   const [imageDetail, setImageDetail] = useState(details);
 
-  function handleChange() {
+  const handleChange = () => {
     setOpenAccordion(!openAccordion);
-  }
+  };
 
-  function handleSubmit(event) {
+  // Function to copy the image URL to the clipboard
+  const handleCopyUrl = () => {
+    if (imageDetail?.url) {
+      navigator.clipboard
+        .writeText(imageDetail.url)
+        .then(() => {
+          alert('Image URL copied to clipboard!');
+        })
+        .catch((err) => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     const updatedData = {
       id: imageDetail?.id,
@@ -82,7 +99,7 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
 
     dispatch(addImage(updatedData));
     toggleDrawer(false);
-  }
+  };
 
   function handleDelete(event) {
     event.preventDefault();
@@ -125,7 +142,7 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
                   <Grid item xs={9}>
                     <TextField
                       placeholder='Name'
-                      value={imageDetail?.name}
+                      value={imageDetail?.title}
                       onChange={(e) =>
                         setImageDetail({...imageDetail, name: e.target.value})
                       }
@@ -173,6 +190,7 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
                   <Grid item xs={9}>
                     <TextField
                       placeholder='Uploaded'
+                      disabled
                       value={imageDetail?.upload_date}
                       className={classes.input}
                       variant='outlined'
@@ -181,17 +199,24 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
                     />
                   </Grid>
                   <Grid item xs={3}>
-                    <Box fontWeight={Fonts.MEDIUM}>Size</Box>
+                    <Box fontWeight='fontWeightMedium'>Image URL</Box>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <TextField
-                      placeholder='Size'
-                      value={imageDetail?.size}
-                      readOnly
+                      placeholder='Uploaded'
+                      disabled
+                      value={imageDetail?.url || ''}
                       className={classes.input}
                       variant='outlined'
+                      readOnly
                       fullWidth
                     />
+                  </Grid>
+                  <Grid item xs={1} style={{padding: 0 , marginLeft: '-5px'}}>
+                    {/* Add the IconButton with FileCopyIcon */}
+                    <IconButton aria-label='copy' onClick={handleCopyUrl}>
+                      <FileCopyIcon />
+                    </IconButton>
                   </Grid>
                 </Grid>
               </AccordionDetails>
