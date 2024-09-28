@@ -82,12 +82,15 @@ export const uploadImage = (imageMeta) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: messages['message.somethingWentWrong'],
+            payload: error?.message || messages['message.somethingWentWrong'],
           });
         }
       })
       .catch((error) => {
-        dispatch({type: FETCH_ERROR, payload: error.message});
+        dispatch({
+          type: FETCH_ERROR,
+          payload: error?.response?.data?.message ?? messages['message.somethingWentWrong'],
+        });
       });
   };
 };

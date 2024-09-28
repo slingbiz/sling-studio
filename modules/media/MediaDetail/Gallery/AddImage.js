@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect, useRef} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import {
   Button,
   Dialog,
@@ -13,13 +13,13 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
-import { useDispatch, useSelector } from 'react-redux';
-import { addImage, uploadImage } from '../../../../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {addImage, uploadImage} from '../../../../redux/actions';
 import FormData from 'form-data';
 
 const useStyles = makeStyles((theme) => ({
-  boxLayoutView: { padding: '1.5em' },
-  appBar: { position: 'relative' },
+  boxLayoutView: {padding: '1.5em'},
+  appBar: {position: 'relative'},
   toolBar: {
     display: 'flex',
     alignItems: 'center',
@@ -43,8 +43,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   btn: {
-    width: 200,
-    marginTop: 30,
+    width: '100%',
+    background: '#ff9800',
+    marginTop: 10,
+    fontWeight: 'bold',
+    height: '50px',
+    '&:hover': {
+      background: '#f57c00',
+    },
   },
   previewBox: {
     marginTop: 20,
@@ -101,7 +107,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const AddImage = ({ open, setOpen }) => {
+const AddImage = ({open, setOpen}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -118,8 +124,8 @@ const AddImage = ({ open, setOpen }) => {
   const [fileSize, setFileSize] = useState(null);
   const maxFileSize = 2 * 1024 * 1024; // 2 MB
 
-  const { uploadedImageUrl: reduxUploadedImageUrl } = useSelector(
-    ({ media }) => media,
+  const {uploadedImageUrl: reduxUploadedImageUrl} = useSelector(
+    ({media}) => media,
   );
 
   useEffect(() => {
@@ -155,10 +161,10 @@ const AddImage = ({ open, setOpen }) => {
     setUploadedImageUrl(null);
     setImgFile(null);
     setFileSize(null);
-    
+
     // Reset the file input value so that users can upload the same file again
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';  // This clears the input element
+      fileInputRef.current.value = ''; // This clears the input element
     }
   };
 
@@ -206,7 +212,7 @@ const AddImage = ({ open, setOpen }) => {
               variant='h5'
               component='h5'
               fullWidth
-              style={{ fontWeight: 'bold' }}>
+              style={{fontWeight: 'bold'}}>
               Add Image
             </Typography>
           </Grid>
@@ -250,7 +256,7 @@ const AddImage = ({ open, setOpen }) => {
             <Grid
               item
               xs={12}
-              style={{ display: 'flex', justifyContent: 'center' }}>
+              style={{display: 'flex', justifyContent: 'center'}}>
               <div className={classes.previewBox}>
                 <img
                   src={uploadedImageUrl}

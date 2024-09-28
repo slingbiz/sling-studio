@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ClearIcon from '@material-ui/icons/Clear';
 import {useDispatch} from 'react-redux';
 import {addImage} from '../../../../redux/actions';
+import { SHOW_MESSAGE } from '../../../../shared/constants/ActionTypes';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -78,7 +79,12 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
       navigator.clipboard
         .writeText(imageDetail.url)
         .then(() => {
-          alert('Image URL copied to clipboard!');
+          // alert('Image URL copied to clipboard!');
+ 
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'Image URL copied to clipboard.',
+          });
         })
         .catch((err) => {
           console.error('Failed to copy: ', err);
