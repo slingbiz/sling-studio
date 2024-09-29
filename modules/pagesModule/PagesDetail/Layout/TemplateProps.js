@@ -4,19 +4,23 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import blue from '@material-ui/core/colors/blue';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import {Accordion, AccordionDetails, AccordionSummary} from '@material-ui/core';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Input,
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Editor from '@monaco-editor/react';
 
 const staticHelperMap = {
   'response-derived':
@@ -29,6 +33,12 @@ const staticHelperMap = {
 };
 
 const useStyles = makeStyles((theme) => ({
+  inputAdornmentRoot: {
+    marginRight: '0px', // Adjust as needed
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+  },
   active: {
     background: blue['800'],
     padding: 15,
@@ -48,14 +58,11 @@ const useStyles = makeStyles((theme) => ({
   accordianDetails: {
     padding: 0,
   },
-  textArea: {
-    width: '100%',
-    minHeight: '100px',
-    fontSize: '14px',
-    padding: '8px',
-    fontFamily: 'inherit',
-    borderColor: '#ccc',
-    borderRadius: '4px',
+  editor: {
+    height: '300px', // Adjust as needed
+    padding: 10,
+
+    // border: '1px solid #ccc',
   },
 }));
 
@@ -118,7 +125,11 @@ export default function TemplateProps({cellProps, disabled}) {
     if (widgetProps[propKey].type === 'json') {
       try {
         JSON.parse(value);
+
         setJsonError({...jsonError, [propKey]: false});
+        handleChange({propKey, event: {target: {value: JSON.parse(value)}}});
+        setIsEditing({...isEditing, [propKey]: false});
+        return;
       } catch (e) {
         setJsonError({...jsonError, [propKey]: true});
         return; // Exit if the JSON is invalid
@@ -187,15 +198,27 @@ export default function TemplateProps({cellProps, disabled}) {
                   <MenuItem value={'json'}>JSON</MenuItem>
                 </Select>
 
-                {/* Show TextArea for JSON type */}
+                {/* Show Monaco Editor for JSON type */}
                 {propObj.type === 'json' ? (
                   <>
-                    <TextareaAutosize
-                      className={classes.textArea}
-                      id={`textarea-${propKey}`}
-                      value={tempValue}
-                      onChange={(event) => handleInputChange({propKey, event})}
-                      aria-describedby='component-helper-text'
+                    <Editor
+                      height='300px'
+                      defaultLanguage='json'
+                      theme='vs-dark'
+                      value={
+                        typeof tempValue === 'string'
+                          ? tempValue
+                          : JSON.stringify(tempValue, null, 2)
+                      } // Ensure formatted JSON
+                      options={{
+                        minimap: {enabled: false},
+                        automaticLayout: true,
+                        wordWrap: 'on',
+                      }}
+                      onChange={(value) =>
+                        handleInputChange({propKey, event: {target: {value}}})
+                      }
+                      className={classes.editor}
                     />
                     {jsonError[propKey] && (
                       <FormHelperText error>Invalid JSON format</FormHelperText>
@@ -212,7 +235,11 @@ export default function TemplateProps({cellProps, disabled}) {
                 )}
 
                 {isEditing[propKey] && (
-                  <InputAdornment position='end'>
+                  <InputAdornment
+                    position='end'
+                    classes={{
+                      root: classes.inputAdornmentRoot, // Create a class in `makeStyles` to handle the style overrides
+                    }}>
                     <IconButton onClick={() => handleSave(propKey)} edge='end'>
                       <CheckCircleIcon style={{color: 'green'}} />
                     </IconButton>

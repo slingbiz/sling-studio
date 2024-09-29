@@ -169,7 +169,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             Cancel
           </Button>
           <Button
-            style={{backgroundColor: orange[500], color: 'white'}}
+            style={{backgroundColor: orange[500], color: 'white', marginLeft: 15}}
             classes={classes.button}
             autoFocus={true}
             onClick={handleRootSave}>
