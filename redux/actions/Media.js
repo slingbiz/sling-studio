@@ -39,6 +39,11 @@ export const addImage = (imageMeta) => {
             type: SHOW_MESSAGE,
             payload: 'New Image Added.',
           });
+          // Clear the uploaded image URL from redux store
+          dispatch({
+            type: 'UPLOAD_IMAGE',
+            payload: '',
+          });
           dispatch(getMedia());
         } else {
           dispatch({
@@ -89,7 +94,9 @@ export const uploadImage = (imageMeta) => {
       .catch((error) => {
         dispatch({
           type: FETCH_ERROR,
-          payload: error?.response?.data?.message ?? messages['message.somethingWentWrong'],
+          payload:
+            error?.response?.data?.message ??
+            messages['message.somethingWentWrong'],
         });
       });
   };

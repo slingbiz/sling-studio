@@ -101,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: Fonts.BOLD,
     paddingRight: 20,
     paddingLeft: 20,
+    marginRight: 20,
     '&:hover, &:focus': {
       backgroundColor: orange[700],
       color: theme.palette.primary.contrastText,

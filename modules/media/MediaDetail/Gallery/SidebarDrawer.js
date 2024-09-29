@@ -242,7 +242,7 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
                 type='submit'
                 variant='contained'
                 color='secondary'
-                style={{margin: '0 10px'}}>
+                style={{margin: '0 10px', color: '#fff'}}>
                 Save
               </Button>
             </Box>

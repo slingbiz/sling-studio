@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Grid, TextField, Typography} from '@material-ui/core';
+import {Button, Divider, Grid, TextField, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {addRoute} from '../../../../redux/actions';
@@ -12,12 +12,12 @@ import {capital} from '../../../../@sling/utility/Utils';
 const useStyles = makeStyles((theme) => ({
   typography: {
     margin: '20px 0 10px',
-    textAlign: 'left',
+    // textAlign: 'left',
     fontSize: '18px',
   },
   typographySub: {
     margin: '0px 0 10px',
-    textAlign: 'left',
+    // textAlign: 'left',
     fontSize: '18px',
   },
   inputLabel: {
@@ -37,18 +37,21 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    textAlign: 'center',
-    width: 100,
-    marginTop: 10,
+    width: '100%',
+    marginTop: 30,
     marginBottom: 10,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    // background: '#ff9800',
+    height: '50px',
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
   },
   saveButton: {
-    textAlign: 'center',
-    width: 100,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    width: '100%',
+    marginTop: 20,
+    // background: '#ff9800',
+    height: '50px',
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
   },
 }));
 const Basic = ({setOpen, apiObj}) => {
@@ -90,10 +93,11 @@ const Basic = ({setOpen, apiObj}) => {
     event.preventDefault();
     setDynamicParams({});
     setIsDynamic(false);
+    openNewModal();
   };
 
   const openNewModal = (event) => {
-    event.preventDefault();
+    event?.preventDefault();
     setOpenModal(true);
   };
 
@@ -129,7 +133,7 @@ const Basic = ({setOpen, apiObj}) => {
         justify='center'
         direction='column'
         alignItems='center'
-        style={{marginBottom: '2em'}}>
+        style={{marginBottom: '1em'}}>
         <Grid item xs={12}>
           <Typography
             component='h5'
@@ -139,7 +143,7 @@ const Basic = ({setOpen, apiObj}) => {
           </Typography>
           <form
             style={{
-              background: '#fafafa',
+              // background: '#fafafa',
               padding: '20px',
               borderRadius: '5px',
             }}
@@ -218,83 +222,87 @@ const Basic = ({setOpen, apiObj}) => {
             </Grid>
           </form>
         </Grid>
-      </Grid>
+      </Grid>{' '}
       {!!Object.entries(dynamicParams).length && (
-        <Grid
-          container
-          justify='center'
-          spacing={3}
-          direction='column'
-          alignItems='center'
-          style={{marginBottom: '2em'}}>
-          {/*<img src={'/images/down-next-form.png'} alt='Down next arrow' />*/}
+        <>
+          <Divider style={{height: 1, marginLeft: 50, marginRight: 50}} />
 
-          <Grid item xs={12}>
-            <Typography
-              component='h5'
-              variant='h5'
-              style={{marginBottom: 0}}
-              className={classes.typography}>
-              Parsed Dynamic Props
-            </Typography>
-            <Typography
-              component='h6'
-              variant='h6'
-              className={classes.typographySub}
-              style={{fontSize: '12px', fontWeight: 400}}>
-              Please add sample default values for the processed props.
-            </Typography>
+          <Grid
+            container
+            justify='center'
+            spacing={3}
+            direction='column'
+            alignItems='center'
+            style={{marginTop: '1em', marginBottom: '1em'}}>
+            {/*<img src={'/images/down-next-form.png'} alt='Down next arrow' />*/}
 
-            <form
-              onSubmit={openNewModal}
-              style={{
-                background: '#fafafa',
-                padding: '20px',
-                borderRadius: '5px',
-              }}>
-              {Object.entries(dynamicParams).map((item, index) => (
-                <Grid
-                  item
-                  xs={12}
-                  className={classes.typographySub}
-                  key={index}>
-                  <TextField
-                    variant='standard'
-                    label={capital(item[0])}
-                    style={{marginBottom: '1px'}}
-                    InputProps={{
-                      className: classes.input,
-                    }}
-                    InputLabelProps={{
-                      // shrink: true,
-                      className: classes.inputLabel,
-                    }}
-                    value={dynamicParams[item[1]]}
-                    onChange={(e) =>
-                      setDynamicParams({
-                        ...dynamicParams,
-                        [item[0]]: e.target.value,
-                      })
-                    }
-                    required
-                    fullWidth
-                  />
+            <Grid item xs={12}>
+              <Typography
+                component='h5'
+                variant='h5'
+                style={{marginBottom: 0}}
+                className={classes.typography}>
+                Parsed Dynamic Props
+              </Typography>
+              <Typography
+                component='h6'
+                variant='h6'
+                className={classes.typographySub}
+                style={{fontSize: '12px', fontWeight: 400}}>
+                Please add sample default values for the processed props.
+              </Typography>
+
+              <form
+                onSubmit={openNewModal}
+                style={{
+                  // background: '#fafafa',
+                  padding: '20px',
+                  borderRadius: '5px',
+                }}>
+                {Object.entries(dynamicParams).map((item, index) => (
+                  <Grid
+                    item
+                    xs={12}
+                    className={classes.typographySub}
+                    key={index}>
+                    <TextField
+                      variant='standard'
+                      label={capital(item[0])}
+                      style={{marginBottom: '1px'}}
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      InputLabelProps={{
+                        // shrink: true,
+                        className: classes.inputLabel,
+                      }}
+                      value={dynamicParams[item[1]]}
+                      onChange={(e) =>
+                        setDynamicParams({
+                          ...dynamicParams,
+                          [item[0]]: e.target.value,
+                        })
+                      }
+                      required
+                      fullWidth
+                    />
+                  </Grid>
+                ))}
+                <Grid item xs={12} className={classes.typography}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    className={classes.saveButton}
+                    type='submit'>
+                   Next
+                  </Button>
                 </Grid>
-              ))}
-              <Grid item xs={12} className={classes.typography}>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  className={classes.saveButton}
-                  type='submit'>
-                  Next
-                </Button>
-              </Grid>
-            </form>
+              </form>
+            </Grid>
           </Grid>
-        </Grid>
+        </>
       )}
-      {!isDynamic && (
+      {/* {!isDynamic && (
         <Grid
           container
           justify='center'
@@ -313,11 +321,11 @@ const Basic = ({setOpen, apiObj}) => {
               color='primary'
               className={classes.saveButton}
               onClick={openNewModal}>
-              Next
+              Next33
             </Button>
           </Grid>
         </Grid>
-      )}
+      )} */}
       <AssignPageTemplate
         setOpenModal={setOpenModal}
         openModal={openModal}
