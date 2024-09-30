@@ -279,7 +279,10 @@ const PageTemplatesList = () => {
   };
 
   // Make allowDelete to true only if the environment variable is set to true, if not set do not let user delete
-  const allowDelete = process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
+  const params = new URLSearchParams(search);
+  const isAdmin = params.get('isAdmin');
+  const allowDelete =
+    isAdmin || process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
 
   return (
     <>

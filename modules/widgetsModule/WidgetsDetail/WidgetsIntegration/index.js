@@ -214,7 +214,10 @@ const WidgetsIntegration = (props) => {
     setDeleteDialogOpen(true); // Open the delete confirmation dialog
   };
 
-  const allowDelete = process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
+  const params = new URLSearchParams(search);
+  const isAdmin = params.get('isAdmin');
+  const allowDelete =
+    isAdmin || process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
 
   return (
     <>
@@ -345,7 +348,7 @@ const WidgetsIntegration = (props) => {
                     <span>{item.name}</span>
                   )}
                 </Grid>
-                <Grid item xs={12} style={{width: '100%'}}> 
+                <Grid item xs={12} style={{width: '100%'}}>
                   <Box
                     color='text.primary'
                     fontWeight={Fonts.BOLD}
