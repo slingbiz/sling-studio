@@ -8,22 +8,28 @@ import {
   Grid,
   SwipeableDrawer,
   Icon,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {useSelector, useDispatch} from 'react-redux';
-import {getWidgets} from '../../../../redux/actions/Widgets';
+import {getWidgets, deleteWidget} from '../../../../redux/actions/Widgets';
 import {blue} from '@mui/material/colors';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
-import {Edit, PhotoLibrary} from '@material-ui/icons';
+import {Edit} from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import ListEmptyResult from '../../../../@sling/core/AppList/ListEmptyResult';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddWidgetModal from './AddWidgetModal';
 import UpdateWidgetModal from './AddWidgetModal';
+import {InfoView} from '../../../../@sling';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -163,8 +169,11 @@ const WidgetsIntegration = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Manage delete confirmation dialog
+  const [widgetToDelete, setWidgetToDelete] = useState(null); // Manage widget to delete
   const loading = useSelector(({common}) => common.loading);
   const [updateProp, setupdateProp] = useState(null);
+  const [hoveredWidget, setHoveredWidget] = useState(null); // Track the hovered widget
 
   useEffect(() => {
     dispatch(getWidgets(filter));
@@ -191,6 +200,21 @@ const WidgetsIntegration = (props) => {
     }
     setFilter({...filter});
   };
+
+  const handleDeleteWidget = () => {
+    if (widgetToDelete) {
+      dispatch(deleteWidget(widgetToDelete));
+      setWidgetToDelete(null); // Reset after deletion
+    }
+    setDeleteDialogOpen(false); // Close the dialog after deletion
+  };
+
+  const handleDelete = (widgetId) => {
+    setWidgetToDelete(widgetId);
+    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+  };
+
+  const allowDelete = process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
 
   return (
     <>
@@ -263,6 +287,8 @@ const WidgetsIntegration = (props) => {
             sm={4}
             md={3}
             key={index}
+            onMouseEnter={() => setHoveredWidget(item._id)} // Set hovered widget ID
+            onMouseLeave={() => setHoveredWidget(null)} // Reset hover on leave
             style={{
               minHeight: 365,
             }}>
@@ -285,16 +311,27 @@ const WidgetsIntegration = (props) => {
                   className={
                     item.image ? classes.imgContainer : classes.noImgContainer
                   }>
-                  <IconButton
-                    onClick={() => {
-                      console.log(item);
-                      setupdateProp(item);
-                      setOpenUpdateModal(true);
-                    }}
-                    aria-label='edit'
-                    className={clsx(classes.button, classes.editBtn)}>
-                    <Edit />
-                  </IconButton>
+                  {hoveredWidget === item._id && (
+                    <>
+                      <IconButton
+                        onClick={() => {
+                          console.log(item);
+                          setupdateProp(item);
+                          setOpenUpdateModal(true);
+                        }}
+                        aria-label='edit'
+                        className={clsx(classes.button, classes.editBtn)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        disabled={!allowDelete}
+                        aria-label='delete'
+                        onClick={() => handleDelete(item._id)} // Open delete confirmation dialog
+                        style={{position: 'absolute', top: 0, right: 0}}>
+                        <Icon color='grey'>delete</Icon>
+                      </IconButton>
+                    </>
+                  )}
                   {item.image ? (
                     <>
                       <img
@@ -308,7 +345,7 @@ const WidgetsIntegration = (props) => {
                     <span>{item.name}</span>
                   )}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{width: '100%'}}> 
                   <Box
                     color='text.primary'
                     fontWeight={Fonts.BOLD}
@@ -391,6 +428,29 @@ const WidgetsIntegration = (props) => {
           updateProp={updateProp}
         />
       )}
+      {/* Delete confirmation dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        aria-labelledby='delete-dialog-title'
+        aria-describedby='delete-dialog-description'>
+        <DialogTitle id='delete-dialog-title'>{'Confirm Delete'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='delete-dialog-description'>
+            Are you sure you want to delete this widget? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} color='grey'>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteWidget} color='secondary'>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <IconButton onClick={() => setOpenModal(true)}>
         <Icon color='secondary' className={classes.Icon}>
           add_circle

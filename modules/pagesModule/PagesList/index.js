@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopWidth: 1,
   },
   gridTileInfo: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     flexDirection: 'row',
     display: 'flex',
   },
@@ -241,13 +241,13 @@ const PageTemplatesList = () => {
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig = {}} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
+
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [currentTemplate, setCurrentTemplate] = useState({});
   const [showDelete, setShowDelete] = useState({});
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  const isAdmin = params.get('isAdmin');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // To control delete confirmation dialog
+  const [templateToDelete, setTemplateToDelete] = useState(null); // To hold the template being deleted
 
   const addPageTemplate = (pageKey, meta) => {
     if (!pageKey || !meta?.title || !meta?.description) {
@@ -255,7 +255,6 @@ const PageTemplatesList = () => {
         type: FETCH_ERROR,
         payload: 'Please add valid values for the new template',
       });
-
       return;
     }
     setOpen(false);
@@ -263,19 +262,33 @@ const PageTemplatesList = () => {
     dispatch(setLayoutConfig({pageKey, meta, isNewRecord: !edit, ...rootObj}));
   };
 
-  const deletePageTemplate = (pageKey) => {
-    dispatch(deletePageTemplateAction({pageKey}));
+  const handleDeleteConfirm = () => {
+    if (!allowDelete) {
+      return;
+    }
+    if (templateToDelete) {
+      dispatch(deletePageTemplateAction({pageKey: templateToDelete}));
+      setTemplateToDelete(null); // Reset after deletion
+    }
+    setDeleteDialogOpen(false); // Close the dialog after deletion
   };
+
+  const deletePageTemplate = (pageKey) => {
+    setTemplateToDelete(pageKey);
+    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+  };
+
+  // Make allowDelete to true only if the environment variable is set to true, if not set do not let user delete
+  const allowDelete = process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
 
   return (
     <>
       <AppsHeader style={{justifyContent: 'space-between'}}>
-        <Box>All Page Templates </Box>
+        <Box>All Page Templates</Box>
         <Box display='flex' alignItems='center'>
           <Button
             className={classes.dashboardBtn}
             aria-label='add'
-            disabled={false}
             onClick={() => {
               setCurrentTemplate({});
               setEdit(false);
@@ -312,86 +325,117 @@ const PageTemplatesList = () => {
             </Typography>
           </Grid>
           <Grid container className={classes.gridTileInfo}>
-            {Object.keys(layoutConfig).map((v, k) => {
-              const {meta} = layoutConfig[v] || {};
-              const {title, description} = meta || {};
-              return (
-                <Grid
-                  key={k}
-                  item
-                  sm={12}
-                  md={6}
-                  lg={4}
-                  style={{borderColor: 'black', padding: 10}}
-                  onMouseOver={() => setShowDelete({[v]: true})}
-                  onMouseOut={() => setShowDelete({})}>
-                  <Card className={classes.card}>
-                    <CardActionArea>
-                      {showDelete[v] && isAdmin && (
-                        <IconButton
-                          aria-label='delete'
-                          onClick={() => deletePageTemplate(v)}
-                          style={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500],
+            {Object.keys(layoutConfig)
+              .reverse()
+              .map((v, k) => {
+                const {meta} = layoutConfig[v] || {};
+                const {title, description} = meta || {};
+                return (
+                  <Grid
+                    key={k}
+                    item
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    style={{borderColor: 'black', padding: 10}}
+                    onMouseOver={() => setShowDelete({[v]: true})}
+                    onMouseOut={() => setShowDelete({})}>
+                    <Card className={classes.card}>
+                      <CardActionArea>
+                        {showDelete[v] && (
+                          <IconButton
+                            aria-label='delete'
+                            onClick={() => deletePageTemplate(v)} // Trigger confirmation dialog
+                            style={{
+                              position: 'absolute',
+                              right: 8,
+                              top: 8,
+                              color: (theme) => theme.palette.grey[500],
+                            }}>
+                            <CloseIcon />
+                          </IconButton>
+                        )}
+                        <CardMedia
+                          className={classes.media}
+                          image={'/images/cards/pagelayout_default.png'}
+                          title={title}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            className={classes.templateTitle}
+                            variant='h5'
+                            component='h2'>
+                            {title}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            className={classes.cardDesc}
+                            color='text.secondary'
+                            component='p'>
+                            {description}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions
+                        style={{display: 'flex', justifyContent: 'right'}}>
+                        <Link
+                          href={`/pages/${v}/layout`}
+                          passHref
+                          legacyBehavior>
+                          <Button className={classes.button} aria-label='Edit'>
+                            <Build style={{width: '20px', margin: '0 5px'}} />{' '}
+                            Configure
+                          </Button>
+                        </Link>
+                        <Button
+                          className={classes.button}
+                          onClick={() => {
+                            setOpen(true);
+                            setEdit(true);
+                            setCurrentTemplate({
+                              templateKey: v,
+                              title,
+                              description,
+                            });
                           }}>
-                          <CloseIcon />
-                        </IconButton>
-                      )}
-                      <CardMedia
-                        className={classes.media}
-                        image={'/images/cards/pagelayout_default.png'}
-                        title={title}
-                      />
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          className={classes.templateTitle}
-                          variant='h5'
-                          component='h2'>
-                          {title}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          className={classes.cardDesc}
-                          color='text.secondary'
-                          component='p'>
-                          {description}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions
-                      style={{display: 'flex', justifyContent: 'right'}}>
-                      <Link href={`/pages/${v}/layout`} passHref legacyBehavior>
-                        <Button className={classes.button} aria-label='Edit'>
-                          <Build style={{width: '20px', margin: '0 5px'}} />{' '}
-                          Configure
+                          <Edit style={{width: '20px', margin: '0 5px'}} />
+                          Edit Meta
                         </Button>
-                      </Link>
-                      <Button
-                        // size='small'
-                        className={classes.button}
-                        onClick={() => {
-                          setOpen(true);
-                          setEdit(true);
-                          setCurrentTemplate({
-                            templateKey: v,
-                            title,
-                            description,
-                          });
-                        }}>
-                        <Edit style={{width: '20px', margin: '0 5px'}} />
-                        Edit Meta
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
         </Grid>
+
+        {/* Confirmation Dialog for Delete */}
+        <Dialog
+          open={deleteDialogOpen}
+          onClose={() => setDeleteDialogOpen(false)}
+          aria-labelledby='delete-dialog-title'
+          aria-describedby='delete-dialog-description'>
+          <DialogTitle id='delete-dialog-title'>{'Confirm Delete'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id='delete-dialog-description'>
+              Are you sure you want to delete this page template? This action
+              cannot be undone.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDeleteDialogOpen(false)} color='grey'>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleDeleteConfirm}
+              disabled={!allowDelete}
+              color='secondary'
+              autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </>
   );

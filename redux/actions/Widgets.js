@@ -11,7 +11,7 @@ import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
-import {GET_WIDGETS} from '../../shared/constants/Services';
+import {GET_WIDGETS, SERVICE_URL} from '../../shared/constants/Services';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 import {capital} from '../../@sling/utility/Utils';
 import _ from 'lodash';
@@ -94,6 +94,37 @@ export const getWidgets = (filters) => {
           payload: <IntlMessages id='message.somethingWentWrong' />,
         });
       }
+    } catch (error) {
+      console.log(error, '[getWidgets] Exception');
+      dispatch({type: FETCH_ERROR, payload: error.message});
+    }
+  };
+};
+
+export const deleteWidget = (id) => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    try {
+      dispatch({type: FETCH_START});
+      const Api = await ApiAuth();
+      if (!Api) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.invalidSession' />,
+        });
+      }
+
+      await Api.post(`${SERVICE_URL}v1/widgets/deleteWidget`, {
+        id,
+      });
+      dispatch({type: FETCH_SUCCESS});
+
+      dispatch({
+        type: SHOW_MESSAGE,
+        payload: 'Widget deleted successfully',
+      });
+      //Fetch widgets again
+      dispatch(getWidgets({size: 1000}));
     } catch (error) {
       console.log(error, '[getWidgets] Exception');
       dispatch({type: FETCH_ERROR, payload: error.message});

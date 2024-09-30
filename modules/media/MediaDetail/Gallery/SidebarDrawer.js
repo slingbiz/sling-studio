@@ -107,7 +107,7 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
     toggleDrawer(false);
   };
 
-  function handleDelete(event) {
+  function handleClose(event) {
     event.preventDefault();
     toggleDrawer(false);
   }
@@ -235,8 +235,8 @@ export const SidebarDrawer = ({toggleDrawer, details}) => {
                 variant='contained'
                 color='primary'
                 style={{margin: '0 10px'}}
-                onClick={handleDelete}>
-                Delete
+                onClick={handleClose}>
+                Close
               </Button>
               <Button
                 type='submit'
