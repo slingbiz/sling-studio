@@ -279,6 +279,7 @@ const PageTemplatesList = () => {
   };
 
   // Make allowDelete to true only if the environment variable is set to true, if not set do not let user delete
+  const search = window.location.search;
   const params = new URLSearchParams(search);
   const isAdmin = params.get('isAdmin');
   const allowDelete =

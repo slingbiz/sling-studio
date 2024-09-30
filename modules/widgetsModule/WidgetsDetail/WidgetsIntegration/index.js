@@ -214,6 +214,7 @@ const WidgetsIntegration = (props) => {
     setDeleteDialogOpen(true); // Open the delete confirmation dialog
   };
 
+  const search = window.location.search;
   const params = new URLSearchParams(search);
   const isAdmin = params.get('isAdmin');
   const allowDelete =
