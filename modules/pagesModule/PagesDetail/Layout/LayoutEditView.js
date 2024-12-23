@@ -44,15 +44,26 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
   },
+  divDragWrap: {
+    position: 'relative',
+    '&:hover $floatingButtons': {
+      opacity: 1,
+    },
+  },
+  floatingButtons: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out',
+  },
   tinyBtn: {
     backgroundColor: '#f2f3f5',
     fontSize: '12px',
     width: '36px',
     border: 'none',
     height: '36px',
-  },
-  divDragWrap: {
-    position: 'relative',
+    margin: '0 2px',
   },
   floatingRight: {
     position: 'absolute',
@@ -574,24 +585,23 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Header Blocks'}
                     />
                     <Box m={6} />
-                    {/* <Fab
-                      onClick={() => handleAddCell('header', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Add />
-                    </Fab> */}
-                    <Fab
-                      onClick={() => deleteRow('header', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Delete /> 
-                    </Fab>
+                    <div className={classes.floatingButtons}>
+                      <Fab
+                        onClick={() => deleteRow('header', k)}
+                        className={clsx(classes.tinyBtn)}>
+                        <Delete />
+                      </Fab>
+                    </div>
                   </div>
                 );
               })}
-              <Fab
-                onClick={() => handleAddNewRow('header')}
-                className={clsx(classes.tinyBtn)}>
-                <Add />
-              </Fab>
+              <div className={classes.divDragWrap}>
+                <Fab
+                  onClick={() => handleAddNewRow('header')}
+                  className={clsx(classes.tinyBtn)}>
+                  <Add />
+                </Fab>
+              </div>
             </Box>
             <ListItemText style={{marginTop: '0px'}}>
               {'Body Blocks'}
@@ -621,24 +631,23 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Body Blocks'}
                     />
                     <Box m={6} />
-                    {/* <Fab
-                      onClick={() => handleAddCell('body', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Add />
-                    </Fab> */}
-                    <Fab
-                      onClick={() => deleteRow('body', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Delete />
-                    </Fab>
+                    <div className={classes.floatingButtons}>
+                      <Fab
+                        onClick={() => deleteRow('body', k)}
+                        className={clsx(classes.tinyBtn)}>
+                        <Delete />
+                      </Fab>
+                    </div>
                   </div>
                 );
               })}
-              <Fab
-                onClick={() => handleAddNewRow('body')}
-                className={clsx(classes.tinyBtn)}>
-                <Add />
-              </Fab>
+              <div className={classes.divDragWrap}>
+                <Fab
+                  onClick={() => handleAddNewRow('body')}
+                  className={clsx(classes.tinyBtn)}>
+                  <Add />
+                </Fab>
+              </div>
             </Box>
             <ListItemText style={{marginTop: '0px'}}>
               {'Footer Blocks'}
@@ -668,24 +677,23 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Footer Blocks'}
                     />
                     <Box m={6} />
-                    {/* <Fab
-                      onClick={() => handleAddCell('footer', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Add />
-                    </Fab> */}
-                    <Fab
-                      onClick={() => deleteRow('footer', k)}
-                      className={clsx(classes.tinyBtn, classes.floatingRight)}>
-                      <Delete />
-                    </Fab>
+                    <div className={classes.floatingButtons}>
+                      <Fab
+                        onClick={() => deleteRow('footer', k)}
+                        className={clsx(classes.tinyBtn)}>
+                        <Delete />
+                      </Fab>
+                    </div>
                   </div>
                 );
               })}
-              <Fab
-                onClick={() => handleAddNewRow('footer')}
-                className={clsx(classes.tinyBtn)}>
-                <Add />
-              </Fab>
+              <div className={classes.divDragWrap}>
+                <Fab
+                  onClick={() => handleAddNewRow('footer')}
+                  className={clsx(classes.tinyBtn)}>
+                  <Add />
+                </Fab>
+              </div>
             </Box>
             <NewCellModal
               openNewRow={openNewCell}
