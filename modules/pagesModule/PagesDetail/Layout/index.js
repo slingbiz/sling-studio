@@ -24,6 +24,7 @@ import {generateSlug} from 'random-word-slugs';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import LinkIcon from '@material-ui/icons/Link';
 import Tooltip from '@material-ui/core/Tooltip';
+import { getCompanyInfo } from '../../../../redux/actions/AccountAction';
 
 const Layout = (props) => {
   const dispatch = useDispatch();
