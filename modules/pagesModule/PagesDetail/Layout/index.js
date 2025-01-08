@@ -32,6 +32,7 @@ const Layout = (props) => {
   const {titleKey, pageKey} = props;
   const {routesList} = useSelector(({routeList}) => routeList);
   const {account} = useSelector(({account}) => account);
+  const {user} = useSelector(({auth}) => auth);
 
   useEffect(() => {
     if (account == null || account == '') {
