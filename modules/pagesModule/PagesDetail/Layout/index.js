@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -12,12 +12,76 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import Divider from '@material-ui/core/Divider';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Preview from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
 import Router from 'next/router';
+import {useSelector} from 'react-redux';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import {getRoutesList} from '../../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {generateSlug} from 'random-word-slugs';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import LinkIcon from '@material-ui/icons/Link';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Layout = (props) => {
+  const dispatch = useDispatch();
+
   const {titleKey, pageKey} = props;
+  const {routesList} = useSelector(({routeList}) => routeList);
+  const {account} = useSelector(({account}) => account);
+
+  useEffect(() => {
+    if (account == null || account == '') {
+      dispatch(getCompanyInfo(user.email));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!routesList.length) {
+      dispatch(getRoutesList({size: 100}));
+    }
+  }, [dispatch, routesList.length]);
+
   const [open, setOpen] = useState(false);
+  const [previewAnchorEl, setPreviewAnchorEl] = useState(null);
+  const [previewUrls, setPreviewUrls] = useState([]);
+
+  useEffect(() => {
+    if (routesList?.length) {
+      const {clientUrl} = account || {};
+      const filteredUrls = routesList
+        .filter(route => route.page_template === pageKey)
+        .map(({sample_string: sampleString, url_string: urlString}) => {
+          let url = sampleString || urlString;
+
+          // Get random slug.
+          const slug = generateSlug();
+          url = url.replace(/\<.*?\>/g, slug);
+
+          // Check if slash already exists
+          const slash =
+            url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
+
+          return `${clientUrl}` + slash + url;
+        });
+      setPreviewUrls(filteredUrls);
+    }
+  }, [routesList, pageKey, account]);
+
+  const handlePreviewClick = (event) => {
+    setPreviewAnchorEl(event.currentTarget);
+  };
+
+  const handlePreviewClose = () => {
+    setPreviewAnchorEl(null);
+  };
+
+  const openPreviewUrl = (url) => {
+    window.open(url, '_blank');
+    handlePreviewClose();
+  };
 
   const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
@@ -27,6 +91,68 @@ const Layout = (props) => {
       layoutBox: {
         width: '100%',
       },
+    },
+    menuPaper: {
+      marginTop: 8,
+      maxWidth: '500px',
+      boxShadow: theme.shadows[3],
+      [theme.breakpoints.down('sm')]: {
+        maxWidth: '100%',
+        width: 'calc(100% - 32px)',
+        margin: '8px 16px',
+        position: 'fixed',
+        left: 0,
+        right: 0,
+      },
+    },
+    menuList: {
+      padding: theme.spacing(1, 0),
+      [theme.breakpoints.down('sm')]: {
+        maxHeight: '60vh',
+        overflowY: 'auto',
+      },
+    },
+    menuItem: {
+      display: 'flex',
+      alignItems: 'center',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      fontSize: 14,
+      padding: theme.spacing(1.5, 2),
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2),
+        '& $openIcon': {
+          opacity: 1,
+          fontSize: 20,
+        },
+      },
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+        '& $openIcon': {
+          opacity: 1,
+        },
+      },
+      '&:not(:last-child)': {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      },
+    },
+    linkIcon: {
+      marginRight: theme.spacing(1.5),
+      color: theme.palette.text.secondary,
+      minWidth: 20,
+    },
+    openIcon: {
+      marginLeft: 'auto',
+      opacity: 0,
+      transition: 'opacity 200ms',
+      color: theme.palette.primary.main,
+      fontSize: 18,
+    },
+    urlText: {
+      flex: 1,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     [theme.breakpoints.up('md')]: {
       layoutBox: {
@@ -96,6 +222,9 @@ const Layout = (props) => {
   }));
 
   const classes = useStyles(props);
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  const {layoutConfig} = layoutData || {};
+
   return (
     <>
       <AppsHeader>
@@ -103,12 +232,57 @@ const Layout = (props) => {
           Page Layout
         </Box>
         <Box>
-          <IconButton
-            onClick={() => {
-              Router.push('/pages');
+          <Tooltip title="Preview URLs" placement="bottom">
+            <IconButton onClick={handlePreviewClick}>
+              <Preview />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Back" placement="bottom">
+            <IconButton onClick={() => Router.back()}>
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={previewAnchorEl}
+            keepMounted
+            open={Boolean(previewAnchorEl)}
+            onClose={handlePreviewClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            PaperProps={{
+              style: {
+                minWidth: '280px',
+              },
+            }}
+            classes={{
+              paper: classes.menuPaper,
+              list: classes.menuList,
             }}>
-            <ArrowBackIcon />
-          </IconButton>
+            {previewUrls.length === 0 && (
+              <MenuItem disabled className={classes.menuItem}>
+                <LinkIcon className={classes.linkIcon} />
+                <span className={classes.urlText}>No preview URLs available</span>
+              </MenuItem>
+            )}
+            {previewUrls.map((url, index) => (
+              <MenuItem 
+                key={index} 
+                onClick={() => openPreviewUrl(url)}
+                className={classes.menuItem}
+                title={url}
+              >
+                <LinkIcon className={classes.linkIcon} />
+                <span className={classes.urlText}>{url}</span>
+                <OpenInNewIcon className={classes.openIcon} />
+              </MenuItem>
+            ))}
+          </Menu>
         </Box>
       </AppsHeader>
       <Box
