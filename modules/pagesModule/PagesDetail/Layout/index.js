@@ -58,9 +58,13 @@ const Layout = (props) => {
         .map(({sample_string: sampleString, url_string: urlString}) => {
           let url = sampleString || urlString;
 
-          // Get random slug.
-          const slug = generateSlug();
-          url = url.replace(/\<.*?\>/g, slug);
+          // Replace each pattern with a new single-word slug
+          url = url.replace(/\<.*?\>/g, () => 
+            generateSlug(1, {
+              format: 'lower',
+              partsOfSpeech: ['noun'],
+            })
+          );
 
           // Check if slash already exists
           const slash =
