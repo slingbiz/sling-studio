@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
-import Button from '@material-ui/core/Button';
 import EditLayout from './EditLayout';
 import LayoutView from './LayoutView';
 import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../../shared/constants/AppEnums';
-import Divider from '@material-ui/core/Divider';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Preview from '@material-ui/icons/PlayCircleOutline';
@@ -24,7 +21,8 @@ import {generateSlug} from 'random-word-slugs';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import LinkIcon from '@material-ui/icons/Link';
 import Tooltip from '@material-ui/core/Tooltip';
-import { getCompanyInfo } from '../../../../redux/actions/AccountAction';
+import Typography from '@material-ui/core/Typography';
+import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 
 const Layout = (props) => {
   const dispatch = useDispatch();
@@ -126,19 +124,6 @@ const Layout = (props) => {
       textOverflow: 'ellipsis',
       fontSize: 14,
       padding: theme.spacing(1.5, 2),
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(2),
-        '& $openIcon': {
-          opacity: 1,
-          fontSize: 20,
-        },
-      },
-      '&:hover': {
-        backgroundColor: theme.palette.action.hover,
-        '& $openIcon': {
-          opacity: 1,
-        },
-      },
       '&:not(:last-child)': {
         borderBottom: `1px solid ${theme.palette.divider}`,
       },
@@ -166,7 +151,19 @@ const Layout = (props) => {
       },
     },
     fab: {
-      margin: theme.spacing(1),
+      position: 'fixed',
+      bottom: theme.spacing(4),
+      right: theme.spacing(4),
+      zIndex: theme.zIndex.speedDial,
+    },
+    helperText: {
+      color: theme.palette.text.secondary,
+      fontSize: 14,
+      marginTop: theme.spacing(0.5),
+    },
+    pageTitle: {
+      display: 'flex',
+      flexDirection: 'column',
     },
     extendedIcon: {
       marginRight: theme.spacing(1),
@@ -234,61 +231,73 @@ const Layout = (props) => {
   return (
     <>
       <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Page Layout
-        </Box>
-        <Box>
-          <Tooltip title="Preview URLs" placement="bottom">
-            <IconButton onClick={handlePreviewClick}>
-              <Preview />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Back" placement="bottom">
-            <IconButton onClick={() => Router.back()}>
-              <ArrowBackIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            anchorEl={previewAnchorEl}
-            keepMounted
-            open={Boolean(previewAnchorEl)}
-            onClose={handlePreviewClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            PaperProps={{
-              style: {
-                minWidth: '280px',
-              },
-            }}
-            classes={{
-              paper: classes.menuPaper,
-              list: classes.menuList,
-            }}>
-            {previewUrls.length === 0 && (
-              <MenuItem disabled className={classes.menuItem}>
-                <LinkIcon className={classes.linkIcon} />
-                <span className={classes.urlText}>No preview URLs available</span>
-              </MenuItem>
-            )}
-            {previewUrls.map((url, index) => (
-              <MenuItem 
-                key={index} 
-                onClick={() => openPreviewUrl(url)}
-                className={classes.menuItem}
-                title={url}
-              >
-                <LinkIcon className={classes.linkIcon} />
-                <span className={classes.urlText}>{url}</span>
-                <OpenInNewIcon className={classes.openIcon} />
-              </MenuItem>
-            ))}
-          </Menu>
+        <Box display="flex" alignItems="center" width="100%">
+          <Box flex={1}>
+            <Box fontSize={16} fontWeight={Fonts.MEDIUM}>
+              Page Layout
+            </Box>
+            <Typography className={classes.helperText}>
+              Click the edit icon to modify the page template
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Tooltip title="Back" placement="bottom">
+              <IconButton onClick={() => Router.back()}>
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit Layout" placement="bottom">
+              <IconButton onClick={() => setOpen(true)}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Preview URLs" placement="bottom">
+              <IconButton onClick={handlePreviewClick}>
+                <Preview />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={previewAnchorEl}
+              keepMounted
+              open={Boolean(previewAnchorEl)}
+              onClose={handlePreviewClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              PaperProps={{
+                style: {
+                  minWidth: '280px',
+                },
+              }}
+              classes={{
+                paper: classes.menuPaper,
+                list: classes.menuList,
+              }}>
+              {previewUrls.length === 0 && (
+                <MenuItem disabled className={classes.menuItem}>
+                  <LinkIcon className={classes.linkIcon} />
+                  <span className={classes.urlText}>No preview URLs available</span>
+                </MenuItem>
+              )}
+              {previewUrls.map((url, index) => (
+                <MenuItem 
+                  key={index} 
+                  onClick={() => openPreviewUrl(url)}
+                  className={classes.menuItem}
+                  title={url}
+                >
+                  <LinkIcon className={classes.linkIcon} />
+                  <span className={classes.urlText}>{url}</span>
+                  <OpenInNewIcon className={classes.openIcon} />
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Box>
       </AppsHeader>
       <Box
@@ -307,35 +316,22 @@ const Layout = (props) => {
             flexDirection: 'column',
             'overflow-y': 'auto',
             height: '100%',
+            paddingBottom: 50,
           }}
           className={classes.layoutBox}>
           <Fab
             onClick={() => setOpen(true)}
             color='secondary'
-            style={{position: 'absolute', right: '0px'}}>
+            className={classes.fab}>
             <EditIcon style={{color: 'white'}} />
           </Fab>
           <LayoutView pageKey={pageKey} isEditable={false} />
-          <Divider className={classes.divider} />
-          <Box
-            pt={4}
-            pb={4}
-            mb={6}
-            style={{display: 'flex', justifyContent: 'flex-start'}}>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => setOpen(true)}
-              className={classes.button}>
-              Edit
-            </Button>
-            <EditLayout
-              setOpen={setOpen}
-              open={open}
-              titleKey={titleKey}
-              pageKey={pageKey}
-            />
-          </Box>
+          <EditLayout
+            setOpen={setOpen}
+            open={open}
+            titleKey={titleKey}
+            pageKey={pageKey}
+          />
         </Box>
         {/*<Box*/}
         {/*  xs*/}
