@@ -45,6 +45,37 @@ const DataSource = (props) => {
         color: theme.palette.secondary.contrastText,
       },
     },
+    disabledOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgb(205 203 203 / 70%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+    },
+    disabledMessage: {
+      color: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      padding: '16px 32px',
+      borderRadius: '4px',
+      fontWeight: 500,
+      fontSize: '1.2rem',
+      textAlign: 'center',
+    },
+    root: {
+      position: 'relative',
+      height: '100%',
+    },
+    boxSection: {
+      background: '#f1f1f1',
+      border: '1px solid #eae8e8',
+      borderRadius: '5px',
+      padding: 15,
+    }
   }));
 
   const classes = useStyles(props);
@@ -54,7 +85,12 @@ const DataSource = (props) => {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <Box className={classes.root}>
+      <div className={classes.disabledOverlay}>
+        <div className={classes.disabledMessage}>
+          Coming Soon: Advanced Data Integration Features
+        </div>
+      </div>
       <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
           Data Source
@@ -88,7 +124,7 @@ const DataSource = (props) => {
           Save
         </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 
