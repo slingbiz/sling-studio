@@ -30,11 +30,16 @@ import AppSearch from '../../../@sling/core/SearchBar';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import {
   deletePageTemplateAction,
+  getRoutesList,
   setLayoutConfig,
 } from '../../../redux/actions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
+import LinkIcon from '@material-ui/icons/Link';
+import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   guideList: {display: 'flex', justifyContent: 'space-between'},
@@ -116,6 +121,21 @@ const useStyles = makeStyles((theme) => ({
     '&:hover, &:focus': {
       backgroundColor: orange[700],
       color: theme.palette.primary.contrastText,
+    },
+  },
+  urlBadge: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    padding: '4px 8px',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 4,
+    '& .MuiSvgIcon-root': {
+      fontSize: '0.9rem',
     },
   },
 }));
@@ -236,11 +256,13 @@ const ModalPageTemplate = ({
   );
 };
 const PageTemplatesList = () => {
+  const router = useRouter();
   const classes = useStyles();
   const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig = {}} = layoutData || {};
   const totalPageTemplates = Object.keys(layoutConfig).length;
+  const {routesList = []} = useSelector(({routeList}) => routeList);
 
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -248,6 +270,12 @@ const PageTemplatesList = () => {
   const [showDelete, setShowDelete] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // To control delete confirmation dialog
   const [templateToDelete, setTemplateToDelete] = useState(null); // To hold the template being deleted
+
+  useEffect(() => {
+    if (!routesList.length) {
+      dispatch(getRoutesList({size: 100}));
+    }
+  }, [dispatch, routesList.length]);
 
   const addPageTemplate = (pageKey, meta) => {
     if (!pageKey || !meta?.title || !meta?.description) {
@@ -284,6 +312,19 @@ const PageTemplatesList = () => {
   const isAdmin = params.get('isAdmin');
   const allowDelete =
     isAdmin || process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
+
+  const getPreviewUrlsCount = (templateKey) => {
+    if (!routesList?.length) return 0;
+    return routesList.filter(route => route.page_template === templateKey).length;
+  };
+
+  const getUrlCountMessage = (count) => {
+    return `This page template is used by ${count} page ${count === 1 ? 'URL' : 'URLs'}.`;
+  };
+
+  const handleTemplateClick = (templateKey) => {
+    router.push(`/pages/${templateKey}/layout`);
+  };
 
   return (
     <>
@@ -341,15 +382,19 @@ const PageTemplatesList = () => {
                     sm={12}
                     md={6}
                     lg={4}
-                    style={{borderColor: 'black', padding: 10}}
+                    style={{borderColor: 'black', padding: 10, cursor: 'pointer'}}
                     onMouseOver={() => setShowDelete({[v]: true})}
-                    onMouseOut={() => setShowDelete({})}>
+                    onMouseOut={() => setShowDelete({})}
+                    onClick={() => handleTemplateClick(v)}>
                     <Card className={classes.card}>
                       <CardActionArea>
                         {showDelete[v] && (
                           <IconButton
                             aria-label='delete'
-                            onClick={() => deletePageTemplate(v)} // Trigger confirmation dialog
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent navigation when clicking delete
+                              deletePageTemplate(v);
+                            }}
                             style={{
                               position: 'absolute',
                               right: 8,
@@ -364,6 +409,15 @@ const PageTemplatesList = () => {
                           image={meta.preview_image || '/images/cards/pagelayout_default.png'}
                           title={title}
                         />
+                        <Tooltip 
+                          title={getUrlCountMessage(getPreviewUrlsCount(v))}
+                          placement="top"
+                        >
+                          <div className={classes.urlBadge}>
+                            <LinkIcon />
+                            {getPreviewUrlsCount(v)}
+                          </div>
+                        </Tooltip>
                         <CardContent>
                           <Typography
                             gutterBottom
@@ -394,14 +448,15 @@ const PageTemplatesList = () => {
                         </Link>
                         <Button
                           className={classes.button}
-                          onClick={() => {
-                            setOpen(true);
-                            setEdit(true);
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent navigation when clicking Edit Meta button
                             setCurrentTemplate({
                               templateKey: v,
                               title,
                               description,
                             });
+                            setEdit(true);
+                            setOpen(true);
                           }}>
                           <Edit style={{width: '20px', margin: '0 5px'}} />
                           Edit Meta
