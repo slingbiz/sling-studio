@@ -361,7 +361,7 @@ const PageTemplatesList = () => {
                         )}
                         <CardMedia
                           className={classes.media}
-                          image={'/images/cards/pagelayout_default.png'}
+                          image={meta.preview_image || '/images/cards/pagelayout_default.png'}
                           title={title}
                         />
                         <CardContent>
