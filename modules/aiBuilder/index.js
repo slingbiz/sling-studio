@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import * as MaterialUI from '@material-ui/core';
+import * as MaterialIcons from '@material-ui/icons';
 import {
   Box,
   Container,
@@ -154,6 +157,32 @@ const useStyles = makeStyles((theme) => ({
   tabsIndicator: {
     backgroundColor: theme.palette.primary.main,
   },
+  liveProvider: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  livePreview: {
+    flex: 1,
+    padding: theme.spacing(2),
+    backgroundColor: '#fff',
+    borderRadius: theme.shape.borderRadius,
+    minHeight: '500px',
+  },
+  liveEditor: {
+    fontFamily: 'monospace',
+    backgroundColor: '#f5f5f5',
+    borderRadius: theme.shape.borderRadius,
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+  liveError: {
+    padding: theme.spacing(2),
+    color: theme.palette.error.main,
+    backgroundColor: theme.palette.error.light,
+    borderRadius: theme.shape.borderRadius,
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const AIBuilder = () => {
@@ -162,6 +191,47 @@ const AIBuilder = () => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
+  const [codeScope, setCodeScope] = useState({});
+
+  const cleanCode = (code) => {
+    try {
+      // Parse the JSON string if needed and remove escaped characters
+      const unescapedCode = code.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+      
+      // Extract imports to build scope
+      const imports = {};
+      unescapedCode.replace(/import\s+{([^}]+)}\s+from\s+['"]([^'"]+)['"]/g, (match, imports, path) => {
+        if (path.includes('@material-ui/core')) {
+          return MaterialUI;
+        }
+        if (path.includes('@material-ui/icons')) {
+          return MaterialIcons;
+        }
+        return match;
+      });
+
+      // Remove imports and exports but keep the component code
+      const codeWithoutImports = unescapedCode
+        .replace(/import\s+.*?;?\n/g, '')
+        .replace(/export\s+default\s+\w+;?\n?/g, '');
+      
+      return {
+        code: `
+${codeWithoutImports.trim()}
+
+render(<MyComponent />);
+        `.trim(),
+        scope: {
+          ...MaterialUI,
+          ...MaterialIcons,
+        }
+      };
+    } catch (error) {
+      console.error('Error cleaning code:', error);
+      return { code, scope: {} };
+    }
+  };
+
   const [activeTab, setActiveTab] = useState('preview');
 
   const handleSubmit = async (event) => {
@@ -185,8 +255,12 @@ const AIBuilder = () => {
         );
 
         const data = await response.json();
-        setGeneratedCode(data.pageCode || '');
+        const cleaned = cleanCode(data.pageCode || '');
+        setGeneratedCode(cleaned.code);
+        setCodeScope(cleaned.scope);
         setIsProcessing(false);
+        console.log('Cleaned code:', cleaned.code);
+        console.log('Code scope:', cleaned.scope);
       } catch (error) {
         console.error('Error generating page:', error);
         setIsProcessing(false);
@@ -260,22 +334,38 @@ const AIBuilder = () => {
               }}>
               {activeTab === 'preview' ? (
                 generatedCode ? (
-                  <div dangerouslySetInnerHTML={{__html: generatedCode}} />
+                  <LiveProvider 
+                    code={generatedCode} 
+                    noInline={true}
+                    scope={{ 
+                      React,
+                      ...codeScope
+                    }}
+                  >
+                    <Box className={classes.livePreview}>
+                      <LivePreview />
+                    </Box>
+                    <LiveError className={classes.liveError} />
+                  </LiveProvider>
                 ) : (
                   <Typography variant="body2" color="textSecondary">
                     No preview available
                   </Typography>
                 )
               ) : (
-                <pre
-                  style={{
-                    backgroundColor: '#f5f5f5',
-                    padding: '16px',
-                    borderRadius: '4px',
-                    overflow: 'auto',
-                  }}>
-                  <code>{generatedCode}</code>
-                </pre>
+                <LiveProvider 
+                  code={generatedCode} 
+                  noInline={true}
+                  scope={{ 
+                    React,
+                    ...codeScope
+                  }}
+                >
+                  <LiveEditor 
+                    className={classes.liveEditor}
+                    disabled
+                  />
+                </LiveProvider>
               )}
             </Box>
           )}
