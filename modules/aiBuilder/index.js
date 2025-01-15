@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
-import * as MaterialUI from '@material-ui/core';
-import * as MaterialIcons from '@material-ui/icons';
 import {
   Box,
   Container,
@@ -9,20 +7,18 @@ import {
   TextField,
   IconButton,
   Grid,
-  Button,
   Tabs,
   Tab,
 } from '@material-ui/core';
-import * as Babel from '@babel/standalone';
-
 import {makeStyles} from '@material-ui/core/styles';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {processImports} from './libraryMap';
+
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -197,38 +193,27 @@ const AIBuilder = () => {
     try {
       // Parse the JSON string if needed and remove escaped characters
       const unescapedCode = code.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-      
-      // Extract imports to build scope
-      const imports = {};
-      unescapedCode.replace(/import\s+{([^}]+)}\s+from\s+['"]([^'"]+)['"]/g, (match, imports, path) => {
-        if (path.includes('@material-ui/core')) {
-          return MaterialUI;
-        }
-        if (path.includes('@material-ui/icons')) {
-          return MaterialIcons;
-        }
-        return match;
-      });
 
-      // Remove imports and exports but keep the component code
+      // Get scope with processed imports
+      const scope = processImports(unescapedCode);
+
+      // Remove imports and exports
       const codeWithoutImports = unescapedCode
         .replace(/import\s+.*?;?\n/g, '')
         .replace(/export\s+default\s+\w+;?\n?/g, '');
-      
+
       return {
         code: `
+// Component Definition
 ${codeWithoutImports.trim()}
 
-render(<MyComponent />);
-        `.trim(),
-        scope: {
-          ...MaterialUI,
-          ...MaterialIcons,
-        }
+// Render the component
+render(<PreviewComponent />);`,
+        scope,
       };
     } catch (error) {
       console.error('Error cleaning code:', error);
-      return { code, scope: {} };
+      return {code, scope: {React}};
     }
   };
 
@@ -250,7 +235,17 @@ render(<MyComponent />);
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({prompt: inputValue, mock: true}),
+            body: JSON.stringify({
+              prompt: inputValue,
+              mock: false,
+              constraints: {
+                componentName: true,
+                useArrowFunction: true,
+                useMaterialUI: true,
+                noStyleImports: true,
+                singleComponent: true,
+              },
+            }),
           },
         );
 
@@ -334,37 +329,32 @@ render(<MyComponent />);
               }}>
               {activeTab === 'preview' ? (
                 generatedCode ? (
-                  <LiveProvider 
-                    code={generatedCode} 
+                  <LiveProvider
+                    code={generatedCode}
                     noInline={true}
-                    scope={{ 
+                    scope={{
                       React,
-                      ...codeScope
-                    }}
-                  >
+                      ...codeScope,
+                    }}>
                     <Box className={classes.livePreview}>
                       <LivePreview />
                     </Box>
                     <LiveError className={classes.liveError} />
                   </LiveProvider>
                 ) : (
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant='body2' color='textSecondary'>
                     No preview available
                   </Typography>
                 )
               ) : (
-                <LiveProvider 
-                  code={generatedCode} 
+                <LiveProvider
+                  code={generatedCode}
                   noInline={true}
-                  scope={{ 
+                  scope={{
                     React,
-                    ...codeScope
-                  }}
-                >
-                  <LiveEditor 
-                    className={classes.liveEditor}
-                    disabled
-                  />
+                    ...codeScope,
+                  }}>
+                  <LiveEditor className={classes.liveEditor} disabled />
                 </LiveProvider>
               )}
             </Box>
