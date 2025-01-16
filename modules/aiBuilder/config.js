@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import * as MaterialUI from '@material-ui/core';
 import * as MaterialIcons from '@material-ui/icons';
 import * as MaterialLab from '@material-ui/lab';
@@ -15,13 +14,6 @@ export const createLibraryMap = ({
   useSelector,
   useIntl,
   useRouter,
-  MaterialUI,
-  MaterialIcons,
-  MaterialLab,
-  MaterialStyles,
-  MaterialPickers,
-  EmotionReact,
-  EmotionStyled,
   clsx,
   moment,
   makeStyles

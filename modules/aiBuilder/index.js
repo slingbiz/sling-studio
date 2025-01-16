@@ -1,27 +1,39 @@
-import React, { 
-  useState, 
-  useEffect, 
-  useCallback, 
-  useMemo, 
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
   useRef,
-  useContext
+  useContext,
 } from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
+import {useRouter} from 'next/router';
+import {useIntl} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
+import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 
-import Card from '@material-ui/core/Card';
+import {
+  Grid,
+  Container,
+  Card,
+  Box,
+  Typography,
+  TextField,
+  IconButton,
+  Tabs,
+  Tab,
+} from '@material-ui/core/';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
 
-import { ALLOWED_LIBRARIES, createLibraryMap } from './config';
+import {ALLOWED_LIBRARIES, createLibraryMap} from './config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -195,7 +207,7 @@ const AIBuilder = () => {
 
   const cleanCode = (response) => {
     try {
-      const { code: rawCode, dependencies } = response;
+      const {code: rawCode, dependencies} = response;
       const unescapedCode = rawCode.replace(/\\n/g, '\n').replace(/\\"/g, '"');
 
       // Create base scope with React essentials
@@ -207,7 +219,7 @@ const AIBuilder = () => {
         useMemo,
         useRef,
         useContext,
-        makeStyles
+        makeStyles,
       };
 
       // Create library map with all imported modules
@@ -220,7 +232,7 @@ const AIBuilder = () => {
         useRouter,
         clsx,
         moment,
-        makeStyles
+        makeStyles,
       });
 
       // Add requested components dynamically
@@ -228,7 +240,7 @@ const AIBuilder = () => {
         Object.entries(dependencies).forEach(([library, components]) => {
           try {
             if (libraryMap[library]) {
-              components.forEach(comp => {
+              components.forEach((comp) => {
                 if (libraryMap[library][comp]) {
                   scope[comp] = libraryMap[library][comp];
                 } else {
@@ -253,7 +265,7 @@ const AIBuilder = () => {
       };
     } catch (error) {
       console.error('Error cleaning code:', error);
-      return { code: response, scope: { React } };
+      return {code: response, scope: {React}};
     }
   };
 
