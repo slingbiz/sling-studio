@@ -1,24 +1,49 @@
-import React, {useState} from 'react';
-import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import React, { 
+  useState, 
+  useEffect, 
+  useCallback, 
+  useMemo, 
+  useRef,
+  useContext
+} from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import {
   Box,
   Container,
   Typography,
-  TextField,
+  Button,
   IconButton,
+  Paper,
   Grid,
   Tabs,
   Tab,
+  TextField,
+  CircularProgress,
 } from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
-import AttachFile from '@material-ui/icons/AttachFile';
-import Send from '@material-ui/icons/Send';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import {processImports} from './libraryMap';
+import { makeStyles } from '@material-ui/core/styles';
+import * as MaterialUI from '@material-ui/core';
+import * as MaterialIcons from '@material-ui/icons';
+import * as MaterialLab from '@material-ui/lab';
+import * as MaterialStyles from '@material-ui/core/styles';
+import * as MaterialPickers from '@material-ui/pickers';
+import * as EmotionReact from '@emotion/react';
+import * as EmotionStyled from '@emotion/styled';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+
+import AttachFile from '@material-ui/icons/AttachFile';
+import Send from '@material-ui/icons/Send';
+
+import { ALLOWED_LIBRARIES, createLibraryMap } from './config';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -189,31 +214,84 @@ const AIBuilder = () => {
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeScope, setCodeScope] = useState({});
 
-  const cleanCode = (code) => {
+  const cleanCode = (response) => {
     try {
-      // Parse the JSON string if needed and remove escaped characters
-      const unescapedCode = code.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+      const { code: rawCode, dependencies } = response;
+      const unescapedCode = rawCode.replace(/\\n/g, '\n').replace(/\\"/g, '"');
 
-      // Get scope with processed imports
-      const scope = processImports(unescapedCode);
+      // Create base scope with React essentials
+      const scope = {
+        React,
+        useState,
+        useEffect,
+        useCallback,
+        useMemo,
+        useRef,
+        useContext,
+        makeStyles
+      };
 
-      // Remove imports and exports
-      const codeWithoutImports = unescapedCode
-        .replace(/import\s+.*?;?\n/g, '')
-        .replace(/export\s+default\s+\w+;?\n?/g, '');
+      // Create library map with all imported modules
+      const libraryMap = createLibraryMap({
+        React,
+        PropTypes,
+        useDispatch,
+        useSelector,
+        useIntl,
+        useRouter,
+        MaterialUI,
+        MaterialIcons,
+        MaterialLab,
+        MaterialStyles,
+        MaterialPickers,
+        EmotionReact,
+        EmotionStyled,
+        clsx,
+        moment,
+        makeStyles
+      });
+
+      // Add requested components dynamically
+      if (dependencies) {
+        console.log('MaterialUI available:', MaterialUI);
+        console.log('MaterialIcons available:', MaterialIcons);
+        Object.entries(dependencies).forEach(([library, components]) => {
+          console.log('Processing library:', library, 'components:', components);
+          try {
+            if (libraryMap[library]) {
+              components.forEach(comp => {
+                console.log('Checking component:', comp, 'in library:', library);
+                if (library === '@material-ui/icons') {
+                  console.log('Icon keys available:', Object.keys(MaterialIcons));
+                  console.log('Looking for icon:', comp);
+                  console.log('Found in MaterialIcons:', MaterialIcons[comp]);
+                }
+                if (libraryMap[library][comp]) {
+                  console.log('Found in libraryMap:', libraryMap[library][comp]);
+                  scope[comp] = libraryMap[library][comp];
+                } else {
+                  console.warn(`Component ${comp} not found in ${library}`);
+                }
+              });
+            }
+          } catch (error) {
+            console.warn(`Failed to load library ${library}:`, error);
+          }
+        });
+      }
 
       return {
         code: `
-// Component Definition
-${codeWithoutImports.trim()}
+        // Component Definition
+        ${unescapedCode.trim()}
 
-// Render the component
-render(<PreviewComponent />);`,
+        // Render the component
+        render(<PreviewComponent />);`,
         scope,
       };
     } catch (error) {
       console.error('Error cleaning code:', error);
-      return {code, scope: {React}};
+      return { code: response, scope: { React } };
     }
   };
 
@@ -244,18 +322,19 @@ render(<PreviewComponent />);`,
                 useMaterialUI: true,
                 noStyleImports: true,
                 singleComponent: true,
+                separateDependencies: true,
+                allowedLibraries: ALLOWED_LIBRARIES, // Just pass allowed libraries
               },
             }),
           },
         );
 
         const data = await response.json();
-        const cleaned = cleanCode(data.pageCode || '');
+        const cleaned = cleanCode(data);
         setGeneratedCode(cleaned.code);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
-        console.log('Cleaned code:', cleaned.code);
-        console.log('Code scope:', cleaned.scope);
+        console.log('Dependencies loaded:', Object.keys(cleaned.scope));
       } catch (error) {
         console.error('Error generating page:', error);
         setIsProcessing(false);
