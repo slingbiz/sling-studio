@@ -253,21 +253,11 @@ const AIBuilder = () => {
 
       // Add requested components dynamically
       if (dependencies) {
-        console.log('MaterialUI available:', MaterialUI);
-        console.log('MaterialIcons available:', MaterialIcons);
         Object.entries(dependencies).forEach(([library, components]) => {
-          console.log('Processing library:', library, 'components:', components);
           try {
             if (libraryMap[library]) {
               components.forEach(comp => {
-                console.log('Checking component:', comp, 'in library:', library);
-                if (library === '@material-ui/icons') {
-                  console.log('Icon keys available:', Object.keys(MaterialIcons));
-                  console.log('Looking for icon:', comp);
-                  console.log('Found in MaterialIcons:', MaterialIcons[comp]);
-                }
                 if (libraryMap[library][comp]) {
-                  console.log('Found in libraryMap:', libraryMap[library][comp]);
                   scope[comp] = libraryMap[library][comp];
                 } else {
                   console.warn(`Component ${comp} not found in ${library}`);
