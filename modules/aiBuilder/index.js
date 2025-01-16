@@ -13,27 +13,6 @@ import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  IconButton,
-  Paper,
-  Grid,
-  Tabs,
-  Tab,
-  TextField,
-  CircularProgress,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import * as MaterialUI from '@material-ui/core';
-import * as MaterialIcons from '@material-ui/icons';
-import * as MaterialLab from '@material-ui/lab';
-import * as MaterialStyles from '@material-ui/core/styles';
-import * as MaterialPickers from '@material-ui/pickers';
-import * as EmotionReact from '@emotion/react';
-import * as EmotionStyled from '@emotion/styled';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -239,13 +218,6 @@ const AIBuilder = () => {
         useSelector,
         useIntl,
         useRouter,
-        MaterialUI,
-        MaterialIcons,
-        MaterialLab,
-        MaterialStyles,
-        MaterialPickers,
-        EmotionReact,
-        EmotionStyled,
         clsx,
         moment,
         makeStyles

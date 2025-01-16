@@ -1,3 +1,12 @@
+import { makeStyles } from '@material-ui/core/styles';
+import * as MaterialUI from '@material-ui/core';
+import * as MaterialIcons from '@material-ui/icons';
+import * as MaterialLab from '@material-ui/lab';
+import * as MaterialStyles from '@material-ui/core/styles';
+import * as MaterialPickers from '@material-ui/pickers';
+import * as EmotionReact from '@emotion/react';
+import * as EmotionStyled from '@emotion/styled';
+
 // Function to create library map with imported modules
 export const createLibraryMap = ({
   React,
