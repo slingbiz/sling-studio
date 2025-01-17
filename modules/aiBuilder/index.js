@@ -32,8 +32,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
 
-import {ALLOWED_LIBRARIES, createLibraryMap, createScope} from './config';
+import {ALLOWED_LIBRARIES} from './config';
 import {useStyles} from './styles';
+import CodeUtils from './utils';
 
 const AIBuilder = () => {
   const classes = useStyles();
@@ -42,72 +43,6 @@ const AIBuilder = () => {
   const [inputValue, setInputValue] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeScope, setCodeScope] = useState({});
-
-  const cleanCode = (response) => {
-    try {
-      const {code: rawCode, dependencies} = response;
-      const unescapedCode = rawCode.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-
-      const scope = createScope({
-        React,
-        useState,
-        useEffect,
-        useCallback,
-        useMemo,
-        useRef,
-        useContext,
-        makeStyles,
-        PropTypes,
-        useDispatch,
-        useSelector,
-        useIntl,
-        useRouter,
-        clsx,
-        moment,
-        dependencies
-      });
-
-      return {
-        code: `
-        // Component Definition
-        ${unescapedCode.trim()}
-
-        // Render the component
-        render(<PreviewComponent />);`,
-        scope,
-      };
-    } catch (error) {
-      console.error('Error cleaning code:', error);
-      return {code: response, scope: {React}};
-    }
-  };
-
-  const transformCode = (code) => {
-    // First check if the code already has a render statement
-    if (code.includes('render(')) {
-      return code;
-    }
-
-    // If it's a component definition, wrap it with ThemedComponent
-    if (code.includes('const') || code.includes('function')) {
-      return `
-${code}
-
-render(
-  <ThemedComponent>
-    <PreviewComponent />
-  </ThemedComponent>
-);`;
-    }
-
-    // If it's just JSX, wrap it directly
-    return `
-render(
-  <ThemedComponent>
-    ${code}
-  </ThemedComponent>
-);`;
-  };
 
   const [activeTab, setActiveTab] = useState('preview');
 
@@ -137,15 +72,15 @@ render(
                 noStyleImports: true,
                 singleComponent: true,
                 separateDependencies: true,
-                allowedLibraries: ALLOWED_LIBRARIES, // Just pass allowed libraries
+                allowedLibraries: ALLOWED_LIBRARIES,
               },
             }),
           },
         );
 
         const data = await response.json();
-        const cleaned = cleanCode(data);
-        const transformed = transformCode(cleaned.code);
+        const cleaned = CodeUtils.cleanCode(data);
+        const transformed = CodeUtils.transformCode(cleaned.code);
         setGeneratedCode(transformed);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
