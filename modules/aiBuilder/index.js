@@ -90,7 +90,7 @@ const AIBuilder = () => {
         setGeneratedCode(transformed);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
-        
+
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -159,6 +159,8 @@ const AIBuilder = () => {
               handleTabChange={handleTabChange}
               generatedCode={generatedCode}
               codeScope={codeScope}
+              searchId={searchId}
+              initialResponse={initialResponse}
             />
           </Box>
         )}

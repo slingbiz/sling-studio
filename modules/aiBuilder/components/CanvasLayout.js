@@ -256,7 +256,7 @@ const CanvasLayout = ({
 
   useEffect(() => {
     if (searchId && !chatHistories[searchId] && inputValue && initialResponse) {
-      setChatHistories(prev => ({
+      setChatHistories((prev) => ({
         ...prev,
         [searchId]: [
           {
@@ -266,14 +266,14 @@ const CanvasLayout = ({
           {
             type: 'ai',
             content: initialResponse,
-          }
-        ]
+          },
+        ],
       }));
     }
   }, [searchId, inputValue, initialResponse]);
 
   const getCurrentChatHistory = () => {
-    return searchId ? (chatHistories[searchId] || []) : [];
+    return searchId ? chatHistories[searchId] || [] : [];
   };
 
   const handlePromptSubmit = async () => {
@@ -284,42 +284,51 @@ const CanvasLayout = ({
       content: promptInput,
     };
 
-    setChatHistories(prev => ({
+    setChatHistories((prev) => ({
       ...prev,
-      [searchId]: [...(prev[searchId] || []), newMessage]
+      [searchId]: [...(prev[searchId] || []), newMessage],
     }));
-    
+
     setPromptInput('');
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/ai/generate-page', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:5001/api/ai/generate-page',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: promptInput,
+          }),
         },
-        body: JSON.stringify({
-          prompt: promptInput
-        }),
-      });
+      );
 
       const data = await response.json();
 
-      setChatHistories(prev => ({
+      setChatHistories((prev) => ({
         ...prev,
-        [searchId]: [...prev[searchId], {
-          type: 'ai',
-          content: data.summary || 'No response summary available.',
-        }]
+        [searchId]: [
+          ...prev[searchId],
+          {
+            type: 'ai',
+            content: data.summary || 'No response summary available.',
+          },
+        ],
       }));
     } catch (error) {
-      setChatHistories(prev => ({
+      setChatHistories((prev) => ({
         ...prev,
-        [searchId]: [...prev[searchId], {
-          type: 'ai',
-          content: 'Sorry, I encountered an error. Please try again.',
-          isError: true,
-        }]
+        [searchId]: [
+          ...prev[searchId],
+          {
+            type: 'ai',
+            content: 'Sorry, I encountered an error. Please try again.',
+            isError: true,
+          },
+        ],
       }));
       console.error('Error:', error);
     } finally {
@@ -347,7 +356,9 @@ const CanvasLayout = ({
 
           <List className={classes.chatHistory}>
             {getCurrentChatHistory().map((message, index) => (
-              <Box key={`${searchId}-${index}`} className={classes.messageWrapper}>
+              <Box
+                key={`${searchId}-${index}`}
+                className={classes.messageWrapper}>
                 <ListItem
                   className={`${classes.chatMessage} ${message.type} ${message.isError ? 'error' : ''}`}
                   disableGutters>
@@ -365,7 +376,7 @@ const CanvasLayout = ({
                   disableGutters>
                   <ListItemText
                     className={classes.messageContent}
-                    primary="Thinking..."
+                    primary='Thinking...'
                   />
                 </ListItem>
               </Box>
