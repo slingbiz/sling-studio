@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Typography,
   Tabs,
   Tab,
+  TextField,
+  IconButton,
 } from '@material-ui/core';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import {makeStyles} from '@material-ui/core/styles';
+import AttachFile from '@material-ui/icons/AttachFile';
+import Send from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme) => ({
   canvas: {
@@ -22,10 +26,19 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[1],
-    overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2),
+    height: '100%',
+  },
+  progressContent: {
+    flex: 1,
+    overflowY: 'auto',
+    marginBottom: theme.spacing(2),
+  },
+  inputContainer: {
+    marginTop: 'auto',
+    padding: theme.spacing(2),
+    borderTop: `1px solid ${theme.palette.divider}`,
   },
   preview: {
     flex: '0 0 70%',
@@ -86,6 +99,39 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     marginTop: theme.spacing(2),
   },
+  inputWrapper: {
+    maxWidth: '800px',
+    margin: '0 auto',
+    position: 'relative',
+  },
+  input: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: theme.shape.borderRadius * 2,
+      backgroundColor: theme.palette.background.default,
+      '& textarea': {
+        padding: theme.spacing(1.5, 2),
+        paddingRight: theme.spacing(10),
+      },
+    },
+  },
+  actionButtons: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: '50%',
+    transform: 'translateY(-50%)',
+    display: 'flex',
+    gap: theme.spacing(1),
+    padding: theme.spacing(0.5),
+    '& .MuiIconButton-root': {
+      padding: theme.spacing(1),
+      transition: 'all 0.2s',
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+        transform: 'scale(1.1)',
+      },
+    },
+  },
 }));
 
 const CanvasLayout = ({
@@ -97,18 +143,54 @@ const CanvasLayout = ({
   isProcessing,
 }) => {
   const classes = useStyles();
+  const [promptInput, setPromptInput] = useState('');
+
+  const handlePromptSubmit = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      // Handle prompt submission
+      console.log('Prompt submitted:', promptInput);
+      setPromptInput('');
+    }
+  };
 
   return (
     <Box className={classes.canvas}>
       <Box className={classes.progress}>
-        <Typography variant='h6' gutterBottom>
-          Progress & Activity
-        </Typography>
-        <Box className={classes.progressItem}>
-          <Typography variant='subtitle2' color='textSecondary'>
-            Prompt Analysis
+        <Box className={classes.progressContent}>
+          <Typography variant='h6' gutterBottom>
+            Progress & Activity
           </Typography>
-          <Typography variant='body2'>"{inputValue}"</Typography>
+          <Box className={classes.progressItem}>
+            <Typography variant='subtitle2' color='textSecondary'>
+              Prompt Analysis
+            </Typography>
+            <Typography variant='body2'>"{inputValue}"</Typography>
+          </Box>
+        </Box>
+        <Box className={classes.inputContainer}>
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            multiline
+            rows={1}
+            placeholder="Ask a follow up..."
+            value={promptInput}
+            onChange={(e) => setPromptInput(e.target.value)}
+            onKeyPress={handlePromptSubmit}
+            InputProps={{
+              endAdornment: (
+                <Box className={classes.actionButtons}>
+                  <IconButton>
+                    <AttachFile />
+                  </IconButton>
+                  <IconButton onClick={() => handlePromptSubmit({ key: 'Enter' })}>
+                    <Send />
+                  </IconButton>
+                </Box>
+              ),
+            }}
+          />
         </Box>
       </Box>
       <Box className={classes.preview}>
