@@ -42,12 +42,19 @@ const AIBuilder = () => {
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeScope, setCodeScope] = useState({});
   const [activeTab, setActiveTab] = useState('preview');
+  const [searchId, setSearchId] = useState(null);
+
+  const generateSearchId = () => {
+    return `search_${Date.now()}`;
+  };
 
   const handleSubmit = async (event) => {
     if (event.key === 'Enter' || event.type === 'click') {
       event.preventDefault();
       if (!inputValue.trim()) return;
 
+      const newSearchId = generateSearchId();
+      setSearchId(newSearchId);
       setIsProcessing(true);
       setShowCanvas(true);
 
@@ -71,6 +78,7 @@ const AIBuilder = () => {
                 separateDependencies: true,
                 allowedLibraries: ALLOWED_LIBRARIES,
               },
+              searchId: newSearchId,
             }),
           },
         );
@@ -143,6 +151,7 @@ const AIBuilder = () => {
         {showCanvas && (
           <Box>
             <CanvasLayout
+              searchId={searchId}
               activeTab={activeTab}
               handleTabChange={handleTabChange}
               generatedCode={generatedCode}

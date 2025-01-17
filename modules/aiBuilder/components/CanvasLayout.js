@@ -227,36 +227,38 @@ const CanvasLayout = ({
   codeScope,
   inputValue,
   isProcessing,
+  searchId, // Add searchId prop
 }) => {
   const classes = useStyles();
   const [chatHistories, setChatHistories] = useState({});
-  const [currentSearchId, setCurrentSearchId] = useState(null);
   const [promptInput, setPromptInput] = useState('');
 
-  const generateSearchId = () => {
-    return Date.now().toString();
-  };
+  // Initialize chat history for this search when component mounts
+  useEffect(() => {
+    if (searchId && !chatHistories[searchId]) {
+      setChatHistories(prev => ({
+        ...prev,
+        [searchId]: []
+      }));
+    }
+  }, [searchId]);
 
   const getCurrentChatHistory = () => {
-    return currentSearchId ? (chatHistories[currentSearchId] || []) : [];
+    return searchId ? (chatHistories[searchId] || []) : [];
   };
 
   const handlePromptSubmit = async () => {
-    if (!promptInput.trim()) return;
-
-    // Generate new search ID for each new search
-    const searchId = generateSearchId();
-    setCurrentSearchId(searchId);
+    if (!promptInput.trim() || !searchId) return;
 
     const newMessage = {
       type: 'user',
       content: promptInput,
     };
 
-    // Initialize new chat history for this search
+    // Add to existing chat history for this search
     setChatHistories(prev => ({
       ...prev,
-      [searchId]: [newMessage]
+      [searchId]: [...(prev[searchId] || []), newMessage]
     }));
     
     setPromptInput('');
@@ -294,7 +296,7 @@ const CanvasLayout = ({
 
           <List className={classes.chatHistory}>
             {getCurrentChatHistory().map((message, index) => (
-              <Box key={`${currentSearchId}-${index}`} className={classes.messageWrapper}>
+              <Box key={`${searchId}-${index}`} className={classes.messageWrapper}>
                 <ListItem
                   className={`${classes.chatMessage} ${message.type}`}
                   disableGutters>
