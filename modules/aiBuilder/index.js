@@ -33,7 +33,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
 
-import {ALLOWED_LIBRARIES, createLibraryMap} from './config';
+import {ALLOWED_LIBRARIES, createLibraryMap, createScope} from './config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -210,8 +210,7 @@ const AIBuilder = () => {
       const {code: rawCode, dependencies} = response;
       const unescapedCode = rawCode.replace(/\\n/g, '\n').replace(/\\"/g, '"');
 
-      // Create base scope with React essentials
-      const scope = {
+      const scope = createScope({
         React,
         useState,
         useEffect,
@@ -220,11 +219,6 @@ const AIBuilder = () => {
         useRef,
         useContext,
         makeStyles,
-      };
-
-      // Create library map with all imported modules
-      const libraryMap = createLibraryMap({
-        React,
         PropTypes,
         useDispatch,
         useSelector,
@@ -232,27 +226,8 @@ const AIBuilder = () => {
         useRouter,
         clsx,
         moment,
-        makeStyles,
+        dependencies
       });
-
-      // Add requested components dynamically
-      if (dependencies) {
-        Object.entries(dependencies).forEach(([library, components]) => {
-          try {
-            if (libraryMap[library]) {
-              components.forEach((comp) => {
-                if (libraryMap[library][comp]) {
-                  scope[comp] = libraryMap[library][comp];
-                } else {
-                  console.warn(`Component ${comp} not found in ${library}`);
-                }
-              });
-            }
-          } catch (error) {
-            console.warn(`Failed to load library ${library}:`, error);
-          }
-        });
-      }
 
       return {
         code: `
