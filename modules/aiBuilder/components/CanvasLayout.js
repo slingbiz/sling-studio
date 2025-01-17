@@ -315,6 +315,8 @@ const CanvasLayout = ({
           },
           body: JSON.stringify({
             prompt: promptInput,
+            mock: false,
+            conversationId: searchId,
           }),
         },
       );
