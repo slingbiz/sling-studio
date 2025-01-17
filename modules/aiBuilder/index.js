@@ -43,18 +43,13 @@ const AIBuilder = () => {
   const [codeScope, setCodeScope] = useState({});
   const [activeTab, setActiveTab] = useState('preview');
   const [searchId, setSearchId] = useState(null);
-
-  const generateSearchId = () => {
-    return `search_${Date.now()}`;
-  };
+  const [initialResponse, setInitialResponse] = useState(null);
 
   const handleSubmit = async (event) => {
     if (event.key === 'Enter' || event.type === 'click') {
       event.preventDefault();
       if (!inputValue.trim()) return;
 
-      const newSearchId = generateSearchId();
-      setSearchId(newSearchId);
       setIsProcessing(true);
       setShowCanvas(true);
 
@@ -78,20 +73,27 @@ const AIBuilder = () => {
                 separateDependencies: true,
                 allowedLibraries: ALLOWED_LIBRARIES,
               },
-              searchId: newSearchId,
             }),
           },
         );
 
         const data = await response.json();
+
+        // Update searchId from conversationId
+        setSearchId(data.conversationId);
+
+        // Store initial response for chat
+        setInitialResponse(data.summary);
+
         const cleaned = CodeUtils.cleanCode(data);
         const transformed = CodeUtils.transformCode(cleaned.code);
         setGeneratedCode(transformed);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
-        console.log('Dependencies loaded:', Object.keys(cleaned.scope));
+        
       } catch (error) {
-        console.error('Error generating page:', error);
+        console.error('Error:', error);
+      } finally {
         setIsProcessing(false);
       }
     }
@@ -151,13 +153,12 @@ const AIBuilder = () => {
         {showCanvas && (
           <Box>
             <CanvasLayout
-              searchId={searchId}
+              inputValue={inputValue}
+              isProcessing={isProcessing}
               activeTab={activeTab}
               handleTabChange={handleTabChange}
               generatedCode={generatedCode}
               codeScope={codeScope}
-              inputValue={inputValue}
-              isProcessing={isProcessing}
             />
           </Box>
         )}

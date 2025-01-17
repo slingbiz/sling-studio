@@ -86,6 +86,19 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '12px',
       border: '1px solid #e5e5e5',
       padding: theme.spacing(2),
+      '&.typing': {
+        backgroundColor: '#f7f7f8',
+        border: 'none',
+        '& .MuiTypography-root': {
+          color: '#6b7280',
+          fontStyle: 'italic',
+        },
+      },
+      '&.error': {
+        borderColor: '#fee2e2',
+        backgroundColor: '#fef2f2',
+        color: '#991b1b',
+      },
     },
   },
   messageWrapper: {
@@ -130,10 +143,8 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: theme.spacing(10),
         fontSize: '0.95rem',
         color: '#1a1a1a',
-        // fontStyle: 'italic',
         '&::placeholder': {
           color: '#9ca3af',
-          // fontStyle: 'italic',
         },
       },
     },
@@ -220,6 +231,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ALLOWED_LIBRARIES = [
+  '@mui/material',
+  '@mui/icons-material',
+  'react',
+  'react-dom',
+  'prop-types',
+];
+
 const CanvasLayout = ({
   activeTab,
   handleTabChange,
@@ -227,21 +246,31 @@ const CanvasLayout = ({
   codeScope,
   inputValue,
   isProcessing,
-  searchId, // Add searchId prop
+  searchId,
+  initialResponse,
 }) => {
   const classes = useStyles();
   const [chatHistories, setChatHistories] = useState({});
   const [promptInput, setPromptInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  // Initialize chat history for this search when component mounts
   useEffect(() => {
-    if (searchId && !chatHistories[searchId]) {
+    if (searchId && !chatHistories[searchId] && inputValue && initialResponse) {
       setChatHistories(prev => ({
         ...prev,
-        [searchId]: []
+        [searchId]: [
+          {
+            type: 'user',
+            content: inputValue,
+          },
+          {
+            type: 'ai',
+            content: initialResponse,
+          }
+        ]
       }));
     }
-  }, [searchId]);
+  }, [searchId, inputValue, initialResponse]);
 
   const getCurrentChatHistory = () => {
     return searchId ? (chatHistories[searchId] || []) : [];
@@ -255,25 +284,47 @@ const CanvasLayout = ({
       content: promptInput,
     };
 
-    // Add to existing chat history for this search
     setChatHistories(prev => ({
       ...prev,
       [searchId]: [...(prev[searchId] || []), newMessage]
     }));
     
     setPromptInput('');
+    setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse = {
-        type: 'ai',
-        content: 'This is a simulated AI response. Replace with actual API integration.',
-      };
+    try {
+      const response = await fetch('http://localhost:5001/api/ai/generate-page', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: promptInput
+        }),
+      });
+
+      const data = await response.json();
+
       setChatHistories(prev => ({
         ...prev,
-        [searchId]: [...prev[searchId], aiResponse]
+        [searchId]: [...prev[searchId], {
+          type: 'ai',
+          content: data.summary || 'No response summary available.',
+        }]
       }));
-    }, 1000);
+    } catch (error) {
+      setChatHistories(prev => ({
+        ...prev,
+        [searchId]: [...prev[searchId], {
+          type: 'ai',
+          content: 'Sorry, I encountered an error. Please try again.',
+          isError: true,
+        }]
+      }));
+      console.error('Error:', error);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -298,7 +349,7 @@ const CanvasLayout = ({
             {getCurrentChatHistory().map((message, index) => (
               <Box key={`${searchId}-${index}`} className={classes.messageWrapper}>
                 <ListItem
-                  className={`${classes.chatMessage} ${message.type}`}
+                  className={`${classes.chatMessage} ${message.type} ${message.isError ? 'error' : ''}`}
                   disableGutters>
                   <ListItemText
                     className={classes.messageContent}
@@ -307,6 +358,18 @@ const CanvasLayout = ({
                 </ListItem>
               </Box>
             ))}
+            {isTyping && (
+              <Box className={classes.messageWrapper}>
+                <ListItem
+                  className={`${classes.chatMessage} ai typing`}
+                  disableGutters>
+                  <ListItemText
+                    className={classes.messageContent}
+                    primary="Thinking..."
+                  />
+                </ListItem>
+              </Box>
+            )}
           </List>
         </Box>
 
@@ -325,14 +388,16 @@ const CanvasLayout = ({
                 handlePromptSubmit();
               }
             }}
+            disabled={isTyping}
             InputProps={{
               endAdornment: (
                 <Box className={classes.actionButtons}>
-                  <IconButton>
+                  <IconButton disabled={isTyping}>
                     <AttachFile />
                   </IconButton>
                   <IconButton
-                    onClick={handlePromptSubmit}>
+                    onClick={handlePromptSubmit}
+                    disabled={isTyping || !promptInput.trim()}>
                     <Send />
                   </IconButton>
                 </Box>
