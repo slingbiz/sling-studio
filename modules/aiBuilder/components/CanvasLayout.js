@@ -15,6 +15,10 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import {makeStyles} from '@material-ui/core/styles';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
+import CodeUtils from '../utils';
+
+// Import CodeUtils from index.js
+
 
 const useStyles = makeStyles((theme) => ({
   canvas: {
@@ -231,6 +235,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Define allowed libraries
 const ALLOWED_LIBRARIES = [
   '@mui/material',
   '@mui/icons-material',
@@ -239,6 +244,7 @@ const ALLOWED_LIBRARIES = [
   'prop-types',
 ];
 
+// CanvasLayout component
 const CanvasLayout = ({
   activeTab,
   handleTabChange,
@@ -248,12 +254,15 @@ const CanvasLayout = ({
   isProcessing,
   searchId,
   initialResponse,
+  setGeneratedCode,
+  setCodeScope,
 }) => {
   const classes = useStyles();
   const [chatHistories, setChatHistories] = useState({});
   const [promptInput, setPromptInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
+  // Initialize chat history with initial prompt and AI response
   useEffect(() => {
     if (searchId && !chatHistories[searchId] && inputValue && initialResponse) {
       setChatHistories((prev) => ({
@@ -272,13 +281,16 @@ const CanvasLayout = ({
     }
   }, [searchId, inputValue, initialResponse]);
 
+  // Get current chat history for the active search
   const getCurrentChatHistory = () => {
     return searchId ? chatHistories[searchId] || [] : [];
   };
 
+  // Handle prompt submission
   const handlePromptSubmit = async () => {
     if (!promptInput.trim() || !searchId) return;
 
+    // Add user message to chat
     const newMessage = {
       type: 'user',
       content: promptInput,
@@ -293,6 +305,7 @@ const CanvasLayout = ({
     setIsTyping(true);
 
     try {
+      // Send follow-up question to API
       const response = await fetch(
         'http://localhost:5001/api/ai/generate-page',
         {
@@ -308,6 +321,13 @@ const CanvasLayout = ({
 
       const data = await response.json();
 
+      // Process returned code same as index.js
+      const cleaned = CodeUtils.cleanCode(data);
+      const transformed = CodeUtils.transformCode(cleaned.code);
+      setGeneratedCode(transformed);
+      setCodeScope(cleaned.scope);
+
+      // Add AI response to chat
       setChatHistories((prev) => ({
         ...prev,
         [searchId]: [
@@ -319,6 +339,7 @@ const CanvasLayout = ({
         ],
       }));
     } catch (error) {
+      // Add error message to chat
       setChatHistories((prev) => ({
         ...prev,
         [searchId]: [
