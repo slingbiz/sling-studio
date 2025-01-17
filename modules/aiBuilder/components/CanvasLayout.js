@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chatMessage: {
     padding: theme.spacing(2),
-    maxWidth: '90%',
+    maxWidth: '100%',
     position: 'relative',
     fontSize: '0.95rem',
     lineHeight: 1.6,
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   },
   messageWrapper: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     width: '100%',
     position: 'relative',
   },
@@ -232,6 +232,21 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '800px',
     margin: '0 auto',
     position: 'relative',
+  },
+  messageIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: '50%',
+    backgroundColor: '#f5f5f5',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: theme.spacing(2),
+    '& img': {
+      width: 24,
+      height: 24,
+      borderRadius: '50%',
+    }
   },
 }));
 
@@ -359,6 +374,29 @@ const CanvasLayout = ({
     }
   };
 
+  const renderChatMessage = (message, index) => {
+    return (
+      <Box key={`${searchId}-${index}`} mb={2} display="flex" alignItems="flex-start" className={classes.messageWrapper}>
+        {message.type === 'ai' && (
+          <Box className={classes.messageIcon}>
+            <img src="/favicon.ico" alt="AI" />
+          </Box>
+        )}
+        <Box flex={1}>
+          <ListItem 
+            className={`${classes.chatMessage} ${message.type} ${message.isError ? 'error' : ''}`}
+            disableGutters
+          >
+            <ListItemText
+              className={classes.messageContent}
+              primary={message.content}
+            />
+          </ListItem>
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <Box className={classes.canvas}>
       <Box className={classes.progress}>
@@ -379,18 +417,7 @@ const CanvasLayout = ({
 
           <List className={classes.chatHistory}>
             {getCurrentChatHistory().map((message, index) => (
-              <Box
-                key={`${searchId}-${index}`}
-                className={classes.messageWrapper}>
-                <ListItem
-                  className={`${classes.chatMessage} ${message.type} ${message.isError ? 'error' : ''}`}
-                  disableGutters>
-                  <ListItemText
-                    className={classes.messageContent}
-                    primary={message.content}
-                  />
-                </ListItem>
-              </Box>
+              renderChatMessage(message, index)
             ))}
             {isTyping && (
               <Box className={classes.messageWrapper}>
