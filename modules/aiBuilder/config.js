@@ -26,8 +26,23 @@ export const createLibraryMap = ({
   'next/router': { useRouter },
   
   // Material-UI ecosystem
-  '@material-ui/core': MaterialUI,
-  '@material-ui/icons': MaterialIcons,
+  '@material-ui/core': {
+    ...MaterialUI,
+    IconButton: MaterialUI.IconButton,
+    Button: MaterialUI.Button,
+    Box: MaterialUI.Box,
+    Typography: MaterialUI.Typography,
+    Paper: MaterialUI.Paper,
+    Grid: MaterialUI.Grid
+  },
+  '@material-ui/icons': {
+    ...MaterialIcons,
+    // Automatically add Icon-suffixed versions for all icons
+    ...Object.entries(MaterialIcons).reduce((acc, [name, component]) => ({
+      ...acc,
+      [`${name}Icon`]: component
+    }), {})
+  },
   '@material-ui/lab': MaterialLab,
   '@material-ui/styles': MaterialStyles,
   '@material-ui/pickers': MaterialPickers,
