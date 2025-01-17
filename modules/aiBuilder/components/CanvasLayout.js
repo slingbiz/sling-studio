@@ -19,7 +19,6 @@ import CodeUtils from '../utils';
 
 // Import CodeUtils from index.js
 
-
 const useStyles = makeStyles((theme) => ({
   canvas: {
     display: 'flex',
@@ -80,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#f7f7f8',
       color: '#1a1a1a',
       alignSelf: 'flex-end',
+      marginLeft: 'auto',
+      textAlign: 'right',
       borderRadius: '12px',
       padding: theme.spacing(1.5, 2),
     },
@@ -110,6 +111,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     width: '100%',
     position: 'relative',
+    '&.user': {
+      justifyContent: 'flex-end',
+      maxWidth: '50%',
+      width: 'auto',
+      alignSelf: 'flex-end',
+    },
   },
   messageContent: {
     wordBreak: 'break-word',
@@ -246,7 +253,7 @@ const useStyles = makeStyles((theme) => ({
       width: 24,
       height: 24,
       borderRadius: '50%',
-    }
+    },
   },
 }));
 
@@ -376,17 +383,21 @@ const CanvasLayout = ({
 
   const renderChatMessage = (message, index) => {
     return (
-      <Box key={`${searchId}-${index}`} mb={2} display="flex" alignItems="flex-start" className={classes.messageWrapper}>
+      <Box
+        key={`${searchId}-${index}`}
+        mb={2}
+        display='flex'
+        alignItems='flex-start'
+        className={`${classes.messageWrapper} ${message.type}`}>
         {message.type === 'ai' && (
           <Box className={classes.messageIcon}>
-            <img src="/favicon.ico" alt="AI" />
+            <img src='/favicon.ico' alt='AI' />
           </Box>
         )}
         <Box flex={1}>
-          <ListItem 
+          <ListItem
             className={`${classes.chatMessage} ${message.type} ${message.isError ? 'error' : ''}`}
-            disableGutters
-          >
+            disableGutters>
             <ListItemText
               className={classes.messageContent}
               primary={message.content}
@@ -416,9 +427,9 @@ const CanvasLayout = ({
           </Box>
 
           <List className={classes.chatHistory}>
-            {getCurrentChatHistory().map((message, index) => (
-              renderChatMessage(message, index)
-            ))}
+            {getCurrentChatHistory().map((message, index) =>
+              renderChatMessage(message, index),
+            )}
             {isTyping && (
               <Box className={classes.messageWrapper}>
                 <ListItem
