@@ -35,6 +35,7 @@ import Send from '@material-ui/icons/Send';
 import {ALLOWED_LIBRARIES} from './config';
 import {useStyles} from './styles';
 import CodeUtils from './utils';
+import CanvasLayout from './components/CanvasLayout';
 
 const AIBuilder = () => {
   const classes = useStyles();
@@ -43,7 +44,6 @@ const AIBuilder = () => {
   const [inputValue, setInputValue] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeScope, setCodeScope] = useState({});
-
   const [activeTab, setActiveTab] = useState('preview');
 
   const handleSubmit = async (event) => {
@@ -105,112 +105,6 @@ const AIBuilder = () => {
     </Box>
   );
 
-  const CanvasLayout = () => (
-    <Box className={classes.canvas}>
-      <Box className={classes.progress}>
-        <Typography variant='h6' gutterBottom>
-          Progress & Activity
-        </Typography>
-        <Box className={classes.progressItem}>
-          <Typography variant='subtitle2' color='textSecondary'>
-            Prompt Analysis
-          </Typography>
-          <Typography variant='body2'>"{inputValue}"</Typography>
-        </Box>
-      </Box>
-      <Box className={classes.preview}>
-        <Box className={classes.previewHeader}>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            classes={{
-              root: classes.tabsRoot,
-              indicator: classes.tabsIndicator,
-            }}>
-            <Tab
-              label='Preview'
-              value='preview'
-              classes={{
-                root: classes.tabRoot,
-              }}
-            />
-            <Tab
-              label='Code'
-              value='code'
-              classes={{
-                root: classes.tabRoot,
-              }}
-            />
-          </Tabs>
-        </Box>
-        <Box flex={1} style={{overflowY: 'auto'}}>
-          {isProcessing ? (
-            <Typography variant='body2' color='textSecondary'>
-              Generating code...
-            </Typography>
-          ) : (
-            <Box
-              style={{
-                backgroundColor: '#fff',
-                padding: '16px',
-                borderRadius: '4px',
-                minHeight: '500px',
-              }}>
-              {activeTab === 'preview' ? (
-                generatedCode ? (
-                  <LiveProvider
-                    code={generatedCode}
-                    noInline={true}
-                    scope={{
-                      React,
-                      ...codeScope,
-                    }}>
-                    <Box className={classes.livePreview}>
-                      <LivePreview />
-                    </Box>
-                    <LiveError className={classes.liveError} />
-                  </LiveProvider>
-                ) : (
-                  <Typography variant='body2' color='textSecondary'>
-                    No preview available
-                  </Typography>
-                )
-              ) : (
-                <LiveProvider
-                  code={generatedCode}
-                  noInline={true}
-                  scope={{
-                    React,
-                    ...codeScope,
-                  }}>
-                  <LiveEditor
-                    className={classes.liveEditor}
-                    style={{
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      backgroundColor: '#f5f5f5',
-                      borderRadius: 4,
-                      padding: 16,
-                    }}
-                  />
-                  <LiveError
-                    style={{
-                      color: 'red',
-                      marginTop: 8,
-                      padding: 8,
-                      backgroundColor: '#ffebee',
-                      borderRadius: 4,
-                    }}
-                  />
-                </LiveProvider>
-              )}
-            </Box>
-          )}
-        </Box>
-      </Box>
-    </Box>
-  );
-
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -254,7 +148,14 @@ const AIBuilder = () => {
 
         {showCanvas && (
           <Box>
-            <CanvasLayout />
+            <CanvasLayout
+              activeTab={activeTab}
+              handleTabChange={handleTabChange}
+              generatedCode={generatedCode}
+              codeScope={codeScope}
+              inputValue={inputValue}
+              isProcessing={isProcessing}
+            />
           </Box>
         )}
 
