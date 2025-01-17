@@ -18,16 +18,11 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import {
   Grid,
   Container,
-  Card,
   Box,
   Typography,
   TextField,
   IconButton,
-  Tabs,
-  Tab,
 } from '@material-ui/core/';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
@@ -36,6 +31,8 @@ import {ALLOWED_LIBRARIES} from './config';
 import {useStyles} from './styles';
 import CodeUtils from './utils';
 import CanvasLayout from './components/CanvasLayout';
+import ProcessingView from './components/ProcessingView';
+import StarterTemplates from './components/StarterTemplates';
 
 const AIBuilder = () => {
   const classes = useStyles();
@@ -96,15 +93,6 @@ const AIBuilder = () => {
     setActiveTab(newValue);
   };
 
-  const ProcessingView = () => (
-    <Box className={classes.processingView}>
-      <CircularProgress size={60} />
-      <Typography variant='h6' style={{marginTop: 16}}>
-        Processing your request...
-      </Typography>
-    </Box>
-  );
-
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -138,6 +126,12 @@ const AIBuilder = () => {
               />
             </Box>
           )}
+
+          {!isProcessing && !showCanvas && (
+            <Container className={classes.container}>
+              <StarterTemplates />
+            </Container>
+          )}
         </Container>
 
         {isProcessing && !showCanvas && (
@@ -158,53 +152,6 @@ const AIBuilder = () => {
             />
           </Box>
         )}
-
-        <Container className={classes.container}>
-          {!isProcessing && !showCanvas && (
-            <Box>
-              <Typography variant='h6' className={classes.sectionTitle}>
-                Starter Templates
-              </Typography>
-              <Grid container spacing={3}>
-                {[
-                  {
-                    title: 'Landing Page like Booking.com',
-                    description: 'Next.js + Tailwind CSS + shadcn/ui',
-                    image: '/images/booking-landing.png',
-                  },
-                  {
-                    title: 'Landing Page like Mailchimp',
-                    description: 'Server actions and Zod validation',
-                    image: '/images/mailchimp-landing.png',
-                  },
-                  {
-                    title: 'Checkout Page like Stripe',
-                    description: 'Build charts using shadcn/ui charts',
-                    image: '/images/templates/nextjs-charts.png',
-                  },
-                ].map((template, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card className={classes.card}>
-                      <CardMedia
-                        className={classes.cardMedia}
-                        image={template.image}
-                        title={template.title}
-                      />
-                      <CardContent>
-                        <Typography variant='h6' gutterBottom>
-                          {template.title}
-                        </Typography>
-                        <Typography variant='body2' color='textSecondary'>
-                          {template.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          )}
-        </Container>
       </Grid>
     </Grid>
   );
