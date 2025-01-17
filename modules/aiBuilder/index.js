@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
       '& .MuiOutlinedInput-inputMultiline': {
         padding: '12px 14px', // Standard Material-UI input padding
         marginTop: 15,
+        marginRight: 25,
       },
     },
   },
@@ -244,6 +245,33 @@ const AIBuilder = () => {
     }
   };
 
+  const transformCode = (code) => {
+    // First check if the code already has a render statement
+    if (code.includes('render(')) {
+      return code;
+    }
+
+    // If it's a component definition, wrap it with ThemedComponent
+    if (code.includes('const') || code.includes('function')) {
+      return `
+${code}
+
+render(
+  <ThemedComponent>
+    <PreviewComponent />
+  </ThemedComponent>
+);`;
+    }
+
+    // If it's just JSX, wrap it directly
+    return `
+render(
+  <ThemedComponent>
+    ${code}
+  </ThemedComponent>
+);`;
+  };
+
   const [activeTab, setActiveTab] = useState('preview');
 
   const handleSubmit = async (event) => {
@@ -280,7 +308,8 @@ const AIBuilder = () => {
 
         const data = await response.json();
         const cleaned = cleanCode(data);
-        setGeneratedCode(cleaned.code);
+        const transformed = transformCode(cleaned.code);
+        setGeneratedCode(transformed);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
         console.log('Dependencies loaded:', Object.keys(cleaned.scope));
@@ -382,7 +411,25 @@ const AIBuilder = () => {
                     React,
                     ...codeScope,
                   }}>
-                  <LiveEditor className={classes.liveEditor} disabled />
+                  <LiveEditor
+                    className={classes.liveEditor}
+                    style={{
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      backgroundColor: '#f5f5f5',
+                      borderRadius: 4,
+                      padding: 16,
+                    }}
+                  />
+                  <LiveError
+                    style={{
+                      color: 'red',
+                      marginTop: 8,
+                      padding: 8,
+                      backgroundColor: '#ffebee',
+                      borderRadius: 4,
+                    }}
+                  />
                 </LiveProvider>
               )}
             </Box>

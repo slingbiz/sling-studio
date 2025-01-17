@@ -6,6 +6,93 @@ import * as MaterialPickers from '@material-ui/pickers';
 import * as EmotionReact from '@emotion/react';
 import * as EmotionStyled from '@emotion/styled';
 
+// Custom theme configuration for Claude-generated components
+const claudeTheme = {
+  palette: {
+    primary: {
+      main: '#2196F3',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#1976D2',
+    },
+    background: {
+      default: '#F8F9FA',
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#212121',
+      secondary: '#757575',
+    },
+  },
+  typography: {
+    fontFamily: 'Inter, system-ui, sans-serif',
+    h1: { fontSize: 24, fontWeight: 600 },
+    h2: { fontSize: 20, fontWeight: 600 },
+    h3: { fontSize: 18, fontWeight: 500 },
+    body1: { fontSize: 16 },
+    body2: { fontSize: 14 },
+    button: {
+      textTransform: 'none',
+      fontWeight: 500,
+    },
+  },
+  shape: {
+    borderRadius: 8,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          padding: '8px 16px',
+          fontWeight: 500,
+        },
+        contained: {
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          },
+        },
+        text: {
+          color: '#2196F3',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#fff',
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#2196F3',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          border: '1px solid rgba(0,0,0,0.08)',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: '#757575',
+        },
+      },
+    },
+  },
+};
+
 // Function to create library map with imported modules
 export const createLibraryMap = ({
   React,
@@ -33,7 +120,15 @@ export const createLibraryMap = ({
     Box: MaterialUI.Box,
     Typography: MaterialUI.Typography,
     Paper: MaterialUI.Paper,
-    Grid: MaterialUI.Grid
+    Grid: MaterialUI.Grid,
+    ThemeProvider: MaterialUI.ThemeProvider,
+    StyledEngineProvider: MaterialUI.StyledEngineProvider,
+    FormControlLabel: MaterialUI.FormControlLabel,
+    Checkbox: MaterialUI.Checkbox,
+    Pagination: MaterialUI.Pagination,
+    Card: MaterialUI.Card,
+    CardContent: MaterialUI.CardContent,
+    CardMedia: MaterialUI.CardMedia,
   },
   '@material-ui/icons': {
     ...MaterialIcons,
@@ -46,7 +141,10 @@ export const createLibraryMap = ({
   '@material-ui/lab': MaterialLab,
   '@material-ui/styles': MaterialStyles,
   '@material-ui/pickers': MaterialPickers,
-  '@material-ui/core/styles': { makeStyles },
+  '@material-ui/core/styles': { 
+    makeStyles,
+    createTheme: MaterialStyles.createTheme,
+  },
   
   // Other common libraries
   '@emotion/react': EmotionReact,
@@ -142,6 +240,34 @@ export const createScope = ({
   moment,
   dependencies = {}
 }) => {
+  const libraryMap = createLibraryMap({
+    React,
+    PropTypes,
+    useDispatch,
+    useSelector,
+    useIntl,
+    useRouter,
+    clsx,
+    moment,
+    makeStyles
+  });
+
+  // Create theme instance
+  const theme = MaterialStyles.createTheme(claudeTheme);
+
+  // Create a wrapper component that applies the theme
+  const ThemedComponent = ({ children }) => {
+    return React.createElement(
+      MaterialUI.StyledEngineProvider,
+      { injectFirst: true },
+      React.createElement(
+        libraryMap['@material-ui/core'].ThemeProvider,
+        { theme },
+        children
+      )
+    );
+  };
+
   // Create base scope
   const scope = {
     React,
@@ -153,19 +279,6 @@ export const createScope = ({
     useContext,
     makeStyles,
   };
-
-  // Create library map
-  const libraryMap = createLibraryMap({
-    React,
-    PropTypes,
-    useDispatch,
-    useSelector,
-    useIntl,
-    useRouter,
-    clsx,
-    moment,
-    makeStyles,
-  });
 
   // Process dependencies and add components to scope
   Object.entries(dependencies).forEach(([library, components]) => {
@@ -199,7 +312,12 @@ export const createScope = ({
     }
   });
 
-  return scope;
+  return {
+    ...scope,
+    ThemedComponent,
+    findComponent: (library, componentName) => findComponent(libraryMap, library, componentName),
+    getFallbackComponent: (library, componentName) => getFallbackComponent(libraryMap, library, componentName),
+  };
 };
 
 // List of libraries that Claude can use in generated components
