@@ -51,7 +51,6 @@ const AIBuilder = () => {
       if (!inputValue.trim()) return;
 
       setIsProcessing(true);
-      setShowCanvas(true);
 
       try {
         const response = await fetch(
@@ -78,6 +77,7 @@ const AIBuilder = () => {
         );
 
         const data = await response.json();
+        setShowCanvas(true);
 
         // Update searchId from conversationId
         setSearchId(data.conversationId);
@@ -85,11 +85,11 @@ const AIBuilder = () => {
         // Store initial response for chat
         setInitialResponse(data.summary);
 
-        const cleaned = CodeUtils.cleanCode(data);
-        const transformed = CodeUtils.transformCode(cleaned.code);
-        setGeneratedCode(transformed);
-        setCodeScope(cleaned.scope);
-        setIsProcessing(false);
+          const cleaned = CodeUtils.cleanCode(data);
+          const transformed = CodeUtils.transformCode(cleaned.code);
+          setGeneratedCode(transformed);
+          setCodeScope(cleaned.scope);
+          setIsProcessing(false);
       } catch (error) {
         console.error('Error:', error);
       } finally {
