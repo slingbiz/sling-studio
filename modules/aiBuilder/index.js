@@ -90,7 +90,6 @@ const AIBuilder = () => {
         setGeneratedCode(transformed);
         setCodeScope(cleaned.scope);
         setIsProcessing(false);
-
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -106,8 +105,8 @@ const AIBuilder = () => {
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        <Container className={classes.container}>
-          {!showCanvas && (
+        {!showCanvas && (
+          <Container className={classes.container}>
             <Box className={classes.searchWrapper}>
               <Typography variant='h4' className={classes.title}>
                 Ready to create something new?{' '}
@@ -135,15 +134,13 @@ const AIBuilder = () => {
                 }}
               />
             </Box>
-          )}
-
-          {!isProcessing && !showCanvas && (
-            <Container className={classes.container}>
-              <StarterTemplates />
-            </Container>
-          )}
-        </Container>
-
+            {!isProcessing && !showCanvas && (
+              <Container className={classes.container}>
+                <StarterTemplates />
+              </Container>
+            )}
+          </Container>
+        )}
         {isProcessing && !showCanvas && (
           <Box>
             <ProcessingView />

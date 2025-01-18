@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme) => ({
   canvas: {
     display: 'flex',
     gap: theme.spacing(3),
-    marginTop: theme.spacing(3),
+    // marginTop: theme.spacing(3),
     height: 'calc(100vh - 250px)',
     minHeight: '600px',
   },
