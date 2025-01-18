@@ -17,14 +17,24 @@ export const useStyles = makeStyles((theme) => ({
   searchInput: {
     width: '100%',
     '& .MuiOutlinedInput-root': {
-      borderRadius: theme.shape.borderRadius * 2,
+      borderRadius: theme.shape.borderRadius,
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(1, 2),
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      transition: 'box-shadow 0.2s ease-in-out',
+      '&:hover': {
+        boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+      },
+      '&.Mui-focused': {
+        boxShadow: '0 3px 8px rgba(0,0,0,0.2)',
+      },
       '& textarea': {
         padding: 0,
         display: 'flex',
         alignItems: 'center',
         marginTop: theme.spacing(2),
+        fontSize: '1rem',
+        lineHeight: 1.5,
       },
       '& .MuiOutlinedInput-inputMultiline': {
         padding: '12px 14px',
@@ -44,9 +54,11 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiIconButton-root': {
       padding: theme.spacing(1),
       transition: 'all 0.2s',
+      color: theme.palette.text.secondary,
       '&:hover': {
         backgroundColor: theme.palette.action.hover,
         transform: 'scale(1.1)',
+        color: theme.palette.primary.main,
       },
     },
   },
@@ -68,7 +80,10 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: 'center',
     marginBottom: theme.spacing(4),
-    fontWeight: 'bold',
+    fontWeight: 500,
+    color: theme.palette.text.primary,
+    fontSize: '2.5rem',
+    lineHeight: 1.2,
   },
   sectionTitle: {
     marginBottom: theme.spacing(3),
