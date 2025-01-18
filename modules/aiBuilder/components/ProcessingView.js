@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     maxWidth: 750,
     margin: '0 auto',
-    marginTop: theme.spacing(2),
+    // marginTop: theme.spacing(2),
      transition: 'all 0.3s ease-in-out',
     position: 'relative',
     '&::before, &::after': {
