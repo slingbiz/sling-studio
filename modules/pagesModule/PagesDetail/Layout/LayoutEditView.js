@@ -485,7 +485,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleEnter}
                 />
-                <IconButton className={classes.iconButton} aria-label='search'>
+                <IconButton className={classes.iconButton} aria-label='search' disableRipple>
                   <SearchIcon />
                 </IconButton>
                 {/*<Divider className={classes.divider} orientation='vertical' />*/}
@@ -588,7 +588,8 @@ const LayoutEditView = forwardRef((props, ref) => {
                     <div className={classes.floatingButtons}>
                       <Fab
                         onClick={() => deleteRow('header', k)}
-                        className={clsx(classes.tinyBtn)}>
+                        className={clsx(classes.tinyBtn)}
+                        disableRipple>
                         <Delete />
                       </Fab>
                     </div>
@@ -598,7 +599,8 @@ const LayoutEditView = forwardRef((props, ref) => {
               <div className={classes.divDragWrap}>
                 <Fab
                   onClick={() => handleAddNewRow('header')}
-                  className={clsx(classes.tinyBtn)}>
+                  className={clsx(classes.tinyBtn)}
+                  disableRipple>
                   <Add />
                 </Fab>
               </div>
@@ -634,7 +636,8 @@ const LayoutEditView = forwardRef((props, ref) => {
                     <div className={classes.floatingButtons}>
                       <Fab
                         onClick={() => deleteRow('body', k)}
-                        className={clsx(classes.tinyBtn)}>
+                        className={clsx(classes.tinyBtn)}
+                        disableRipple>
                         <Delete />
                       </Fab>
                     </div>
@@ -644,7 +647,8 @@ const LayoutEditView = forwardRef((props, ref) => {
               <div className={classes.divDragWrap}>
                 <Fab
                   onClick={() => handleAddNewRow('body')}
-                  className={clsx(classes.tinyBtn)}>
+                  className={clsx(classes.tinyBtn)}
+                  disableRipple>
                   <Add />
                 </Fab>
               </div>
@@ -680,7 +684,8 @@ const LayoutEditView = forwardRef((props, ref) => {
                     <div className={classes.floatingButtons}>
                       <Fab
                         onClick={() => deleteRow('footer', k)}
-                        className={clsx(classes.tinyBtn)}>
+                        className={clsx(classes.tinyBtn)}
+                        disableRipple>
                         <Delete />
                       </Fab>
                     </div>
@@ -690,7 +695,8 @@ const LayoutEditView = forwardRef((props, ref) => {
               <div className={classes.divDragWrap}>
                 <Fab
                   onClick={() => handleAddNewRow('footer')}
-                  className={clsx(classes.tinyBtn)}>
+                  className={clsx(classes.tinyBtn)}
+                  disableRipple>
                   <Add />
                 </Fab>
               </div>

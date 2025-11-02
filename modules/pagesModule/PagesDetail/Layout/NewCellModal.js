@@ -94,7 +94,7 @@ const NewCellModal = (props) => {
             style={{display: 'flex', flexDirection: 'column'}}>
             <Box>
               <Card style={{maxWidth: '100%'}}>
-                <CardActionArea>
+                <CardActionArea disableRipple>
                   <CardMedia
                     component='img'
                     alt='Material UI ref'
@@ -127,7 +127,8 @@ const NewCellModal = (props) => {
                         'https://material-ui.com/customization/breakpoints/',
                         '_blank',
                       );
-                    }}>
+                    }}
+                    disableRipple>
                     Learn More
                   </Button>
                 </CardActions>
@@ -151,7 +152,7 @@ const NewCellModal = (props) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus={true} onClick={handleCloseNewCell} color='primary'>
+        <Button autoFocus={true} onClick={handleCloseNewCell} color='primary' disableRipple>
           Cancel
         </Button>
         <Button
@@ -159,7 +160,8 @@ const NewCellModal = (props) => {
           onClick={() => {
             handleSaveNewCell(newCellRowIndex, section, layoutWidth);
           }}
-          color='primary'>
+          color='primary'
+          disableRipple>
           Save changes
         </Button>
       </DialogActions>

@@ -76,7 +76,7 @@ const NewProp = ({classes}) => {
             justifyContent: 'flex-start',
             alignItems: 'center',
           }}>
-          <IconButton onClick={() => true} disabled={true}>
+          <IconButton onClick={() => true} disabled={true} disableRipple>
             <Icon
               color='secondary'
               className={classes.Icon}
@@ -173,7 +173,8 @@ export default function TemplateProps({cellProps, disabled}) {
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls='panel1bh-content'
-              id='panel1bh-header'>
+              id='panel1bh-header'
+              disableRipple>
               <span style={{fontWeight: 500}}>{propKey}</span>
             </AccordionSummary>
             <AccordionDetails classes={{root: classes.accordianDetails}}>
@@ -240,12 +241,13 @@ export default function TemplateProps({cellProps, disabled}) {
                     classes={{
                       root: classes.inputAdornmentRoot, // Create a class in `makeStyles` to handle the style overrides
                     }}>
-                    <IconButton onClick={() => handleSave(propKey)} edge='end'>
+                    <IconButton onClick={() => handleSave(propKey)} edge='end' disableRipple>
                       <CheckCircleIcon style={{color: 'green'}} />
                     </IconButton>
                     <IconButton
                       onClick={() => handleCancel(propKey)}
-                      edge='end'>
+                      edge='end'
+                      disableRipple>
                       <CancelIcon style={{color: 'red'}} />
                     </IconButton>
                   </InputAdornment>

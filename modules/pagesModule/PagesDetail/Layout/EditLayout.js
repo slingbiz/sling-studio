@@ -159,20 +159,22 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
             edge='start'
             color='inherit'
             onClick={handleClose}
-            aria-label='close'>
+            aria-label='close'
+            disableRipple>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
-          <Button autoFocus={true} color='inherit' onClick={handleClose}>
+          <Button autoFocus={true} color='inherit' onClick={handleClose} disableRipple>
             Cancel
           </Button>
           <Button
             style={{backgroundColor: orange[500], color: 'white', marginLeft: 15}}
             classes={classes.button}
             autoFocus={true}
-            onClick={handleRootSave}>
+            onClick={handleRootSave}
+            disableRipple>
             Apply Changes
           </Button>
         </Toolbar>

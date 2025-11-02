@@ -177,7 +177,7 @@ const LayoutSettings = ({settingsObj}) => {
                 expanded={expanded === 'panel1'}
                 style={{borderBottom: '1px solid #c3c3c3'}}
                 onChange={handleChange('panel1')}>
-                <AccordionSummary aria-controls='panel1d-content' id='panel1d-header'>
+                <AccordionSummary aria-controls='panel1d-content' id='panel1d-header' disableRipple>
                     <Typography>General Settings</Typography>
                 </AccordionSummary>
                 <AccordionDetails className={classes.accordianDetails}>
@@ -205,7 +205,7 @@ const LayoutSettings = ({settingsObj}) => {
                 // expanded={expanded === 'panel2'}
                 expanded={true}
                 onChange={handleChange('panel2')}>
-                <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>
+                <AccordionSummary aria-controls='panel2d-content' id='panel2d-header' disableRipple>
                     <Typography>Widget Props</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
