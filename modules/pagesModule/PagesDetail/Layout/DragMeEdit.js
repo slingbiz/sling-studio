@@ -204,7 +204,8 @@ const DragMe = (props) => {
             onClick={() => {
               deleteItem(contents, index);
             }}
-            size='small'>
+            size='small'
+            disableRipple>
             <DeleteIcon />
           </IconButton>
           <span>{contents.key}</span>{' '}
