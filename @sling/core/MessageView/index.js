@@ -100,11 +100,11 @@ const AppSnackbar = (props) => {
 
 AppSnackbar.propTypes = {
   className: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.node,
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  warning: PropTypes.string,
+  warning: PropTypes.node,
 };
 
 export default AppSnackbar;

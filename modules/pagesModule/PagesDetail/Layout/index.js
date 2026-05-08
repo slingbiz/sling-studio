@@ -24,6 +24,28 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 
+const FALLBACK_FRONTEND_URL = 'https://demo.sling.biz';
+const LOCALHOST_URL_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i;
+
+const addProtocolIfMissing = (url) => {
+  if (!url) return '';
+  return /^(https?:)?\/\//i.test(url) ? url : `https://${url}`;
+};
+
+const getPreviewBaseUrl = (clientUrl) => {
+  const studioHost = typeof window !== 'undefined' ? window.location.hostname : '';
+  const isStudioRunningLocally =
+    studioHost === 'localhost' || studioHost === '127.0.0.1';
+  const normalizedClientUrl = addProtocolIfMissing(clientUrl?.trim());
+  if (
+    !normalizedClientUrl ||
+    (LOCALHOST_URL_REGEX.test(normalizedClientUrl) && !isStudioRunningLocally)
+  ) {
+    return FALLBACK_FRONTEND_URL;
+  }
+  return normalizedClientUrl;
+};
+
 const Layout = (props) => {
   const dispatch = useDispatch();
 
@@ -51,6 +73,7 @@ const Layout = (props) => {
   useEffect(() => {
     if (routesList?.length) {
       const {clientUrl} = account || {};
+      const previewBaseUrl = getPreviewBaseUrl(clientUrl);
       const filteredUrls = routesList
         .filter(route => route.page_template === pageKey)
         .map(({sample_string: sampleString, url_string: urlString}) => {
@@ -66,9 +89,9 @@ const Layout = (props) => {
 
           // Check if slash already exists
           const slash =
-            url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
+            url.startsWith('/') || previewBaseUrl.endsWith('/') ? '' : '/';
 
-          return `${clientUrl}` + slash + url;
+          return `${previewBaseUrl}` + slash + url;
         });
       setPreviewUrls(filteredUrls);
     }

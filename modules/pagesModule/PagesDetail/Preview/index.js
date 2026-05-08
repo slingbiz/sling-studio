@@ -18,6 +18,28 @@ import {getRoutesList, getCompanyInfo} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import {generateSlug} from 'random-word-slugs';
 
+const FALLBACK_FRONTEND_URL = 'https://demo.sling.biz';
+const LOCALHOST_URL_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i;
+
+const addProtocolIfMissing = (url) => {
+  if (!url) return '';
+  return /^(https?:)?\/\//i.test(url) ? url : `https://${url}`;
+};
+
+const getPreviewBaseUrl = (clientUrl) => {
+  const studioHost = typeof window !== 'undefined' ? window.location.hostname : '';
+  const isStudioRunningLocally =
+    studioHost === 'localhost' || studioHost === '127.0.0.1';
+  const normalizedClientUrl = addProtocolIfMissing(clientUrl?.trim());
+  if (
+    !normalizedClientUrl ||
+    (LOCALHOST_URL_REGEX.test(normalizedClientUrl) && !isStudioRunningLocally)
+  ) {
+    return FALLBACK_FRONTEND_URL;
+  }
+  return normalizedClientUrl;
+};
+
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
     padding: theme.spacing(5),
@@ -90,13 +112,15 @@ const Preview = () => {
 
   const getList = () => {
     const {clientUrl} = account || {};
+    const previewBaseUrl = getPreviewBaseUrl(clientUrl);
     const list = routesList.map(
       ({sample_string: sampleString, url_string: urlString}) => {
         let url = sampleString || urlString;
         const slug = generateSlug();
         url = url.replace(/\<.*?\>/g, slug);
-        const slash = url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
-        return `${clientUrl}${slash}${url}`;
+        const slash =
+          url.startsWith('/') || previewBaseUrl.endsWith('/') ? '' : '/';
+        return `${previewBaseUrl}${slash}${url}`;
       },
     );
     let res = [...list, ...urlList];

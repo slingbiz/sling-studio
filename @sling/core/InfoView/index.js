@@ -2,6 +2,27 @@ import React, {useEffect} from 'react';
 import {Loader, MessageView} from '../../../@sling';
 import {useDispatch, useSelector} from 'react-redux';
 
+const normalizeToastContent = (value) => {
+  if (React.isValidElement(value)) {
+    return value;
+  }
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  if (typeof value === 'object') {
+    return (
+      value.message ||
+      value.error ||
+      value.detail ||
+      JSON.stringify(value)
+    );
+  }
+  return String(value);
+};
+
 const InfoView = () => {
   const {error, loading, message, warning, _v} = useSelector(
     ({common}) => common,
@@ -18,7 +39,7 @@ const InfoView = () => {
         open={open}
         setOpen={setOpen}
         variant='success'
-        message={message.toString()}
+        message={normalizeToastContent(message)}
       />
     );
   };
@@ -30,7 +51,7 @@ const InfoView = () => {
         setOpen={setOpen}
         showToast={true}
         variant='error'
-        message={error.toString()}
+        message={normalizeToastContent(error)}
       />
     );
   };
@@ -42,7 +63,7 @@ const InfoView = () => {
         setOpen={setOpen}
         showToast={true}
         variant='warning'
-        warning={warning.toString()}
+        warning={normalizeToastContent(warning)}
       />
     );
   };
