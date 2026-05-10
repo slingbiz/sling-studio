@@ -1,59 +1,123 @@
-import React from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {GoogleLogin} from '@react-oauth/google';
 import {useDispatch} from 'react-redux';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@material-ui/core/styles';
 import {useRouter} from 'next/router';
 import {onJwtGoogleAuth} from '../../redux/actions/Auth';
 import {FETCH_ERROR} from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
+import {Fonts} from '../../shared/constants/AppEnums';
+
+const GOOGLE_BTN_MAX_WIDTH = 400;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(4),
+    paddingTop: theme.spacing(3),
+    borderTop: `1px solid ${theme.palette.divider}`,
+  },
+  googlePanel: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2.5),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[50],
+    border: `1px solid ${theme.palette.grey[200]}`,
+  },
+  googleTitle: {
+    fontWeight: Fonts.MEDIUM,
+    marginBottom: theme.spacing(0.5),
+  },
+  googleHint: {
+    marginBottom: theme.spacing(2),
+  },
+  googleBtnRow: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    minHeight: 50,
+    alignItems: 'center',
+  },
+}));
 
 /**
- * Sign in with Google (JWT backend). Hidden unless NEXT_PUBLIC_GOOGLE_CLIENT_ID is set.
+ * @param {{ anchorRef: React.RefObject<HTMLElement>, mode: 'login' | 'signup' }} props
  */
-const GoogleJwtAuthBlock = () => {
+const GoogleJwtAuthBlock = ({anchorRef, mode}) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const [btnWidth, setBtnWidth] = useState(GOOGLE_BTN_MAX_WIDTH);
+
+  useLayoutEffect(() => {
+    const el = anchorRef?.current;
+    if (!el || typeof ResizeObserver === 'undefined') {
+      return undefined;
+    }
+    const measure = () => {
+      const w = el.getBoundingClientRect().width;
+      if (w) {
+        setBtnWidth(Math.min(GOOGLE_BTN_MAX_WIDTH, Math.max(280, Math.floor(w))));
+      }
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [anchorRef]);
 
   if (!clientId) {
     return null;
   }
 
+  const hintId =
+    mode === 'signup' ? 'common.authGoogleSignupHint' : 'common.authGoogleLoginHint';
+
   return (
-    <>
-      <Box mb={3} display='flex' alignItems='center' width='100%'>
+    <Box className={classes.root} width='100%'>
+      <Box display='flex' alignItems='center' mb={2}>
         <Divider style={{flex: 1}} />
         <Box px={2}>
-          <Typography variant='caption' color='textSecondary'>
-            <IntlMessages id='common.orContinueWith' />
+          <Typography variant='overline' color='textSecondary'>
+            <IntlMessages id='common.authOrDivider' />
           </Typography>
         </Box>
         <Divider style={{flex: 1}} />
       </Box>
-      <Box mb={4} display='flex' justifyContent='center' width='100%'>
-        <GoogleLogin
-          onSuccess={(cred) => {
-            if (cred?.credential) {
-              dispatch(onJwtGoogleAuth({idToken: cred.credential}, router));
-            }
-          }}
-          onError={() => {
-            dispatch({
-              type: FETCH_ERROR,
-              payload: 'Google sign-in was cancelled or failed.',
-            });
-          }}
-          useOneTap={false}
-          theme='outline'
-          size='large'
-          width='320'
-          text='continue_with'
-          shape='rectangular'
-        />
+
+      <Box className={classes.googlePanel}>
+        <Typography variant='subtitle1' className={classes.googleTitle} component='h2'>
+          <IntlMessages id='common.authGoogleTitle' />
+        </Typography>
+        <Typography variant='body2' color='textSecondary' className={classes.googleHint}>
+          <IntlMessages id={hintId} />
+        </Typography>
+        <Box className={classes.googleBtnRow}>
+          <GoogleLogin
+            onSuccess={(cred) => {
+              if (cred?.credential) {
+                dispatch(onJwtGoogleAuth({idToken: cred.credential}, router));
+              }
+            }}
+            onError={() => {
+              dispatch({
+                type: FETCH_ERROR,
+                payload: 'Google sign-in was cancelled or failed.',
+              });
+            }}
+            useOneTap={false}
+            theme='outline'
+            size='large'
+            width={String(btnWidth)}
+            text='continue_with'
+            shape='rectangular'
+          />
+        </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 

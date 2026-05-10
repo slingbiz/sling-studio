@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Checkbox} from '@material-ui/core';
@@ -11,6 +11,7 @@ import {onJwtSignIn} from '../../../redux/actions';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
@@ -98,18 +99,39 @@ const SigninJwtAuth = (props) => {
     textGrey: {
       color: theme.palette.grey[500],
     },
+    emailSection: {
+      borderLeft: `4px solid ${theme.palette.secondary.main}`,
+      paddingLeft: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+    },
+    sectionHeading: {
+      fontWeight: Fonts.MEDIUM,
+      marginBottom: theme.spacing(0.5),
+    },
+    sectionSubtitle: {
+      marginBottom: theme.spacing(3),
+    },
   }));
   const classes = useStyles(props);
+  const authColumnRef = useRef(null);
 
   return (
     <Box flex={1} display='flex' flexDirection='column'>
       <Box
+        ref={authColumnRef}
         px={{xs: 6, sm: 10, xl: 15}}
         pt={8}
         flex={1}
         display='flex'
         flexDirection='column'>
-        <GoogleJwtAuthBlock />
+        <Box className={classes.emailSection}>
+          <Typography variant='subtitle1' component='h2' className={classes.sectionHeading}>
+            <IntlMessages id='common.authSectionEmailLogin' />
+          </Typography>
+          <Typography variant='body2' color='textSecondary' className={classes.sectionSubtitle}>
+            <IntlMessages id='common.authSectionEmailLoginSub' />
+          </Typography>
+        </Box>
         <Formik
           validateOnChange={true}
           initialValues={{
@@ -220,6 +242,7 @@ const SigninJwtAuth = (props) => {
             </Form>
           )}
         </Formik>
+        <GoogleJwtAuthBlock anchorRef={authColumnRef} mode='login' />
       </Box>
 
       <InfoView />
