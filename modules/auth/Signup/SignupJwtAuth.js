@@ -17,6 +17,7 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 import Grid from '@material-ui/core/Grid';
 import {GridContainer} from '../../../@sling';
 import {useRouter} from 'next/router';
+import GoogleJwtAuthBlock from '../GoogleJwtAuthBlock';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -105,6 +106,7 @@ const SignupJwtAuth = (props) => {
         flex={1}
         display='flex'
         flexDirection='column'>
+        <GoogleJwtAuthBlock />
         <Formik
           validateOnChange={true}
           initialValues={{

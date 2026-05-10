@@ -16,6 +16,7 @@ import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import GoogleJwtAuthBlock from '../GoogleJwtAuthBlock';
 
 const MyTextField = (props) => {
   const [field, meta] = useField(props);
@@ -108,6 +109,7 @@ const SigninJwtAuth = (props) => {
         flex={1}
         display='flex'
         flexDirection='column'>
+        <GoogleJwtAuthBlock />
         <Formik
           validateOnChange={true}
           initialValues={{

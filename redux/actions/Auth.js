@@ -78,6 +78,63 @@ export const onJwtSignIn = ({email, password}, router) => {
   };
 };
 
+export const onJwtGoogleAuth = ({idToken}, router) => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    try {
+      const response = await axios.post(`${SERVICE_URL}v1/auth/google`, {idToken});
+
+      if (response.status !== 200) {
+        dispatch({
+          type: FETCH_ERROR,
+          payload: <IntlMessages id='message.somethingWentWrong' />,
+        });
+        return;
+      }
+
+      const {user, tokens, isNewUser} = response.data;
+
+      localStorage.setItem('accessToken', tokens.access.token);
+      localStorage.setItem('refreshToken', tokens.refresh.token);
+      setAuthCookie(tokens.access.token);
+
+      dispatch({
+        type: SET_AUTH_TOKEN,
+        payload: tokens.access.token,
+      });
+      dispatch({
+        type: UPDATE_AUTH_USER,
+        payload: user,
+      });
+
+      if (isNewUser) {
+        localStorage.setItem('newUser', 'true');
+        dispatch({
+          type: UPDATE_NEW_SIGNUP,
+          payload: user,
+        });
+      }
+
+      dispatch({type: FETCH_SUCCESS});
+
+      if (isNewUser) {
+        router.push('/account-setup');
+      } else {
+        router.push(initialUrl);
+      }
+
+      try {
+        tick(user.email);
+      } catch (e) {
+        // ignore
+      }
+    } catch (error) {
+      const errMsg = error?.response?.data?.message || error.message;
+      dispatch({type: FETCH_ERROR, payload: errMsg});
+    }
+  };
+};
+
 export const onJwtUserSignUp = ({name, email, password}, router) => {
   return async (dispatch) => {
     dispatch({type: FETCH_START});

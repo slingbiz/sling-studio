@@ -14,6 +14,9 @@ import AuthRoutes from '../@sling/utility/AuthRoutes';
 import PageMeta from '../@sling/core/PageMeta';
 import 'codemirror/lib/codemirror.css';
 import Script from 'next/script';
+import {GoogleOAuthProvider} from '@react-oauth/google';
+
+const googleWebClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
 
 const App = ({Component, pageProps, user}) => {
   const store = useStore(pageProps.initialReduxState);
@@ -26,7 +29,7 @@ const App = ({Component, pageProps, user}) => {
     }
   }, []);
 
-  return (
+  const appTree = (
     <React.Fragment>
       <PageMeta />
       <ContextProvider>
@@ -57,6 +60,12 @@ const App = ({Component, pageProps, user}) => {
         </Provider>
       </ContextProvider>
     </React.Fragment>
+  );
+
+  return googleWebClientId ? (
+    <GoogleOAuthProvider clientId={googleWebClientId}>{appTree}</GoogleOAuthProvider>
+  ) : (
+    appTree
   );
 };
 export default App;
