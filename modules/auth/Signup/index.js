@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+import React from 'react';
 import SignupJwtAuth from './SignupJwtAuth';
-import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
@@ -33,128 +31,53 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingBottom: theme.spacing(4),
+    padding: theme.spacing(4, 3),
     [theme.breakpoints.up('md')]: {
       flex: '0 0 50%',
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(6),
+      padding: theme.spacing(4, 6),
     },
   },
-  cardRoot: {
-    maxWidth: '36rem',
+  formWrapper: {
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      maxWidth: 460,
-    },
-    overflow: 'hidden',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-    position: 'relative',
-    paddingTop: 20,
-    paddingBottom: 20,
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: 32,
-    },
-    '&:before': {
-      content: "''",
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      width: 130,
-      height: 9,
-      borderBottomRightRadius: 80,
-      borderBottomLeftRadius: 80,
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      backgroundColor: theme.palette.primary.main,
-    },
+    maxWidth: 420,
   },
-  muiTabsFull: {
-    marginLeft: 0,
-    marginRight: 0,
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
-    '& .MuiTabs-flexContainer': {
-      '& .MuiTab-root': {
-        flex: 1,
-      },
-    },
+  pageTitle: {
+    fontWeight: Fonts.BOLD,
+    fontSize: 26,
+    marginBottom: theme.spacing(1),
+    color: theme.palette.text.primary,
   },
-  muiTab: {
-    fontWeight: Fonts.MEDIUM,
-    fontSize: 16,
-    paddingBottom: 16,
-    paddingTop: 16,
-    marginLeft: 8,
-    marginRight: 8,
+  pageSubtitle: {
     color: theme.palette.text.secondary,
-  },
-  textUppercase: {
-    textTransform: 'uppercase',
+    marginBottom: theme.spacing(4),
+    fontSize: 14,
   },
 }));
 
 const Signup = (props) => {
-  const [value, setValue] = useState(0);
   const {messages} = useIntl();
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const a11yProps = (index) => {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  };
-
   const classes = useStyles(props);
 
   return (
     <Box className={classes.splitRoot}>
       <Box className={classes.splitLeft}>
-        <Box mt={{xs: 6, md: 4}} mb={{xs: 3, md: 4}} textAlign='center'>
-          <img
-            className={classes.imgRoot}
-            src={'/images/logo-white-with-name.png'}
-            alt='sling-logo'
-          />
-        </Box>
+        <Box className={classes.formWrapper}>
+          <Box mb={4}>
+            <img
+              className={classes.imgRoot}
+              src='/images/sling-fe.png'
+              alt='sling-logo'
+            />
+          </Box>
 
-        <Box
-          display='flex'
-          flexDirection='column'
-          justifyContent='center'
-          alignItems='center'
-          width='100%'>
-          <Card className={classes.cardRoot}>
-            <Box px={{xs: 6, sm: 10, xl: 15}}>
-              <Box
-                component='h2'
-                mb={{xs: 3, xl: 6}}
-                color='text.primary'
-                fontWeight={Fonts.REGULAR}
-                fontSize={{xs: 24, xl: 26}}>
-                <IntlMessages id='common.signup' />
-              </Box>
-            </Box>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor='primary'
-              textColor='primary'
-              aria-label='simple tabs example'
-              className={classes.muiTabsFull}>
-              <Tab className={classes.muiTab} {...a11yProps(0)} />
-            </Tabs>
+          <Typography className={classes.pageTitle} component='h1'>
+            <IntlMessages id='common.signup' />
+          </Typography>
+          <Typography className={classes.pageSubtitle}>
+            <IntlMessages id='common.authHeroSubtitleSignup' />
+          </Typography>
 
-            <>
-              <SignupJwtAuth />
-            </>
-          </Card>
+          <SignupJwtAuth />
         </Box>
       </Box>
       <AuthHeroPanel

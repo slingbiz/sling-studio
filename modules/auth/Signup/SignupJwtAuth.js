@@ -1,7 +1,6 @@
 import React, {useRef} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {Checkbox} from '@material-ui/core';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import {useDispatch} from 'react-redux';
@@ -10,7 +9,6 @@ import InfoView from '../../../@sling/core/InfoView';
 import {onJwtUserSignUp} from '../../../redux/actions';
 import Link from 'next/link';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -45,14 +43,6 @@ const useStyles = makeStyles((theme) => ({
   btnRootFull: {
     width: '100%',
   },
-  dividerRoot: {
-    marginBottom: 10,
-    marginLeft: -48,
-    marginRight: -48,
-    [theme.breakpoints.up('xl')]: {
-      marginBottom: 20,
-    },
-  },
   textPrimary: {
     color: theme.palette.text.primary,
   },
@@ -64,18 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
   textGrey: {
     color: theme.palette.grey[500],
-  },
-  emailSection: {
-    borderLeft: `4px solid ${theme.palette.secondary.main}`,
-    paddingLeft: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  },
-  sectionHeading: {
-    fontWeight: Fonts.MEDIUM,
-    marginBottom: theme.spacing(0.5),
-  },
-  sectionSubtitle: {
-    marginBottom: theme.spacing(3),
   },
 }));
 
@@ -116,23 +94,10 @@ const SignupJwtAuth = (props) => {
     <Box flex={1} display='flex' flexDirection='column'>
       <Box
         ref={authColumnRef}
-        px={{xs: 6, sm: 10, xl: 15}}
-        pt={8}
         flex={1}
         display='flex'
         flexDirection='column'>
         <GoogleJwtAuthBlock anchorRef={authColumnRef} mode='signup' />
-        <Box className={classes.emailSection}>
-          <Typography variant='subtitle1' component='h2' className={classes.sectionHeading}>
-            <IntlMessages id='common.authSectionEmailSignup' />
-          </Typography>
-          <Typography
-            variant='body2'
-            color='textSecondary'
-            className={classes.sectionSubtitle}>
-            <IntlMessages id='common.authSectionEmailSignupSub' />
-          </Typography>
-        </Box>
         <Formik
           validateOnChange={true}
           initialValues={{
@@ -211,32 +176,8 @@ const SignupJwtAuth = (props) => {
               </GridContainer>
 
               <Box
-                mb={{xs: 3, xl: 4}}
-                display='flex'
-                alignItems='center'
-                fontSize={15}>
-                {/* <Box display='flex' alignItems='center'>
-                  <Checkbox className={classes.checkboxRoot} />
-                  <Box
-                    className={classes.textGrey}
-                    component='span'
-                    mr={2}
-                    fontSize={15}>
-                    <IntlMessages id='common.iAgreeTo' />
-                  </Box>
-                </Box> */}
-                {/* <Box
-                  component='span'
-                  color='primary.main'
-                  fontSize={15}
-                  className={classes.pointer}>
-                  <IntlMessages id='common.termConditions' />
-                </Box> */}
-              </Box>
-
-              <Box
-                mb={6}
-                mt={6}
+                mb={4}
+                mt={2}
                 display='flex'
                 flexDirection={{xs: 'column', sm: 'row'}}
                 alignItems={{sm: 'center'}}
