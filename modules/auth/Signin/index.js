@@ -5,9 +5,10 @@ import SigninJwtAuth from './SigninJwtAuth';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
-import {makeStyles, fade} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {AUTH_HERO_UNSPLASH_URL} from '../../../shared/constants/authHero';
+import {useIntl} from 'react-intl';
+import AuthHeroPanel from '../AuthHeroPanel';
 
 const useStyles = makeStyles((theme) => ({
   imgRoot: {
@@ -34,36 +35,18 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     paddingBottom: theme.spacing(4),
     [theme.breakpoints.up('md')]: {
-      flex: '0 0 46%',
-      maxWidth: 560,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      flex: '0 0 50%',
       paddingLeft: theme.spacing(3),
       paddingRight: theme.spacing(3),
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(6),
     },
   },
-  heroSide: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-      flex: 1,
-      minHeight: '100vh',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundImage: `linear-gradient(125deg, ${fade(theme.palette.primary.main, 0.9)} 0%, ${fade(
-        theme.palette.secondary.main,
-        0.38,
-      )} 55%, ${fade(theme.palette.primary.main, 0.82)} 100%), url("${AUTH_HERO_UNSPLASH_URL}")`,
-    },
-  },
   cardRoot: {
     maxWidth: '36rem',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      maxWidth: 440,
+      maxWidth: 460,
     },
     overflow: 'hidden',
     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
@@ -114,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Signin = (props) => {
   const [value, setValue] = useState(1);
+  const {messages} = useIntl();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -172,7 +156,10 @@ const Signin = (props) => {
           </Card>
         </Box>
       </Box>
-      <Box className={classes.heroSide} role='presentation' />
+      <AuthHeroPanel
+        headline={messages['common.authHeroHeadlineLogin']}
+        subtitle={messages['common.authHeroSubtitleLogin']}
+      />
     </Box>
   );
 };
