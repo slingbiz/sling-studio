@@ -1,86 +1,111 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { useRouter } from 'next/router'
-import IntlMessages from '../../../@sling/utility/IntlMessages';
+import {useRouter} from 'next/router';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {grey} from '@material-ui/core/colors';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import {initialUrl} from '../../../shared/constants/AppConst';
-import AnimateComponent from '../../../@sling/core/Animate';
+import AuthHeroPanel from '../../auth/AuthHeroPanel';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    button: {
-      fontWeight: Fonts.BOLD,
-      fontSize: 16,
-      textTransform: 'capitalize',
+const useStyles = makeStyles((theme) => ({
+  splitRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    flex: 1,
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      minHeight: '100vh',
     },
-    image: {
-      width: '100%',
+  },
+  splitLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    padding: theme.spacing(4, 3),
+    [theme.breakpoints.up('md')]: {
+      flex: '0 0 50%',
+      padding: theme.spacing(4, 6),
     },
-  };
-});
+  },
+  contentWrapper: {
+    width: '100%',
+    maxWidth: 420,
+    textAlign: 'center',
+  },
+  imgRoot: {
+    cursor: 'pointer',
+    display: 'inline-block',
+    width: 140,
+  },
+  pageTitle: {
+    fontWeight: Fonts.BOLD,
+    fontSize: 26,
+    marginBottom: theme.spacing(1),
+    color: theme.palette.text.primary,
+  },
+  pageSubtitle: {
+    color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(4),
+    fontSize: 14,
+  },
+  btnRoot: {
+    borderRadius: theme.overrides?.MuiCard?.root?.borderRadius || 12,
+    width: '100%',
+    fontWeight: Fonts.BOLD,
+    fontSize: 16,
+    textTransform: 'capitalize',
+    height: 50,
+  },
+}));
+
 const Error404 = () => {
   const router = useRouter();
-
-  const onGoBackToHome = () => {
-    router.push(initialUrl);
-  };
-
   const classes = useStyles();
 
+  const onGoBackToHome = () => {
+    router.push('/');
+  };
+
   return (
-    <AnimateComponent animation='transition.slideUpIn' delay={0}>
-      <Box
-        py={{xl: 8}}
-        flex={1}
-        display='flex'
-        flexDirection='column'
-        justifyContent='center'
-        alignItems='center'
-        textAlign='center'>
-        <Box
-          mb={{xs: 4, xl: 8}}
-          width='100%'
-          maxWidth={{xs: 200, sm: 300, xl: 706}}>
-          <img
-            className={classes.image}
-            src={'/images/errorPageImages/404.png'}
-            alt='404'
-          />
-        </Box>
-        <Box mb={{xs: 4, xl: 5}}>
-          <Box
-            variant='h3'
-            mb={{xs: 3, xl: 10}}
-            fontSize={{xs: 20, md: 24}}
-            fontWeight={Fonts.BOLD}>
-            <IntlMessages id='error.404Error' />.
+    <Box className={classes.splitRoot}>
+      <Box className={classes.splitLeft}>
+        <Box className={classes.contentWrapper}>
+          <Box mb={4}>
+            <img
+              className={classes.imgRoot}
+              src='/images/sling-fe.png'
+              alt='sling-logo'
+            />
           </Box>
-          <Box
-            mb={{xs: 4, xl: 10}}
-            color={grey[600]}
-            fontSize={16}
-            fontWeight={Fonts.MEDIUM}>
-            <Typography>
-              <IntlMessages id='error.message1' />
-            </Typography>
-            <Typography>
-              <IntlMessages id='error.message2' />
-            </Typography>
+
+          <Typography className={classes.pageTitle} component='h1'>
+            <IntlMessages id='error.404Error' />
+          </Typography>
+          <Typography className={classes.pageSubtitle}>
+            <IntlMessages id='error.message1' />
+          </Typography>
+
+          <Box mt={4}>
+            <Button
+              variant='contained'
+              color='secondary'
+              className={classes.btnRoot}
+              onClick={onGoBackToHome}>
+              <IntlMessages id='error.goBackToHome' />
+            </Button>
           </Box>
-          <Button
-            variant='contained'
-            color='primary'
-            className={classes.button}
-            onClick={onGoBackToHome}>
-            <IntlMessages id='error.goBackToHome' />
-          </Button>
         </Box>
       </Box>
-    </AnimateComponent>
+      <AuthHeroPanel
+        headline='Page Not Found'
+        subtitle='The page you are looking for might have been removed or is temporarily unavailable.'
+      />
+    </Box>
   );
 };
 
