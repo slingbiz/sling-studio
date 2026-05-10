@@ -62,7 +62,7 @@ const Signin = (props) => {
     <Box className={classes.splitRoot}>
       <Box className={classes.splitLeft}>
         <Box className={classes.formWrapper}>
-          <Box mb={4}>
+          <Box mb={4} textAlign='center'>
             <img
               className={classes.imgRoot}
               src='/images/sling-fe.png'
@@ -70,10 +70,10 @@ const Signin = (props) => {
             />
           </Box>
 
-          <Typography className={classes.pageTitle} component='h1'>
+          <Typography className={classes.pageTitle} component='h1' align='center'>
             <IntlMessages id='common.login' />
           </Typography>
-          <Typography className={classes.pageSubtitle}>
+          <Typography className={classes.pageSubtitle} align='center'>
             <IntlMessages id='common.authHeroSubtitleLogin' />
           </Typography>
 
