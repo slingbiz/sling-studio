@@ -7,14 +7,7 @@ import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCompanyInfo} from '../../../redux/actions/AccountAction';
-
-const FALLBACK_FRONTEND_URL = 'https://demo.sling.biz';
-const LOCALHOST_URL_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i;
-
-const addProtocolIfMissing = (url) => {
-  if (!url) return '';
-  return /^(https?:)?\/\//i.test(url) ? url : `https://${url}`;
-};
+import {getStudioShopfrontBaseUrl} from '../../../shared/utils/previewClientUrl';
 
 const LanguageSwitcher = (props) => {
   const {account} = useSelector(({account}) => account);
@@ -113,17 +106,7 @@ const LanguageSwitcher = (props) => {
   }));
 
   const classes = useStyles(props);
-  const studioHost = typeof window !== 'undefined' ? window.location.hostname : '';
-  const isStudioRunningLocally =
-    studioHost === 'localhost' || studioHost === '127.0.0.1';
-  const rawClientUrl = account?.clientUrl?.trim();
-  const normalizedClientUrl = addProtocolIfMissing(rawClientUrl);
-  const shouldUseFallbackFrontendUrl =
-    !normalizedClientUrl ||
-    (LOCALHOST_URL_REGEX.test(normalizedClientUrl) && !isStudioRunningLocally);
-  const frontendUrl = shouldUseFallbackFrontendUrl
-    ? FALLBACK_FRONTEND_URL
-    : normalizedClientUrl;
+  const frontendUrl = getStudioShopfrontBaseUrl(account?.clientUrl);
 
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>

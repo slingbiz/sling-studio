@@ -23,28 +23,9 @@ import LinkIcon from '@material-ui/icons/Link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
+import {getStudioShopfrontBaseUrl} from '../../../../shared/utils/previewClientUrl';
 
-const FALLBACK_FRONTEND_URL = 'https://demo.sling.biz';
-const LOCALHOST_URL_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i;
-
-const addProtocolIfMissing = (url) => {
-  if (!url) return '';
-  return /^(https?:)?\/\//i.test(url) ? url : `https://${url}`;
-};
-
-const getPreviewBaseUrl = (clientUrl) => {
-  const studioHost = typeof window !== 'undefined' ? window.location.hostname : '';
-  const isStudioRunningLocally =
-    studioHost === 'localhost' || studioHost === '127.0.0.1';
-  const normalizedClientUrl = addProtocolIfMissing(clientUrl?.trim());
-  if (
-    !normalizedClientUrl ||
-    (LOCALHOST_URL_REGEX.test(normalizedClientUrl) && !isStudioRunningLocally)
-  ) {
-    return FALLBACK_FRONTEND_URL;
-  }
-  return normalizedClientUrl;
-};
+const getPreviewBaseUrl = (clientUrl) => getStudioShopfrontBaseUrl(clientUrl);
 
 const Layout = (props) => {
   const dispatch = useDispatch();

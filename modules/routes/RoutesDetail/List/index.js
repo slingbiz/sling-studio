@@ -33,6 +33,7 @@ import EditLayout from '../../../pagesModule/PagesDetail/Layout/EditLayout';
 import KeysArray from './KeysArray';
 import PaginationControlled from '../../../../@sling/core/Pagination';
 import SearchIcon from '@material-ui/icons/Search';
+import { getStudioShopfrontBaseUrl } from '../../../../shared/utils/previewClientUrl';
 import { FETCH_WARNING } from '../../../../shared/constants/ActionTypes';
 import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
 import { generateSlug } from 'random-word-slugs';
@@ -316,7 +317,7 @@ const RoutesList = (props) => {
                           component='span'
                           onClick={() => {
                             setPreviewMapperDialog(true);
-                            const { clientUrl } = account || {};
+                            const base = getStudioShopfrontBaseUrl(account?.clientUrl);
                             const { sample_string: sampleString, url_string: urlString } = routeObj;
                             let url = sampleString || urlString;
 
@@ -326,9 +327,9 @@ const RoutesList = (props) => {
 
                             // Check if slash already exists
                             const slash =
-                              url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
+                              url.startsWith('/') || base.endsWith('/') ? '' : '/';
 
-                            setUrlToPreview(`${clientUrl}` + slash + url);
+                            setUrlToPreview(`${base}${slash}${url}`);
                           }}>
                           <RemoveRedEye />
                         </IconButton>
