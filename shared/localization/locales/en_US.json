@@ -338,6 +338,7 @@
   "common.orLoginWith": "Or Login With",
   "common.orContinueWith": "Or continue with",
   "common.authOrDivider": "or",
+  "common.authOrContinueWithEmail": "Or continue with email",
   "common.authSectionEmailLogin": "Email & password",
   "common.authSectionEmailSignup": "Email & password",
   "common.authSectionEmailLoginSub": "Use your Studio account email and password.",

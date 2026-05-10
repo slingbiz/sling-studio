@@ -121,6 +121,7 @@ const SignupJwtAuth = (props) => {
         flex={1}
         display='flex'
         flexDirection='column'>
+        <GoogleJwtAuthBlock anchorRef={authColumnRef} mode='signup' />
         <Box className={classes.emailSection}>
           <Typography variant='subtitle1' component='h2' className={classes.sectionHeading}>
             <IntlMessages id='common.authSectionEmailSignup' />
@@ -279,7 +280,6 @@ const SignupJwtAuth = (props) => {
             </Form>
           )}
         </Formik>
-        <GoogleJwtAuthBlock anchorRef={authColumnRef} mode='signup' />
       </Box>
       <InfoView />
     </Box>

@@ -14,17 +14,12 @@ import {Fonts} from '../../shared/constants/AppEnums';
 const GOOGLE_BTN_MAX_WIDTH = 400;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: theme.spacing(4),
-    paddingTop: theme.spacing(3),
-    borderTop: `1px solid ${theme.palette.divider}`,
-  },
   googlePanel: {
-    marginTop: theme.spacing(2),
     padding: theme.spacing(2.5),
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.grey[50],
     border: `1px solid ${theme.palette.grey[200]}`,
+    marginBottom: theme.spacing(3),
   },
   googleTitle: {
     fontWeight: Fonts.MEDIUM,
@@ -40,9 +35,17 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 50,
     alignItems: 'center',
   },
+  emailDivider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3),
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+  },
 }));
 
 /**
+ * Google-first auth block: panel + "Or continue with email" divider.
  * @param {{ anchorRef: React.RefObject<HTMLElement>, mode: 'login' | 'signup' }} props
  */
 const GoogleJwtAuthBlock = ({anchorRef, mode}) => {
@@ -77,18 +80,8 @@ const GoogleJwtAuthBlock = ({anchorRef, mode}) => {
     mode === 'signup' ? 'common.authGoogleSignupHint' : 'common.authGoogleLoginHint';
 
   return (
-    <Box className={classes.root} width='100%'>
-      <Box display='flex' alignItems='center' mb={2}>
-        <Divider style={{flex: 1}} />
-        <Box px={2}>
-          <Typography variant='overline' color='textSecondary'>
-            <IntlMessages id='common.authOrDivider' />
-          </Typography>
-        </Box>
-        <Divider style={{flex: 1}} />
-      </Box>
-
-      <Box className={classes.googlePanel}>
+    <>
+      <Box className={classes.googlePanel} width='100%'>
         <Typography variant='subtitle1' className={classes.googleTitle} component='h2'>
           <IntlMessages id='common.authGoogleTitle' />
         </Typography>
@@ -117,7 +110,17 @@ const GoogleJwtAuthBlock = ({anchorRef, mode}) => {
           />
         </Box>
       </Box>
-    </Box>
+
+      <Box className={classes.emailDivider}>
+        <Divider style={{flex: 1}} />
+        <Box px={2}>
+          <Typography variant='body2' color='textSecondary'>
+            <IntlMessages id='common.authOrContinueWithEmail' />
+          </Typography>
+        </Box>
+        <Divider style={{flex: 1}} />
+      </Box>
+    </>
   );
 };
 

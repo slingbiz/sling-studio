@@ -5,8 +5,9 @@ import SignupJwtAuth from './SignupJwtAuth';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import IntlMessages from '../../../@sling/utility/IntlMessages';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, fade} from '@material-ui/core/styles';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {AUTH_HERO_UNSPLASH_URL} from '../../../shared/constants/authHero';
 
 const useStyles = makeStyles((theme) => ({
   imgRoot: {
@@ -14,9 +15,56 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     width: 140,
   },
+  splitRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    flex: 1,
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      minHeight: '100vh',
+    },
+  },
+  splitLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingBottom: theme.spacing(4),
+    [theme.breakpoints.up('md')]: {
+      flex: '0 0 46%',
+      maxWidth: 560,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(6),
+    },
+  },
+  heroSide: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+      flex: 1,
+      minHeight: '100vh',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundImage: `linear-gradient(125deg, ${fade(theme.palette.primary.main, 0.9)} 0%, ${fade(
+        theme.palette.secondary.main,
+        0.38,
+      )} 55%, ${fade(theme.palette.primary.main, 0.82)} 100%), url("${AUTH_HERO_UNSPLASH_URL}")`,
+    },
+  },
   cardRoot: {
     maxWidth: '36rem',
     width: '100%',
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 440,
+    },
     overflow: 'hidden',
     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
@@ -81,46 +129,50 @@ const Signup = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Box flex={1} display='flex' flexDirection='column' justifyContent='center'>
-      <Box mt={10} mb={{xs: 6, md: 8, xl: 18}} textAlign='center'>
-        <img
-          className={classes.imgRoot}
-          src={'/images/logo-white-with-name.png'}
-          alt='sling-logo'
-        />
-      </Box>
+    <Box className={classes.splitRoot}>
+      <Box className={classes.splitLeft}>
+        <Box mt={{xs: 6, md: 4}} mb={{xs: 3, md: 4}} textAlign='center'>
+          <img
+            className={classes.imgRoot}
+            src={'/images/logo-white-with-name.png'}
+            alt='sling-logo'
+          />
+        </Box>
 
-      <Box
-        display='flex'
-        flexDirection='column'
-        justifyContent='center'
-        alignItems='center'>
-        <Card className={classes.cardRoot}>
-          <Box px={{xs: 6, sm: 10, xl: 15}}>
-            <Box
-              component='h2'
-              mb={{xs: 3, xl: 6}}
-              color='text.primary'
-              fontWeight={Fonts.REGULAR}
-              fontSize={{xs: 24, xl: 26}}>
-              <IntlMessages id='common.signup' />
+        <Box
+          display='flex'
+          flexDirection='column'
+          justifyContent='center'
+          alignItems='center'
+          width='100%'>
+          <Card className={classes.cardRoot}>
+            <Box px={{xs: 6, sm: 10, xl: 15}}>
+              <Box
+                component='h2'
+                mb={{xs: 3, xl: 6}}
+                color='text.primary'
+                fontWeight={Fonts.REGULAR}
+                fontSize={{xs: 24, xl: 26}}>
+                <IntlMessages id='common.signup' />
+              </Box>
             </Box>
-          </Box>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor='primary'
-            textColor='primary'
-            aria-label='simple tabs example'
-            className={classes.muiTabsFull}>
-            <Tab className={classes.muiTab} {...a11yProps(0)} />
-          </Tabs>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor='primary'
+              textColor='primary'
+              aria-label='simple tabs example'
+              className={classes.muiTabsFull}>
+              <Tab className={classes.muiTab} {...a11yProps(0)} />
+            </Tabs>
 
-          <>
-            <SignupJwtAuth />
-          </>
-        </Card>
+            <>
+              <SignupJwtAuth />
+            </>
+          </Card>
+        </Box>
       </Box>
+      <Box className={classes.heroSide} role='presentation' />
     </Box>
   );
 };
