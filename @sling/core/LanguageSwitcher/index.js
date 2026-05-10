@@ -5,6 +5,7 @@ import {makeStyles} from '@material-ui/core';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import Button from '@material-ui/core/Button';
 import orange from '@material-ui/core/colors/orange';
+import OpenInNew from '@material-ui/icons/OpenInNew';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCompanyInfo} from '../../../redux/actions/AccountAction';
 import {getStudioShopfrontBaseUrl} from '../../../shared/utils/previewClientUrl';
@@ -97,26 +98,39 @@ const LanguageSwitcher = (props) => {
       fontWeight: Fonts.BOLD,
       paddingRight: 20,
       marginRight: 20,
-      paddingLeft: 20,
+      paddingLeft: 16,
+      textTransform: 'none',
+      letterSpacing: 0.2,
+      '& .MuiButton-startIcon': {
+        marginRight: theme.spacing(0.75),
+      },
       '&:hover, &:focus': {
         backgroundColor: orange[700],
         color: theme.palette.primary.contrastText,
       },
     },
+    previewIcon: {
+      fontSize: 18,
+    },
   }));
 
   const classes = useStyles(props);
-  const frontendUrl = getStudioShopfrontBaseUrl(account?.clientUrl);
+  const previewShopUrl = getStudioShopfrontBaseUrl(account?.clientUrl);
 
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
       <a
         target={'_blank'}
         style={{textDecoration: 'none'}}
-        href={frontendUrl}
-        rel='noreferrer'>
-        <Button className={classes.dashboardBtn} color='primary'>
-          Frontend
+        href={previewShopUrl}
+        rel='noreferrer'
+        aria-label='Open storefront preview in a new tab'>
+        <Button
+          className={classes.dashboardBtn}
+          color='primary'
+          startIcon={<OpenInNew className={classes.previewIcon} aria-hidden />}
+          >
+          Preview
         </Button>
       </a>
       {/*<IconButton*/}
