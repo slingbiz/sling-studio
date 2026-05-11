@@ -69,7 +69,7 @@ const SigninJwtAuth = (props) => {
     btnRoot: {
       borderRadius: theme.overrides.MuiCard.root.borderRadius,
       width: '100%',
-      height: 50,
+      height: 44,
       fontSize: 16,
       color: theme.palette.common.white,
       fontWeight: Fonts.BOLD,
@@ -118,23 +118,25 @@ const SigninJwtAuth = (props) => {
           }}>
           {({isSubmitting}) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>
-              <Box mb={{xs: 5, xl: 8}}>
+              <Box mb={{xs: 4, xl: 6}}>
                 <MyTextField
                   placeholder={messages['common.email']}
                   name='email'
                   label={<IntlMessages id='common.email' />}
                   variant='outlined'
+                  size='small'
                   className={classes.myTextFieldRoot}
                 />
               </Box>
 
-              <Box mb={{xs: 3, xl: 4}}>
+              <Box mb={{xs: 2, xl: 3}}>
                 <MyTextField
                   type='password'
                   placeholder={messages['common.password']}
                   label={<IntlMessages id='common.password' />}
                   name='password'
                   variant='outlined'
+                  size='small'
                   className={classes.myTextFieldRoot}
                 />
               </Box>

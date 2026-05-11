@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    minHeight: 50,
+    height: 44,
     alignItems: 'center',
     marginBottom: theme.spacing(3),
     overflow: 'hidden',

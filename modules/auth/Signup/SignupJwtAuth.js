@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.overrides.MuiCard.root.borderRadius,
     width: '100%',
     fontSize: 16,
-    height: 50,
+    height: 44,
     color: theme.palette.common.white,
     fontWeight: Fonts.BOLD,
     textTransform: 'capitalize',
@@ -131,44 +131,48 @@ const SignupJwtAuth = (props) => {
           }}>
           {({isSubmitting}) => (
             <Form className={classes.formRoot} noValidate autoComplete='off'>
-              <Box mb={{xs: 5, xl: 8}}>
+              <Box mb={{xs: 4, xl: 6}}>
                 <MyTextField
                   label={<IntlMessages id='common.name' />}
                   name='name'
                   variant='outlined'
+                  size='small'
                   className={classes.myTextFieldRoot}
                 />
               </Box>
 
-              <Box mb={{xs: 5, xl: 8}}>
+              <Box mb={{xs: 4, xl: 6}}>
                 <MyTextField
                   label={<IntlMessages id='common.email' />}
                   name='email'
                   variant='outlined'
+                  size='small'
                   className={classes.myTextFieldRoot}
                 />
               </Box>
 
               <GridContainer>
                 <Grid item xs={12} md={6}>
-                  <Box mb={{xs: 0, xl: 4}}>
+                  <Box mb={{xs: 0, xl: 3}}>
                     <MyTextField
                       label={<IntlMessages id='common.password' />}
                       name='password'
                       type='password'
                       variant='outlined'
+                      size='small'
                       className={classes.myTextFieldRoot}
                     />
                   </Box>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                  <Box mb={{xs: 3, xl: 4}}>
+                  <Box mb={{xs: 3, xl: 3}}>
                     <MyTextField
                       label={<IntlMessages id='common.retypePassword' />}
                       name='confirmPassword'
                       type='password'
                       variant='outlined'
+                      size='small'
                       className={classes.myTextFieldRoot}
                     />
                   </Box>
