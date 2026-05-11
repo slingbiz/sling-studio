@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    maxWidth: '100vw',
+    overflowX: 'hidden',
     flex: 1,
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
@@ -31,7 +33,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    padding: theme.spacing(4, 3),
+    minHeight: '100vh',
+    padding: theme.spacing(4, 2.5),
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(4, 4),
+    },
     [theme.breakpoints.up('md')]: {
       flex: '0 0 50%',
       padding: theme.spacing(4, 6),
@@ -39,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
   formWrapper: {
     width: '100%',
-    maxWidth: 420,
+    maxWidth: 400,
+    boxSizing: 'border-box',
   },
   pageTitle: {
     fontWeight: Fonts.BOLD,

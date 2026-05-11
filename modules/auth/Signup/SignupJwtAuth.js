@@ -175,13 +175,7 @@ const SignupJwtAuth = (props) => {
                 </Grid>
               </GridContainer>
 
-              <Box
-                mb={4}
-                mt={2}
-                display='flex'
-                flexDirection={{xs: 'column', sm: 'row'}}
-                alignItems={{sm: 'center'}}
-                justifyContent={{sm: 'space-between'}}>
+              <Box mb={3} mt={2}>
                 <Button
                   variant='contained'
                   color='secondary'
@@ -192,30 +186,22 @@ const SignupJwtAuth = (props) => {
                 </Button>
               </Box>
               <Box
-                mb={6}
-                mt={6}
+                mb={2}
                 display='flex'
-                flexDirection={{xs: 'column', sm: 'row'}}
-                alignItems={{sm: 'center'}}
-                justifyContent={{sm: 'flex-end'}}>
-                <Box
-                  color='text.secondary'
-                  ml={{sm: 4}}
-                  mt={{xs: 3, sm: 0}}
-                  fontSize={15}>
-                  <Box className={classes.textGrey} component='span' mr={1}>
-                    <IntlMessages id='common.alreadyHaveAccount' />
-                  </Box>
-                  <Box component='span'>
-                    <Link
-                      href='/signin'
-                      className={clsx(
-                        classes.underlineNone,
-                        classes.colorTextPrimary,
-                      )}>
-                      <IntlMessages id='common.signIn' />
-                    </Link>
-                  </Box>
+                justifyContent='center'
+                fontSize={14}>
+                <Box className={classes.textGrey} component='span' mr={1}>
+                  <IntlMessages id='common.alreadyHaveAccount' />
+                </Box>
+                <Box component='span'>
+                  <Link
+                    href='/signin'
+                    className={clsx(
+                      classes.underlineNone,
+                      classes.colorTextPrimary,
+                    )}>
+                    <IntlMessages id='common.signIn' />
+                  </Link>
                 </Box>
               </Box>
             </Form>

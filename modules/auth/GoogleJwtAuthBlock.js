@@ -10,7 +10,7 @@ import {onJwtGoogleAuth} from '../../redux/actions/Auth';
 import {FETCH_ERROR} from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 
-const GOOGLE_BTN_MAX_WIDTH = 400;
+const GOOGLE_BTN_MAX_WIDTH = 380;
 
 const useStyles = makeStyles((theme) => ({
   googleBtnRow: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 50,
     alignItems: 'center',
     marginBottom: theme.spacing(3),
+    overflow: 'hidden',
   },
   emailDivider: {
     marginBottom: theme.spacing(3),
@@ -44,7 +45,7 @@ const GoogleJwtAuthBlock = ({anchorRef, mode}) => {
     const measure = () => {
       const w = el.getBoundingClientRect().width;
       if (w) {
-        setBtnWidth(Math.min(GOOGLE_BTN_MAX_WIDTH, Math.max(280, Math.floor(w))));
+        setBtnWidth(Math.min(GOOGLE_BTN_MAX_WIDTH, Math.max(200, Math.floor(w - 4))));
       }
     };
     measure();

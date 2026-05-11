@@ -154,12 +154,7 @@ const SigninJwtAuth = (props) => {
                 </Box>
               </Box>
 
-              <Box
-                mb={6}
-                display='flex'
-                flexDirection={{xs: 'column', sm: 'row'}}
-                alignItems={{sm: 'center'}}
-                justifyContent={{sm: 'space-between'}}>
+              <Box mb={3}>
                 <Button
                   variant='contained'
                   color='secondary'
@@ -170,12 +165,12 @@ const SigninJwtAuth = (props) => {
                 </Button>
               </Box>
               <Box
-                mb={6}
-                mt={6}
+                mb={2}
                 display='flex'
-                flexDirection={{xs: 'column', sm: 'row'}}
-                alignItems={{sm: 'center'}}
-                justifyContent={{sm: 'space-between'}}>
+                flexWrap='wrap'
+                alignItems='center'
+                justifyContent='space-between'
+                fontSize={14}>
                 <Box
                   component='span'
                   color='primary.main'
@@ -190,11 +185,9 @@ const SigninJwtAuth = (props) => {
                   </Link>
                 </Box>
                 <Box
-                  ml={{xs: 0, sm: 4}}
-                  mt={{xs: 3, sm: 0}}
                   className={classes.textGrey}
-                  fontSize={15}>
-                  <Box component='span' mr={2}>
+                  fontSize={14}>
+                  <Box component='span' mr={1}>
                     <IntlMessages id='common.dontHaveAccount' />
                   </Box>
                   <Box component='span'>
