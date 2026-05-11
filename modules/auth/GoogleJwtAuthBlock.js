@@ -21,25 +21,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginBottom: theme.spacing(3),
     overflow: 'hidden',
-    height: BUTTON_HEIGHT,
-    borderRadius: theme.overrides?.MuiCard?.root?.borderRadius || 4,
-    border: `1px solid ${theme.palette.grey[300]}`,
-    cursor: 'pointer',
-    transition: 'border-color 0.2s, box-shadow 0.2s',
-    '&:hover': {
-      borderColor: theme.palette.grey[400],
-      boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-    },
     '& iframe': {
-      minHeight: `${BUTTON_HEIGHT}px !important`,
-      borderRadius: `${theme.overrides?.MuiCard?.root?.borderRadius || 4}px !important`,
+      height: `${BUTTON_HEIGHT}px !important`,
     },
     '& > div': {
       width: '100% !important',
-      height: `${BUTTON_HEIGHT}px !important`,
       '& > div': {
         width: '100% !important',
-        height: `${BUTTON_HEIGHT}px !important`,
       },
     },
   },
