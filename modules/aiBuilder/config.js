@@ -97,10 +97,6 @@ const claudeTheme = {
 export const createLibraryMap = ({
   React,
   PropTypes,
-  useDispatch,
-  useSelector,
-  useIntl,
-  useRouter,
   clsx,
   moment,
   makeStyles
@@ -108,10 +104,7 @@ export const createLibraryMap = ({
   // React Ecosystem
   'react': React,
   'prop-types': PropTypes,
-  'react-redux': { useDispatch, useSelector },
-  'react-intl': { useIntl },
-  'next/router': { useRouter },
-  
+
   // Material-UI ecosystem
   '@material-ui/core': {
     ...MaterialUI,
@@ -222,7 +215,7 @@ const createPlaceholder = (React, componentName) => props =>
   }, `${componentName} not found`);
 
 // Main function to create scope with all components
-export const createScope = ({ 
+export const createScope = ({
   React,
   useState,
   useEffect,
@@ -232,10 +225,6 @@ export const createScope = ({
   useContext,
   makeStyles,
   PropTypes,
-  useDispatch,
-  useSelector,
-  useIntl,
-  useRouter,
   clsx,
   moment,
   dependencies = {}
@@ -243,10 +232,6 @@ export const createScope = ({
   const libraryMap = createLibraryMap({
     React,
     PropTypes,
-    useDispatch,
-    useSelector,
-    useIntl,
-    useRouter,
     clsx,
     moment,
     makeStyles
@@ -320,19 +305,16 @@ export const createScope = ({
   };
 };
 
-// List of libraries that Claude can use in generated components
+// List of libraries that Claude can use in generated components.
+// Widgets must be self-contained (props in, JSX out): no app routing, global
+// store, or network access, since generated code renders inside an isolated
+// preview sandbox that has none of those and blocks outbound requests.
 export const ALLOWED_LIBRARIES = [
   // React Ecosystem
   'react',
   'react-dom',
   'prop-types',
-  'react-redux',
-  'react-intl',
-  
-  // Next.js
-  'next/router',
-  'next/link',
-  
+
   // Material-UI v4
   '@material-ui/core',
   '@material-ui/icons',
@@ -356,11 +338,7 @@ export const ALLOWED_LIBRARIES = [
   // Forms & Validation
   'formik',
   'yup',
-  
-  // Data Management
-  'axios',
-  'swr',
-  
+
   // Utilities
   'lodash',
   'uuid',

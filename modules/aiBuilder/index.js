@@ -25,7 +25,8 @@ const AIBuilder = () => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
-  const [codeScope, setCodeScope] = useState({});
+  const [dependencies, setDependencies] = useState({});
+  const [policyViolations, setPolicyViolations] = useState([]);
   const [activeTab, setActiveTab] = useState('preview');
   const [searchId, setSearchId] = useState(null);
   const [initialResponse, setInitialResponse] = useState(null);
@@ -92,9 +93,9 @@ const AIBuilder = () => {
         setInitialResponse(data.summary);
 
         const cleaned = CodeUtils.cleanCode(data);
-        const transformed = CodeUtils.transformCode(cleaned.code);
-        setGeneratedCode(transformed);
-        setCodeScope(cleaned.scope);
+        setGeneratedCode(cleaned.code);
+        setDependencies(cleaned.dependencies);
+        setPolicyViolations(cleaned.policy.allowed ? [] : cleaned.policy.violations);
         setIsProcessing(false);
       } catch (error) {
         console.error('Error:', error);
@@ -167,9 +168,11 @@ const AIBuilder = () => {
               activeTab={activeTab}
               handleTabChange={handleTabChange}
               generatedCode={generatedCode}
-              codeScope={codeScope}
+              dependencies={dependencies}
+              policyViolations={policyViolations}
               setGeneratedCode={setGeneratedCode}
-              setCodeScope={setCodeScope}
+              setDependencies={setDependencies}
+              setPolicyViolations={setPolicyViolations}
             />
           </Box>
         )}

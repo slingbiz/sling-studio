@@ -12,15 +12,13 @@ import {
   Divider,
   CircularProgress,
 } from '@material-ui/core';
-import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import Editor from '@monaco-editor/react';
 import {makeStyles} from '@material-ui/core/styles';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Send from '@material-ui/icons/Send';
 import CodeUtils from '../utils';
-import prettier from 'prettier/standalone';
-import parserBabel from 'prettier/parser-babel';
-
-// Import CodeUtils from index.js
+import {checkCodePolicy} from '../codePolicy';
+import SandboxedPreview from './SandboxedPreview';
 
 const useStyles = makeStyles((theme) => ({
   canvas: {
@@ -275,32 +273,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Define allowed libraries
-const ALLOWED_LIBRARIES = [
-  '@mui/material',
-  '@mui/icons-material',
-  'react',
-  'react-dom',
-  'prop-types',
-];
-
 // CanvasLayout component
 const CanvasLayout = ({
   activeTab,
   handleTabChange,
   generatedCode,
-  codeScope,
+  dependencies,
+  policyViolations,
   inputValue,
   isProcessing,
   searchId,
   initialResponse,
   setGeneratedCode,
-  setCodeScope,
+  setDependencies,
+  setPolicyViolations,
 }) => {
   const classes = useStyles();
   const [chatHistories, setChatHistories] = useState({});
   const [promptInput, setPromptInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [previewError, setPreviewError] = useState(null);
 
   // Initialize chat history with initial prompt and AI response
   useEffect(() => {
@@ -365,9 +357,9 @@ const CanvasLayout = ({
 
       // Process returned code same as index.js
       const cleaned = CodeUtils.cleanCode(data);
-      const transformed = CodeUtils.transformCode(cleaned.code);
-      setGeneratedCode(transformed);
-      setCodeScope(cleaned.scope);
+      setGeneratedCode(cleaned.code);
+      setDependencies(cleaned.dependencies);
+      setPolicyViolations(cleaned.policy.allowed ? [] : cleaned.policy.violations);
 
       // Add AI response to chat
       setChatHistories((prev) => ({
@@ -538,20 +530,32 @@ const CanvasLayout = ({
                 borderRadius: '12px',
                 minHeight: '500px',
               }}>
-              {activeTab === 'preview' ? (
+              {policyViolations && policyViolations.length > 0 ? (
+                <Box className={classes.liveError}>
+                  <Typography variant='subtitle2' gutterBottom>
+                    This widget was blocked by Sling's governance policy and
+                    was never sent to preview:
+                  </Typography>
+                  {policyViolations.map((violation, index) => (
+                    <Typography key={index} variant='body2'>
+                      &bull; {violation.message}
+                    </Typography>
+                  ))}
+                </Box>
+              ) : activeTab === 'preview' ? (
                 generatedCode ? (
-                  <LiveProvider
-                    code={generatedCode}
-                    noInline={true}
-                    scope={{
-                      React,
-                      ...codeScope,
-                    }}>
+                  <>
                     <Box className={classes.livePreview}>
-                      <LivePreview />
+                      <SandboxedPreview
+                        code={generatedCode}
+                        dependencies={dependencies}
+                        onError={setPreviewError}
+                      />
                     </Box>
-                    <LiveError className={classes.liveError} />
-                  </LiveProvider>
+                    {previewError && (
+                      <Box className={classes.liveError}>{previewError}</Box>
+                    )}
+                  </>
                 ) : (
                   <Box className={classes.noPreview}>
                     <img
@@ -568,38 +572,30 @@ const CanvasLayout = ({
                   <Box mb={2} p={2} bgcolor='#f5f7f9' borderRadius={1}>
                     <Typography variant='body2' color='textSecondary'>
                       ✨ Edit the code below and switch to the Preview tab to
-                      see changes in real-time. The code automatically updates
-                      as you type.
+                      see changes. Edits are re-checked against the
+                      governance policy and re-rendered in the sandbox.
                     </Typography>
                   </Box>
-                  <LiveProvider
-                    code={generatedCode}
-                    noInline={true}
-                    scope={{
-                      React,
-                      ...codeScope,
-                    }}>
-                    <LiveEditor
-                      onChange={(code) => setGeneratedCode(code)}
-                      className={classes.liveEditor}
-                      style={{
-                        fontFamily: 'monospace',
-                        fontSize: 14,
-                        backgroundColor: '#f8fafc',
-                        borderRadius: 12,
-                        padding: 16,
-                      }}
-                    />
-                    <LiveError
-                      style={{
-                        color: 'red',
-                        marginTop: 8,
-                        padding: 8,
-                        backgroundColor: '#ffebee',
-                        borderRadius: 12,
-                      }}
-                    />
-                  </LiveProvider>
+                  <Editor
+                    height='500px'
+                    language='javascript'
+                    theme='light'
+                    value={generatedCode}
+                    onChange={(value) => {
+                      const nextCode = value || '';
+                      setGeneratedCode(nextCode);
+                      const policy = checkCodePolicy(nextCode, dependencies);
+                      setPolicyViolations(policy.allowed ? [] : policy.violations);
+                    }}
+                    className={classes.liveEditor}
+                    options={{
+                      minimap: {enabled: false},
+                      fontSize: 14,
+                    }}
+                  />
+                  {previewError && (
+                    <Box className={classes.liveError}>{previewError}</Box>
+                  )}
                 </>
               )}
             </Box>

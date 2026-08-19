@@ -1,5 +1,35 @@
 const {PHASE_PRODUCTION_BUILD} = require('next/constants');
 
+// Belt-and-suspenders alongside the sandbox page's own <meta> CSP tag: an
+// HTTP header is enforced before the document even parses and also lets us
+// set frame-ancestors, which meta tags cannot express at all.
+async function sandboxHeaders() {
+  return [
+    {
+      source: '/sandbox/:path*',
+      headers: [
+        {
+          key: 'Content-Security-Policy',
+          value: [
+            "default-src 'none'",
+            "script-src 'self' 'unsafe-eval'",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data:",
+            "font-src 'self' data:",
+            "connect-src 'none'",
+            "frame-src 'none'",
+            "object-src 'none'",
+            "base-uri 'none'",
+            "form-action 'none'",
+            "frame-ancestors 'self'",
+          ].join('; '),
+        },
+        {key: 'X-Content-Type-Options', value: 'nosniff'},
+      ],
+    },
+  ];
+}
+
 module.exports = (phase) => {
   let serviceUrl = process.env.NEXT_PUBLIC_SERVICE_URL;
   // Check if the URL does not end with a slash and add it if it doesn't
@@ -12,6 +42,7 @@ module.exports = (phase) => {
       eslint: {
         ignoreDuringBuilds: true,
       },
+      headers: sandboxHeaders,
       env: {
         SERVICE_URL: `${serviceUrl}`,
         INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,
@@ -31,6 +62,7 @@ module.exports = (phase) => {
     eslint: {
       ignoreDuringBuilds: true,
     },
+    headers: sandboxHeaders,
     env: {
       SERVICE_URL: `${serviceUrl}`,
       INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useRouter} from 'next/router';
 import {Provider} from 'react-redux';
 import {useStore} from '../redux/store';
 import ContextProvider from '../@sling/utility/ContextProvider';
@@ -15,8 +16,21 @@ import PageMeta from '../@sling/core/PageMeta';
 import 'codemirror/lib/codemirror.css';
 import Script from 'next/script';
 
+// Routes under /sandbox render untrusted AI-generated widget code inside an
+// opaque-origin iframe (see pages/sandbox/widget-preview.js). They must
+// never pick up auth/session state, the real Redux store, or third-party
+// analytics scripts, so they skip the normal provider tree entirely rather
+// than relying only on the iframe boundary to keep that surface out of
+// reach.
+const SANDBOX_ROUTE_PREFIX = '/sandbox';
+
 const App = ({Component, pageProps, user}) => {
+  const router = useRouter();
   const store = useStore(pageProps.initialReduxState);
+
+  if (router.pathname.startsWith(SANDBOX_ROUTE_PREFIX)) {
+    return <Component {...pageProps} />;
+  }
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
