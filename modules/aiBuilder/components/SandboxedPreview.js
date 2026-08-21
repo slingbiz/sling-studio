@@ -17,7 +17,7 @@ function createNonce() {
 // origin: it cannot read Studio's cookies/localStorage/session, and the
 // page it loads (pages/sandbox/widget-preview.js) skips all of the app's
 // normal providers, so nothing sensitive is ever within its reach.
-const SandboxedPreview = ({code, dependencies, className, style, onError}) => {
+const SandboxedPreview = ({code, dependencies, themeOverrides, className, style, onError}) => {
   const iframeRef = useRef(null);
   const nonceRef = useRef(createNonce());
   const [isReady, setIsReady] = useState(false);
@@ -54,6 +54,7 @@ const SandboxedPreview = ({code, dependencies, className, style, onError}) => {
         nonce: nonceRef.current,
         code,
         dependencies,
+        themeOverrides,
       },
       // The sandbox frame has an opaque origin, so it can never match a
       // real targetOrigin string here — '*' is required. Specificity comes
@@ -61,7 +62,7 @@ const SandboxedPreview = ({code, dependencies, className, style, onError}) => {
       // not from an origin check.
       '*',
     );
-  }, [isReady, code, dependencies]);
+  }, [isReady, code, dependencies, themeOverrides]);
 
   return (
     <iframe
@@ -78,6 +79,7 @@ const SandboxedPreview = ({code, dependencies, className, style, onError}) => {
 SandboxedPreview.propTypes = {
   code: PropTypes.string,
   dependencies: PropTypes.object,
+  themeOverrides: PropTypes.object,
   className: PropTypes.string,
   style: PropTypes.object,
   onError: PropTypes.func,

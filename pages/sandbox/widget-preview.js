@@ -59,7 +59,7 @@ export default function WidgetPreviewSandbox() {
     const params = new URLSearchParams(window.location.search);
     nonceRef.current = params.get('nonce');
 
-    function renderCode(code, dependencies) {
+    function renderCode(code, dependencies, themeOverrides) {
       try {
         const scope = createScope({
           React,
@@ -74,6 +74,7 @@ export default function WidgetPreviewSandbox() {
           clsx,
           moment,
           dependencies,
+          themeOverrides,
         });
 
         const {code: transpiled} = Babel.transform(code, {presets: ['react']});
@@ -118,7 +119,7 @@ export default function WidgetPreviewSandbox() {
       if (!nonceRef.current || data.nonce !== nonceRef.current) return;
 
       if (data.type === 'RENDER') {
-        renderCode(data.code, data.dependencies);
+        renderCode(data.code, data.dependencies, data.themeOverrides);
       }
     }
 

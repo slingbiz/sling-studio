@@ -3,6 +3,9 @@ import {
   FETCH_ERROR,
   FETCH_START,
   FETCH_SUCCESS,
+  GENERATE_WIDGET_ERROR,
+  GENERATE_WIDGET_START,
+  GENERATE_WIDGET_SUCCESS,
   GET_WIDGETS_DATA,
   SHOW_MESSAGE,
   SOMETHING_SMELLS_FISHY,
@@ -128,6 +131,93 @@ export const deleteWidget = (id) => {
     } catch (error) {
       console.log(error, '[getWidgets] Exception');
       dispatch({type: FETCH_ERROR, payload: error.message});
+    }
+  };
+};
+
+export const generateWidget = (prompt, themeConfig) => {
+  return async (dispatch) => {
+    dispatch({type: GENERATE_WIDGET_START});
+    try {
+      const Api = await ApiAuth();
+      const res = await Api.post(`${SERVICE_URL}v1/widgets/generate`, {
+        prompt,
+        themeConfig,
+      });
+      if (res.status === 201) {
+        dispatch({type: GENERATE_WIDGET_SUCCESS, payload: res.data.widget});
+        dispatch({type: SHOW_MESSAGE, payload: 'Widget generated successfully'});
+        return res.data.widget;
+      }
+      dispatch({type: GENERATE_WIDGET_ERROR, payload: 'Generation failed'});
+    } catch (error) {
+      const msg = error?.response?.data?.message || error.message;
+      dispatch({type: GENERATE_WIDGET_ERROR, payload: msg});
+      dispatch({type: FETCH_ERROR, payload: msg});
+    }
+  };
+};
+
+export const submitForReview = (widgetId) => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    try {
+      const Api = await ApiAuth();
+      const res = await Api.post(
+        `${SERVICE_URL}v1/widgets/${widgetId}/submit-for-review`,
+      );
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({type: SHOW_MESSAGE, payload: 'Widget submitted for review'});
+      return res.data.widget;
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.message || error.message,
+      });
+    }
+  };
+};
+
+export const reviewWidgetAction = (widgetId, action, notes) => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    try {
+      const Api = await ApiAuth();
+      const res = await Api.post(
+        `${SERVICE_URL}v1/widgets/${widgetId}/review`,
+        {action, notes},
+      );
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({
+        type: SHOW_MESSAGE,
+        payload: `Widget ${action}d successfully`,
+      });
+      return res.data.widget;
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.message || error.message,
+      });
+    }
+  };
+};
+
+export const publishWidgetAction = (widgetId) => {
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    try {
+      const Api = await ApiAuth();
+      const res = await Api.post(
+        `${SERVICE_URL}v1/widgets/${widgetId}/publish`,
+      );
+      dispatch({type: FETCH_SUCCESS});
+      dispatch({type: SHOW_MESSAGE, payload: 'Widget published successfully'});
+      return res.data.widget;
+    } catch (error) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error?.response?.data?.message || error.message,
+      });
     }
   };
 };

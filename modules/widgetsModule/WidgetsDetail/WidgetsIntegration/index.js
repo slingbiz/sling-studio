@@ -357,6 +357,29 @@ const WidgetsIntegration = (props) => {
                     component='h4'
                     className={clsx(classes.truncate, classes.titleTruncate)}>
                     {item.name}
+                    {item.source === 'ai_generated' && (
+                      <Chip
+                        size='small'
+                        label='AI'
+                        color='primary'
+                        style={{marginLeft: 4, height: 20, fontSize: 10}}
+                      />
+                    )}
+                    {item.status && item.status !== 'published' && (
+                      <Chip
+                        size='small'
+                        label={item.status.replace('_', ' ')}
+                        variant='outlined'
+                        style={{marginLeft: 4, height: 20, fontSize: 10}}
+                        color={
+                          item.status === 'approved'
+                            ? 'primary'
+                            : item.status === 'rejected'
+                            ? 'secondary'
+                            : 'default'
+                        }
+                      />
+                    )}
                   </Box>
                   <Typography
                     component='h6'

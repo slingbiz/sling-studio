@@ -15,6 +15,8 @@ export const folderList = [
   {id: 3, name: 'Components', alias: 'components-integration', icon: 'web'},
   {id: 5, name: 'Market Place', alias: 'market-place', icon: 'store_front'},
   {id: 5, name: 'Guide', alias: 'guide', icon: 'help_center'},
+  {id: 6, name: 'AI Generate', alias: 'ai-generate', icon: 'auto_awesome'},
+  {id: 7, name: 'Review Queue', alias: 'review-queue', icon: 'rate_review'},
 ];
 
 const useStyle = makeStyles((theme) => ({

@@ -4,6 +4,8 @@ import Box from '@material-ui/core/Box';
 import MarketPlace from './MarketPlace';
 import WidgetsIntegration from './WidgetsIntegration';
 import WidgetsList from '../WidgetsList';
+import AiGenerateWidget from '../AiGenerateWidget';
+import WidgetReviewQueue from '../WidgetReviewQueue';
 
 const PagesDetail = (props) => {
   const {query} = useRouter();
@@ -13,6 +15,8 @@ const PagesDetail = (props) => {
     'blocks-integration': WidgetsIntegration,
     'components-integration': WidgetsIntegration,
     'market-place': MarketPlace,
+    'ai-generate': AiGenerateWidget,
+    'review-queue': WidgetReviewQueue,
   };
 
   const RenderSection = sectionMapper[id];

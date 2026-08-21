@@ -227,7 +227,8 @@ export const createScope = ({
   PropTypes,
   clsx,
   moment,
-  dependencies = {}
+  dependencies = {},
+  themeOverrides = null,
 }) => {
   const libraryMap = createLibraryMap({
     React,
@@ -237,8 +238,19 @@ export const createScope = ({
     makeStyles
   });
 
+  const mergedTheme = themeOverrides
+    ? {
+        ...claudeTheme,
+        ...themeOverrides,
+        palette: {
+          ...claudeTheme.palette,
+          ...(themeOverrides.palette || {}),
+        },
+      }
+    : claudeTheme;
+
   // Create theme instance
-  const theme = MaterialStyles.createTheme(claudeTheme);
+  const theme = MaterialStyles.createTheme(mergedTheme);
 
   // Create a wrapper component that applies the theme
   const ThemedComponent = ({ children }) => {
