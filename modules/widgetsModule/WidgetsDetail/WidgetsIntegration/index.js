@@ -30,6 +30,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddWidgetModal from './AddWidgetModal';
 import UpdateWidgetModal from './AddWidgetModal';
 import {InfoView} from '../../../../@sling';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -163,6 +164,7 @@ const WidgetsIntegration = (props) => {
   const type = getWidgetType(pageKey);
   const classes = useStyles();
   const dispatch = useDispatch();
+  const router = useRouter();
   const {widgets} = useSelector(({widgets}) => widgets);
   const [filter, setFilter] = useState({type});
   const [query, setQuery] = useState('');
@@ -248,6 +250,16 @@ const WidgetsIntegration = (props) => {
               );
             })}
           </Box>
+          <Tooltip title='Generate with AI'>
+            <IconButton onClick={() => router.push('/widgets/ai-generate')}>
+              <Icon
+                color='primary'
+                className={classes.iconDefault}
+                aria-label={'Generate with AI'}>
+                auto_awesome
+              </Icon>
+            </IconButton>
+          </Tooltip>
           <Tooltip title='Add a new Widget'>
             <IconButton onClick={() => setOpenModal(true)}>
               <Icon
