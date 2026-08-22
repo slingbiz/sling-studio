@@ -120,8 +120,8 @@ const SigninAwsCognito = (props) => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            email: 'demo@sling.biz',
-            password: 'demo@sling.biz',
+            email: 'demo@slingcms.com',
+            password: 'demo@slingcms.com',
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
