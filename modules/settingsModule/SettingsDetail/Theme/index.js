@@ -223,14 +223,12 @@ const useStyles = makeStyles(() => ({
   swatchInput: {
     position: 'absolute',
     inset: 0,
-    width: '140%',
-    height: '140%',
-    left: '-20%',
-    top: '-20%',
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    cursor: 'pointer',
     border: 'none',
     padding: 0,
-    cursor: 'pointer',
-    background: 'transparent',
   },
   tokenMeta: {
     minWidth: 0,
