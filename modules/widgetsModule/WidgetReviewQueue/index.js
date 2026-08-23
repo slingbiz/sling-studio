@@ -29,6 +29,7 @@ import {
 } from '../../../redux/actions/Widgets';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
+import {useAuthUser} from '../../../@sling/utility/AppHooks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,6 +119,8 @@ const WidgetReviewQueue = () => {
   const [expandedWidgets, setExpandedWidgets] = useState({});
   const [rejectDialog, setRejectDialog] = useState({open: false, widgetId: null});
   const [rejectNotes, setRejectNotes] = useState('');
+  const user = useAuthUser();
+  const canDecide = user?.role === 'admin' || user?.role === 'publisher';
 
   const currentStatus = STATUS_TABS[activeTab].status;
 
@@ -170,7 +173,12 @@ const WidgetReviewQueue = () => {
     const status = item.status;
     return (
       <Box className={classes.cardActions}>
-        {status === 'pending_review' && (
+        {status === 'pending_review' && !canDecide && (
+          <Typography variant='body2' color='textSecondary'>
+            Waiting for a publisher to review
+          </Typography>
+        )}
+        {status === 'pending_review' && canDecide && (
           <>
             <Button
               className={classes.btn}
@@ -192,7 +200,7 @@ const WidgetReviewQueue = () => {
             </Button>
           </>
         )}
-        {status === 'approved' && (
+        {status === 'approved' && canDecide && (
           <Button
             className={classes.btn}
             variant='contained'

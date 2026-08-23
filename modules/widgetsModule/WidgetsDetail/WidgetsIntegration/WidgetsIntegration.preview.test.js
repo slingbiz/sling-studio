@@ -25,10 +25,17 @@ describe('WidgetsIntegration live preview', () => {
     expect(cardChunk).not.toMatch(/<Grid/);
   });
 
-  test('lists published widgets by default and can filter to drafts', () => {
+  test('lists published widgets by default and can filter to drafts and in review', () => {
     expect(src).toMatch(/status:\s*'published'/);
     expect(src).toMatch(/label: 'Published'/);
     expect(src).toMatch(/label: 'Draft'/);
+    expect(src).toMatch(/label: 'In review'/);
+    expect(src).toMatch(/pending_review/);
+  });
+
+  test('always shows edit on the card, not only on hover', () => {
+    expect(src).toMatch(/aria-label='edit'/);
+    expect(src).not.toMatch(/hoveredWidget === item\._id &&/);
   });
 
   test('does not force type: widget so all widget records appear in one list', () => {

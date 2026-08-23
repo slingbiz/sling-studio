@@ -38,6 +38,7 @@ import {SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 const STATUS_FILTERS = [
   {label: 'Published', value: 'published'},
   {label: 'Draft', value: 'draft'},
+  {label: 'In review', value: 'pending_review'},
 ];
 
 const PAGE_SIZE = 8;
@@ -91,9 +92,23 @@ const useStyles = makeStyles((theme) => ({
   },
   editBtn: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
-    margin: '0',
+    bottom: 4,
+    right: 4,
+    margin: 0,
+    zIndex: 2,
+    backgroundColor: '#fff',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+    '&:hover': {
+      backgroundColor: '#fff8ee',
+    },
+  },
+  deleteBtn: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    zIndex: 2,
+    backgroundColor: '#fff',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
   },
   itemImg: {
     width: '100%',
@@ -242,7 +257,6 @@ const WidgetsIntegration = (props) => {
   const [widgetToDelete, setWidgetToDelete] = useState(null); // Manage widget to delete
   const loading = useSelector(({common}) => common.loading);
   const [updateProp, setupdateProp] = useState(null);
-  const [hoveredWidget, setHoveredWidget] = useState(null); // Track the hovered widget
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -362,30 +376,25 @@ const WidgetsIntegration = (props) => {
             xs={6}
             sm={4}
             md={3}
-            key={item._id || index}
-            onMouseEnter={() => setHoveredWidget(item._id)}
-            onMouseLeave={() => setHoveredWidget(null)}>
+            key={item._id || index}>
             <Box className={classes.widgetCard}>
               <Box className={classes.previewSlot}>
-                {hoveredWidget === item._id && (
-                  <>
-                    <IconButton
-                      onClick={() => {
-                        setupdateProp(item);
-                        setOpenUpdateModal(true);
-                      }}
-                      aria-label='edit'
-                      className={clsx(classes.button, classes.editBtn)}>
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      disabled={!allowDelete}
-                      aria-label='delete'
-                      onClick={() => handleDelete(item._id)}
-                      style={{position: 'absolute', top: 4, right: 4, zIndex: 2}}>
-                      <Icon color='grey'>delete</Icon>
-                    </IconButton>
-                  </>
+                <IconButton
+                  onClick={() => {
+                    setupdateProp(item);
+                    setOpenUpdateModal(true);
+                  }}
+                  aria-label='edit'
+                  className={clsx(classes.button, classes.editBtn)}>
+                  <Edit />
+                </IconButton>
+                {allowDelete && (
+                  <IconButton
+                    aria-label='delete'
+                    onClick={() => handleDelete(item._id)}
+                    className={classes.deleteBtn}>
+                    <Icon color='grey'>delete</Icon>
+                  </IconButton>
                 )}
                 {item.image ? (
                   <img

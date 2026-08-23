@@ -11,12 +11,9 @@ describe('Widgets sidebar folderList', () => {
     expect(src).not.toMatch(/name:\s*'Components'/);
   });
 
-  test('hides Review Queue unless the signed-in user can publish', () => {
+  test('always shows Review Queue so submitted widgets have a home', () => {
     expect(src).toMatch(/name:\s*'Review Queue'/);
-    expect(src).toMatch(/adminOnly:\s*true/);
-    expect(src).toMatch(/visibleFolders/);
-    expect(src).toMatch(/role === 'admin'/);
-    expect(src).toMatch(/role === 'publisher'/);
+    expect(src).not.toMatch(/adminOnly:\s*true/);
   });
 
   test('lists AI Generate as the second item after Widgets', () => {

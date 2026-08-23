@@ -8,14 +8,13 @@ import AppList from '../../../@sling/core/AppList';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
-import {useAuthUser} from '../../../@sling/utility/AppHooks';
 
 export const folderList = [
   {id: 1, name: 'Widgets', alias: 'widgets-integration', icon: 'widgets'},
   {id: 6, name: 'AI Generate', alias: 'ai-generate', icon: 'auto_awesome'},
   {id: 5, name: 'Market Place', alias: 'market-place', icon: 'store_front'},
   {id: 5, name: 'Guide', alias: 'guide', icon: 'help_center'},
-  {id: 7, name: 'Review Queue', alias: 'review-queue', icon: 'rate_review', adminOnly: true},
+  {id: 7, name: 'Review Queue', alias: 'review-queue', icon: 'rate_review'},
 ];
 
 const useStyle = makeStyles((theme) => ({
@@ -44,9 +43,6 @@ const useStyle = makeStyles((theme) => ({
 
 const RoutesSideBar = ({basePath, noSubChild}) => {
   const classes = useStyle();
-  const user = useAuthUser();
-  const canReview = user?.role === 'admin' || user?.role === 'publisher';
-  const visibleFolders = folderList.filter((item) => !item.adminOnly || canReview);
 
   return (
     <>
@@ -59,7 +55,7 @@ const RoutesSideBar = ({basePath, noSubChild}) => {
               className={classes.listRoot}>
               <AppList
                 pageClasses={classes}
-                data={visibleFolders}
+                data={folderList}
                 ListEmptyComponent={
                   <ListEmptyResult
                     loading={true}
