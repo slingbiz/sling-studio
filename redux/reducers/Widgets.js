@@ -13,17 +13,32 @@ const initialState = {
   generatedWidget: null,
 };
 
+const asWidgetList = (payload) => {
+  if (Array.isArray(payload)) {
+    return {list: payload, totalCount: payload.length};
+  }
+  const nested = payload?.widgets;
+  if (Array.isArray(nested)) {
+    return {list: nested, totalCount: payload.totalCount ?? payload.tc ?? nested.length};
+  }
+  if (nested && Array.isArray(nested.widgets)) {
+    return {
+      list: nested.widgets,
+      totalCount: payload.totalCount ?? nested.tc ?? nested.widgets.length,
+    };
+  }
+  return {list: [], totalCount: 0};
+};
+
 const widgetsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_WIDGETS_DATA: {
-      const list = Array.isArray(action.payload)
-        ? action.payload
-        : action.payload?.widgets || [];
+      const {list, totalCount: counted} = asWidgetList(action.payload);
       const append = !Array.isArray(action.payload) && Boolean(action.payload?.append);
       const widgets = append ? [...(state.widgets || []), ...list] : list;
       const totalCount = Array.isArray(action.payload)
         ? list.length
-        : action.payload?.totalCount ?? list.length;
+        : action.payload?.totalCount ?? counted;
       return {
         ...state,
         widgets,

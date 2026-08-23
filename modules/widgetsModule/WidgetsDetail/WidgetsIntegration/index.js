@@ -384,7 +384,7 @@ const WidgetsIntegration = (props) => {
         className={classes.gridPadding}
         spacing={5}
         style={{padding: 20}}>
-        {widgets?.map((item, index) => (
+        {(Array.isArray(widgets) ? widgets : []).map((item, index) => (
           <Grid
             item
             xs={6}

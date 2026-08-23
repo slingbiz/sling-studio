@@ -44,4 +44,14 @@ describe('widgets reducer list paging', () => {
     );
     expect(next.widgets).toEqual([{_id: 'new'}]);
   });
+
+  test('unwraps the API nest {widgets: {widgets, tc}} so the grid can map', () => {
+    const next = widgetsReducer(initial, {
+      type: GET_WIDGETS_DATA,
+      payload: {widgets: {widgets: [{_id: 'a'}], tc: 4}, append: false},
+    });
+    expect(Array.isArray(next.widgets)).toBe(true);
+    expect(next.widgets).toEqual([{_id: 'a'}]);
+    expect(next.totalCount).toBe(4);
+  });
 });

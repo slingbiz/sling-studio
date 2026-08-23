@@ -92,12 +92,14 @@ export const getWidgets = (filters) => {
         if (!append) {
           dispatch({type: FETCH_SUCCESS});
         }
-        const widgets = data.data.widgets;
+        const raw = data.data.widgets;
+        const widgets = Array.isArray(raw) ? raw : raw?.widgets || [];
+        const totalCount = data.data.tc ?? raw?.tc ?? widgets.length;
         dispatch({
           type: GET_WIDGETS_DATA,
           payload: {
             widgets,
-            totalCount: data.data.tc ?? widgets.length,
+            totalCount,
             append: Boolean(append),
           },
         });

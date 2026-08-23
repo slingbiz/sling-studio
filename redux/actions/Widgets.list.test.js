@@ -14,7 +14,8 @@ describe('getWidgets list payload', () => {
   );
 
   test('dispatches widgets, totalCount, and append', () => {
-    expect(getFn).toMatch(/totalCount:\s*data\.data\.tc/);
+    expect(getFn).toMatch(/Array\.isArray\(raw\) \? raw : raw\?\.widgets/);
+    expect(getFn).toMatch(/totalCount/);
     expect(getFn).toMatch(/append:\s*Boolean/);
   });
 

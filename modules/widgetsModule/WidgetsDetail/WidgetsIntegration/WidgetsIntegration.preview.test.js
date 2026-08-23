@@ -37,6 +37,10 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).not.toMatch(/getWidgetType/);
   });
 
+  test('maps an array even if widgets is a nested API object', () => {
+    expect(src).toMatch(/Array\.isArray\(widgets\) \? widgets : \[\]/);
+  });
+
   test('does not dump removable status - published chips next to the yellow filter', () => {
     expect(src).not.toMatch(/status - \$\{/);
     expect(src).not.toMatch(/onDelete=\{\(\) => handleDeleteFilter/);
