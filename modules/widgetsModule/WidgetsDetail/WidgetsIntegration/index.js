@@ -73,10 +73,6 @@ const useStyles = makeStyles((theme) => ({
     },
     overflow: 'hidden',
   },
-  titleTruncate: {
-    padding: '7px 0 3px 0',
-    lineClamp: 1,
-  },
   btn: {
     fontWeight: Fonts.MEDIUM,
     padding: '4px 12px',
@@ -116,25 +112,24 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     backgroundColor: '#fff',
   },
+  previewSlot: {
+    position: 'relative',
+    height: 150,
+    minHeight: 150,
+    maxHeight: 150,
+    width: '100%',
+    flexShrink: 0,
+    overflow: 'hidden',
+    boxSizing: 'border-box',
+    backgroundColor: '#fff',
+    border: '1px solid #f0e6d8',
+    borderRadius: 6,
+  },
   imgContainer: {
     cursor: 'pointer',
-    position: 'relative',
-    height: 150,
-    width: '100%',
-    flexShrink: 0,
-    overflow: 'hidden',
   },
   noImgContainer: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     cursor: 'pointer',
-    height: 150,
-    width: '100%',
-    flexShrink: 0,
-    backgroundColor: '#fff',
-    overflow: 'hidden',
   },
   livePreview: {
     width: '100%',
@@ -142,6 +137,32 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     overflow: 'hidden',
     backgroundColor: '#fff',
+  },
+  emptyPreview: {
+    width: '100%',
+    height: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#b0b0b0',
+    fontSize: 12,
+    backgroundColor: '#fafafa',
+  },
+  titleTruncate: {
+    padding: '8px 0 4px 0',
+    minHeight: 48,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+  },
+  descriptionClamp: {
+    minHeight: 40,
+    overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
   },
   itemImage: {
     width: '100%',
@@ -335,9 +356,9 @@ const WidgetsIntegration = (props) => {
                 <Grid
                   item
                   xs={12}
-                  className={
+                  className={`${classes.previewSlot} ${
                     item.image ? classes.imgContainer : classes.noImgContainer
-                  }>
+                  }`}>
                   {hoveredWidget === item._id && (
                     <>
                       <IconButton
@@ -376,9 +397,7 @@ const WidgetsIntegration = (props) => {
                       />
                     </Box>
                   ) : (
-                    <Box className={classes.livePreview}>
-                      <span>{item.name}</span>
-                    </Box>
+                    <Box className={classes.emptyPreview}>No live preview</Box>
                   )}
                 </Grid>
                 <Grid item xs={12} style={{width: '100%'}}>
@@ -387,7 +406,7 @@ const WidgetsIntegration = (props) => {
                     fontWeight={Fonts.BOLD}
                     fontSize={16}
                     component='h4'
-                    className={clsx(classes.truncate, classes.titleTruncate)}>
+                    className={classes.titleTruncate}>
                     {item.name}
                     {item.source === 'ai_generated' && (
                       <Chip
@@ -416,11 +435,7 @@ const WidgetsIntegration = (props) => {
                   <Typography
                     component='h6'
                     color='text.secondary'
-                    className={clsx(
-                      classes.truncate,
-                      classes.textSm,
-                      classes.descpMargin,
-                    )}>
+                    className={clsx(classes.descriptionClamp, classes.descpMargin)}>
                     {item.description}
                   </Typography>
                   <Box fontWeight={Fonts.MEDIUM} component='h5'>

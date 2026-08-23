@@ -13,4 +13,9 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).not.toMatch(/alignItems='baseline'/);
     expect(src).toMatch(/alignItems='stretch'/);
   });
+
+  test('old widgets without code use a fixed preview slot, not the widget name', () => {
+    expect(src).toMatch(/No live preview/);
+    expect(src).toMatch(/previewSlot/);
+  });
 });

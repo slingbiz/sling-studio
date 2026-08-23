@@ -12,4 +12,10 @@ describe('SandboxedPreview', () => {
   test('does not treat iframe onLoad as ready, so a crashed Next boot cannot fake success', () => {
     expect(src).not.toMatch(/onLoad=\{\(\) => setIsReady\(true\)\}/);
   });
+
+  test('shows a loader until the sandbox reports RENDER_SUCCESS', () => {
+    expect(src).toMatch(/aria-label='Loading preview'/);
+    expect(src).toMatch(/RENDER_SUCCESS/);
+    expect(src).toMatch(/setPainted\(true\)/);
+  });
 });
