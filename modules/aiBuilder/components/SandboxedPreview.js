@@ -21,6 +21,10 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
   const iframeRef = useRef(null);
   const nonceRef = useRef(createNonce());
   const [isReady, setIsReady] = useState(false);
+  // Load the iframe only after the message listener is attached. A cached
+  // sandbox document can post READY during first paint, before useEffect,
+  // and then the preview stays blank forever.
+  const [frameSrc, setFrameSrc] = useState('');
 
   useEffect(() => {
     function handleMessage(event) {
@@ -42,6 +46,7 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
     }
 
     window.addEventListener('message', handleMessage);
+    setFrameSrc(`/sandbox/widget-preview?nonce=${nonceRef.current}`);
     return () => window.removeEventListener('message', handleMessage);
   }, [onError]);
 
@@ -68,10 +73,11 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
     <iframe
       ref={iframeRef}
       title='Widget preview'
-      src={`/sandbox/widget-preview?nonce=${nonceRef.current}`}
+      src={frameSrc || undefined}
       sandbox='allow-scripts'
       className={className}
-      style={{width: '100%', border: 'none', ...style}}
+      onLoad={() => setIsReady(true)}
+      style={{width: '100%', height: 480, border: 'none', display: 'block', ...style}}
     />
   );
 };

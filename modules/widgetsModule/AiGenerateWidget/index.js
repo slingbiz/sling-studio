@@ -147,13 +147,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 6,
   },
   resultSection: {
-    marginTop: 8,
+    maxWidth: 1100,
+    margin: '8px auto 0',
   },
   previewContainer: {
     border: '1px solid #f5efef',
     borderRadius: 8,
     overflow: 'hidden',
-    minHeight: 400,
+    height: 480,
     backgroundColor: '#fff',
   },
   metaCard: {
@@ -162,12 +163,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     border: '1px solid #f5efef',
   },
-  metaRow: {
+  metaChips: {
     display: 'flex',
-    alignItems: 'center',
-    marginBottom: 8,
-    gap: 8,
     flexWrap: 'wrap',
+    gap: 8,
+    alignItems: 'center',
+  },
+  metaChip: {
+    maxWidth: '100%',
   },
   codePane: {
     backgroundColor: '#1a1a1a',
@@ -177,11 +180,11 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.7,
     padding: '16px 20px',
     borderRadius: 8,
-    overflow: 'auto',
-    minHeight: 400,
-    maxHeight: 500,
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
+    overflowX: 'auto',
+    overflowY: 'scroll',
+    height: 480,
+    whiteSpace: 'pre',
+    wordBreak: 'normal',
   },
   '@keyframes blink': {
     '0%, 100%': {opacity: 1},
@@ -251,6 +254,26 @@ const useStyles = makeStyles((theme) => ({
   },
   headerIcon: {
     color: SLING_ORANGE,
+  },
+  collapsedPrompt: {
+    maxWidth: 1100,
+    margin: '0 auto 16px',
+    padding: '10px 14px',
+    borderRadius: 8,
+    border: '1px solid #f5efef',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    cursor: 'pointer',
+    backgroundColor: '#fff',
+  },
+  collapsedPromptText: {
+    flex: 1,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: theme.palette.text.secondary,
+    fontSize: 14,
   },
 }));
 
@@ -336,6 +359,7 @@ const AiGenerateWidget = () => {
   const [previewError, setPreviewError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
+  const [promptOpen, setPromptOpen] = useState(true);
   const codeRef = useRef(null);
 
   useEffect(() => {
@@ -351,17 +375,20 @@ const AiGenerateWidget = () => {
     if (saved) {
       setWidget(saved);
       setPhase('complete');
+      setPromptOpen(false);
       setStatusMessage('');
       return;
     }
     setError('Failed to save widget. Preview is still available.');
     setWidget(widgetData);
     setPhase('complete');
+    setPromptOpen(false);
   };
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     setStreaming(true);
+    setPromptOpen(true);
     setPhase('thinking');
     setStreamingCode('');
     setWidget(null);
@@ -387,6 +414,7 @@ const AiGenerateWidget = () => {
             setError(saveErr.message);
             setWidget(widgetData);
             setPhase('complete');
+            setPromptOpen(false);
           }
           setStreaming(false);
         },
@@ -411,6 +439,7 @@ const AiGenerateWidget = () => {
             setWidget(res.data.widget);
             setStreamingCode(res.data.widget.code || '');
             setPhase('complete');
+            setPromptOpen(false);
             setStreaming(false);
             setStatusMessage('');
             return;
@@ -421,6 +450,7 @@ const AiGenerateWidget = () => {
           setWidget(saved);
           setStreamingCode(saved.code || '');
           setPhase('complete');
+          setPromptOpen(false);
           setStreaming(false);
           setStatusMessage('');
           return;
@@ -460,63 +490,88 @@ const AiGenerateWidget = () => {
       </AppsHeader>
 
       <Box className={classes.content}>
-        <Box className={classes.hero}>
-          <Typography className={classes.eyebrow}>
-            <Icon style={{fontSize: 16}}>auto_awesome</Icon>
-            Governed AI
-          </Typography>
-          <Typography className={classes.title}>
-            Describe a widget. Sling generates a tenant-private component.
-          </Typography>
-          <Typography className={classes.subtitle}>
-            Generated code stays in your workspace, goes through review, and never leaks to another client.
-          </Typography>
-        </Box>
+        {promptOpen && (
+          <Box className={classes.hero}>
+            <Typography className={classes.eyebrow}>
+              <Icon style={{fontSize: 16}}>auto_awesome</Icon>
+              Governed AI
+            </Typography>
+            <Typography className={classes.title}>
+              Describe a widget. Sling generates a tenant-private component.
+            </Typography>
+            <Typography className={classes.subtitle}>
+              Generated code stays in your workspace, goes through review, and never leaks to another client.
+            </Typography>
+          </Box>
+        )}
 
-        <Paper className={classes.promptCard} elevation={0}>
-          <TextField
-            className={classes.promptField}
-            multiline
-            rows={3}
-            variant='outlined'
-            placeholder='e.g. A login form with email, password, and a Remember me checkbox'
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={streaming}
-          />
-          <Box className={classes.chips}>
-            {STARTER_PROMPTS.map((idea) => (
-              <Chip
-                key={idea}
-                className={classes.chip}
-                size='small'
-                label={idea}
-                onClick={() => setPrompt(idea)}
-                disabled={streaming}
-              />
-            ))}
-          </Box>
-          <Box className={classes.actionBar}>
-            <Button
-              className={classes.generateBtn}
-              variant='contained'
-              onClick={handleGenerate}
-              disabled={streaming || !prompt.trim()}
-              startIcon={<Icon>auto_awesome</Icon>}>
-              {streaming ? 'Generating...' : 'Generate Widget'}
-            </Button>
-            {widget && !streaming && (
-              <Button
-                className={classes.ghostBtn}
-                variant='outlined'
-                onClick={handleGenerate}
-                startIcon={<Icon>refresh</Icon>}>
-                Regenerate
-              </Button>
+        {!promptOpen && phase === 'complete' ? (
+          <Paper
+            className={classes.collapsedPrompt}
+            elevation={0}
+            onClick={() => setPromptOpen(true)}>
+            <Icon style={{color: SLING_ORANGE}}>expand_more</Icon>
+            <Typography className={classes.collapsedPromptText}>
+              {prompt || 'Edit prompt'}
+            </Typography>
+            <Chip size='small' label='Edit prompt' variant='outlined' />
+          </Paper>
+        ) : (
+          <Paper className={classes.promptCard} elevation={0}>
+            {phase === 'complete' && (
+              <Box style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}>
+                <Chip
+                  size='small'
+                  label='Collapse'
+                  variant='outlined'
+                  onClick={() => setPromptOpen(false)}
+                />
+              </Box>
             )}
-          </Box>
-        </Paper>
+            <TextField
+              className={classes.promptField}
+              multiline
+              rows={3}
+              variant='outlined'
+              placeholder='e.g. A login form with email, password, and a Remember me checkbox'
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={streaming}
+            />
+            <Box className={classes.chips}>
+              {STARTER_PROMPTS.map((idea) => (
+                <Chip
+                  key={idea}
+                  className={classes.chip}
+                  size='small'
+                  label={idea}
+                  onClick={() => setPrompt(idea)}
+                  disabled={streaming}
+                />
+              ))}
+            </Box>
+            <Box className={classes.actionBar}>
+              <Button
+                className={classes.generateBtn}
+                variant='contained'
+                onClick={handleGenerate}
+                disabled={streaming || !prompt.trim()}
+                startIcon={<Icon>auto_awesome</Icon>}>
+                {streaming ? 'Generating...' : 'Generate Widget'}
+              </Button>
+              {widget && !streaming && (
+                <Button
+                  className={classes.ghostBtn}
+                  variant='outlined'
+                  onClick={handleGenerate}
+                  startIcon={<Icon>refresh</Icon>}>
+                  Regenerate
+                </Button>
+              )}
+            </Box>
+          </Paper>
+        )}
 
         {error && (
           <Paper variant='outlined' className={classes.errorCard}>
@@ -539,22 +594,13 @@ const AiGenerateWidget = () => {
           <Box className={classes.resultSection}>
             {phase === 'complete' && widget && (
               <Paper className={classes.metaCard} variant='outlined'>
-                <Box className={classes.metaRow}>
-                  <Typography variant='subtitle2'>Name:</Typography>
-                  <Typography variant='body2'>{widget.name}</Typography>
-                </Box>
-                <Box className={classes.metaRow}>
-                  <Typography variant='subtitle2'>Key:</Typography>
-                  <Chip size='small' label={widget.key} variant='outlined' />
-                </Box>
-                {widget.description && (
-                  <Box className={classes.metaRow}>
-                    <Typography variant='subtitle2'>Description:</Typography>
-                    <Typography variant='body2'>{widget.description}</Typography>
-                  </Box>
-                )}
-                <Box className={classes.metaRow}>
-                  <Typography variant='subtitle2'>Status:</Typography>
+                <Box className={classes.metaChips}>
+                  {widget.name && (
+                    <Chip className={classes.metaChip} size='small' label={widget.name} color='default' />
+                  )}
+                  {widget.key && (
+                    <Chip className={classes.metaChip} size='small' label={widget.key} variant='outlined' />
+                  )}
                   <Chip
                     size='small'
                     label={submitted ? 'pending review' : (widget.status || 'draft').replace('_', ' ')}
@@ -563,8 +609,11 @@ const AiGenerateWidget = () => {
                   <Chip
                     size='small'
                     label='AI'
-                    style={{height: 20, fontSize: 10, backgroundColor: SLING_ORANGE, color: '#fff'}}
+                    style={{backgroundColor: SLING_ORANGE, color: '#fff'}}
                   />
+                  {widget.description && (
+                    <Chip className={classes.metaChip} size='small' label={widget.description} variant='outlined' />
+                  )}
                 </Box>
                 {widget._id && (
                   <Box style={{marginTop: 12}}>
@@ -590,7 +639,7 @@ const AiGenerateWidget = () => {
                       code={widget.code || streamingCode}
                       dependencies={widget.dependencies}
                       themeOverrides={tenantTheme}
-                      style={{minHeight: 400, background: '#fff'}}
+                      style={{height: 480, background: '#fff'}}
                       onError={setPreviewError}
                     />
                   </Box>
@@ -603,9 +652,11 @@ const AiGenerateWidget = () => {
                   </Box>
                 )}
                 {previewError && (
-                  <Typography variant='body2' color='error' style={{marginTop: 8}}>
-                    Preview error: {previewError}
-                  </Typography>
+                  <Paper variant='outlined' style={{padding: 10, marginTop: 8, borderColor: '#f44336'}}>
+                    <Typography variant='body2' color='error'>
+                      Preview error: {previewError}
+                    </Typography>
+                  </Paper>
                 )}
               </Grid>
 

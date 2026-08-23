@@ -88,6 +88,11 @@ export default function WidgetPreviewSandbox() {
           `${transpiled}
             if (typeof PreviewComponent === 'function') return PreviewComponent;
             if (typeof Component === 'function') return Component;
+            var names = Object.keys(this || {});
+            for (var i = 0; i < names.length; i++) {
+              var value = this[names[i]];
+              if (typeof value === 'function' && /^[A-Z]/.test(names[i])) return value;
+            }
             return null;`,
         );
 
@@ -134,8 +139,12 @@ export default function WidgetPreviewSandbox() {
 
     window.addEventListener('message', handleMessage);
     postToParent('READY', {});
+    const readyTimer = window.setInterval(() => {
+      if (nonceRef.current) postToParent('READY', {});
+    }, 400);
 
     return () => {
+      window.clearInterval(readyTimer);
       window.removeEventListener('message', handleMessage);
       if (rootRef.current) {
         rootRef.current.unmount();
