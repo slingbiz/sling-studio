@@ -51,13 +51,11 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).not.toMatch(/loading=\{loading\}/);
   });
 
-  test('fetches the first page of 8 widgets', () => {
-    expect(src).toMatch(/size:\s*8/);
-    expect(src).toMatch(/page:\s*0/);
-  });
-
-  test('appends the next page when the grid sentinel intersects', () => {
-    expect(src).toMatch(/IntersectionObserver/);
-    expect(src).toMatch(/append:\s*true/);
+  test('paginates 8 widgets at a time with page controls, not infinite scroll', () => {
+    expect(src).toMatch(/PAGE_SIZE\s*=\s*8/);
+    expect(src).toMatch(/AppsPagination/);
+    expect(src).toMatch(/rowsPerPage=\{PAGE_SIZE\}/);
+    expect(src).not.toMatch(/IntersectionObserver/);
+    expect(src).not.toMatch(/append:\s*true/);
   });
 });
