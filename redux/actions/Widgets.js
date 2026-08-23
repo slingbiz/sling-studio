@@ -17,6 +17,7 @@ import IntlMessages from '../../@sling/utility/IntlMessages';
 import {GET_WIDGETS, SERVICE_URL, AI_SERVICE_URL} from '../../shared/constants/Services';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 import {capital} from '../../@sling/utility/Utils';
+import {checkCodePolicy} from '../../modules/aiBuilder/codePolicy';
 import _ from 'lodash';
 
 export const createWidget = (widgetData) => {
@@ -175,6 +176,13 @@ export const generateWidget = (prompt, themeConfig) => {
 export const saveGeneratedWidget = (widgetData, prompt) => {
   return async (dispatch) => {
     try {
+      const policy = checkCodePolicy(widgetData.code || '', widgetData.dependencies);
+      if (!policy.allowed) {
+        const msg = policy.violations.map((item) => item.message).join(' ');
+        dispatch({type: GENERATE_WIDGET_ERROR, payload: msg});
+        dispatch({type: FETCH_ERROR, payload: msg});
+        return null;
+      }
       const Api = await ApiAuth();
       const res = await Api.post(`${SERVICE_URL}v1/widgets`, {
         ...widgetData,
