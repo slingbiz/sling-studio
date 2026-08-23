@@ -8,6 +8,7 @@ import AppList from '../../../@sling/core/AppList';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import SidebarPlaceholder from '../../../@sling/core/Skeleton/SidebarListSkeleton';
 import AppsSideBarFolderItemCustom from '../../../@sling/core/AppsSideBarFolderItem/custom';
+import {useSelector} from 'react-redux';
 
 export const folderList = [
   {
@@ -23,7 +24,13 @@ export const folderList = [
     icon: 'key',
   },
   {
-    id: 2,
+    id: 4,
+    name: 'Members',
+    alias: 'members',
+    icon: 'group',
+  },
+  {
+    id: 3,
     name: 'Theme',
     alias: 'theme',
     icon: 'palette',
@@ -55,8 +62,14 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
+const canManageMembers = (role) => role === 'owner' || role === 'admin';
+
 const RoutesSideBar = ({basePath, noSubChild}) => {
   const classes = useStyle();
+  const {user} = useSelector(({auth}) => auth);
+  const items = folderList.filter(
+    (item) => item.alias !== 'members' || canManageMembers(user?.role),
+  );
 
   return (
     <>
@@ -69,7 +82,7 @@ const RoutesSideBar = ({basePath, noSubChild}) => {
               className={classes.listRoot}>
               <AppList
                 pageClasses={classes}
-                data={folderList}
+                data={items}
                 ListEmptyComponent={
                   <ListEmptyResult
                     loading={true}
@@ -81,7 +94,7 @@ const RoutesSideBar = ({basePath, noSubChild}) => {
                     key={item.id}
                     noSubChild={noSubChild}
                     item={item}
-                    path={`${basePath}${item.alias}`}
+                    path={`/settings/${item.alias}`}
                   />
                 )}
               />

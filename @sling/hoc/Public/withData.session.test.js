@@ -12,4 +12,8 @@ describe('Public withData session', () => {
     expect(signinPush).toMatch(/getItem\(\s*['"]accessToken['"]\s*\)/);
     expect(signinPush).toMatch(/initialUrl/);
   });
+
+  test('invite accept stays public so a guest can join', () => {
+    expect(src).toMatch(/startsWith\(['"]\/invite['"]\)/);
+  });
 });

@@ -305,7 +305,7 @@ const AiGenerateWidget = () => {
   const router = useRouter();
   const {theme} = useContext(AppContext);
   const user = useAuthUser();
-  const canPublish = user?.role === 'admin' || user?.role === 'publisher';
+  const canPublish = user?.role === 'owner' || user?.role === 'admin' || user?.role === 'publisher';
   const tenantTheme = resolveWidgetTheme(theme);
   const [prompt, setPrompt] = useState('');
   const [streaming, setStreaming] = useState(false);

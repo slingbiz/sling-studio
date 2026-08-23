@@ -120,7 +120,7 @@ const WidgetReviewQueue = () => {
   const [rejectDialog, setRejectDialog] = useState({open: false, widgetId: null});
   const [rejectNotes, setRejectNotes] = useState('');
   const user = useAuthUser();
-  const canDecide = user?.role === 'admin' || user?.role === 'publisher';
+  const canDecide = user?.role === 'owner' || user?.role === 'admin' || user?.role === 'publisher';
 
   const currentStatus = STATUS_TABS[activeTab].status;
 

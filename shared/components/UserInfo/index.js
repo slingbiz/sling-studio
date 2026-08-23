@@ -127,11 +127,13 @@ const UserInfo = (props) => {
             </Box>
           </Box>
           <Box className={classes.designation}>
-            {user.role === 'admin'
+            {user.role === 'owner'
+              ? 'Owner'
+              : user.role === 'admin'
               ? 'Admin'
               : user.role === 'publisher'
               ? 'Publisher'
-              : 'User'}
+              : 'Member'}
           </Box>
         </Box>
       </Box>

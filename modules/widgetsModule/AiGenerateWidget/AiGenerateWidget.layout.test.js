@@ -36,6 +36,7 @@ describe('AiGenerateWidget layout', () => {
 
   test('admins and publishers get Publish; everyone else submits for review', () => {
     expect(src).toMatch(/publishWidgetAction/);
+    expect(src).toMatch(/role === 'owner'/);
     expect(src).toMatch(/role === 'admin'/);
     expect(src).toMatch(/role === 'publisher'/);
     expect(src).toMatch(/'Publish'/);

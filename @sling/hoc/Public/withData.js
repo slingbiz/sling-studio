@@ -65,7 +65,12 @@ const withData = (ComposedComponent) => (props) => {
             Router.push(initialUrl);
           }
         }
-      } else if (pathname !== '/signup' && pathname !== '/signin' && pathname !== '/forget-password') {
+      } else if (
+        pathname !== '/signup' &&
+        pathname !== '/signin' &&
+        pathname !== '/forget-password' &&
+        !String(pathname || '').startsWith('/invite')
+      ) {
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       }
     }

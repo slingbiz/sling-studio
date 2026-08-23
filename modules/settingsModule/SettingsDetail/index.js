@@ -5,6 +5,7 @@ import CompanyDetails from './CompanyDetails';
 import Guide from './Guide';
 import KeyUsage from './KeysUsage';
 import Theme from './Theme';
+import Members from './Members';
 
 const SettingsDetail = (props) => {
   const {query} = useRouter();
@@ -17,6 +18,7 @@ const SettingsDetail = (props) => {
     'keys-usage': KeyUsage,
     guide: Guide,
     theme: Theme,
+    members: Members,
   };
 
   const RenderSection = sectionMapper[id];
