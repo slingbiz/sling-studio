@@ -30,4 +30,10 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).toMatch(/label: 'Published'/);
     expect(src).toMatch(/label: 'Draft'/);
   });
+
+  test('does not force type: widget so all widget records appear in one list', () => {
+    expect(src).toMatch(/useState\(\{status:\s*'published'\}\)/);
+    expect(src).not.toMatch(/type:\s*'widget'/);
+    expect(src).not.toMatch(/getWidgetType/);
+  });
 });

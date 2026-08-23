@@ -223,26 +223,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getWidgetType = (pageKey) => {
-  let type = 'widget';
-  if (pageKey.includes('block')) {
-    type = 'block';
-  } else if (pageKey.includes('component')) {
-    type = 'component';
-  }
-  return type;
-};
-
 const WidgetsIntegration = (props) => {
   const {titleKey, pageKey} = props;
-  const type = getWidgetType(pageKey);
   const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
   const {theme} = useContext(AppContext);
   const tenantTheme = resolveWidgetTheme(theme);
   const {widgets} = useSelector(({widgets}) => widgets);
-  const [filter, setFilter] = useState({type, status: 'published'});
+  const [filter, setFilter] = useState({status: 'published'});
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -256,10 +245,6 @@ const WidgetsIntegration = (props) => {
   useEffect(() => {
     dispatch(getWidgets(filter));
   }, [filter]);
-
-  useEffect(() => {
-    setFilter((prev) => ({...prev, type}));
-  }, [type]);
 
   const setStatusFilter = (status) => {
     setFilter((prev) => ({...prev, status}));
@@ -309,7 +294,7 @@ const WidgetsIntegration = (props) => {
           fontWeight={Fonts.BOLD}
           component='h3'
           style={{textTransform: 'capitalize'}}>
-          {type} Integration
+          Widgets
         </Box>
         <Box style={{display: 'flex', alignItems: 'center'}}>
           <Box>
