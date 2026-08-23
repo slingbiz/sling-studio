@@ -24,4 +24,13 @@ describe('WidgetReviewQueue cannot skip review', () => {
     expect(pendingBlock).toMatch(/handleRejectOpen/);
     expect(pendingBlock).not.toMatch(/handlePublish/);
   });
+
+  test('always shows a live preview when the widget has code', () => {
+    expect(src).toMatch(/SandboxedPreview/);
+    expect(src).toMatch(/themeOverrides=\{tenantTheme\}/);
+    expect(src).toMatch(/style=\{\{height: 360\}\}/);
+    expect(src).not.toMatch(/Hide Preview/);
+    expect(src).not.toMatch(/Show Preview/);
+    expect(src).toMatch(/No live preview/);
+  });
 });

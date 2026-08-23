@@ -23,4 +23,14 @@ describe('preview runtime scope', () => {
     expect(src).toMatch(/overflow:\s*auto/);
     expect(src).not.toMatch(/#sling-sandbox-root \{[\s\S]*overflow:\s*hidden/);
   });
+
+  test('renders a PascalCase component that is not named PreviewComponent', () => {
+    expect(src).toMatch(/function inferComponentName/);
+    expect(src).toMatch(/if \(typeof ' \+ inferred \+ ' === "function"\) return ' \+ inferred/);
+  });
+
+  test('shows a render error in the iframe instead of a blank box', () => {
+    expect(src).toMatch(/data-preview-error/);
+    expect(src).toMatch(/function showError/);
+  });
 });

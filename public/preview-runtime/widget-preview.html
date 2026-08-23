@@ -141,13 +141,45 @@
           return scope;
         }
 
+        function sanitizeCode(code) {
+          return String(code || '')
+            .replace(/^\s*import\s+[\s\S]*?;?\s*$/gm, '')
+            .replace(/export\s+default\s+/, '')
+            .replace(/export\s+/, '');
+        }
+
+        function inferComponentName(code) {
+          var patterns = [
+            /function\s+([A-Z][A-Za-z0-9_]*)\s*\(/,
+            /(?:const|let|var)\s+([A-Z][A-Za-z0-9_]*)\s*=/,
+            /class\s+([A-Z][A-Za-z0-9_]*)\s+/,
+          ];
+          for (var i = 0; i < patterns.length; i++) {
+            var match = code.match(patterns[i]);
+            if (match && match[1] !== 'ThemedComponent') return match[1];
+          }
+          return null;
+        }
+
+        function showError(message) {
+          mount.innerHTML = '';
+          var el = document.createElement('div');
+          el.setAttribute('data-preview-error', '1');
+          el.style.cssText =
+            'padding:16px;font:14px/1.45 -apple-system,BlinkMacSystemFont,sans-serif;color:#b71c1c;';
+          el.textContent = message || 'Preview failed';
+          mount.appendChild(el);
+        }
+
         function renderCode(code, themeOverrides) {
           try {
             if (!code || !window.Babel || !window.MaterialUI) {
               throw new Error('Preview runtime is not ready.');
             }
+            var clean = sanitizeCode(code);
+            var inferred = inferComponentName(clean);
             var scope = buildScope(themeOverrides);
-            var transpiled = Babel.transform(code, {presets: ['react']}).code;
+            var transpiled = Babel.transform(clean, {presets: ['react']}).code;
             var ThemedComponent = scope.ThemedComponent;
             var keys = Object.keys(scope).filter(function (key) {
               return key !== 'ThemedComponent' && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key);
@@ -157,16 +189,12 @@
                 return 'var ' + key + ' = __scope[' + JSON.stringify(key) + '];';
               })
               .join('\n');
-            var factory = new Function(
-              '__scope',
-              prelude +
-                '\n' +
-                transpiled +
-                '\n' +
-                'if (typeof PreviewComponent === "function") return PreviewComponent;\n' +
-                'if (typeof Component === "function") return Component;\n' +
-                'return null;',
-            );
+            var resolve =
+              'if (typeof PreviewComponent === "function") return PreviewComponent;\n' +
+              'if (typeof Component === "function") return Component;\n' +
+              (inferred ? 'if (typeof ' + inferred + ' === "function") return ' + inferred + ';\n' : '') +
+              'return null;';
+            var factory = new Function('__scope', prelude + '\n' + transpiled + '\n' + resolve);
             var Component = factory(scope);
             if (typeof Component !== 'function') {
               throw new Error('Generated code did not define a PreviewComponent.');
@@ -177,9 +205,11 @@
             );
             postToParent('RENDER_SUCCESS', {nonce: nonce, height: document.body.scrollHeight});
           } catch (error) {
+            var message = (error && error.message) || 'Failed to render generated widget.';
+            showError(message);
             postToParent('RENDER_ERROR', {
               nonce: nonce,
-              message: (error && error.message) || 'Failed to render generated widget.',
+              message: message,
             });
           }
         }

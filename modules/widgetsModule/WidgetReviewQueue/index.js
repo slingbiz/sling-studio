@@ -1,8 +1,7 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useContext} from 'react';
 import {
   makeStyles,
   Box,
-  Grid,
   Typography,
   Button,
   Paper,
@@ -30,6 +29,8 @@ import {
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import {useAuthUser} from '../../../@sling/utility/AppHooks';
+import AppContext from '../../../@sling/utility/AppContext';
+import {resolveWidgetTheme} from '../../aiBuilder/widgetTheme';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,18 +70,27 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   previewContainer: {
-    border: '1px solid rgba(0,0,0,0.12)',
+    border: '1px solid #f0e6d8',
     borderRadius: 8,
     overflow: 'hidden',
     marginTop: 12,
+    minHeight: 360,
+    background: '#fff',
   },
-  expandBtn: {
+  previewError: {
+    color: '#b71c1c',
+    marginTop: 8,
+  },
+  emptyPreview: {
+    minHeight: 120,
     display: 'flex',
     alignItems: 'center',
-    cursor: 'pointer',
-    gap: 4,
-    color: theme.palette.primary.main,
-    marginTop: 8,
+    justifyContent: 'center',
+    color: '#7a4a00',
+    background: '#fff8f0',
+    border: '1px dashed #f0e6d8',
+    borderRadius: 8,
+    marginTop: 12,
   },
   btn: {
     fontWeight: Fonts.MEDIUM,
@@ -116,10 +126,12 @@ const WidgetReviewQueue = () => {
   const {widgets} = useSelector(({widgets}) => widgets);
   const loading = useSelector(({common}) => common.loading);
   const [activeTab, setActiveTab] = useState(0);
-  const [expandedWidgets, setExpandedWidgets] = useState({});
+  const [previewErrors, setPreviewErrors] = useState({});
   const [rejectDialog, setRejectDialog] = useState({open: false, widgetId: null});
   const [rejectNotes, setRejectNotes] = useState('');
   const user = useAuthUser();
+  const {theme} = useContext(AppContext);
+  const tenantTheme = resolveWidgetTheme(theme);
   const canDecide = user?.role === 'owner' || user?.role === 'admin' || user?.role === 'publisher';
 
   const currentStatus = STATUS_TABS[activeTab].status;
@@ -131,13 +143,6 @@ const WidgetReviewQueue = () => {
   useEffect(() => {
     fetchWidgets();
   }, [fetchWidgets]);
-
-  const toggleExpand = (widgetId) => {
-    setExpandedWidgets((prev) => ({
-      ...prev,
-      [widgetId]: !prev[widgetId],
-    }));
-  };
 
   const handleApprove = async (widgetId) => {
     const result = await dispatch(reviewWidgetAction(widgetId, 'approve'));
@@ -321,32 +326,28 @@ const WidgetReviewQueue = () => {
                 {renderActions(item)}
               </Box>
 
-              {item.source === 'ai_generated' && item.code && (
-                <>
-                  <Box
-                    className={classes.expandBtn}
-                    onClick={() => toggleExpand(item._id)}>
-                    <Icon style={{fontSize: 18}}>
-                      {expandedWidgets[item._id]
-                        ? 'expand_less'
-                        : 'expand_more'}
-                    </Icon>
-                    <Typography variant='body2'>
-                      {expandedWidgets[item._id]
-                        ? 'Hide Preview'
-                        : 'Show Preview'}
+              {item.code ? (
+                <Box className={classes.previewContainer}>
+                  <SandboxedPreview
+                    code={item.code}
+                    dependencies={item.dependencies}
+                    themeOverrides={tenantTheme}
+                    style={{height: 360}}
+                    onError={(message) =>
+                      setPreviewErrors((prev) => ({
+                        ...prev,
+                        [item._id]: message,
+                      }))
+                    }
+                  />
+                  {previewErrors[item._id] && (
+                    <Typography variant='body2' className={classes.previewError} style={{padding: 12}}>
+                      Preview failed: {previewErrors[item._id]}
                     </Typography>
-                  </Box>
-                  {expandedWidgets[item._id] && (
-                    <Box className={classes.previewContainer}>
-                      <SandboxedPreview
-                        code={item.code}
-                        dependencies={item.dependencies}
-                        style={{minHeight: 300}}
-                      />
-                    </Box>
                   )}
-                </>
+                </Box>
+              ) : (
+                <Box className={classes.emptyPreview}>No live preview</Box>
               )}
             </Paper>
           ))}

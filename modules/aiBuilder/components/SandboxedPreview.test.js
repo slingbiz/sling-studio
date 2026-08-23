@@ -22,4 +22,9 @@ describe('SandboxedPreview', () => {
   test('clips the iframe so a tall widget cannot blow out the card', () => {
     expect(src).toMatch(/overflow: 'hidden'/);
   });
+
+  test('does not reload the iframe when onError identity changes', () => {
+    expect(src).toMatch(/onErrorRef/);
+    expect(src).not.toMatch(/}, \[onError\]\);/);
+  });
 });

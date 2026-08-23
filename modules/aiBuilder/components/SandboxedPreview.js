@@ -23,6 +23,8 @@ function createNonce() {
 const SandboxedPreview = ({code, dependencies, themeOverrides, className, style, onError}) => {
   const iframeRef = useRef(null);
   const nonceRef = useRef(createNonce());
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
   const [isReady, setIsReady] = useState(false);
   const [painted, setPainted] = useState(false);
   // Load the iframe only after the message listener is attached. A cached
@@ -44,17 +46,17 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
 
       if (data.type === 'RENDER_SUCCESS') {
         setPainted(true);
-        onError?.(null);
+        onErrorRef.current?.(null);
       } else if (data.type === 'RENDER_ERROR') {
         setPainted(true);
-        onError?.(data.message || 'Failed to render generated widget.');
+        onErrorRef.current?.(data.message || 'Failed to render generated widget.');
       }
     }
 
     window.addEventListener('message', handleMessage);
     setFrameSrc(`/preview-runtime/widget-preview.html?nonce=${nonceRef.current}`);
     return () => window.removeEventListener('message', handleMessage);
-  }, [onError]);
+  }, []);
 
   useEffect(() => {
     if (!isReady || !code || !iframeRef.current?.contentWindow) return;
