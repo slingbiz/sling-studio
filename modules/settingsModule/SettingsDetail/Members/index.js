@@ -9,7 +9,7 @@ import {
   Icon,
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../../@sling/core/AppsHeader';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import ApiAuth from '../../../../@sling/services/ApiAuthConfig';
 import {SERVICE_URL} from '../../../../shared/constants/Services';
