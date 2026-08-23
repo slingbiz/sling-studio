@@ -468,9 +468,11 @@ const AiGenerateWidget = () => {
     }
   };
 
+  const widgetId = widget?._id || widget?.id;
+
   const handleSubmitForReview = async () => {
-    if (!widget?._id) return;
-    const result = await dispatch(submitForReview(widget._id));
+    if (!widgetId) return;
+    const result = await dispatch(submitForReview(widgetId));
     if (result) setSubmitted(true);
   };
 
@@ -627,18 +629,16 @@ const AiGenerateWidget = () => {
                     <Chip className={classes.metaChip} size='small' label={widget.description} variant='outlined' />
                   )}
                 </Box>
-                {widget._id && (
-                  <Box style={{marginTop: 12}}>
-                    <Button
-                      className={classes.generateBtn}
-                      variant='contained'
-                      onClick={handleSubmitForReview}
-                      disabled={submitted}
-                      startIcon={<Icon>rate_review</Icon>}>
-                      {submitted ? 'Submitted for Review' : 'Submit for Review'}
-                    </Button>
-                  </Box>
-                )}
+                <Box style={{marginTop: 12}}>
+                  <Button
+                    className={classes.generateBtn}
+                    variant='contained'
+                    onClick={handleSubmitForReview}
+                    disabled={submitted || !widgetId}
+                    startIcon={<Icon>rate_review</Icon>}>
+                    {submitted ? 'Submitted for Review' : 'Submit for Review'}
+                  </Button>
+                </Box>
               </Paper>
             )}
 

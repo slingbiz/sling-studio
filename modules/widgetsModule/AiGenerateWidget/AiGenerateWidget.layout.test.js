@@ -24,4 +24,9 @@ describe('AiGenerateWidget layout', () => {
     expect(src).toMatch(/previewPlaceholder:[\s\S]*height:\s*480/);
     expect(src).toMatch(/codePane:[\s\S]*height:\s*480/);
   });
+
+  test('submit for review uses id or _id so a saved draft always shows the button', () => {
+    expect(src).toMatch(/widget\?._id \|\| widget\?\.id/);
+    expect(src).toMatch(/Submit for Review/);
+  });
 });
