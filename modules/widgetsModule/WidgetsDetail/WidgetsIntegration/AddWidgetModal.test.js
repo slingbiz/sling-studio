@@ -27,4 +27,9 @@ describe('AddWidgetModal combined editor', () => {
     expect(src).toMatch(/Cancel/);
     expect(src).toMatch(/updateProp \? 'Update' : 'Save'/);
   });
+
+  test('modal save actions sit on the right with sling orange', () => {
+    expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
+    expect(src).toMatch(/SLING_ORANGE|#ff9800/);
+  });
 });

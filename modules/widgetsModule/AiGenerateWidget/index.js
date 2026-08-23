@@ -125,6 +125,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
+  editorActionBar: {
+    display: 'flex',
+    gap: 12,
+    marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
+  },
+  editorStatus: {
+    marginRight: 'auto',
+  },
   generateBtn: {
     fontWeight: Fonts.MEDIUM,
     textTransform: 'none',
@@ -449,33 +460,6 @@ const AiGenerateWidget = () => {
     ? 'pending review'
     : (widget?.status || 'draft').replace('_', ' ');
 
-  const renderGovernanceActions = () => (
-    <Box className={classes.actionBar} style={{justifyContent: 'flex-start'}}>
-      <Typography variant='body2' color='textSecondary'>
-        {published ? 'Published' : submitted ? 'In review' : 'Saved as draft'}
-      </Typography>
-      {canPublish ? (
-        <Button
-          className={classes.generateBtn}
-          variant='contained'
-          onClick={handlePublish}
-          disabled={published || !widgetId}
-          startIcon={<Icon>publish</Icon>}>
-          {published ? 'Published' : 'Publish'}
-        </Button>
-      ) : (
-        <Button
-          className={classes.generateBtn}
-          variant='contained'
-          onClick={handleSubmitForReview}
-          disabled={submitted || published || !widgetId}
-          startIcon={<Icon>rate_review</Icon>}>
-          {submitted ? 'Submitted for Review' : 'Submit for Review'}
-        </Button>
-      )}
-    </Box>
-  );
-
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -629,7 +613,6 @@ const AiGenerateWidget = () => {
                     <Chip className={classes.metaChip} size='small' label={widget.description} variant='outlined' />
                   )}
                 </Box>
-                {renderGovernanceActions()}
               </Paper>
             )}
 
@@ -669,7 +652,17 @@ const AiGenerateWidget = () => {
                     </Paper>
                   )}
                   {phase === 'complete' && widget && (
-                    <Box className={classes.actionBar} style={{justifyContent: 'flex-start'}}>
+                    <Box className={classes.editorActionBar}>
+                      <Typography
+                        className={classes.editorStatus}
+                        variant='body2'
+                        color='textSecondary'>
+                        {published
+                          ? 'Published'
+                          : submitted
+                          ? 'In review'
+                          : 'Saved as draft'}
+                      </Typography>
                       <Button
                         type='submit'
                         variant='outlined'
@@ -677,12 +670,34 @@ const AiGenerateWidget = () => {
                         disabled={isSubmitting || !widgetId}>
                         Save changes
                       </Button>
+                      {canPublish ? (
+                        <Button
+                          className={classes.generateBtn}
+                          variant='contained'
+                          type='button'
+                          onClick={handlePublish}
+                          disabled={published || !widgetId}
+                          startIcon={<Icon>publish</Icon>}>
+                          {published ? 'Published' : 'Publish'}
+                        </Button>
+                      ) : (
+                        <Button
+                          className={classes.generateBtn}
+                          variant='contained'
+                          type='button'
+                          onClick={handleSubmitForReview}
+                          disabled={submitted || published || !widgetId}
+                          startIcon={<Icon>rate_review</Icon>}>
+                          {submitted
+                            ? 'Submitted for Review'
+                            : 'Submit for Review'}
+                        </Button>
+                      )}
                     </Box>
                   )}
                 </Form>
               )}
             </Formik>
-            {phase === 'complete' && widget && renderGovernanceActions()}
           </Box>
         )}
       </Box>

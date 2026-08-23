@@ -41,4 +41,13 @@ describe('AiGenerateWidget layout', () => {
     expect(src).toMatch(/'Publish'/);
     expect(src).toMatch(/Saved as draft/);
   });
+
+  test('save and submit sit on the right with sling orange, not a left stack', () => {
+    expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
+    expect(src).toMatch(/SLING_ORANGE|#ff9800/);
+    expect(src).toMatch(/Save changes/);
+    expect(src).toMatch(/Submit for Review/);
+    expect(src).toMatch(/ghostBtn/);
+    expect(src).not.toMatch(/style=\{\{justifyContent:\s*['"]flex-start['"]\}\}/);
+  });
 });

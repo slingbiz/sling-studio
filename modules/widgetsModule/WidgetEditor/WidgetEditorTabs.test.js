@@ -11,7 +11,7 @@ describe('WidgetEditorTabs', () => {
   });
 
   test('selected tab uses brand orange', () => {
-    expect(src).toMatch(/#ff9800/);
+    expect(src).toMatch(/SLING_ORANGE|#ff9800/);
   });
 
   test('Widget tab previews code in SandboxedPreview or shows No live preview', () => {
@@ -31,5 +31,12 @@ describe('WidgetEditorTabs', () => {
     expect(src).not.toMatch(/label:\s*['"]Block['"]/);
     expect(src).not.toMatch(/label:\s*['"]Component['"]/);
     expect(src).not.toMatch(/componentType/);
+  });
+
+  test('meta fields use sling orange and cream fill', () => {
+    expect(src).toMatch(/SLING_ORANGE|#ff9800/);
+    expect(src).toMatch(/SLING_CREAM|#fff8f0/);
+    expect(src).toMatch(/MuiOutlinedInput/);
+    expect(src).toMatch(/backgroundColor:\s*SLING_CREAM/);
   });
 });

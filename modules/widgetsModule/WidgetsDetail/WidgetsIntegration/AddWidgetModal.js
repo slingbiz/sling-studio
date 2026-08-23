@@ -18,6 +18,7 @@ import {createWidget, updateWidget} from '../../../../redux/actions';
 import AppContext from '../../../../@sling/utility/AppContext';
 import {resolveWidgetTheme} from '../../../aiBuilder/widgetTheme';
 import WidgetEditorTabs, {emptyProp} from '../../WidgetEditor/WidgetEditorTabs';
+import {SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -37,6 +38,31 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-around',
     padding: '10px 20px',
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 30,
+  },
+  ghostBtn: {
+    fontWeight: 500,
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    borderColor: SLING_ORANGE,
+    borderRadius: 6,
+  },
+  saveBtn: {
+    fontWeight: 500,
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    borderRadius: 6,
+    boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: '#f57c00',
+    },
   },
 }));
 
@@ -155,18 +181,18 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                   }
                 }}
               />
-              <Box sx={{marginLeft: 'auto', marginTop: 30}}>
+              <Box className={classes.footer}>
                 <Button
                   variant='outlined'
-                  onClick={handleClose}
-                  style={{marginRight: 15}}>
+                  className={classes.ghostBtn}
+                  onClick={handleClose}>
                   Cancel
                 </Button>
                 <Button
                   disabled={isSubmitting}
                   type='submit'
                   variant='contained'
-                  color='secondary'>
+                  className={classes.saveBtn}>
                   {updateProp ? 'Update' : 'Save'}
                 </Button>
               </Box>

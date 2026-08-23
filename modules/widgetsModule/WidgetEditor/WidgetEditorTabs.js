@@ -18,8 +18,7 @@ import {capital} from '../../../@sling/utility/Utils';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 import {AllIcons} from '../../../shared/constants/IconList';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
-
-const BRAND_ORANGE = '#ff9800';
+import {SLING_ORANGE, SLING_CREAM} from '../../aiBuilder/slingTheme';
 
 const TABS = [
   {id: 'widget', label: 'Widget'},
@@ -70,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '2px solid transparent',
   },
   tabSelected: {
-    color: BRAND_ORANGE,
-    borderBottom: `2px solid ${BRAND_ORANGE}`,
+    color: SLING_ORANGE,
+    borderBottom: `2px solid ${SLING_ORANGE}`,
   },
   previewContainer: {
     border: '1px solid #f5efef',
@@ -88,9 +87,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     height: 480,
     boxSizing: 'border-box',
-    backgroundColor: '#fff8ee',
+    backgroundColor: SLING_CREAM,
     borderRadius: 8,
-    border: `1px dashed ${BRAND_ORANGE}`,
+    border: `1px dashed ${SLING_ORANGE}`,
     gap: 12,
   },
   codePane: {
@@ -113,14 +112,35 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     resize: 'none',
   },
+  metaPane: {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 6,
+      backgroundColor: SLING_CREAM,
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: SLING_ORANGE,
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: SLING_ORANGE,
+        borderWidth: 2,
+      },
+    },
+    '& .MuiInputLabel-outlined.Mui-focused': {
+      color: SLING_ORANGE,
+    },
+  },
   metaImport: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
     padding: '10px 12px',
-    background: '#fafafa',
+    background: SLING_CREAM,
     borderRadius: 6,
+  },
+  importBtn: {
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    borderColor: SLING_ORANGE,
   },
   titleRequiredProp: {
     fontSize: 18,
@@ -129,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
   propsBox: {
     display: 'flex',
     flexDirection: 'column',
-    background: '#f6f7fa',
+    background: SLING_CREAM,
     borderRadius: 5,
     padding: '20px 0px',
   },
@@ -326,7 +346,7 @@ const WidgetEditorTabs = ({
           </Box>
         ) : (
           <Box className={classes.previewPlaceholder}>
-            <Icon style={{fontSize: 48, color: BRAND_ORANGE, opacity: 0.45}}>
+            <Icon style={{fontSize: 48, color: SLING_ORANGE, opacity: 0.45}}>
               widgets
             </Icon>
             <Typography variant='body2' color='textSecondary'>
@@ -349,7 +369,7 @@ const WidgetEditorTabs = ({
         ))}
 
       {activeTab === 'meta' && (
-        <Box>
+        <Box className={classes.metaPane}>
           {showImport && (
             <Box className={classes.metaImport}>
               <Typography variant='body2' color='textSecondary'>
@@ -367,7 +387,11 @@ const WidgetEditorTabs = ({
                   }}
                 />
                 <label htmlFor='pick-json-file'>
-                  <Button variant='outlined' color='primary' component='span' size='small'>
+                  <Button
+                    variant='outlined'
+                    className={classes.importBtn}
+                    component='span'
+                    size='small'>
                     Import File
                   </Button>
                 </label>
