@@ -13,4 +13,15 @@ describe('AiGenerateWidget layout', () => {
   test('keeps the preview and code panes visible while generating', () => {
     expect(src).toMatch(/isWorking \|\| phase === 'complete'/);
   });
+
+  test('Enter generates and Shift+Enter still makes a new line', () => {
+    expect(src).toMatch(/e\.key === 'Enter' && !e\.shiftKey/);
+    expect(src).toMatch(/e\.preventDefault\(\)/);
+  });
+
+  test('preview and code panes share the same 480px height', () => {
+    expect(src).toMatch(/previewContainer:[\s\S]*height:\s*480/);
+    expect(src).toMatch(/previewPlaceholder:[\s\S]*height:\s*480/);
+    expect(src).toMatch(/codePane:[\s\S]*height:\s*480/);
+  });
 });

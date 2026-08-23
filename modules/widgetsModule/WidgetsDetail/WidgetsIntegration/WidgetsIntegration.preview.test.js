@@ -24,4 +24,10 @@ describe('WidgetsIntegration live preview', () => {
     const cardChunk = src.slice(cardStart, cardStart + 800);
     expect(cardChunk).not.toMatch(/<Grid/);
   });
+
+  test('lists published widgets by default and can filter to drafts', () => {
+    expect(src).toMatch(/status:\s*'published'/);
+    expect(src).toMatch(/label: 'Published'/);
+    expect(src).toMatch(/label: 'Draft'/);
+  });
 });

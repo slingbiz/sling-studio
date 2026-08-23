@@ -155,6 +155,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     overflow: 'hidden',
     height: 480,
+    boxSizing: 'border-box',
     backgroundColor: '#fff',
   },
   metaCard: {
@@ -183,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'auto',
     overflowY: 'scroll',
     height: 480,
+    boxSizing: 'border-box',
     whiteSpace: 'pre',
     wordBreak: 'normal',
   },
@@ -208,7 +210,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 400,
+    height: 480,
+    boxSizing: 'border-box',
     backgroundColor: SLING_CREAM,
     borderRadius: 8,
     border: `1px dashed ${SLING_ORANGE}`,
@@ -472,7 +475,10 @@ const AiGenerateWidget = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) handleGenerate();
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleGenerate();
+    }
   };
 
   const isWorking = phase === 'thinking' || phase === 'coding';
@@ -538,6 +544,7 @@ const AiGenerateWidget = () => {
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={streaming}
+              helperText='Enter to generate · Shift+Enter for a new line'
             />
             <Box className={classes.chips}>
               {STARTER_PROMPTS.map((idea) => (
@@ -601,6 +608,11 @@ const AiGenerateWidget = () => {
                   {widget.key && (
                     <Chip className={classes.metaChip} size='small' label={widget.key} variant='outlined' />
                   )}
+                  <Chip
+                    size='small'
+                    label={`v${widget.version || 1}`}
+                    variant='outlined'
+                  />
                   <Chip
                     size='small'
                     label={submitted ? 'pending review' : (widget.status || 'draft').replace('_', ' ')}

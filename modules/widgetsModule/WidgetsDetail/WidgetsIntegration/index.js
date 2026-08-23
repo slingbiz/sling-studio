@@ -33,6 +33,12 @@ import {useRouter} from 'next/router';
 import AppContext from '../../../../@sling/utility/AppContext';
 import SandboxedPreview from '../../../aiBuilder/components/SandboxedPreview';
 import {resolveWidgetTheme} from '../../../aiBuilder/widgetTheme';
+import {SLING_ORANGE} from '../../../aiBuilder/slingTheme';
+
+const STATUS_FILTERS = [
+  {label: 'Published', value: 'published'},
+  {label: 'Draft', value: 'draft'},
+];
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -199,6 +205,22 @@ const useStyles = makeStyles((theme) => ({
   infoRow: {
     marginBottom: 10,
   },
+  statusFilters: {
+    display: 'flex',
+    gap: 8,
+    marginRight: 12,
+  },
+  statusChip: {
+    textTransform: 'none',
+  },
+  statusChipActive: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#f57c00',
+    },
+  },
 }));
 
 const getWidgetType = (pageKey) => {
@@ -220,7 +242,7 @@ const WidgetsIntegration = (props) => {
   const {theme} = useContext(AppContext);
   const tenantTheme = resolveWidgetTheme(theme);
   const {widgets} = useSelector(({widgets}) => widgets);
-  const [filter, setFilter] = useState({type});
+  const [filter, setFilter] = useState({type, status: 'published'});
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -236,8 +258,12 @@ const WidgetsIntegration = (props) => {
   }, [filter]);
 
   useEffect(() => {
-    setFilter({...filter, type});
+    setFilter((prev) => ({...prev, type}));
   }, [type]);
+
+  const setStatusFilter = (status) => {
+    setFilter((prev) => ({...prev, status}));
+  };
 
   const toggleDrawer = (value, item) => {
     setOpenDrawer(value);
@@ -303,6 +329,22 @@ const WidgetsIntegration = (props) => {
                 ''
               );
             })}
+          </Box>
+          <Box className={classes.statusFilters}>
+            {STATUS_FILTERS.map((option) => (
+              <Chip
+                key={option.value}
+                size='small'
+                label={option.label}
+                aria-label={`Show ${option.label} widgets`}
+                className={
+                  filter.status === option.value ? classes.statusChipActive : classes.statusChip
+                }
+                onClick={() => setStatusFilter(option.value)}
+                color={filter.status === option.value ? 'primary' : 'default'}
+                variant={filter.status === option.value ? 'default' : 'outlined'}
+              />
+            ))}
           </Box>
           <Tooltip title='Generate with AI'>
             <IconButton onClick={() => router.push('/widgets/ai-generate')}>
@@ -415,19 +457,13 @@ const WidgetsIntegration = (props) => {
                       style={{marginLeft: 4, height: 20, fontSize: 10}}
                     />
                   )}
-                  {item.status && item.status !== 'published' && (
+                  {item.status && (
                     <Chip
                       size='small'
                       label={item.status.replace('_', ' ')}
                       variant='outlined'
                       style={{marginLeft: 4, height: 20, fontSize: 10}}
-                      color={
-                        item.status === 'approved'
-                          ? 'primary'
-                          : item.status === 'rejected'
-                          ? 'secondary'
-                          : 'default'
-                      }
+                      color={item.status === 'published' ? 'primary' : 'default'}
                     />
                   )}
                 </Box>
@@ -438,7 +474,7 @@ const WidgetsIntegration = (props) => {
                   {item.description}
                 </Typography>
                 <Box fontWeight={Fonts.MEDIUM} component='h5'>
-                  Version: {item.version}
+                  Version: {item.version || 1}
                 </Box>
                 <Box className={classes.cardFooter}>
                   <Box fontWeight={Fonts.MEDIUM} component='h5' className={classes.infoRow}>
