@@ -108,4 +108,40 @@ describe('Settings → Theme', () => {
     });
     expect(updateTheme.mock.calls[0][0].palette.primary.main).toBe('#123456');
   });
+
+  test('shows a live storefront preview that follows the primary color', async () => {
+    renderTheme();
+
+    const previewCta = await screen.findByTestId('theme-preview-cta');
+    expect(previewCta).toHaveStyle({backgroundColor: '#0A8FDC'});
+
+    fireEvent.change(screen.getByRole('textbox', {name: 'Primary main'}), {
+      target: {value: '#ff9800'},
+    });
+
+    expect(screen.getByTestId('theme-preview-cta')).toHaveStyle({
+      backgroundColor: '#ff9800',
+    });
+  });
+
+  test('Sling orange preset fills brand colors without saving', async () => {
+    renderTheme();
+
+    await screen.findByRole('textbox', {name: 'Primary main'});
+    await userEvent.click(screen.getByRole('button', {name: /use sling orange/i}));
+
+    expect(screen.getByRole('textbox', {name: 'Primary main'})).toHaveValue('#ff9800');
+    expect(screen.getByRole('textbox', {name: 'Background default'})).toHaveValue('#fff8f0');
+    expect(mockPut).not.toHaveBeenCalled();
+  });
+
+  test('theme mode is a choice, not a free-text field', async () => {
+    renderTheme();
+
+    await screen.findByRole('textbox', {name: 'Primary main'});
+    expect(screen.queryByRole('textbox', {name: 'Theme mode'})).not.toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /^light$/i})).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /semi-dark/i})).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /^dark$/i})).toBeInTheDocument();
+  });
 });
