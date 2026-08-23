@@ -113,6 +113,7 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
         title='Widget preview'
         src={frameSrc || undefined}
         sandbox='allow-scripts'
+        scrolling='yes'
         className={className}
         style={{
           position: 'absolute',

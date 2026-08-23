@@ -18,4 +18,9 @@ describe('preview runtime scope', () => {
   test('does not force the preview document to full viewport height', () => {
     expect(src).not.toMatch(/min-height:\s*100vh/);
   });
+
+  test('lets a tall or wide widget scroll inside the preview pane', () => {
+    expect(src).toMatch(/overflow:\s*auto/);
+    expect(src).not.toMatch(/#sling-sandbox-root \{[\s\S]*overflow:\s*hidden/);
+  });
 });
