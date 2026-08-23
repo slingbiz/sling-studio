@@ -253,9 +253,9 @@ const WidgetsIntegration = (props) => {
           <Tooltip title='Generate with AI'>
             <IconButton onClick={() => router.push('/widgets/ai-generate')}>
               <Icon
-                color='primary'
                 className={classes.iconDefault}
-                aria-label={'Generate with AI'}>
+                aria-label={'Generate with AI'}
+                style={{color: '#ff9800'}}>
                 auto_awesome
               </Icon>
             </IconButton>

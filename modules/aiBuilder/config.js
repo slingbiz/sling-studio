@@ -5,88 +5,126 @@ import * as MaterialStyles from '@material-ui/core/styles';
 import * as MaterialPickers from '@material-ui/pickers';
 import * as EmotionReact from '@emotion/react';
 import * as EmotionStyled from '@emotion/styled';
+import {Formik, Form, Field, useField} from 'formik';
+import * as Yup from 'yup';
+import {SLING_ORANGE, SLING_WIDGET_THEME} from './slingTheme';
 
-// Custom theme configuration for Claude-generated components
-const claudeTheme = {
-  palette: {
-    primary: {
-      main: '#2196F3',
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: '#1976D2',
-    },
-    background: {
-      default: '#F8F9FA',
-      paper: '#FFFFFF',
-    },
-    text: {
-      primary: '#212121',
-      secondary: '#757575',
-    },
-  },
-  typography: {
-    fontFamily: 'Inter, system-ui, sans-serif',
-    h1: { fontSize: 24, fontWeight: 600 },
-    h2: { fontSize: 20, fontWeight: 600 },
-    h3: { fontSize: 18, fontWeight: 500 },
-    body1: { fontSize: 16 },
-    body2: { fontSize: 14 },
-    button: {
-      textTransform: 'none',
-      fontWeight: 500,
-    },
-  },
-  shape: {
-    borderRadius: 8,
-  },
-  components: {
+const DEFAULT_CORE_COMPONENTS = [
+  'AppBar',
+  'Avatar',
+  'Box',
+  'Button',
+  'Card',
+  'CardActions',
+  'CardContent',
+  'CardMedia',
+  'Checkbox',
+  'Chip',
+  'CircularProgress',
+  'Container',
+  'Divider',
+  'FormControl',
+  'FormControlLabel',
+  'FormHelperText',
+  'Grid',
+  'Icon',
+  'IconButton',
+  'InputAdornment',
+  'InputLabel',
+  'LinearProgress',
+  'Link',
+  'List',
+  'ListItem',
+  'ListItemIcon',
+  'ListItemText',
+  'MenuItem',
+  'Paper',
+  'Select',
+  'Switch',
+  'Tab',
+  'Table',
+  'TableBody',
+  'TableCell',
+  'TableContainer',
+  'TableHead',
+  'TableRow',
+  'Tabs',
+  'TextField',
+  'Toolbar',
+  'Tooltip',
+  'Typography',
+];
+
+const DEFAULT_ICONS = [
+  'Add',
+  'ArrowForward',
+  'AttachMoney',
+  'Check',
+  'CheckCircle',
+  'Close',
+  'Delete',
+  'Edit',
+  'Email',
+  'ExpandLess',
+  'ExpandMore',
+  'Favorite',
+  'Home',
+  'Info',
+  'Lock',
+  'Person',
+  'Phone',
+  'Search',
+  'Settings',
+  'ShoppingCart',
+  'Star',
+  'Visibility',
+  'VisibilityOff',
+  'Warning',
+];
+
+const slingPreviewTheme = {
+  ...SLING_WIDGET_THEME,
+  overrides: {
     MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          padding: '8px 16px',
-          fontWeight: 500,
-        },
-        contained: {
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          },
-        },
-        text: {
-          color: '#2196F3',
+      root: {
+        borderRadius: 6,
+        padding: '8px 16px',
+        fontWeight: 500,
+        textTransform: 'none',
+      },
+      containedPrimary: {
+        backgroundColor: SLING_ORANGE,
+        '&:hover': {
+          backgroundColor: '#f57c00',
         },
       },
+      textPrimary: {
+        color: SLING_ORANGE,
+      },
     },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#fff',
-          borderRadius: 8,
+    MuiTextField: {
+      root: {
+        backgroundColor: '#fff',
+      },
+    },
+    MuiOutlinedInput: {
+      root: {
+        backgroundColor: '#fff',
+        '&$focused $notchedOutline': {
+          borderColor: SLING_ORANGE,
         },
       },
     },
     MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#2196F3',
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          borderRadius: 12,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-          border: '1px solid rgba(0,0,0,0.08)',
-        },
+      colorPrimary: {
+        backgroundColor: SLING_ORANGE,
       },
     },
     MuiCheckbox: {
-      styleOverrides: {
-        root: {
-          color: '#757575',
+      colorPrimary: {
+        color: SLING_ORANGE,
+        '&$checked': {
+          color: SLING_ORANGE,
         },
       },
     },
@@ -240,29 +278,23 @@ export const createScope = ({
 
   const mergedTheme = themeOverrides
     ? {
-        ...claudeTheme,
+        ...slingPreviewTheme,
         ...themeOverrides,
         palette: {
-          ...claudeTheme.palette,
+          ...slingPreviewTheme.palette,
           ...(themeOverrides.palette || {}),
         },
       }
-    : claudeTheme;
+    : slingPreviewTheme;
 
   // Create theme instance
   const theme = MaterialStyles.createTheme(mergedTheme);
 
-  // Create a wrapper component that applies the theme
-  const ThemedComponent = ({ children }) => {
-    return React.createElement(
-      MaterialUI.StyledEngineProvider,
-      { injectFirst: true },
-      React.createElement(
-        libraryMap['@material-ui/core'].ThemeProvider,
-        { theme },
-        children
-      )
-    );
+  const ThemeProvider =
+    libraryMap['@material-ui/core'].ThemeProvider || MaterialStyles.ThemeProvider;
+
+  const ThemedComponent = ({children}) => {
+    return React.createElement(ThemeProvider, {theme}, children);
   };
 
   // Create base scope
@@ -277,33 +309,23 @@ export const createScope = ({
     makeStyles,
   };
 
-  // Process dependencies and add components to scope
-  Object.entries(dependencies).forEach(([library, components]) => {
+  const addToScope = (library, comp) => {
+    if (scope[comp]) return;
+    const component = findComponent(libraryMap, library, comp);
+    if (component) {
+      scope[comp] = component;
+      return;
+    }
+    const fallback = getFallbackComponent(libraryMap, library, comp);
+    scope[comp] = fallback || createPlaceholder(React, comp);
+  };
+
+  DEFAULT_CORE_COMPONENTS.forEach((comp) => addToScope('@material-ui/core', comp));
+  DEFAULT_ICONS.forEach((comp) => addToScope('@material-ui/icons', comp));
+
+  Object.entries(dependencies || {}).forEach(([library, components]) => {
     try {
-      components.forEach((comp) => {
-        // Try to find the component
-        const component = findComponent(libraryMap, library, comp);
-        
-        if (component) {
-          scope[comp] = component;
-        } else {
-          // Try to get a fallback
-          const fallback = getFallbackComponent(libraryMap, library, comp);
-          
-          if (fallback) {
-            console.warn(
-              `Component ${comp} not found in ${library}, using fallback:`,
-              fallback.displayName || fallback.name || 'Unknown'
-            );
-            scope[comp] = fallback;
-          } else {
-            console.error(
-              `Component ${comp} not found in ${library} and no fallback available`
-            );
-            scope[comp] = createPlaceholder(React, comp);
-          }
-        }
-      });
+      (components || []).forEach((comp) => addToScope(library, comp));
     } catch (error) {
       console.error(`Error processing library ${library}:`, error);
     }
@@ -311,6 +333,11 @@ export const createScope = ({
 
   return {
     ...scope,
+    Formik,
+    Form,
+    Field,
+    useField,
+    Yup,
     ThemedComponent,
     findComponent: (library, componentName) => findComponent(libraryMap, library, componentName),
     getFallbackComponent: (library, componentName) => getFallbackComponent(libraryMap, library, componentName),

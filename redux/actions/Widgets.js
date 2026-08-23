@@ -139,7 +139,8 @@ export const generateWidget = (prompt, themeConfig) => {
   return async (dispatch) => {
     dispatch({type: GENERATE_WIDGET_START});
     try {
-      const aiRes = await fetch(`${AI_SERVICE_URL}widget/generate`, {
+      const aiBase = (AI_SERVICE_URL || '').replace(/\/$/, '');
+      const aiRes = await fetch(`${aiBase}/widget/generate`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({prompt, themeConfig}),

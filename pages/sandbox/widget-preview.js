@@ -78,14 +78,17 @@ export default function WidgetPreviewSandbox() {
         });
 
         const {code: transpiled} = Babel.transform(code, {presets: ['react']});
-
-        const scopeKeys = Object.keys(scope);
-        const scopeValues = scopeKeys.map((key) => scope[key]);
+        const {ThemedComponent, ...factoryScope} = scope;
+        const scopeKeys = Object.keys(factoryScope);
+        const scopeValues = scopeKeys.map((key) => factoryScope[key]);
 
         // eslint-disable-next-line no-new-func
         const factory = new Function(
           ...scopeKeys,
-          `${transpiled}\nreturn typeof PreviewComponent !== 'undefined' ? PreviewComponent : null;`,
+          `${transpiled}
+            if (typeof PreviewComponent === 'function') return PreviewComponent;
+            if (typeof Component === 'function') return Component;
+            return null;`,
         );
 
         const Component = factory(...scopeValues);
@@ -96,7 +99,13 @@ export default function WidgetPreviewSandbox() {
         if (!rootRef.current && mountRef.current) {
           rootRef.current = createRoot(mountRef.current);
         }
-        rootRef.current.render(React.createElement(Component));
+        rootRef.current.render(
+          React.createElement(
+            ThemedComponent,
+            null,
+            React.createElement(Component),
+          ),
+        );
 
         postToParent('RENDER_SUCCESS', {
           nonce: nonceRef.current,
@@ -141,7 +150,11 @@ export default function WidgetPreviewSandbox() {
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <title>Sling widget preview</title>
       </Head>
-      <div id="sling-sandbox-root" ref={mountRef} />
+      <div
+        id="sling-sandbox-root"
+        ref={mountRef}
+        style={{minHeight: '100vh', background: '#fff', padding: 16, boxSizing: 'border-box'}}
+      />
     </>
   );
 }
