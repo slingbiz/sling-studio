@@ -10,7 +10,12 @@ describe('AiGenerateWidget layout', () => {
     expect(beforeAwait).toMatch(/setPromptOpen\(false\)/);
   });
 
-  test('keeps the preview and code panes visible while generating', () => {
+  test('imports and uses the shared three-section editor tabs', () => {
+    expect(src).toMatch(/WidgetEditorTabs/);
+    expect(src).toMatch(/from ['"].*WidgetEditor\/WidgetEditorTabs['"]/);
+  });
+
+  test('keeps the editor visible while generating', () => {
     expect(src).toMatch(/isWorking \|\| phase === 'complete'/);
   });
 
@@ -19,10 +24,9 @@ describe('AiGenerateWidget layout', () => {
     expect(src).toMatch(/e\.preventDefault\(\)/);
   });
 
-  test('preview and code panes share the same 480px height', () => {
-    expect(src).toMatch(/previewContainer:[\s\S]*height:\s*480/);
-    expect(src).toMatch(/previewPlaceholder:[\s\S]*height:\s*480/);
-    expect(src).toMatch(/codePane:[\s\S]*height:\s*480/);
+  test('saving props on a stored AI widget calls updateWidget', () => {
+    expect(src).toMatch(/updateWidget/);
+    expect(src).toMatch(/widget\?._id \|\| widget\?\.id/);
   });
 
   test('submit for review uses id or _id so a saved draft always shows the button', () => {

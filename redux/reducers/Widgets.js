@@ -15,12 +15,21 @@ const initialState = {
 
 const widgetsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_WIDGETS_DATA:
+    case GET_WIDGETS_DATA: {
+      const list = Array.isArray(action.payload)
+        ? action.payload
+        : action.payload?.widgets || [];
+      const append = !Array.isArray(action.payload) && Boolean(action.payload?.append);
+      const widgets = append ? [...(state.widgets || []), ...list] : list;
+      const totalCount = Array.isArray(action.payload)
+        ? list.length
+        : action.payload?.totalCount ?? list.length;
       return {
         ...state,
-        widgets: action.payload.widgets,
-        totalCount: action.payload.widgets.length,
+        widgets,
+        totalCount,
       };
+    }
     case ADD_WIDGETS_DATA:
       return {
         ...state,

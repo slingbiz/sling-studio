@@ -18,4 +18,14 @@ describe('Widgets sidebar folderList', () => {
     expect(src).toMatch(/role === 'admin'/);
     expect(src).toMatch(/role === 'publisher'/);
   });
+
+  test('lists AI Generate as the second item after Widgets', () => {
+    const folderStart = src.indexOf('export const folderList');
+    const folderEnd = src.indexOf('];', folderStart);
+    const names = [
+      ...src.slice(folderStart, folderEnd).matchAll(/name:\s*'([^']+)'/g),
+    ].map((match) => match[1]);
+    expect(names[0]).toBe('Widgets');
+    expect(names[1]).toBe('AI Generate');
+  });
 });

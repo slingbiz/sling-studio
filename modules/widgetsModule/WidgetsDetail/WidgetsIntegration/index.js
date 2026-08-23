@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   makeStyles,
   TextField,
@@ -28,7 +28,6 @@ import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddWidgetModal from './AddWidgetModal';
 import UpdateWidgetModal from './AddWidgetModal';
-import {InfoView} from '../../../../@sling';
 import {useRouter} from 'next/router';
 import AppContext from '../../../../@sling/utility/AppContext';
 import SandboxedPreview from '../../../aiBuilder/components/SandboxedPreview';
@@ -230,7 +229,7 @@ const WidgetsIntegration = (props) => {
   const router = useRouter();
   const {theme} = useContext(AppContext);
   const tenantTheme = resolveWidgetTheme(theme);
-  const {widgets} = useSelector(({widgets}) => widgets);
+  const {widgets, totalCount} = useSelector(({widgets}) => widgets);
   const [filter, setFilter] = useState({status: 'published'});
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
@@ -241,10 +240,43 @@ const WidgetsIntegration = (props) => {
   const loading = useSelector(({common}) => common.loading);
   const [updateProp, setupdateProp] = useState(null);
   const [hoveredWidget, setHoveredWidget] = useState(null); // Track the hovered widget
+  const sentinelRef = useRef(null);
+  const pageRef = useRef(0);
+  const fetchingMoreRef = useRef(false);
 
   useEffect(() => {
-    dispatch(getWidgets(filter));
+    pageRef.current = 0;
+    fetchingMoreRef.current = true;
+    dispatch(getWidgets({...filter, page: 0, size: 8}));
   }, [filter]);
+
+  useEffect(() => {
+    fetchingMoreRef.current = false;
+  }, [widgets]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) {
+      return undefined;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0]?.isIntersecting) {
+        return;
+      }
+      if (fetchingMoreRef.current) {
+        return;
+      }
+      if (!widgets?.length || widgets.length >= (totalCount || 0)) {
+        return;
+      }
+      fetchingMoreRef.current = true;
+      const nextPage = pageRef.current + 1;
+      pageRef.current = nextPage;
+      dispatch(getWidgets({...filter, page: nextPage, size: 8, append: true}));
+    });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [dispatch, filter, widgets, totalCount]);
 
   const setStatusFilter = (status) => {
     setFilter((prev) => ({...prev, status}));
@@ -262,7 +294,8 @@ const WidgetsIntegration = (props) => {
 
   const handleDeleteWidget = () => {
     if (widgetToDelete) {
-      dispatch(deleteWidget(widgetToDelete));
+      dispatch(deleteWidget(widgetToDelete, {status: filter.status}));
+      pageRef.current = 0;
       setWidgetToDelete(null); // Reset after deletion
     }
     setDeleteDialogOpen(false); // Close the dialog after deletion
@@ -455,14 +488,14 @@ const WidgetsIntegration = (props) => {
           </Grid>
         ))}
 
-        {!widgets?.length ? (
+        {!loading && !widgets?.length ? (
           <ListEmptyResult
             content='No matching widgets found. Please relax your filters.'
-            loading={loading}
           />
         ) : (
           ''
         )}
+        <div ref={sentinelRef} />
       </Grid>
       <SwipeableDrawer
         anchor='right'

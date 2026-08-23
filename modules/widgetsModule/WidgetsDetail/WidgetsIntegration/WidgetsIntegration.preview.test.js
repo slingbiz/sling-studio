@@ -42,4 +42,18 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).not.toMatch(/onDelete=\{\(\) => handleDeleteFilter/);
     expect(src).not.toMatch(/Object\.keys\(filter\)/);
   });
+
+  test('does not show the inline ListEmptyResult loader', () => {
+    expect(src).not.toMatch(/loading=\{loading\}/);
+  });
+
+  test('fetches the first page of 8 widgets', () => {
+    expect(src).toMatch(/size:\s*8/);
+    expect(src).toMatch(/page:\s*0/);
+  });
+
+  test('appends the next page when the grid sentinel intersects', () => {
+    expect(src).toMatch(/IntersectionObserver/);
+    expect(src).toMatch(/append:\s*true/);
+  });
 });

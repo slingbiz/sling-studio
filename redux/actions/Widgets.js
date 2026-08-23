@@ -74,7 +74,10 @@ export const updateWidget = (id, widgetData) => {
 export const getWidgets = (filters) => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCH_START});
+      const {append, ...apiFilters} = filters || {};
+      if (!append) {
+        dispatch({type: FETCH_START});
+      }
       const Api = await ApiAuth();
       if (!Api) {
         dispatch({
@@ -82,14 +85,21 @@ export const getWidgets = (filters) => {
           payload: <IntlMessages id='message.invalidSession' />,
         });
       }
-      const data = await Api.post(`${GET_WIDGETS}`, filters);
+      const data = await Api.post(`${GET_WIDGETS}`, apiFilters);
       // console.log('[getWidgets] actions Response: ', JSON.stringify(data));
 
       if (data.status === 200) {
-        dispatch({type: FETCH_SUCCESS});
+        if (!append) {
+          dispatch({type: FETCH_SUCCESS});
+        }
+        const widgets = data.data.widgets;
         dispatch({
           type: GET_WIDGETS_DATA,
-          payload: data.data.widgets,
+          payload: {
+            widgets,
+            totalCount: data.data.tc ?? widgets.length,
+            append: Boolean(append),
+          },
         });
       } else {
         console.log('[getWidgets] Error');
@@ -105,7 +115,7 @@ export const getWidgets = (filters) => {
   };
 };
 
-export const deleteWidget = (id) => {
+export const deleteWidget = (id, filters = {}) => {
   return async (dispatch) => {
     dispatch({type: FETCH_START});
     try {
@@ -127,8 +137,7 @@ export const deleteWidget = (id) => {
         type: SHOW_MESSAGE,
         payload: 'Widget deleted successfully',
       });
-      //Fetch widgets again
-      dispatch(getWidgets({size: 1000}));
+      dispatch(getWidgets({status: filters.status, page: 0, size: 8}));
     } catch (error) {
       console.log(error, '[getWidgets] Exception');
       dispatch({type: FETCH_ERROR, payload: error.message});

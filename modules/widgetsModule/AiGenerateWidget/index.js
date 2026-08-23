@@ -1,8 +1,7 @@
-import React, {useState, useRef, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   makeStyles,
   Box,
-  Grid,
   TextField,
   Button,
   Typography,
@@ -18,10 +17,12 @@ import {
   saveGeneratedWidget,
   submitForReview,
   publishWidgetAction,
+  updateWidget,
 } from '../../../redux/actions/Widgets';
 import {useAuthUser} from '../../../@sling/utility/AppHooks';
-import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
+import {Form, Formik} from 'formik';
 import {useRouter} from 'next/router';
+import WidgetEditorTabs, {emptyProp} from '../WidgetEditor/WidgetEditorTabs';
 import {AI_SERVICE_URL, SERVICE_URL} from '../../../shared/constants/Services';
 import ApiAuth from '../../../@sling/services/ApiAuthConfig';
 import {SLING_ORANGE, SLING_CREAM} from '../../aiBuilder/slingTheme';
@@ -152,14 +153,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 1100,
     margin: '0 auto',
   },
-  previewContainer: {
-    border: '1px solid #f5efef',
-    borderRadius: 8,
-    overflow: 'hidden',
-    height: 480,
-    boxSizing: 'border-box',
-    backgroundColor: '#fff',
-  },
   metaCard: {
     padding: 16,
     marginBottom: 16,
@@ -175,55 +168,9 @@ const useStyles = makeStyles((theme) => ({
   metaChip: {
     maxWidth: '100%',
   },
-  codePane: {
-    backgroundColor: '#1a1a1a',
-    color: '#f5efef',
-    fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace",
-    fontSize: 13,
-    lineHeight: 1.7,
-    padding: '16px 20px',
-    borderRadius: 8,
-    overflowX: 'auto',
-    overflowY: 'scroll',
-    height: 480,
-    boxSizing: 'border-box',
-    whiteSpace: 'pre',
-    wordBreak: 'normal',
-  },
-  '@keyframes blink': {
-    '0%, 100%': {opacity: 1},
-    '50%': {opacity: 0},
-  },
-  cursor: {
-    display: 'inline-block',
-    width: 2,
-    height: '1em',
-    backgroundColor: SLING_ORANGE,
-    animation: '$blink 1s step-end infinite',
-    verticalAlign: 'text-bottom',
-    marginLeft: 1,
-  },
   '@keyframes pulse': {
     '0%, 100%': {opacity: 0.5},
     '50%': {opacity: 1},
-  },
-  previewPlaceholder: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 480,
-    boxSizing: 'border-box',
-    backgroundColor: SLING_CREAM,
-    borderRadius: 8,
-    border: `1px dashed ${SLING_ORANGE}`,
-    gap: 12,
-  },
-  placeholderIcon: {
-    fontSize: 48,
-    color: SLING_ORANGE,
-    opacity: 0.45,
-    animation: '$pulse 2s ease-in-out infinite',
   },
   statusBar: {
     display: 'flex',
@@ -242,14 +189,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     backgroundColor: SLING_ORANGE,
     animation: '$pulse 1.5s ease-in-out infinite',
-  },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: 600,
-    textTransform: 'uppercase',
-    letterSpacing: '0.05em',
-    color: theme.palette.text.secondary,
-    marginBottom: 8,
   },
   errorCard: {
     maxWidth: 760,
@@ -368,13 +307,13 @@ const AiGenerateWidget = () => {
   const [published, setPublished] = useState(false);
   const [error, setError] = useState(null);
   const [promptOpen, setPromptOpen] = useState(true);
-  const codeRef = useRef(null);
+  const [editorProps, setEditorProps] = useState([emptyProp]);
 
   useEffect(() => {
-    if (codeRef.current && phase === 'coding') {
-      codeRef.current.scrollTop = codeRef.current.scrollHeight;
+    if (Array.isArray(widget?.props) && widget.props.length) {
+      setEditorProps(widget.props);
     }
-  }, [streamingCode, phase]);
+  }, [widget]);
 
   const persistWidget = async (widgetData) => {
     setStatusMessage('Saving widget...');
@@ -400,6 +339,7 @@ const AiGenerateWidget = () => {
     setPhase('thinking');
     setStreamingCode('');
     setWidget(null);
+    setEditorProps([emptyProp]);
     setSubmitted(false);
     setPublished(false);
     setPreviewError(null);
@@ -475,6 +415,18 @@ const AiGenerateWidget = () => {
   };
 
   const widgetId = widget?._id || widget?.id;
+
+  const handleSaveEditor = async (data) => {
+    if (!widgetId) return;
+    const payload = {
+      ...data,
+      type: 'widget',
+      props: editorProps,
+      code: data.code || streamingCode,
+    };
+    await dispatch(updateWidget(widgetId, payload));
+    setWidget((prev) => ({...prev, ...payload}));
+  };
 
   const handleSubmitForReview = async () => {
     if (!widgetId) return;
@@ -681,54 +633,55 @@ const AiGenerateWidget = () => {
               </Paper>
             )}
 
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Typography className={classes.sectionLabel}>Preview</Typography>
-                {phase === 'complete' && widget ? (
-                  <Box className={classes.previewContainer}>
-                    <SandboxedPreview
-                      code={widget.code || streamingCode}
-                      dependencies={widget.dependencies}
-                      themeOverrides={tenantTheme}
-                      style={{height: 480, background: '#fff'}}
-                      onError={setPreviewError}
-                    />
-                  </Box>
-                ) : (
-                  <Box className={classes.previewPlaceholder}>
-                    <Icon className={classes.placeholderIcon}>widgets</Icon>
-                    <Typography variant='body2' color='textSecondary'>
-                      Preview will appear when code is ready
-                    </Typography>
-                  </Box>
-                )}
-                {previewError && (
-                  <Paper variant='outlined' style={{padding: 10, marginTop: 8, borderColor: '#f44336'}}>
-                    <Typography variant='body2' color='error'>
-                      Preview error: {previewError}
-                    </Typography>
-                  </Paper>
-                )}
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Typography className={classes.sectionLabel}>
-                  {phase === 'coding' ? 'Writing Code...' : 'Generated Code'}
-                </Typography>
-                <Box className={classes.codePane} ref={codeRef}>
-                  {phase === 'thinking' && !streamingCode ? (
-                    <Typography variant='body2' style={{color: '#c4c4c4', fontStyle: 'italic'}}>
-                      Waiting for AI response...
-                    </Typography>
-                  ) : (
-                    <>
-                      {streamingCode}
-                      {phase === 'coding' && <span className={classes.cursor} />}
-                    </>
+            <Formik
+              enableReinitialize
+              initialValues={{
+                name: widget?.name || '',
+                key: widget?.key || '',
+                description: widget?.description || '',
+                icon: widget?.icon || '',
+                ownership: widget?.ownership || 'private',
+                type: 'widget',
+                code: widget?.code || streamingCode,
+              }}
+              onSubmit={handleSaveEditor}>
+              {({values, setFieldValue, isSubmitting}) => (
+                <Form>
+                  <WidgetEditorTabs
+                    code={streamingCode || values.code}
+                    onCodeChange={(next) => {
+                      setStreamingCode(next);
+                      setFieldValue('code', next);
+                    }}
+                    dependencies={widget?.dependencies}
+                    themeOverrides={tenantTheme}
+                    props={editorProps}
+                    onPropsChange={setEditorProps}
+                    streaming={isWorking}
+                    initialTab={isWorking ? 'code' : 'widget'}
+                    onPreviewError={setPreviewError}
+                  />
+                  {previewError && (
+                    <Paper variant='outlined' style={{padding: 10, marginTop: 8, borderColor: '#f44336'}}>
+                      <Typography variant='body2' color='error'>
+                        Preview error: {previewError}
+                      </Typography>
+                    </Paper>
                   )}
-                </Box>
-              </Grid>
-            </Grid>
+                  {phase === 'complete' && widget && (
+                    <Box className={classes.actionBar} style={{justifyContent: 'flex-start'}}>
+                      <Button
+                        type='submit'
+                        variant='outlined'
+                        className={classes.ghostBtn}
+                        disabled={isSubmitting || !widgetId}>
+                        Save changes
+                      </Button>
+                    </Box>
+                  )}
+                </Form>
+              )}
+            </Formik>
             {phase === 'complete' && widget && renderGovernanceActions()}
           </Box>
         )}

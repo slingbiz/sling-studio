@@ -18,24 +18,25 @@ const withData = (ComposedComponent) => (props) => {
   const [verifying, setVerifying] = useState(true);
 
   useEffect(() => {
-    console.log('useEffect triggered for user verification');
-    console.log('user:', user);
-    console.log('loading:', loading);
-    console.log('newUser:', newUser);
-
+    const usableToken = (value) =>
+      value && value !== 'undefined' && value !== 'null';
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    const storedToken = localStorage.getItem('token');
+    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedToken =
+      (usableToken(storedAccessToken) && storedAccessToken) ||
+      (usableToken(localStorage.getItem('token')) &&
+        localStorage.getItem('token'));
 
     if (storedUser && storedToken && !user) {
-      console.log('Setting user and token from local storage');
       dispatch({ type: SET_AUTH_TOKEN, payload: storedToken });
       dispatch({ type: UPDATE_AUTH_USER, payload: storedUser });
       dispatch({ type: USER_LOADED });
     } else if (!storedUser || !storedToken) {
-      console.log('No user or token found in local storage, clearing user data');
-      localStorage.removeItem('user');
+      if (storedUser) {
+        localStorage.removeItem('user');
+      }
       localStorage.removeItem('token');
-      dispatch({ type: USER_LOADED }); // Set loading to false if no user in local storage
+      dispatch({ type: USER_LOADED });
     }
 
     setVerifying(false);
@@ -44,20 +45,27 @@ const withData = (ComposedComponent) => (props) => {
   useEffect(() => {
     if (!verifying && !loading) {
       if (user) {
+        const accessToken = localStorage.getItem('accessToken');
+        const hasAccessToken =
+          accessToken && accessToken !== 'undefined' && accessToken !== 'null';
         if (
-          localStorage.getItem('newUser') === 'true' ||
-          (newUser && newUser === 'true')
+          hasAccessToken &&
+          (localStorage.getItem('newUser') === 'true' ||
+            (newUser && newUser === 'true'))
         ) {
-          console.log('Redirecting to company registration page');
           Router.push(
             companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
           );
         } else if (pathname === '/signin' || pathname === '/signup') {
-          console.log('Redirecting to initial URL');
-          Router.push(initialUrl);
+          if (
+            localStorage.getItem('accessToken') &&
+            localStorage.getItem('accessToken') !== 'undefined' &&
+            localStorage.getItem('accessToken') !== 'null'
+          ) {
+            Router.push(initialUrl);
+          }
         }
       } else if (pathname !== '/signup' && pathname !== '/signin' && pathname !== '/forget-password') {
-        console.log('No user authenticated, redirecting to sign in');
         Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       }
     }

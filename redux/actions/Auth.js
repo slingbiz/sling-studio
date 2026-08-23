@@ -33,12 +33,11 @@ export const onJwtSignIn = ({email, password}, router) => {
       });
 
       if (response.status === 200) {
-        // Save the token in local storage
-        localStorage.setItem('token', response.data.token);
         // Check for the correct status code
         const {user, tokens} = response.data;
 
         // Save the tokens in local storage
+        localStorage.setItem('token', tokens.access.token);
         localStorage.setItem('accessToken', tokens.access.token);
         localStorage.setItem('refreshToken', tokens.refresh.token);
         // localStorage.setItem('newUser', 'true');
@@ -51,7 +50,7 @@ export const onJwtSignIn = ({email, password}, router) => {
         // Dispatch SET_AUTH_TOKEN action
         dispatch({
           type: SET_AUTH_TOKEN,
-          payload: response.data.token,
+          payload: tokens.access.token,
         });
 
         // Dispatch UPDATE_AUTH_USER action with user data
@@ -100,6 +99,7 @@ export const onJwtUserSignUp = ({name, email, password}, router) => {
         const {user, tokens} = response.data;
 
         // Save the tokens in local storage
+        localStorage.setItem('token', tokens.access.token);
         localStorage.setItem('accessToken', tokens.access.token);
         localStorage.setItem('refreshToken', tokens.refresh.token);
         localStorage.setItem('newUser', 'true');
