@@ -14,7 +14,7 @@ import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
-import {GET_WIDGETS, SERVICE_URL} from '../../shared/constants/Services';
+import {GET_WIDGETS, SERVICE_URL, AI_SERVICE_URL} from '../../shared/constants/Services';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 import {capital} from '../../@sling/utility/Utils';
 import _ from 'lodash';
@@ -139,10 +139,23 @@ export const generateWidget = (prompt, themeConfig) => {
   return async (dispatch) => {
     dispatch({type: GENERATE_WIDGET_START});
     try {
+      const aiRes = await fetch(`${AI_SERVICE_URL}widget/generate`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({prompt, themeConfig}),
+      });
+      const aiData = await aiRes.json();
+      if (!aiRes.ok) {
+        throw new Error(aiData.error || 'AI generation failed');
+      }
+
       const Api = await ApiAuth();
-      const res = await Api.post(`${SERVICE_URL}v1/widgets/generate`, {
-        prompt,
-        themeConfig,
+      const res = await Api.post(`${SERVICE_URL}v1/widgets`, {
+        ...aiData,
+        ownership: 'private',
+        source: 'ai_generated',
+        status: 'draft',
+        generationPrompt: prompt,
       });
       if (res.status === 201) {
         dispatch({type: GENERATE_WIDGET_SUCCESS, payload: res.data.widget});
@@ -151,7 +164,7 @@ export const generateWidget = (prompt, themeConfig) => {
       }
       dispatch({type: GENERATE_WIDGET_ERROR, payload: 'Generation failed'});
     } catch (error) {
-      const msg = error?.response?.data?.message || error.message;
+      const msg = error?.response?.data?.message || error?.message || 'Generation failed';
       dispatch({type: GENERATE_WIDGET_ERROR, payload: msg});
       dispatch({type: FETCH_ERROR, payload: msg});
     }
