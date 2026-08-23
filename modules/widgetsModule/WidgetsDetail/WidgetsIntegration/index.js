@@ -324,6 +324,16 @@ const WidgetsIntegration = (props) => {
               />
             ))}
           </Box>
+          <Tooltip title='Review Queue'>
+            <IconButton onClick={() => router.push('/widgets/review-queue')}>
+              <Icon
+                className={classes.iconDefault}
+                aria-label='Review Queue'
+                style={{color: '#ff9800'}}>
+                rate_review
+              </Icon>
+            </IconButton>
+          </Tooltip>
           <Tooltip title='Generate with AI'>
             <IconButton onClick={() => router.push('/widgets/ai-generate')}>
               <Icon

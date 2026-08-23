@@ -24,5 +24,6 @@ describe('Widgets sidebar folderList', () => {
     ].map((match) => match[1]);
     expect(names[0]).toBe('Widgets');
     expect(names[1]).toBe('AI Generate');
+    expect(names[2]).toBe('Review Queue');
   });
 });

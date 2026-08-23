@@ -33,6 +33,11 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).toMatch(/pending_review/);
   });
 
+  test('has a Review Queue shortcut next to the status chips', () => {
+    expect(src).toMatch(/\/widgets\/review-queue/);
+    expect(src).toMatch(/Review Queue/);
+  });
+
   test('always shows edit on the card, not only on hover', () => {
     expect(src).toMatch(/aria-label='edit'/);
     expect(src).not.toMatch(/hoveredWidget === item\._id &&/);

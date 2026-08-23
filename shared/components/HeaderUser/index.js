@@ -111,7 +111,11 @@ const HeaderUser = (props) => {
                   fontSize={13}
                   fontWeight={Fonts.LIGHT}
                   color='text.secondary'>
-                  Admin
+                  {user.role === 'admin'
+                    ? 'Admin'
+                    : user.role === 'publisher'
+                    ? 'Publisher'
+                    : 'User'}
                 </Box>
               </Box>
             </Hidden>
