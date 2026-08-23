@@ -171,6 +171,33 @@ export const generateWidget = (prompt, themeConfig) => {
   };
 };
 
+export const saveGeneratedWidget = (widgetData, prompt) => {
+  return async (dispatch) => {
+    try {
+      const Api = await ApiAuth();
+      const res = await Api.post(`${SERVICE_URL}v1/widgets`, {
+        ...widgetData,
+        ownership: 'private',
+        source: 'ai_generated',
+        status: 'draft',
+        generationPrompt: prompt,
+      });
+      if (res.status === 201) {
+        dispatch({type: GENERATE_WIDGET_SUCCESS, payload: res.data.widget});
+        dispatch({type: SHOW_MESSAGE, payload: 'Widget generated successfully'});
+        return res.data.widget;
+      }
+      dispatch({type: GENERATE_WIDGET_ERROR, payload: 'Failed to save widget'});
+      return null;
+    } catch (error) {
+      const msg = error?.response?.data?.message || error?.message || 'Save failed';
+      dispatch({type: GENERATE_WIDGET_ERROR, payload: msg});
+      dispatch({type: FETCH_ERROR, payload: msg});
+      return null;
+    }
+  };
+};
+
 export const submitForReview = (widgetId) => {
   return async (dispatch) => {
     dispatch({type: FETCH_START});
