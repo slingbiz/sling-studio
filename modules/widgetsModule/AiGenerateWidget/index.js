@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {
   makeStyles,
   Box,
@@ -22,7 +22,9 @@ import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import {useRouter} from 'next/router';
 import {AI_SERVICE_URL, SERVICE_URL} from '../../../shared/constants/Services';
 import ApiAuth from '../../../@sling/services/ApiAuthConfig';
-import {SLING_ORANGE, SLING_CREAM, SLING_WIDGET_THEME} from '../../aiBuilder/slingTheme';
+import {SLING_ORANGE, SLING_CREAM} from '../../aiBuilder/slingTheme';
+import {resolveWidgetTheme} from '../../aiBuilder/widgetTheme';
+import AppContext from '../../../@sling/utility/AppContext';
 
 const STARTER_PROMPTS = [
   'Login form with email, password, and remember-me',
@@ -323,6 +325,8 @@ const AiGenerateWidget = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
+  const {theme} = useContext(AppContext);
+  const tenantTheme = resolveWidgetTheme(theme);
   const [prompt, setPrompt] = useState('');
   const [streaming, setStreaming] = useState(false);
   const [phase, setPhase] = useState('idle');
@@ -367,7 +371,7 @@ const AiGenerateWidget = () => {
     setStatusMessage('AI is designing your widget...');
 
     try {
-      await streamGenerate(prompt.trim(), SLING_WIDGET_THEME, {
+      await streamGenerate(prompt.trim(), tenantTheme, {
         onStatus: (msg) => setStatusMessage(msg),
         onCodeStart: () => {
           setPhase('coding');
@@ -401,7 +405,7 @@ const AiGenerateWidget = () => {
           const client = await ApiAuth();
           const res = await client.post(`${apiBase}/v1/widgets/generate`, {
             prompt: prompt.trim(),
-            themeConfig: SLING_WIDGET_THEME,
+            themeConfig: tenantTheme,
           });
           if (res?.data?.widget) {
             setWidget(res.data.widget);
@@ -412,7 +416,7 @@ const AiGenerateWidget = () => {
             return;
           }
         }
-        const saved = await dispatch(generateWidget(prompt.trim(), SLING_WIDGET_THEME));
+        const saved = await dispatch(generateWidget(prompt.trim(), tenantTheme));
         if (saved) {
           setWidget(saved);
           setStreamingCode(saved.code || '');
@@ -585,7 +589,7 @@ const AiGenerateWidget = () => {
                     <SandboxedPreview
                       code={widget.code || streamingCode}
                       dependencies={widget.dependencies}
-                      themeOverrides={SLING_WIDGET_THEME}
+                      themeOverrides={tenantTheme}
                       style={{minHeight: 400, background: '#fff'}}
                       onError={setPreviewError}
                     />
