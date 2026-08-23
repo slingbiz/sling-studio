@@ -14,9 +14,10 @@ function createNonce() {
 // Renders AI-generated widget code inside an isolated iframe instead of
 // eval'ing it directly in the Studio window. `sandbox="allow-scripts"`
 // (no allow-same-origin) puts the framed document in a unique opaque
-// origin: it cannot read Studio's cookies/localStorage/session, and the
-// page it loads (pages/sandbox/widget-preview.js) skips all of the app's
-// normal providers, so nothing sensitive is ever within its reach.
+// origin: it cannot read Studio's cookies/localStorage/session.
+// The framed document is a standalone HTML runtime, not a Next.js page —
+// loading Studio's _app/webpack in this sandbox crashes on cookie and
+// localStorage access and blanks the preview.
 const SandboxedPreview = ({code, dependencies, themeOverrides, className, style, onError}) => {
   const iframeRef = useRef(null);
   const nonceRef = useRef(createNonce());
@@ -46,7 +47,7 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
     }
 
     window.addEventListener('message', handleMessage);
-    setFrameSrc(`/sandbox/widget-preview?nonce=${nonceRef.current}`);
+    setFrameSrc(`/preview-runtime/widget-preview.html?nonce=${nonceRef.current}`);
     return () => window.removeEventListener('message', handleMessage);
   }, [onError]);
 
@@ -76,7 +77,6 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
       src={frameSrc || undefined}
       sandbox='allow-scripts'
       className={className}
-      onLoad={() => setIsReady(true)}
       style={{width: '100%', height: 480, border: 'none', display: 'block', ...style}}
     />
   );

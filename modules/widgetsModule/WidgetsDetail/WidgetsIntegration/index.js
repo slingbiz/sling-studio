@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   makeStyles,
   TextField,
@@ -19,7 +19,6 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {useSelector, useDispatch} from 'react-redux';
 import {getWidgets, deleteWidget} from '../../../../redux/actions/Widgets';
-import {blue} from '@mui/material/colors';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import {Edit} from '@material-ui/icons';
@@ -31,6 +30,9 @@ import AddWidgetModal from './AddWidgetModal';
 import UpdateWidgetModal from './AddWidgetModal';
 import {InfoView} from '../../../../@sling';
 import {useRouter} from 'next/router';
+import AppContext from '../../../../@sling/utility/AppContext';
+import SandboxedPreview from '../../../aiBuilder/components/SandboxedPreview';
+import {resolveWidgetTheme} from '../../../aiBuilder/widgetTheme';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -117,12 +119,19 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
-    backgroundColor: blue['100'],
     minHeight: 150,
     width: '100%',
-    background:
-      'radial-gradient(circle, rgb(255 255 255) 0%, rgba(255, 152, 0, 0.413624824929972) 100%)',
-    backgroundColor: '#bbdefb',
+    backgroundColor: '#fff8f0',
+    overflow: 'hidden',
+  },
+  livePreview: {
+    width: '100%',
+    height: 150,
+    pointerEvents: 'none',
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    border: '1px solid #f0e6d8',
   },
   itemImage: {
     width: '100%',
@@ -165,6 +174,8 @@ const WidgetsIntegration = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
+  const {theme} = useContext(AppContext);
+  const tenantTheme = resolveWidgetTheme(theme);
   const {widgets} = useSelector(({widgets}) => widgets);
   const [filter, setFilter] = useState({type});
   const [query, setQuery] = useState('');
@@ -349,14 +360,21 @@ const WidgetsIntegration = (props) => {
                     </>
                   )}
                   {item.image ? (
-                    <>
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className={classes.itemImage}
-                        onClick={() => toggleDrawer(true, item)}
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className={classes.itemImage}
+                      onClick={() => toggleDrawer(true, item)}
+                    />
+                  ) : item.code ? (
+                    <Box className={classes.livePreview}>
+                      <SandboxedPreview
+                        code={item.code}
+                        dependencies={item.dependencies}
+                        themeOverrides={tenantTheme}
+                        style={{height: 150, background: '#fff'}}
                       />
-                    </>
+                    </Box>
                   ) : (
                     <span>{item.name}</span>
                   )}

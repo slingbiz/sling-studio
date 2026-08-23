@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
   },
   resultSection: {
     maxWidth: 1100,
-    margin: '8px auto 0',
+    margin: '0 auto',
   },
   previewContainer: {
     border: '1px solid #f5efef',
@@ -257,7 +257,7 @@ const useStyles = makeStyles((theme) => ({
   },
   collapsedPrompt: {
     maxWidth: 1100,
-    margin: '0 auto 16px',
+    margin: '0 auto 12px',
     padding: '10px 14px',
     borderRadius: 8,
     border: '1px solid #f5efef',
@@ -388,7 +388,7 @@ const AiGenerateWidget = () => {
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     setStreaming(true);
-    setPromptOpen(true);
+    setPromptOpen(false);
     setPhase('thinking');
     setStreamingCode('');
     setWidget(null);
@@ -505,7 +505,7 @@ const AiGenerateWidget = () => {
           </Box>
         )}
 
-        {!promptOpen && phase === 'complete' ? (
+        {!promptOpen ? (
           <Paper
             className={classes.collapsedPrompt}
             elevation={0}
