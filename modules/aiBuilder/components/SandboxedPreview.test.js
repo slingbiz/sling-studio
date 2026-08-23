@@ -18,4 +18,8 @@ describe('SandboxedPreview', () => {
     expect(src).toMatch(/RENDER_SUCCESS/);
     expect(src).toMatch(/setPainted\(true\)/);
   });
+
+  test('clips the iframe so a tall widget cannot blow out the card', () => {
+    expect(src).toMatch(/overflow: 'hidden'/);
+  });
 });

@@ -14,4 +14,8 @@ describe('preview runtime scope', () => {
   test('allows unpkg source-map requests so the runtime does not die on connect-src none', () => {
     expect(src).toMatch(/connect-src https:\/\/unpkg.com/);
   });
+
+  test('does not force the preview document to full viewport height', () => {
+    expect(src).not.toMatch(/min-height:\s*100vh/);
+  });
 });

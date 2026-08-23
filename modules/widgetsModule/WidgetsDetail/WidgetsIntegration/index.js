@@ -111,6 +111,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     padding: 10,
     backgroundColor: '#fff',
+    overflow: 'hidden',
+    boxSizing: 'border-box',
   },
   previewSlot: {
     position: 'relative',
@@ -124,6 +126,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     border: '1px solid #f0e6d8',
     borderRadius: 6,
+  },
+  cardMeta: {
+    width: '100%',
+    minHeight: 0,
+    paddingTop: 8,
+  },
+  cardFooter: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   imgContainer: {
     cursor: 'pointer',
@@ -348,127 +360,102 @@ const WidgetsIntegration = (props) => {
             onMouseEnter={() => setHoveredWidget(item._id)}
             onMouseLeave={() => setHoveredWidget(null)}>
             <Box className={classes.widgetCard}>
-              <Grid
-                container
-                alignItems='flex-start'
-                direction='column'
-                className={classes.itemContainer}>
-                <Grid
-                  item
-                  xs={12}
-                  className={`${classes.previewSlot} ${
-                    item.image ? classes.imgContainer : classes.noImgContainer
-                  }`}>
-                  {hoveredWidget === item._id && (
-                    <>
-                      <IconButton
-                        onClick={() => {
-                          console.log(item);
-                          setupdateProp(item);
-                          setOpenUpdateModal(true);
-                        }}
-                        aria-label='edit'
-                        className={clsx(classes.button, classes.editBtn)}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        disabled={!allowDelete}
-                        aria-label='delete'
-                        onClick={() => handleDelete(item._id)} // Open delete confirmation dialog
-                        style={{position: 'absolute', top: 0, right: 0}}>
-                        <Icon color='grey'>delete</Icon>
-                      </IconButton>
-                    </>
-                  )}
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className={classes.itemImage}
-                      onClick={() => toggleDrawer(true, item)}
+              <Box className={classes.previewSlot}>
+                {hoveredWidget === item._id && (
+                  <>
+                    <IconButton
+                      onClick={() => {
+                        setupdateProp(item);
+                        setOpenUpdateModal(true);
+                      }}
+                      aria-label='edit'
+                      className={clsx(classes.button, classes.editBtn)}>
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      disabled={!allowDelete}
+                      aria-label='delete'
+                      onClick={() => handleDelete(item._id)}
+                      style={{position: 'absolute', top: 4, right: 4, zIndex: 2}}>
+                      <Icon color='grey'>delete</Icon>
+                    </IconButton>
+                  </>
+                )}
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className={classes.itemImage}
+                    onClick={() => toggleDrawer(true, item)}
+                  />
+                ) : item.code ? (
+                  <SandboxedPreview
+                    code={item.code}
+                    dependencies={item.dependencies}
+                    themeOverrides={tenantTheme}
+                    style={{height: 148}}
+                  />
+                ) : (
+                  <Box className={classes.emptyPreview}>No live preview</Box>
+                )}
+              </Box>
+              <Box className={classes.cardMeta}>
+                <Box
+                  color='text.primary'
+                  fontWeight={Fonts.BOLD}
+                  fontSize={16}
+                  component='h4'
+                  className={classes.titleTruncate}>
+                  {item.name}
+                  {item.source === 'ai_generated' && (
+                    <Chip
+                      size='small'
+                      label='AI'
+                      color='primary'
+                      style={{marginLeft: 4, height: 20, fontSize: 10}}
                     />
-                  ) : item.code ? (
-                    <Box className={classes.livePreview}>
-                      <SandboxedPreview
-                        code={item.code}
-                        dependencies={item.dependencies}
-                        themeOverrides={tenantTheme}
-                        style={{height: 150, background: '#fff'}}
-                      />
-                    </Box>
-                  ) : (
-                    <Box className={classes.emptyPreview}>No live preview</Box>
                   )}
-                </Grid>
-                <Grid item xs={12} style={{width: '100%'}}>
-                  <Box
-                    color='text.primary'
-                    fontWeight={Fonts.BOLD}
-                    fontSize={16}
-                    component='h4'
-                    className={classes.titleTruncate}>
-                    {item.name}
-                    {item.source === 'ai_generated' && (
-                      <Chip
-                        size='small'
-                        label='AI'
-                        color='primary'
-                        style={{marginLeft: 4, height: 20, fontSize: 10}}
-                      />
-                    )}
-                    {item.status && item.status !== 'published' && (
-                      <Chip
-                        size='small'
-                        label={item.status.replace('_', ' ')}
-                        variant='outlined'
-                        style={{marginLeft: 4, height: 20, fontSize: 10}}
-                        color={
-                          item.status === 'approved'
-                            ? 'primary'
-                            : item.status === 'rejected'
-                            ? 'secondary'
-                            : 'default'
-                        }
-                      />
-                    )}
+                  {item.status && item.status !== 'published' && (
+                    <Chip
+                      size='small'
+                      label={item.status.replace('_', ' ')}
+                      variant='outlined'
+                      style={{marginLeft: 4, height: 20, fontSize: 10}}
+                      color={
+                        item.status === 'approved'
+                          ? 'primary'
+                          : item.status === 'rejected'
+                          ? 'secondary'
+                          : 'default'
+                      }
+                    />
+                  )}
+                </Box>
+                <Typography
+                  component='h6'
+                  color='text.secondary'
+                  className={clsx(classes.descriptionClamp, classes.descpMargin)}>
+                  {item.description}
+                </Typography>
+                <Box fontWeight={Fonts.MEDIUM} component='h5'>
+                  Version: {item.version}
+                </Box>
+                <Box className={classes.cardFooter}>
+                  <Box fontWeight={Fonts.MEDIUM} component='h5' className={classes.infoRow}>
+                    {Object?.keys(item?.props || {}).length || 'No'} props
                   </Box>
-                  <Typography
-                    component='h6'
-                    color='text.secondary'
-                    className={clsx(classes.descriptionClamp, classes.descpMargin)}>
-                    {item.description}
-                  </Typography>
-                  <Box fontWeight={Fonts.MEDIUM} component='h5'>
-                    Version: {item.version}
+                  <Box fontWeight={Fonts.MEDIUM} component='h5' className={classes.infoRow}>
+                    <IconButton
+                      aria-label='screenshots'
+                      fontSize='small'
+                      style={{margin: 5}}
+                      className={clsx(classes.button)}>
+                      <Icon>{item.icon}</Icon>
+                    </IconButton>
+                    Screenshots
                   </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                    <Box
-                      fontWeight={Fonts.MEDIUM}
-                      component='h5'
-                      className={classes.infoRow}>
-                      {Object?.keys(item?.props || {}).length || 'No'} props
-                    </Box>
-                    <Box
-                      fontWeight={Fonts.MEDIUM}
-                      component='h5'
-                      className={classes.infoRow}>
-                      <IconButton
-                        aria-label='screenshots'
-                        fontSize='small'
-                        style={{margin: 5}}
-                        className={clsx(classes.button)}>
-                        <Icon>{item.icon}</Icon>
-                      </IconButton>
-                      Screenshots
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Box>
           </Grid>
         ))}

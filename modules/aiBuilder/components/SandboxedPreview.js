@@ -79,16 +79,26 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
     setPainted(false);
   }, [code]);
 
-  const frameStyle = {width: '100%', height: 480, border: 'none', display: 'block', ...style};
+  const height = style?.height || 480;
 
   return (
-    <Box style={{position: 'relative', width: '100%', height: frameStyle.height}}>
+    <Box
+      style={{
+        position: 'relative',
+        width: '100%',
+        height,
+        overflow: 'hidden',
+        background: '#fff',
+      }}>
       {!painted && (
         <Box
           aria-label='Loading preview'
           style={{
             position: 'absolute',
-            inset: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -104,7 +114,15 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
         src={frameSrc || undefined}
         sandbox='allow-scripts'
         className={className}
-        style={frameStyle}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          display: 'block',
+        }}
       />
     </Box>
   );
