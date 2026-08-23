@@ -10,4 +10,12 @@ describe('Widgets sidebar folderList', () => {
     expect(src).not.toMatch(/name:\s*'Blocks'/);
     expect(src).not.toMatch(/name:\s*'Components'/);
   });
+
+  test('hides Review Queue unless the signed-in user can publish', () => {
+    expect(src).toMatch(/name:\s*'Review Queue'/);
+    expect(src).toMatch(/adminOnly:\s*true/);
+    expect(src).toMatch(/visibleFolders/);
+    expect(src).toMatch(/role === 'admin'/);
+    expect(src).toMatch(/role === 'publisher'/);
+  });
 });

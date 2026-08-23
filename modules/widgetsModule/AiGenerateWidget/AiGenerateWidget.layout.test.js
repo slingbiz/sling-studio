@@ -29,4 +29,12 @@ describe('AiGenerateWidget layout', () => {
     expect(src).toMatch(/widget\?._id \|\| widget\?\.id/);
     expect(src).toMatch(/Submit for Review/);
   });
+
+  test('admins and publishers get Publish; everyone else submits for review', () => {
+    expect(src).toMatch(/publishWidgetAction/);
+    expect(src).toMatch(/role === 'admin'/);
+    expect(src).toMatch(/role === 'publisher'/);
+    expect(src).toMatch(/'Publish'/);
+    expect(src).toMatch(/Saved as draft/);
+  });
 });

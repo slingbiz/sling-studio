@@ -36,4 +36,10 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).not.toMatch(/type:\s*'widget'/);
     expect(src).not.toMatch(/getWidgetType/);
   });
+
+  test('does not dump removable status - published chips next to the yellow filter', () => {
+    expect(src).not.toMatch(/status - \$\{/);
+    expect(src).not.toMatch(/onDelete=\{\(\) => handleDeleteFilter/);
+    expect(src).not.toMatch(/Object\.keys\(filter\)/);
+  });
 });

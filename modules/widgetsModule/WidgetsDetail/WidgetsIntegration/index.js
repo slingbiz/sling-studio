@@ -260,14 +260,6 @@ const WidgetsIntegration = (props) => {
     }
   };
 
-  const handleDeleteFilter = (key) => {
-    delete filter[key];
-    if (key === 'query') {
-      setQuery('');
-    }
-    setFilter({...filter});
-  };
-
   const handleDeleteWidget = () => {
     if (widgetToDelete) {
       dispatch(deleteWidget(widgetToDelete));
@@ -297,24 +289,6 @@ const WidgetsIntegration = (props) => {
           Widgets
         </Box>
         <Box style={{display: 'flex', alignItems: 'center'}}>
-          <Box>
-            {Object.keys(filter).map((v, key) => {
-              return filter[v] && v != 'type' ? (
-                <Chip
-                  key={key}
-                  size={'small'}
-                  label={`${v} - ${filter[v]}`}
-                  aria-label={`Remove ${v}`}
-                  color='primary'
-                  variant='outlined'
-                  onClick={() => handleDeleteFilter(v)}
-                  onDelete={() => handleDeleteFilter(v)}
-                />
-              ) : (
-                ''
-              );
-            })}
-          </Box>
           <Box className={classes.statusFilters}>
             {STATUS_FILTERS.map((option) => (
               <Chip

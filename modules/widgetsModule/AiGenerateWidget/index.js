@@ -17,7 +17,9 @@ import {
   generateWidget,
   saveGeneratedWidget,
   submitForReview,
+  publishWidgetAction,
 } from '../../../redux/actions/Widgets';
+import {useAuthUser} from '../../../@sling/utility/AppHooks';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import {useRouter} from 'next/router';
 import {AI_SERVICE_URL, SERVICE_URL} from '../../../shared/constants/Services';
@@ -352,6 +354,8 @@ const AiGenerateWidget = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const {theme} = useContext(AppContext);
+  const user = useAuthUser();
+  const canPublish = user?.role === 'admin' || user?.role === 'publisher';
   const tenantTheme = resolveWidgetTheme(theme);
   const [prompt, setPrompt] = useState('');
   const [streaming, setStreaming] = useState(false);
@@ -361,6 +365,7 @@ const AiGenerateWidget = () => {
   const [widget, setWidget] = useState(null);
   const [previewError, setPreviewError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [published, setPublished] = useState(false);
   const [error, setError] = useState(null);
   const [promptOpen, setPromptOpen] = useState(true);
   const codeRef = useRef(null);
@@ -396,6 +401,7 @@ const AiGenerateWidget = () => {
     setStreamingCode('');
     setWidget(null);
     setSubmitted(false);
+    setPublished(false);
     setPreviewError(null);
     setError(null);
     setStatusMessage('AI is designing your widget...');
@@ -475,6 +481,48 @@ const AiGenerateWidget = () => {
     const result = await dispatch(submitForReview(widgetId));
     if (result) setSubmitted(true);
   };
+
+  const handlePublish = async () => {
+    if (!widgetId) return;
+    const result = await dispatch(publishWidgetAction(widgetId));
+    if (result) {
+      setWidget(result);
+      setPublished(true);
+    }
+  };
+
+  const statusLabel = published
+    ? 'published'
+    : submitted
+    ? 'pending review'
+    : (widget?.status || 'draft').replace('_', ' ');
+
+  const renderGovernanceActions = () => (
+    <Box className={classes.actionBar} style={{justifyContent: 'flex-start'}}>
+      <Typography variant='body2' color='textSecondary'>
+        {published ? 'Published' : submitted ? 'In review' : 'Saved as draft'}
+      </Typography>
+      {canPublish ? (
+        <Button
+          className={classes.generateBtn}
+          variant='contained'
+          onClick={handlePublish}
+          disabled={published || !widgetId}
+          startIcon={<Icon>publish</Icon>}>
+          {published ? 'Published' : 'Publish'}
+        </Button>
+      ) : (
+        <Button
+          className={classes.generateBtn}
+          variant='contained'
+          onClick={handleSubmitForReview}
+          disabled={submitted || published || !widgetId}
+          startIcon={<Icon>rate_review</Icon>}>
+          {submitted ? 'Submitted for Review' : 'Submit for Review'}
+        </Button>
+      )}
+    </Box>
+  );
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -617,7 +665,7 @@ const AiGenerateWidget = () => {
                   />
                   <Chip
                     size='small'
-                    label={submitted ? 'pending review' : (widget.status || 'draft').replace('_', ' ')}
+                    label={statusLabel}
                     variant='outlined'
                   />
                   <Chip
@@ -629,16 +677,7 @@ const AiGenerateWidget = () => {
                     <Chip className={classes.metaChip} size='small' label={widget.description} variant='outlined' />
                   )}
                 </Box>
-                <Box style={{marginTop: 12}}>
-                  <Button
-                    className={classes.generateBtn}
-                    variant='contained'
-                    onClick={handleSubmitForReview}
-                    disabled={submitted || !widgetId}
-                    startIcon={<Icon>rate_review</Icon>}>
-                    {submitted ? 'Submitted for Review' : 'Submit for Review'}
-                  </Button>
-                </Box>
+                {renderGovernanceActions()}
               </Paper>
             )}
 
@@ -690,6 +729,7 @@ const AiGenerateWidget = () => {
                 </Box>
               </Grid>
             </Grid>
+            {phase === 'complete' && widget && renderGovernanceActions()}
           </Box>
         )}
       </Box>

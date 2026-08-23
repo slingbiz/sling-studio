@@ -34,6 +34,10 @@ export const useAuthToken = () => {
       dispatch(setJWTToken(token));
       try {
         const res = await jwtAxios.get('/auth');
+        const storedUser =
+          typeof window !== 'undefined'
+            ? JSON.parse(localStorage.getItem('user') || 'null')
+            : null;
         dispatch(fetchSuccess());
         setLoading(false);
         dispatch({
@@ -42,7 +46,7 @@ export const useAuthToken = () => {
             authType: AuthType.JWT_AUTH,
             displayName: res.data.name,
             email: res.data.email,
-            role: defaultUser.role,
+            role: res.data.role || storedUser?.role || defaultUser.role,
             token: res.data._id,
             photoURL: res.data.avatar,
           },
