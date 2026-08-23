@@ -38,7 +38,7 @@ async function sandboxHeaders() {
             "style-src 'unsafe-inline' https:",
             "img-src data: https:",
             "font-src https: data:",
-            "connect-src 'none'",
+            "connect-src https://unpkg.com",
             "frame-src 'none'",
             "object-src 'none'",
             "base-uri 'none'",

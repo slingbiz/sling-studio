@@ -107,11 +107,22 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 6,
   },
   itemContainer: {},
+  widgetCard: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: '#fff',
+  },
   imgContainer: {
     cursor: 'pointer',
     position: 'relative',
-    minHeight: 150,
+    height: 150,
     width: '100%',
+    flexShrink: 0,
+    overflow: 'hidden',
   },
   noImgContainer: {
     position: 'relative',
@@ -119,9 +130,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
-    minHeight: 150,
+    height: 150,
     width: '100%',
-    backgroundColor: '#fff8f0',
+    flexShrink: 0,
+    backgroundColor: '#fff',
     overflow: 'hidden',
   },
   livePreview: {
@@ -130,8 +142,6 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     overflow: 'hidden',
     backgroundColor: '#fff',
-    borderRadius: 6,
-    border: '1px solid #f0e6d8',
   },
   itemImage: {
     width: '100%',
@@ -303,7 +313,7 @@ const WidgetsIntegration = (props) => {
       </AppsHeader>
       <Grid
         container
-        alignItems='baseline'
+        alignItems='stretch'
         className={classes.gridPadding}
         spacing={5}
         style={{padding: 20}}>
@@ -313,20 +323,10 @@ const WidgetsIntegration = (props) => {
             xs={6}
             sm={4}
             md={3}
-            key={index}
-            onMouseEnter={() => setHoveredWidget(item._id)} // Set hovered widget ID
-            onMouseLeave={() => setHoveredWidget(null)} // Reset hover on leave
-            style={{
-              minHeight: 365,
-            }}>
-            <Box
-              alignItems='flex-start'
-              className={classes.gridPadding}
-              style={{
-                boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                borderRadius: '8px',
-                minHeight: 365,
-              }}>
+            key={item._id || index}
+            onMouseEnter={() => setHoveredWidget(item._id)}
+            onMouseLeave={() => setHoveredWidget(null)}>
+            <Box className={classes.widgetCard}>
               <Grid
                 container
                 alignItems='flex-start'
@@ -376,7 +376,9 @@ const WidgetsIntegration = (props) => {
                       />
                     </Box>
                   ) : (
-                    <span>{item.name}</span>
+                    <Box className={classes.livePreview}>
+                      <span>{item.name}</span>
+                    </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} style={{width: '100%'}}>

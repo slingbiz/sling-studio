@@ -8,4 +8,9 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).toMatch(/item\.code \?/);
     expect(src).toMatch(/SandboxedPreview/);
   });
+
+  test('does not baseline-align cards so the grid stays even', () => {
+    expect(src).not.toMatch(/alignItems='baseline'/);
+    expect(src).toMatch(/alignItems='stretch'/);
+  });
 });

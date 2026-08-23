@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; font-src https: data:; img-src data: https:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';"
+      content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; font-src https: data:; img-src data: https:; connect-src https://unpkg.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';"
     />
     <title>Sling widget preview</title>
     <style>
@@ -97,8 +97,11 @@
           };
 
           Object.keys(MaterialUI).forEach(function (key) {
-            if (/^[A-Z]/.test(key) && typeof MaterialUI[key] === 'function') {
-              scope[key] = MaterialUI[key];
+            if (!/^[A-Z]/.test(key) || !MaterialUI[key]) return;
+            var value = MaterialUI[key];
+            // MUI Box/Typography/Paper are forwardRef objects, not functions.
+            if (typeof value === 'function' || typeof value === 'object') {
+              scope[key] = value;
             }
           });
 
@@ -143,25 +146,24 @@
             var transpiled = Babel.transform(code, {presets: ['react']}).code;
             var ThemedComponent = scope.ThemedComponent;
             var keys = Object.keys(scope).filter(function (key) {
-              return key !== 'ThemedComponent';
+              return key !== 'ThemedComponent' && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key);
             });
-            var values = keys.map(function (key) {
-              return scope[key];
-            });
+            var prelude = keys
+              .map(function (key) {
+                return 'var ' + key + ' = __scope[' + JSON.stringify(key) + '];';
+              })
+              .join('\n');
             var factory = new Function(
-              keys.join(','),
-              transpiled +
+              '__scope',
+              prelude +
+                '\n' +
+                transpiled +
                 '\n' +
                 'if (typeof PreviewComponent === "function") return PreviewComponent;\n' +
                 'if (typeof Component === "function") return Component;\n' +
-                'var names = Object.keys(this || {});\n' +
-                'for (var i = 0; i < names.length; i++) {\n' +
-                '  var value = this[names[i]];\n' +
-                '  if (typeof value === "function" && /^[A-Z]/.test(names[i])) return value;\n' +
-                '}\n' +
                 'return null;',
             );
-            var Component = factory.apply(null, values);
+            var Component = factory(scope);
             if (typeof Component !== 'function') {
               throw new Error('Generated code did not define a PreviewComponent.');
             }

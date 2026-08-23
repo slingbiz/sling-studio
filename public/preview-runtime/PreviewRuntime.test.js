@@ -1,0 +1,17 @@
+const fs = require('fs');
+const path = require('path');
+
+const src = fs.readFileSync(path.join(__dirname, 'widget-preview.html'), 'utf8');
+
+describe('preview runtime scope', () => {
+  test('includes MUI components that are objects, not only functions', () => {
+    expect(src).toMatch(/typeof value === 'object'/);
+    expect(src).not.toMatch(
+      /typeof MaterialUI\[key\] === 'function'\) \{\s*scope\[key\] = MaterialUI\[key\];/,
+    );
+  });
+
+  test('allows unpkg source-map requests so the runtime does not die on connect-src none', () => {
+    expect(src).toMatch(/connect-src https:\/\/unpkg.com/);
+  });
+});
