@@ -14,10 +14,10 @@ const useStyle = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
     [theme.breakpoints.up('lg')]: {
-      width: '12rem',
+      width: '14rem',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '15rem',
+      width: '16rem',
     },
   },
 }));

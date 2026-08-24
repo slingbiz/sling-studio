@@ -4,7 +4,7 @@ import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
 const useStyles = makeStyles((theme) => {
   return {
     navItem: {
-      height: 60,
+      height: 64,
       marginTop: 2,
       marginBottom: 2,
       cursor: 'pointer',
@@ -59,12 +59,14 @@ const useStyles = makeStyles((theme) => {
       '& .nav-item-text': {
         color: theme.palette.sidebar.textColor,
         fontWeight: Fonts.MEDIUM,
+        fontSize: 16,
+        fontFamily: 'Open Sans, system-ui, sans-serif',
       },
     },
     listIcon: {
-      fontSize: 18,
+      fontSize: 24,
       [theme.breakpoints.up('xl')]: {
-        // fontSize: 20,
+        fontSize: 26,
       },
     },
     listItemText: {

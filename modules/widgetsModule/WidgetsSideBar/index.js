@@ -19,10 +19,10 @@ const useStyle = makeStyles((theme) => ({
   appsSidebar: {
     height: '100%',
     [theme.breakpoints.up('lg')]: {
-      width: '12rem',
+      width: '14rem',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '15rem',
+      width: '16rem',
     },
   },
   btnRoot: {

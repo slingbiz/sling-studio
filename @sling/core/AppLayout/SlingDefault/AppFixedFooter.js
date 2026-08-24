@@ -18,10 +18,10 @@ const AppFixedFooter = (props) => {
       backgroundColor: theme.palette.background.paper,
       color: theme.palette.text.primary,
       [theme.breakpoints.up('lg')]: {
-        width: 'calc(100vw - 4rem)',
+        width: 'calc(100vw - 5.5rem)',
       },
       [theme.breakpoints.up('xl')]: {
-        width: 'calc(100vw - 5rem)',
+        width: 'calc(100vw - 5.5rem)',
       },
       '& .footerContainer': {
         padding: '5px 20px',

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => {
       transition: 'all 0.5s ease',
 
       [theme.breakpoints.up('lg')]: {
-        width: '4rem',
+        width: '5.5rem',
         position: 'fixed',
         left: 0,
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => {
       },
 
       [theme.breakpoints.up('xl')]: {
-        width: '5rem',
+        width: '5.5rem',
       },
 
       '& .sl-user-info': {
@@ -56,15 +56,15 @@ const useStyles = makeStyles((theme) => {
 
       '& .nav-item': {
         // width: 48,
-        paddingLeft: 17,
+        paddingLeft: 20,
         // marginLeft: ,
 
         // borderRadius: '50%',
 
         [theme.breakpoints.up('xl')]: {
-          height: 48,
-          paddingLeft: 13,
-          marginLeft: 12,
+          height: 64,
+          paddingLeft: 20,
+          marginLeft: 0,
         },
       },
 

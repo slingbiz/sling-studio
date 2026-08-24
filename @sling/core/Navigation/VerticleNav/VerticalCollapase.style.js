@@ -15,14 +15,14 @@ const useStyles = makeStyles((theme) => {
         theme.direction === 'rtl' ? (props) => 24 + 40 * props.level : 24,
 
       '& .nav-item-text': {
-        fontWeight: Fonts.REGULAR,
-        // fontSize: 16,
+        fontWeight: Fonts.MEDIUM,
+        fontSize: 16,
+        fontFamily: 'Open Sans, system-ui, sans-serif',
         color: theme.palette.sidebar.textColor,
 
         [theme.breakpoints.up('xl')]: {
           marginTop: 4,
           marginBottom: 4,
-          // fontSize: 18,
         },
       },
 
@@ -62,9 +62,9 @@ const useStyles = makeStyles((theme) => {
       whiteSpace: 'nowrap',
     },
     listIcon: {
-      fontSize: 18,
+      fontSize: 24,
       [theme.breakpoints.up('xl')]: {
-        // fontSize: 20,
+        fontSize: 26,
       },
     },
   };

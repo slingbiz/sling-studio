@@ -17,8 +17,8 @@ const useStyle = makeStyles((theme) => ({
     display: 'flex',
     paddingLeft: '10px',
     paddingRight: '10px',
-    paddingTop: '12px',
-    paddingBottom: '12px',
+    paddingTop: '16px',
+    paddingBottom: '16px',
     borderBottom: '1px solid #f0e6d8',
     backgroundColor: 'transparent',
     fontFamily: 'Open Sans, system-ui, sans-serif',
@@ -31,13 +31,14 @@ const useStyle = makeStyles((theme) => ({
     },
 
     '& .MuiTypography-body1': {
-      fontSize: 14,
+      fontSize: 16,
+      fontWeight: Fonts.MEDIUM,
       fontFamily: 'Open Sans, system-ui, sans-serif',
       color: '#6b645c',
     },
 
     '& svg, & .MuiIcon-root': {
-      fontSize: '18px',
+      fontSize: '22px',
       color: '#6b645c',
     },
 

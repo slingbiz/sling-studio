@@ -5,8 +5,8 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     paddingLeft: '10px',
     paddingRight: '10px',
-    paddingTop: '12px',
-    paddingBottom: '12px',
+    paddingTop: '16px',
+    paddingBottom: '16px',
     borderBottom: '1px solid #f0e6d8',
     backgroundColor: 'transparent',
 
@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& .MuiTypography-body1': {
-      fontSize: '14px',
+      fontSize: '16px',
       color: '#6b645c',
     },
 
     '& svg': {
-      fontSize: '18px',
+      fontSize: '22px',
       color: '#6b645c',
     },
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
       color: '#6b645c',
 
       '& svg': {
-        fontSize: '18px',
+        fontSize: '22px',
         color: '#6b645c',
       },
 

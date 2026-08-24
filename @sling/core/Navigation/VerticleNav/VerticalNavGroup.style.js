@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => {
           ? theme.palette.text.secondary
           : 'rgba(255,255,255,0.38)',
       fontWeight: 700,
-      fontSize: 14,
+      fontSize: 16,
       cursor: 'pointer',
       textDecoration: 'none!important',
 

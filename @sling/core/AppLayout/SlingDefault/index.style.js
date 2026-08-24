@@ -45,20 +45,20 @@ const useStyles = makeStyles((theme) => {
       flex: 1,
       display: 'flex',
       [theme.breakpoints.up('lg')]: {
-        marginLeft: '4rem',
+        marginLeft: '5.5rem',
       },
       [theme.breakpoints.up('xl')]: {
-        marginLeft: '5rem',
+        marginLeft: '5.5rem',
       },
     },
     mainContainer: {
       width: '100%',
       paddingBottom: (props) => (props.footer ? 0 : 10),
       [theme.breakpoints.up('lg')]: {
-        width: 'calc(100vw - 4rem)',
+        width: 'calc(100vw - 5.5rem)',
       },
       [theme.breakpoints.up('xl')]: {
-        width: 'calc(100vw - 5rem)',
+        width: 'calc(100vw - 5.5rem)',
       },
       '& > .scrollbar-container': {
         padding: '20px 20px 0',

@@ -21,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
   appsSidebar: {
     // height: '100%',
     [theme.breakpoints.up('lg')]: {
-      width: '17rem',
+      width: '14rem',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '20rem',
+      width: '16rem',
     },
   },
   pagesSideBar: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       width: '14rem',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '15rem',
+      width: '16rem',
     },
   },
   appsMainContent: (props) => ({
@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('lg')]: {
-      width: `calc(100% - ${props.fullView ? 0 : 13}rem)`,
+      width: `calc(100% - ${props.fullView ? 0 : 14}rem)`,
       paddingLeft: props.fullView ? 0 : 40,
     },
     [theme.breakpoints.up('xl')]: {
-      width: `calc(100% - ${props.fullView ? 0 : 20}rem)`,
+      width: `calc(100% - ${props.fullView ? 0 : 16}rem)`,
     },
   }),
   menuButton: {

@@ -12,8 +12,9 @@ describe('AppsSideBarFolderItem Sling theme', () => {
     expect(src).toMatch(/#ff9800/);
     expect(src).toMatch(/#fff8f0/);
     expect(src).not.toMatch(/theme\.palette\.primary\.main/);
-    expect(src).toMatch(/fontSize:\s*14/);
-    expect(src).not.toMatch(/fontSize:\s*15/);
+    expect(src).toMatch(/fontSize:\s*16/);
+    expect(src).not.toMatch(/fontSize:\s*14/);
+    expect(src).not.toMatch(/fontSize:\s*12/);
   });
 
   test('custom.js still highlights the active route', () => {

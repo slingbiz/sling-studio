@@ -80,6 +80,7 @@ Run every item against the changed screens and any screen that shares that state
 - Review Queue still used MUI blue tabs and Approve. Match Members: Sling orange, 14px actions.
 - Company Details: narrow left fields with Save across a white desert. Two-column grid. No fake infographic.
 - Inner sidebars (Widgets/Settings) selected state must be Sling orange + cream, not MUI blue / primary.main.
+- Inner + mini nav type is 16px / icons ~24px, not 12–14 leftover.
 - Meta & Props looked like leftover MUI: cramped outlined inputs in a skinny left column. Match Company Details — two-column cream fields, orange focus, Required Props as a table with Add on the right and delete always visible.
 - Code tab (Edit Widget and AI Generate) was a basic box. Use the existing Monaco editor with cream chrome, 14px, line numbers — not a plain textarea.
 - Media Constants save was a mock. Gallery is the library; hide Constants.
