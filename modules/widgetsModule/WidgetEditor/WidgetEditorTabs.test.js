@@ -78,4 +78,14 @@ describe('WidgetEditorTabs', () => {
     expect(src).toMatch(/canRestore/);
     expect(src).toMatch(/widgetId/);
   });
+
+  test('adds Image dataType and an always-visible Gallery pick on image defaults', () => {
+    expect(src).toMatch(/label:\s*['"]Image['"]/);
+    expect(src).toMatch(/value:\s*['"]image['"]/);
+    expect(src).toMatch(/isImageProp/);
+    expect(src).toMatch(/GalleryPickerModal/);
+    expect(src).toMatch(/>\s*Gallery\s*</);
+    expect(src).toMatch(/galleryBtn:[\s\S]*visibility:\s*['"]visible['"]/);
+    expect(src).toMatch(/patch\('default', url\)/);
+  });
 });

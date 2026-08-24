@@ -20,6 +20,8 @@ import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 import {AllIcons} from '../../../shared/constants/IconList';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import {SLING_ORANGE, SLING_CREAM, SLING_INK} from '../../aiBuilder/slingTheme';
+import GalleryPickerModal from '../../media/GalleryPickerModal';
+import {isImageProp} from '../../media/isImageProp';
 import WidgetHistory from './WidgetHistory';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
@@ -43,6 +45,7 @@ const propType = [
 const propDataType = [
   {label: 'String', value: 'string'},
   {label: 'Number', value: 'number'},
+  {label: 'Image', value: 'image'},
 ];
 
 const ownershipOptions = [
@@ -244,7 +247,7 @@ const useStyles = makeStyles(() => ({
   },
   propsTableHead: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(140px, 1.4fr) 150px minmax(120px, 1.2fr) 160px 44px',
+    gridTemplateColumns: 'minmax(120px, 1.2fr) 130px minmax(200px, 1.8fr) 140px 44px',
     gap: 12,
     padding: '12px 12px 10px',
     color: '#6b6f76',
@@ -255,7 +258,7 @@ const useStyles = makeStyles(() => ({
   },
   propsRow: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(140px, 1.4fr) 150px minmax(120px, 1.2fr) 160px 44px',
+    gridTemplateColumns: 'minmax(120px, 1.2fr) 130px minmax(200px, 1.8fr) 140px 44px',
     gap: 12,
     alignItems: 'center',
     padding: '10px 12px',
@@ -264,6 +267,26 @@ const useStyles = makeStyles(() => ({
   deleteBtn: {
     color: '#6b6f76',
     padding: 6,
+    visibility: 'visible',
+    opacity: 1,
+  },
+  defaultCell: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    minWidth: 0,
+  },
+  galleryBtn: {
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    borderColor: SLING_ORANGE,
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: 8,
+    fontFamily: 'Open Sans, sans-serif',
+    padding: '6px 12px',
+    minWidth: 0,
+    flexShrink: 0,
     visibility: 'visible',
     opacity: 1,
   },
@@ -329,6 +352,13 @@ const CommonTextField = ({classes, label, required, select, wide, children, ...p
 
 const ItemProp = ({classes, props, index, updateState}) => {
   const dispatch = useDispatch();
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const row = props[index];
+  const showGallery = isImageProp({
+    name: row.name,
+    dataType: row.dataType,
+    type: row.type,
+  });
 
   const patch = (key, value) => {
     const updatedState = [...props];
@@ -340,6 +370,7 @@ const ItemProp = ({classes, props, index, updateState}) => {
   };
 
   return (
+    <>
     <Box className={classes.propsRow}>
       <TextField
         required
@@ -365,15 +396,26 @@ const ItemProp = ({classes, props, index, updateState}) => {
           </MenuItem>
         ))}
       </TextField>
-      <TextField
-        required
-        size='small'
-        variant='outlined'
-        className={classes.field}
-        value={props[index].default}
-        onChange={(e) => patch('default', e.target.value)}
-        inputProps={{'aria-label': 'Default Value'}}
-      />
+      <Box className={classes.defaultCell}>
+        <TextField
+          required
+          size='small'
+          variant='outlined'
+          className={classes.field}
+          value={props[index].default}
+          onChange={(e) => patch('default', e.target.value)}
+          inputProps={{'aria-label': 'Default Value'}}
+        />
+        {showGallery && (
+          <Button
+            variant='outlined'
+            className={classes.galleryBtn}
+            aria-label='Pick from gallery'
+            onClick={() => setPickerOpen(true)}>
+            Gallery
+          </Button>
+        )}
+      </Box>
       <TextField
         size='small'
         variant='outlined'
@@ -405,6 +447,15 @@ const ItemProp = ({classes, props, index, updateState}) => {
         <CloseOutlined fontSize='small' />
       </IconButton>
     </Box>
+    <GalleryPickerModal
+      open={pickerOpen}
+      onClose={() => setPickerOpen(false)}
+      onSelect={(url) => {
+        patch('default', url);
+        setPickerOpen(false);
+      }}
+    />
+    </>
   );
 };
 

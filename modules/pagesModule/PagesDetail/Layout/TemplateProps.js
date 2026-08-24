@@ -8,6 +8,7 @@ import blue from '@material-ui/core/colors/blue';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import {
@@ -21,6 +22,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Editor from '@monaco-editor/react';
+import GalleryPickerModal from '../../../media/GalleryPickerModal';
+import {isImageProp} from '../../../media/isImageProp';
+import {SLING_ORANGE} from '../../../aiBuilder/slingTheme';
+
+const GALLERY_HELPER =
+  'Pick an image from this workspace’s gallery. The URL is stored on the prop.';
 
 const staticHelperMap = {
   'response-derived':
@@ -28,8 +35,13 @@ const staticHelperMap = {
   'static-derived':
     'Values inside curly braces will be replaced from props before rendering',
   static: 'Static values to be used by the component',
-  media: 'Array of Image Constants',
+  media: GALLERY_HELPER,
   json: 'Enter a valid JSON object.',
+};
+
+const displayPropValue = (value) => {
+  if (typeof value === 'string' || typeof value === 'number') return value;
+  return '';
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +75,26 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
 
     // border: '1px solid #ccc',
+  },
+  valueRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: '0 10px',
+  },
+  galleryBtn: {
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    borderColor: SLING_ORANGE,
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: 8,
+    fontFamily: 'Open Sans, sans-serif',
+    padding: '6px 12px',
+    minWidth: 0,
+    flexShrink: 0,
+    visibility: 'visible',
+    opacity: 1,
   },
 }));
 
@@ -102,6 +134,7 @@ export default function TemplateProps({cellProps, disabled}) {
   const [tempValues, setTempValues] = useState({}); // Temporary input values
   const [isEditing, setIsEditing] = useState({}); // Track editing state for each input
   const [jsonError, setJsonError] = useState({}); // To track JSON validation errors
+  const [pickerKey, setPickerKey] = useState(null);
 
   const handlePanelChange = (panel) => (event, isExpanded) => {
     setPropsExpanded(isExpanded ? panel : false);
@@ -160,10 +193,18 @@ export default function TemplateProps({cellProps, disabled}) {
     <FormGroup row disabled={disabled}>
       {Object.keys(widgetProps).map((propKey, key, {length}) => {
         const propObj = widgetProps[propKey];
-        const tempValue =
+        const rawValue =
           tempValues[propKey] !== undefined
             ? tempValues[propKey]
             : propObj.value; // Use temp value or fallback to original
+        const tempValue = displayPropValue(rawValue);
+        const showGallery =
+          propObj.type !== 'json' &&
+          isImageProp({
+            name: propKey,
+            dataType: propObj.dataType,
+            type: propObj.type,
+          });
 
         return (
           <Accordion
@@ -207,9 +248,9 @@ export default function TemplateProps({cellProps, disabled}) {
                       defaultLanguage='json'
                       theme='vs-dark'
                       value={
-                        typeof tempValue === 'string'
-                          ? tempValue
-                          : JSON.stringify(tempValue, null, 2)
+                        typeof rawValue === 'string'
+                          ? rawValue
+                          : JSON.stringify(rawValue, null, 2)
                       } // Ensure formatted JSON
                       options={{
                         minimap: {enabled: false},
@@ -226,13 +267,25 @@ export default function TemplateProps({cellProps, disabled}) {
                     )}
                   </>
                 ) : (
-                  <Input
-                    className={classes.fontSet}
-                    id={`input-${propKey}`}
-                    value={tempValue}
-                    onChange={(event) => handleInputChange({propKey, event})}
-                    aria-describedby='component-helper-text'
-                  />
+                  <Box className={classes.valueRow}>
+                    <Input
+                      className={classes.fontSet}
+                      id={`input-${propKey}`}
+                      value={tempValue}
+                      onChange={(event) => handleInputChange({propKey, event})}
+                      aria-describedby='component-helper-text'
+                      style={{flex: 1}}
+                    />
+                    {showGallery && (
+                      <Button
+                        variant='outlined'
+                        className={classes.galleryBtn}
+                        aria-label='Pick from gallery'
+                        onClick={() => setPickerKey(propKey)}>
+                        Gallery
+                      </Button>
+                    )}
+                  </Box>
                 )}
 
                 {isEditing[propKey] && (
@@ -253,7 +306,9 @@ export default function TemplateProps({cellProps, disabled}) {
                   </InputAdornment>
                 )}
                 <FormHelperText style={{padding: '0 10px', marginBottom: 10}}>
-                  {staticHelperMap[propObj.type]}
+                  {showGallery
+                    ? GALLERY_HELPER
+                    : staticHelperMap[propObj.type]}
                 </FormHelperText>
               </FormControl>
             </AccordionDetails>
@@ -261,6 +316,17 @@ export default function TemplateProps({cellProps, disabled}) {
         );
       })}
       <NewProp classes={classes} />
+      <GalleryPickerModal
+        open={Boolean(pickerKey)}
+        onClose={() => setPickerKey(null)}
+        onSelect={(url) => {
+          if (!pickerKey) return;
+          handleChange({propKey: pickerKey, event: {target: {value: url}}});
+          setTempValues({...tempValues, [pickerKey]: url});
+          setIsEditing({...isEditing, [pickerKey]: false});
+          setPickerKey(null);
+        }}
+      />
     </FormGroup>
   );
 }

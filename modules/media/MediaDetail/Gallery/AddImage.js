@@ -130,6 +130,7 @@ const AddImage = ({open, setOpen}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
+  const fileInputIdRef = useRef(`image-upload-${Math.random().toString(36).slice(2)}`);
 
   const [name, setName] = useState('');
   const [altText, setAltText] = useState('');
@@ -256,11 +257,11 @@ const AddImage = ({open, setOpen}) => {
             </div>
           )}
 
-          <label htmlFor='image-upload' className={classes.selectImageButton}>
+          <label htmlFor={fileInputIdRef.current} className={classes.selectImageButton}>
             {imgFile ? `${imgFile.name}${fileSize ? ` · ${fileSize}` : ''}` : 'Select image'}
             <input
               type='file'
-              id='image-upload'
+              id={fileInputIdRef.current}
               accept='image/jpeg,image/png,image/gif,image/jpg'
               ref={fileInputRef}
               className={classes.fileInput}
