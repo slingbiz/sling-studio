@@ -124,7 +124,7 @@ const WidgetReviewQueue = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {widgets} = useSelector(({widgets}) => widgets);
-  const loading = useSelector(({common}) => common.loading);
+  const [fetching, setFetching] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [previewErrors, setPreviewErrors] = useState({});
   const [rejectDialog, setRejectDialog] = useState({open: false, widgetId: null});
@@ -136,8 +136,10 @@ const WidgetReviewQueue = () => {
 
   const currentStatus = STATUS_TABS[activeTab].status;
 
-  const fetchWidgets = useCallback(() => {
-    dispatch(getWidgets({status: currentStatus, size: 1000}));
+  const fetchWidgets = useCallback(async () => {
+    setFetching(true);
+    await dispatch(getWidgets({status: currentStatus, size: 1000, quiet: true}));
+    setFetching(false);
   }, [dispatch, currentStatus]);
 
   useEffect(() => {
@@ -257,13 +259,13 @@ const WidgetReviewQueue = () => {
           ))}
         </Tabs>
 
-        {loading && (
+        {fetching && (
           <Box style={{display: 'flex', justifyContent: 'center', padding: 40}}>
-            <CircularProgress />
+            <CircularProgress style={{color: '#ff9800'}} />
           </Box>
         )}
 
-        {!loading && widgets?.length === 0 && (
+        {!fetching && widgets?.length === 0 && (
           <ListEmptyResult
             content={`No widgets with status "${currentStatus.replace(
               '_',
@@ -273,7 +275,7 @@ const WidgetReviewQueue = () => {
           />
         )}
 
-        {!loading &&
+        {!fetching &&
           widgets?.map((item) => (
             <Paper
               key={item._id}

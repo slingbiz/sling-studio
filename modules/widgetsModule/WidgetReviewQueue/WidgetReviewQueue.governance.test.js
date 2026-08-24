@@ -33,4 +33,10 @@ describe('WidgetReviewQueue cannot skip review', () => {
     expect(src).not.toMatch(/Show Preview/);
     expect(src).toMatch(/No live preview/);
   });
+
+  test('tab changes use one list spinner, not the page overlay too', () => {
+    expect(src).toMatch(/quiet:\s*true/);
+    expect(src).not.toMatch(/common\.loading/);
+    expect(src).toMatch(/CircularProgress/);
+  });
 });

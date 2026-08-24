@@ -74,8 +74,8 @@ export const updateWidget = (id, widgetData) => {
 export const getWidgets = (filters) => {
   return async (dispatch) => {
     try {
-      const {append, ...apiFilters} = filters || {};
-      if (!append) {
+      const {append, quiet, ...apiFilters} = filters || {};
+      if (!append && !quiet) {
         dispatch({type: FETCH_START});
       }
       const Api = await ApiAuth();
@@ -89,7 +89,7 @@ export const getWidgets = (filters) => {
       // console.log('[getWidgets] actions Response: ', JSON.stringify(data));
 
       if (data.status === 200) {
-        if (!append) {
+        if (!append && !quiet) {
           dispatch({type: FETCH_SUCCESS});
         }
         const raw = data.data.widgets;

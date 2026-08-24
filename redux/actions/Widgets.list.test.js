@@ -20,7 +20,7 @@ describe('getWidgets list payload', () => {
   });
 
   test('does not fire the overlay loader on load-more', () => {
-    expect(getFn).toMatch(/if\s*\(!append\)[\s\S]{0,80}FETCH_START/);
+    expect(getFn).toMatch(/if\s*\(!append && !quiet\)[\s\S]{0,80}FETCH_START/);
   });
 
   test('refetches the first page of 8 after delete', () => {
