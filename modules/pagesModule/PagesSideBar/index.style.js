@@ -4,9 +4,10 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 const useStyles = makeStyles((theme) => ({
   listItem: {
     paddingLeft: '10px',
-    paddingRight: '0',
-    paddingTop: '5px',
-    paddingBottom: '5px',
+    paddingRight: '10px',
+    paddingTop: '12px',
+    paddingBottom: '12px',
+    borderBottom: '1px solid #f0e6d8',
     backgroundColor: 'transparent',
 
     '& .MuiListItemText-root': {
@@ -18,35 +19,36 @@ const useStyles = makeStyles((theme) => ({
 
     '& .MuiTypography-body1': {
       fontSize: '14px',
-      color: '#A8A8A8',
+      color: '#6b645c',
     },
 
     '& svg': {
       fontSize: '18px',
-      color: '#A8A8A8',
+      color: '#6b645c',
     },
 
-    '&:hover,&:focus,&.active': {
-      backgroundColor: 'transparent',
-      color: theme.palette.primary.main,
+    '&:hover,&:focus': {
+      backgroundColor: '#fff8f0',
+      color: '#6b645c',
 
       '& svg': {
         fontSize: '18px',
-        color: theme.palette.primary.main,
+        color: '#6b645c',
       },
 
       '& .MuiTypography-root': {
-        color: theme.palette.primary.main,
+        color: '#6b645c',
       },
     },
 
     '&.active': {
-      color: theme.palette.primary.main,
+      backgroundColor: '#fff8f0',
+      color: '#ff9800',
       fontWeight: Fonts.MEDIUM,
 
       '& svg, & .MuiTypography-root': {
         fontWeight: Fonts.MEDIUM,
-        color: theme.palette.primary.main,
+        color: '#ff9800',
       },
     },
   },

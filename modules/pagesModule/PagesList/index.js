@@ -1,199 +1,255 @@
-import React, {useEffect, useState} from 'react';
-// import AddNewTask from '../AddNewTask';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Box,
+  Button,
+  CircularProgress,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
-  Hidden,
-  makeStyles,
+  Icon,
+  IconButton,
+  InputAdornment,
   TextField,
+  Typography,
 } from '@material-ui/core';
-import {grey} from '@material-ui/core/colors';
-import {Build, Edit} from '@material-ui/icons';
+import {makeStyles} from '@material-ui/core/styles';
 import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Link from 'next/link';
-import {useDispatch, useSelector} from 'react-redux';
-import orange from '@material-ui/core/colors/orange';
 import {Fonts} from '../../../shared/constants/AppEnums';
-import Box from '@material-ui/core/Box';
-import AppSearch from '../../../@sling/core/SearchBar';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   deletePageTemplateAction,
   getRoutesList,
   setLayoutConfig,
 } from '../../../redux/actions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
-import LinkIcon from '@material-ui/icons/Link';
-import Badge from '@material-ui/core/Badge';
-import Tooltip from '@material-ui/core/Tooltip';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles((theme) => ({
-  guideList: {display: 'flex', justifyContent: 'space-between'},
-  root: {
-    padding: theme.spacing(5, 4),
-    height: '100%',
+const useStyles = makeStyles(() => ({
+  page: {
+    padding: '12px 28px 32px',
+    background: '#fff',
+    fontFamily: 'Open Sans, sans-serif',
   },
-  list: {
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-  textField: {
-    // paddingLeft: theme.spacing(1),
-    // paddingRight: theme.spacing(1),
-    // fontSize: 12,
-  },
-  truncate: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  pagination: {
-    paddingRight: 8,
-    paddingLeft: 8,
-    borderColor: grey[300],
-    borderTopWidth: 1,
-  },
-  gridTileInfo: {
-    // justifyContent: 'center',
-    flexDirection: 'row',
+  toolbar: {
     display: 'flex',
-    padding: '0 12px',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 16,
   },
-  gridItemInfo: {
-    justifyContent: 'center',
+  toolbarLeft: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    gap: 10,
+    minWidth: 0,
+    flex: 1,
   },
-  media: {
-    height: 200,
-    backgroundSize: '100%',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'top',
-    'background-position-y': '45%',
-    position: 'relative',
+  search: {
+    maxWidth: 320,
+    width: '100%',
+    background: '#fff',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      height: 40,
+      background: '#fff',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#ff9800',
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px 10px 0',
+    },
   },
-  cardDesc: {
-    height: '60px',
-    overflow: 'hidden',
-    display: '-webkit-box',
-    WebkitLineClamp: '3',
-    lineClamp: 3,
-    WebkitBoxOrient: 'vertical',
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: '#ff9800',
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+    '&:disabled': {backgroundColor: '#ffcc80', color: '#fff'},
   },
-  templateTitle: {
+  outlineBtn: {
+    textTransform: 'none',
+    color: '#ff9800',
+    border: '1px solid #ff9800',
+    fontWeight: 500,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '7px 16px',
+    background: '#fff',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#fff8f0'},
+  },
+  actionBtn: {
+    textTransform: 'none',
+    color: '#ff9800',
+    fontSize: 14,
+    fontWeight: 500,
+    minWidth: 0,
+    padding: '6px 10px',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  ghostBtn: {
+    textTransform: 'none',
+    color: '#6b6f76',
+    fontSize: 14,
+    fontWeight: 500,
+    minWidth: 0,
+    padding: '6px 10px',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  tableHead: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(200px, 1.6fr) minmax(180px, 1.5fr) 90px auto',
+    gap: 12,
+    padding: '12px 8px 10px',
+    color: '#6b6f76',
+    fontSize: 14,
+    fontWeight: 500,
+  },
+  sectionBar: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '8px 10px',
+    margin: '0 -8px 0',
+    background: '#f6f7f9',
+    color: '#6b6f76',
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: 4,
+  },
+  row: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(200px, 1.6fr) minmax(180px, 1.5fr) 90px auto',
+    gap: 12,
+    alignItems: 'center',
+    padding: '12px 8px',
+    minHeight: 60,
+    cursor: 'pointer',
+    '&:hover': {background: '#fff8f0'},
+  },
+  nameCell: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    minWidth: 0,
+  },
+  thumb: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    objectFit: 'cover',
+    background: '#fff8f0',
+    flexShrink: 0,
+    border: '1px solid #eee',
+  },
+  name: {
     fontSize: 16,
-    fontWeight: 'bold',
-    textOverflow: 'ellipsis',
+    fontWeight: 600,
+    color: '#212121',
+    lineHeight: 1.35,
+  },
+  handle: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.35,
+  },
+  cell: {
+    fontSize: 14,
+    color: '#212121',
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  dashboardBtn: {
-    backgroundColor: orange[500],
-    color: theme.palette.primary.contrastText,
-    fontWeight: Fonts.BOLD,
-    paddingRight: 20,
-    paddingLeft: 20,
-    marginRight: 20,
-    '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: theme.palette.primary.contrastText,
-    },
+  mutedCell: {
+    fontSize: 14,
+    color: '#6b6f76',
   },
-  button: {
-    color: theme.palette.primary.light,
-    fontWeight: Fonts.BOLD,
-    paddingRight: 10,
-    marginRight: 10,
-    paddingLeft: 10,
-    '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: theme.palette.primary.contrastText,
-    },
-  },
-  urlBadge: {
-    backgroundColor: 'rgba(25, 118, 210, 0.95)',
-    color: '#fff',
-    padding: '4px 12px',
-    borderRadius: '16px',
+  actions: {
     display: 'flex',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    gap: 6,
-    fontSize: '0.85rem',
-    fontWeight: 500,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
-    '& .MuiSvgIcon-root': {
-      fontSize: '0.9rem',
-    },
-    '&:hover': {
-      backgroundColor: 'rgba(25, 118, 210, 1)',
+    gap: 4,
+  },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 48,
+  },
+  dialogPaper: {
+    borderRadius: 12,
+    padding: '8px 4px 4px',
+    width: 640,
+    maxWidth: '92vw',
+  },
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: '#212121',
+  },
+  fields: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '4px 20px',
+    width: '100%',
+    '@media (max-width: 560px)': {
+      gridTemplateColumns: '1fr',
     },
   },
-  actionBox: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    display: 'inline-flex',
+  fieldWide: {
+    gridColumn: '1 / -1',
+  },
+  fieldWrap: {
+    marginBottom: 14,
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: '#212121',
+    marginBottom: 6,
+    display: 'block',
+  },
+  dialogField: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: '#fff8f0',
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#ff9800',
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
+    },
+  },
+  dialogFooter: {
+    display: 'flex',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    gap: 8,
-    zIndex: 1,
-    '& .MuiIconButton-root': {
-      padding: 6,
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      '&:hover': {
-        backgroundColor: 'rgba(255, 255, 255, 1)',
-      },
-    },
+    gap: 10,
+    marginTop: 8,
+    marginBottom: 8,
   },
-  previewCount: {
-    position: 'absolute',
-    bottom: 8,
-    right: 8,
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: 'rgba(25, 118, 210, 0.95)',
-    color: '#fff',
-    padding: '4px 12px',
-    borderRadius: '16px',
-    fontSize: '0.85rem',
-    fontWeight: 500,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
-    zIndex: 1,
-    '& .MuiSvgIcon-root': {
-      fontSize: '0.9rem',
-    },
-    '&:hover': {
-      backgroundColor: 'rgba(25, 118, 210, 1)',
-    },
-  },
-  deleteButton: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    zIndex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    padding: 6,
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 1)',
-    },
-  },
-  cardContent: {
-    borderTop: '1px solid #e8e8e880',
+  hint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    margin: '0 0 16px',
+    lineHeight: 1.5,
   },
 }));
 
@@ -220,113 +276,112 @@ const ModalPageTemplate = ({
     setDescription(descriptionInit);
   }, [templateKeyInit, descriptionInit, titleInit]);
 
+  const close = () => {
+    setOpen(false);
+    setTemplateKey('');
+    setTitle('');
+    setDescription('');
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={() => {
-        setOpen(false);
-        setTemplateKey('');
-        setTitle('');
-        setDescription('');
-      }}>
-      <DialogTitle>Add Template Id</DialogTitle>
+      onClose={close}
+      classes={{paper: classes.dialogPaper}}>
+      <Box display='flex' alignItems='center' justifyContent='space-between' px={2} pt={1}>
+        <Typography className={classes.dialogTitle}>
+          {edit ? 'Edit template' : 'Add template'}
+        </Typography>
+        <IconButton aria-label='Close' size='small' onClick={close}>
+          <Icon>close</Icon>
+        </IconButton>
+      </Box>
       <DialogContent>
-        <DialogContentText>
-          To add a new page template, please enter a unique template id here.
-          This template id will be used for each of the page routes which use
-          this page template.
-        </DialogContentText>
-        <TextField
-          autoFocus={true}
-          className={classes.textField}
-          margin='dense'
-          placeholder='newyear-sale'
-          id='templateId'
-          label='Template Id'
-          type='templateId'
-          fullWidth
-          value={templateKey}
-          onChange={(e) => {
-            const modifiedKey = e.target.value
-              .replace(/[\W_-]/g, '-')
-              .replace(/-+/g, '-');
-            setTemplateKey(modifiedKey.toLowerCase());
-          }}
-          variant='standard'
-        />
-        <Box style={{marginTop: 20}}>
-          {/*<Divider style={{marginTop: 15, marginBottom: 15}} />*/}
-          <Box>
-            {/*<Divider className={classes.divider} orientation='vertical' />*/}
-            <Typography style={{fontSize: 14}} variant='h6'>
-              Meta Info
+        <Typography className={classes.hint}>
+          Give it a unique id. Routes that use this template will point at that id.
+        </Typography>
+        <Box className={classes.fields}>
+          <Box className={classes.fieldWrap}>
+            <Typography className={classes.fieldLabel} component='label' htmlFor='templateId'>
+              Unique ID
             </Typography>
-            <Box style={{padding: 5}}>
-              <TextField
-                className={classes.textField}
-                margin='dense'
-                placeholder='New Year Sale Template'
-                id='title'
-                label='Title for Template'
-                type='title'
-                fullWidth
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                variant='standard'
-              />
-              <TextField
-                className={classes.textField}
-                rows={2}
-                // error={!description?.length}
-                maxRows={4}
-                multiline={true}
-                margin='dense'
-                placeholder='This will be used for all the Promotional Landing Pages from Christmas to New Year'
-                id='description'
-                label='Small Description'
-                type='description'
-                fullWidth
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                variant='standard'
-              />
-            </Box>
+            <TextField
+              autoFocus
+              id='templateId'
+              className={classes.dialogField}
+              placeholder='newyear-sale'
+              value={templateKey || ''}
+              onChange={(e) => {
+                const modifiedKey = e.target.value
+                  .replace(/[\W_-]/g, '-')
+                  .replace(/-+/g, '-');
+                setTemplateKey(modifiedKey.toLowerCase());
+              }}
+              variant='outlined'
+              fullWidth
+            />
+          </Box>
+          <Box className={classes.fieldWrap}>
+            <Typography className={classes.fieldLabel} component='label' htmlFor='title'>
+              Title
+            </Typography>
+            <TextField
+              id='title'
+              className={classes.dialogField}
+              placeholder='New Year sale'
+              value={title || ''}
+              onChange={(e) => setTitle(e.target.value)}
+              variant='outlined'
+              fullWidth
+            />
+          </Box>
+          <Box className={`${classes.fieldWrap} ${classes.fieldWide}`}>
+            <Typography className={classes.fieldLabel} component='label' htmlFor='description'>
+              Description
+            </Typography>
+            <TextField
+              id='description'
+              className={classes.dialogField}
+              placeholder='Promotional landing pages from Christmas to New Year'
+              value={description || ''}
+              onChange={(e) => setDescription(e.target.value)}
+              variant='outlined'
+              fullWidth
+              multiline
+              rows={3}
+            />
           </Box>
         </Box>
+        <Box className={classes.dialogFooter}>
+          <Button className={classes.outlineBtn} onClick={close}>
+            Cancel
+          </Button>
+          <Button
+            className={classes.primaryBtn}
+            onClick={() => addPageTemplate(templateKey, {title, description})}>
+            Save
+          </Button>
+        </Box>
       </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => {
-            setOpen(false);
-            setTemplateKey('');
-            setTitle('');
-            setDescription('');
-          }}>
-          Cancel
-        </Button>
-        <Button
-          onClick={() => addPageTemplate(templateKey, {title, description})}>
-          {edit ? 'Save' : 'Add'}
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };
+
 const PageTemplatesList = () => {
   const router = useRouter();
   const classes = useStyles();
   const dispatch = useDispatch();
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  const loading = !layoutData;
   const {layoutConfig = {}} = layoutData || {};
-  const totalPageTemplates = Object.keys(layoutConfig).length;
   const {routesList = []} = useSelector(({routeList}) => routeList);
 
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [currentTemplate, setCurrentTemplate] = useState({});
-  const [showDelete, setShowDelete] = useState({});
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // To control delete confirmation dialog
-  const [templateToDelete, setTemplateToDelete] = useState(null); // To hold the template being deleted
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [templateToDelete, setTemplateToDelete] = useState(null);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     if (!routesList.length) {
@@ -353,18 +408,17 @@ const PageTemplatesList = () => {
     }
     if (templateToDelete) {
       dispatch(deletePageTemplateAction({pageKey: templateToDelete}));
-      setTemplateToDelete(null); // Reset after deletion
+      setTemplateToDelete(null);
     }
-    setDeleteDialogOpen(false); // Close the dialog after deletion
+    setDeleteDialogOpen(false);
   };
 
   const deletePageTemplate = (pageKey) => {
     setTemplateToDelete(pageKey);
-    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+    setDeleteDialogOpen(true);
   };
 
-  // Make allowDelete to true only if the environment variable is set to true, if not set do not let user delete
-  const search = window.location.search;
+  const search = typeof window !== 'undefined' ? window.location.search : '';
   const params = new URLSearchParams(search);
   const isAdmin = params.get('isAdmin');
   const allowDelete =
@@ -376,38 +430,60 @@ const PageTemplatesList = () => {
       .length;
   };
 
-  const getUrlCountMessage = (count) => {
-    return `This page template is used by ${count} page ${count === 1 ? 'URL' : 'URLs'}.`;
-  };
-
   const handleTemplateClick = (templateKey) => {
     router.push(`/pages/${templateKey}/layout`);
   };
 
+  const needle = query.trim().toLowerCase();
+  const visibleKeys = useMemo(() => {
+    return Object.keys(layoutConfig)
+      .reverse()
+      .filter((key) => {
+        if (!needle) return true;
+        const meta = layoutConfig[key]?.meta || {};
+        return `${key} ${meta.title || ''} ${meta.description || ''}`
+          .toLowerCase()
+          .includes(needle);
+      });
+  }, [layoutConfig, needle]);
+
   return (
     <>
-      <AppsHeader style={{justifyContent: 'space-between'}}>
-        <Box>All Page Templates</Box>
-        <Box display='flex' alignItems='center'>
+      <AppsHeader>
+        <Box fontWeight={Fonts.BOLD} component='h3'>
+          Page templates
+        </Box>
+      </AppsHeader>
+      <Box className={classes.page}>
+        <Box className={classes.toolbar}>
+          <Box className={classes.toolbarLeft}>
+            <TextField
+              className={classes.search}
+              size='small'
+              variant='outlined'
+              placeholder='Search templates'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Icon style={{fontSize: 20, color: '#9ea3a8'}}>search</Icon>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <Button
-            className={classes.dashboardBtn}
-            aria-label='add'
+            className={classes.primaryBtn}
             onClick={() => {
               setCurrentTemplate({});
               setEdit(false);
               setOpen(true);
             }}>
-            Add Template
+            Add template
           </Button>
-          <Hidden mdDown>
-            <AppSearch
-              placeholder='Search templates'
-              onChange={(e) => e.target.value}
-            />
-          </Hidden>
         </Box>
-      </AppsHeader>
-      <Paper className={classes.root}>
+
         <ModalPageTemplate
           edit={edit}
           currentTemplate={currentTemplate}
@@ -416,146 +492,131 @@ const PageTemplatesList = () => {
           setOpen={setOpen}
           addPageTemplate={addPageTemplate}
         />
-        <Grid container className={classes.guideList} spacing={10}>
-          <Grid item className={classes.gridItemInfo} sm={12} md={12} lg={12}>
-            <Typography
-              component='p'
-              style={{fontSize: 18, fontWeight: 'bold'}}>
-              List of available Page Templates.
-            </Typography>
-            <Typography component='p'>
-              Showing {totalPageTemplates} templates
-            </Typography>
-          </Grid>
-          <Grid container className={classes.gridTileInfo}>
-            {Object.keys(layoutConfig)
-              .reverse()
-              .map((v, k) => {
-                const {meta} = layoutConfig[v] || {};
-                const {title, description} = meta || {};
-                return (
-                  <Grid
-                    key={k}
-                    item
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    style={{
-                      padding: 10,
-                      cursor: 'pointer',
-                    }}
-                    onMouseOver={() => setShowDelete({[v]: true})}
-                    onMouseOut={() => setShowDelete({})}
-                    onClick={() => handleTemplateClick(v)}>
-                    <Card className={classes.card}>
-                      <CardActionArea>
-                        {showDelete[v] && (
-                          <IconButton
-                            size='small'
-                            className={classes.deleteButton}
-                            aria-label='delete'
-                            onClick={(e) => {
-                              e.stopPropagation(); // Prevent navigation when clicking delete
-                              deletePageTemplate(v);
-                            }}>
-                            <CloseIcon fontSize="small" />
-                          </IconButton>
-                        )}
-                        <CardMedia
-                          className={classes.media}
-                          image={
-                            meta.preview_image ||
-                            '/images/cards/pagelayout_default.png'
-                          }
-                          title={title}
-                        >
-                          <Tooltip
-                            title={getUrlCountMessage(getPreviewUrlsCount(v))}
-                            placement='top'>
-                            <div className={classes.previewCount}>
-                              <LinkIcon />
-                              <span>{getPreviewUrlsCount(v)}</span>
-                            </div>
-                          </Tooltip>
-                        </CardMedia>
-                        <CardContent className={classes.cardContent}>
-                          <Typography
-                            gutterBottom
-                            className={classes.templateTitle}
-                            variant='h5'
-                            component='h2'>
-                            {title}
-                          </Typography>
-                          <Typography
-                            variant='body2'
-                            className={classes.cardDesc}
-                            color='text.secondary'
-                            component='p'>
-                            {description}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                      <CardActions
-                        style={{display: 'flex', justifyContent: 'right'}}>
-                        <Link
-                          href={`/pages/${v}/layout`}
-                          passHref
-                          legacyBehavior>
-                          <Button className={classes.button} aria-label='Edit'>
-                            <Build style={{width: '20px', margin: '0 5px'}} />{' '}
-                            Configure
-                          </Button>
-                        </Link>
-                        <Button
-                          className={classes.button}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent navigation when clicking Edit Meta button
-                            setCurrentTemplate({
-                              templateKey: v,
-                              title,
-                              description,
-                            });
-                            setEdit(true);
-                            setOpen(true);
-                          }}>
-                          <Edit style={{width: '20px', margin: '0 5px'}} />
-                          Edit Meta
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                );
-              })}
-          </Grid>
-        </Grid>
 
-        {/* Confirmation Dialog for Delete */}
+        {loading ? (
+          <Box className={classes.loader}>
+            <CircularProgress style={{color: '#ff9800'}} />
+          </Box>
+        ) : (
+          <>
+            <Box className={classes.tableHead}>
+              <span>Template</span>
+              <span>Description</span>
+              <span>URLs</span>
+              <span />
+            </Box>
+            <Box className={classes.sectionBar}>
+              Templates {visibleKeys.length}
+            </Box>
+            {visibleKeys.length === 0 && (
+              <Box className={classes.row} style={{cursor: 'default'}}>
+                <Typography className={classes.mutedCell}>
+                  {needle
+                    ? 'No templates match this search.'
+                    : 'No page templates yet. Add a template to get started.'}
+                </Typography>
+              </Box>
+            )}
+            {visibleKeys.map((templateKey) => {
+              const {meta} = layoutConfig[templateKey] || {};
+              const {title, description} = meta || {};
+              const urlCount = getPreviewUrlsCount(templateKey);
+              return (
+                <Box
+                  className={classes.row}
+                  key={templateKey}
+                  onClick={() => handleTemplateClick(templateKey)}>
+                  <Box className={classes.nameCell}>
+                    <img
+                      className={classes.thumb}
+                      src={
+                        meta?.preview_image ||
+                        '/images/cards/pagelayout_default.png'
+                      }
+                      alt=''
+                    />
+                    <Box minWidth={0}>
+                      <Typography className={classes.name} noWrap>
+                        {title || templateKey}
+                      </Typography>
+                      <Typography className={classes.handle} noWrap>
+                        {templateKey}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Typography className={classes.cell}>
+                    {description || '—'}
+                  </Typography>
+                  <Typography className={classes.mutedCell}>{urlCount}</Typography>
+                  <Box className={classes.actions} onClick={(e) => e.stopPropagation()}>
+                    <Link href={`/pages/${templateKey}/layout`} passHref legacyBehavior>
+                      <Button className={classes.actionBtn} aria-label='Configure'>
+                        Configure
+                      </Button>
+                    </Link>
+                    <Button
+                      className={classes.actionBtn}
+                      aria-label='Edit'
+                      onClick={() => {
+                        setCurrentTemplate({
+                          templateKey,
+                          title,
+                          description,
+                        });
+                        setEdit(true);
+                        setOpen(true);
+                      }}>
+                      Edit
+                    </Button>
+                    <Button
+                      className={classes.ghostBtn}
+                      aria-label='Delete'
+                      onClick={() => deletePageTemplate(templateKey)}>
+                      Delete
+                    </Button>
+                  </Box>
+                </Box>
+              );
+            })}
+          </>
+        )}
+
         <Dialog
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
-          aria-labelledby='delete-dialog-title'
-          aria-describedby='delete-dialog-description'>
-          <DialogTitle id='delete-dialog-title'>{'Confirm Delete'}</DialogTitle>
+          classes={{paper: classes.dialogPaper}}
+          aria-labelledby='delete-dialog-title'>
+          <Box display='flex' alignItems='center' justifyContent='space-between' px={2} pt={1}>
+            <Typography className={classes.dialogTitle} id='delete-dialog-title'>
+              Delete template
+            </Typography>
+            <IconButton
+              aria-label='Close'
+              size='small'
+              onClick={() => setDeleteDialogOpen(false)}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Box>
           <DialogContent>
-            <DialogContentText id='delete-dialog-description'>
-              Are you sure you want to delete this page template? This action
-              cannot be undone.
-            </DialogContentText>
+            <Typography className={classes.hint}>
+              This cannot be undone. Routes using this template will lose it.
+            </Typography>
+            <Box className={classes.dialogFooter}>
+              <Button
+                className={classes.outlineBtn}
+                onClick={() => setDeleteDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                className={classes.primaryBtn}
+                onClick={handleDeleteConfirm}
+                disabled={!allowDelete}>
+                Delete
+              </Button>
+            </Box>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDeleteDialogOpen(false)} color='grey'>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDeleteConfirm}
-              disabled={!allowDelete}
-              color='secondary'
-              autoFocus>
-              Confirm
-            </Button>
-          </DialogActions>
         </Dialog>
-      </Paper>
+      </Box>
     </>
   );
 };
