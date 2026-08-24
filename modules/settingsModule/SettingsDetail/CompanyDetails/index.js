@@ -1,38 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import {Grid, makeStyles, MenuItem} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import {useIntl} from 'react-intl';
-import {orange} from '@material-ui/core/colors';
-import {Fonts} from '../../../../shared/constants/AppEnums';
-import TextField from '@material-ui/core/TextField';
-import * as yup from 'yup';
+import {Box, Button, MenuItem, TextField, Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import {Form, Formik, useField} from 'formik';
-import IntlMessages from '../../../../@sling/utility/IntlMessages';
-import Typography from '@material-ui/core/Typography';
+import * as yup from 'yup';
 import MuiPhoneNumber from 'material-ui-phone-number';
-import {Stack} from '@mui/material';
+import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {countries} from '../../../../shared/constants/CountryList';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   updateCompanyInfo,
   updateStoreInfo,
 } from '../../../../redux/actions/AccountAction';
-
-const CommonTextField = (props) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
-  return (
-    <TextField
-      {...props}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-      style={{marginTop: 10, marginBottom: 10}}
-    />
-  );
-};
+import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 
 const validationStoreSchema = yup.object({
   orgName: yup
@@ -45,7 +26,6 @@ const validationStoreSchema = yup.object({
     .string()
     .required(<IntlMessages id='validation.address1Required' />),
   city: yup.string().required(<IntlMessages id='validation.cityRequired' />),
-  // phoneNumber: yup.number().required('Phone number is not valid'),
   country: yup
     .string()
     .required(<IntlMessages id='validation.countryRequired' />),
@@ -62,52 +42,6 @@ const validationCompanySchema = yup.object({
     .string()
     .required(<IntlMessages id='validation.widgetTypeRequired' />),
 });
-
-const useStyles = makeStyles((theme) => ({
-  formRoot: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    overflow: 'hidden',
-    position: 'relative',
-    [theme.breakpoints.up('xl')]: {
-      // paddingTop: 32,
-    },
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
-    gap: 7,
-  },
-  button: {
-    width: 100,
-    backgroundColor: orange[500],
-    color: theme.palette.primary.contrastText,
-    fontWeight: Fonts.BOLD,
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
-  btnSubmit: {
-    fontSize: 16,
-    fontWeight: Fonts.BOLD,
-    backgroundColor: orange[500],
-    marginTop: 20,
-    width: 150,
-    '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: theme.palette.secondary.contrastText,
-    },
-  },
-  basicFormTxt: {
-    margin: 10,
-  },
-  body: {
-    padding: 20,
-  },
-  navInfo: {
-    textAlign: 'justify',
-    marginTop: 15,
-  },
-}));
 
 const initialValuesCompany = {
   storeName: '',
@@ -128,26 +62,159 @@ const initialValuesStore = {
   region: '',
 };
 
-const CompanyDetails = (props) => {
-  const classes = useStyles(props);
+const useStyles = makeStyles(() => ({
+  page: {
+    padding: '12px 28px 32px',
+    background: '#fff',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  section: {
+    padding: '8px 0 28px',
+    borderBottom: '1px solid #eee',
+    '&:last-child': {
+      borderBottom: 'none',
+      paddingBottom: 8,
+    },
+  },
+  sectionHead: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 16,
+    marginBottom: 16,
+    position: 'sticky',
+    top: 0,
+    zIndex: 1,
+    background: '#fff',
+    padding: '8px 0',
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: SLING_INK,
+    lineHeight: 1.35,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  sectionHint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.5,
+    marginTop: 6,
+    maxWidth: 560,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  fields: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 560,
+  },
+  fieldWrap: {
+    marginBottom: 14,
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    display: 'block',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  field: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
+    },
+    '& .MuiFormHelperText-root': {
+      fontSize: 14,
+    },
+  },
+  row: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 16,
+    '@media (max-width: 600px)': {
+      gridTemplateColumns: '1fr',
+    },
+  },
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    flexShrink: 0,
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+  },
+  actions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexShrink: 0,
+  },
+}));
+
+const CommonTextField = ({classes, label, required, select, children, ...props}) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : '';
+  return (
+    <Box className={classes.fieldWrap}>
+      <Typography
+        className={classes.fieldLabel}
+        component='label'
+        htmlFor={props.id || props.name}>
+        {label}
+        {required ? ' *' : ''}
+      </Typography>
+      <TextField
+        id={props.id || props.name}
+        {...props}
+        {...field}
+        select={select}
+        required={required}
+        helperText={errorText}
+        error={!!errorText}
+        variant='outlined'
+        fullWidth
+        className={classes.field}>
+        {children}
+      </TextField>
+    </Box>
+  );
+};
+
+const CompanyDetails = () => {
+  const classes = useStyles();
   const [companyState, setCompanyState] = useState(initialValuesCompany);
   const [storeState, setStoreState] = useState(initialValuesStore);
   const {account} = useSelector(({account}) => account);
-  const {user} = useSelector(({auth}) => auth);
-  const {messages} = useIntl();
-  const {titleKey, pageKey} = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setCompanyState({
-      ...companyState,
+    setCompanyState((prev) => ({
+      ...prev,
       storeName: account?.storeName,
       clientUrl: account?.clientUrl,
       storeDescription: account?.storeDescription,
       wlIp: account?.wlIp,
-    });
-    setStoreState({
-      ...storeState,
+    }));
+    setStoreState((prev) => ({
+      ...prev,
       email: account?.email,
       orgName: account?.orgName,
       companyName: account?.companyName,
@@ -158,262 +225,196 @@ const CompanyDetails = (props) => {
       zipCode: account?.zipCode,
       country: account?.country,
       region: account?.region,
-    });
+    }));
   }, [account]);
 
   return (
     <>
-      {/* <AppsHeader>
+      <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
-          <Typography variant='h6'>{titleKey}</Typography>
+          Company Details
         </Box>
-      </AppsHeader> */}
-      <Grid
-        px={6}
-        pb={8}
-        direction='row'
-        container
-        spacing={10}
-        className={classes.body}>
-        {/* <Box fontWeight={Fonts.BOLD} component='h3'> */}
-        {/* </Box> */}
-        <Grid xs={12} lg={4} item>
-          <Box>
-            <Typography variant='h5' gutterBottom='true'>
-              Site Settings
-            </Typography>
-            <Typography
-              variant='body1'
-              gutterBottom='true'
-              className={classes.navInfo}>
-              These are general information about your frontend website. They
-              define what is the base URL of your frontend for all the URL
-              routes added in the Studio
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid xs={12} lg={8} className={classes.boxSection} item>
-          <Typography variant='h5' gutterBottom='true'>
-            General Information
-          </Typography>
+      </AppsHeader>
+      <Box className={classes.page}>
+        <Box className={classes.section}>
           <Formik
             enableReinitialize
             validateOnChange={true}
             initialValues={companyState}
             validationSchema={validationCompanySchema}
             onSubmit={(data, {setSubmitting}) => {
-              console.log(data);
               setSubmitting(true);
               dispatch(updateCompanyInfo(account.id, data));
               setSubmitting(false);
             }}>
-            {({isSubmitting, setFieldValue, values, handleChange}) => (
-              <Form className={classes.formRoot} noValidate autoComplete='off'>
-                <CommonTextField
-                  required
-                  size='small'
-                  fullWidth
-                  label={<IntlMessages id='common.storeName' />}
-                  name='storeName'
-                  variant='outlined'
-                  className={classes.myTextFieldRoot}
-                />
-                <CommonTextField
-                  required
-                  size='small'
-                  fullWidth
-                  name='clientUrl'
-                  label={'Your Frontend Store domain'}
-                  variant='outlined'
-                  className={classes.myTextFieldRoot}
-                />
-                <CommonTextField
-                  required
-                  size='small'
-                  fullWidth
-                  name='storeDescription'
-                  label={<IntlMessages id='common.storeDescription' />}
-                  variant='outlined'
-                  className={classes.myTextFieldRoot}
-                />
-                <CommonTextField
-                  size='small'
-                  fullWidth
-                  name='wlIp'
-                  label={<IntlMessages id='common.wlIp' />}
-                  variant='outlined'
-                  className={classes.myTextFieldRoot}
-                />
-
-                <Box style={{display: 'flex', justifyContent: 'right'}}>
-                  <Button
-                    variant='contained'
-                    className={classes.btnSubmit}
-                    type='submit'
-                    disabled={isSubmitting}
-                    color='primary'>
-                    Update
-                  </Button>
+            {({isSubmitting}) => (
+              <Form noValidate autoComplete='off'>
+                <Box className={classes.sectionHead}>
+                  <Box>
+                    <Typography className={classes.sectionTitle}>
+                      Site settings
+                    </Typography>
+                    <Typography className={classes.sectionHint}>
+                      General information about your frontend website. The base
+                      URL is used for every route added in Studio.
+                    </Typography>
+                  </Box>
+                  <Box className={classes.actions}>
+                    <Button
+                      className={classes.primaryBtn}
+                      type='submit'
+                      disabled={isSubmitting}>
+                      Save
+                    </Button>
+                  </Box>
+                </Box>
+                <Box className={classes.fields}>
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='storeName'
+                    label={<IntlMessages id='common.storeName' />}
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='clientUrl'
+                    label='Frontend store domain'
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='storeDescription'
+                    label={<IntlMessages id='common.storeDescription' />}
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    name='wlIp'
+                    label={<IntlMessages id='common.wlIp' />}
+                  />
                 </Box>
               </Form>
             )}
           </Formik>
-        </Grid>
-      </Grid>
-      <Divider />
-      <Grid direction='row' container spacing={10} className={classes.body}>
-        <Grid xs={12} lg={4} item>
-          <Box>
-            <Typography variant='h5' gutterBottom='true'>
-              Company Information
-            </Typography>
-            <Typography
-              variant='body1'
-              gutterBottom='true'
-              className={classes.navInfo}>
-              This address will be used to generate invoices. Email address you
-              provide here will be used as a primary contact address.
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid xs={12} lg={8} className={classes.boxSection} item>
-          <Typography variant='h5' gutterBottom='true'>
-            Store Information
-          </Typography>
+        </Box>
+
+        <Box className={classes.section}>
           <Formik
             enableReinitialize
             validateOnChange={true}
             initialValues={storeState}
             validationSchema={validationStoreSchema}
             onSubmit={(data, {setSubmitting}) => {
-              console.log(data);
               setSubmitting(true);
               dispatch(updateStoreInfo(account.id, data));
               setSubmitting(false);
             }}>
-            {({isSubmitting, setFieldValue, values, handleChange}) => (
-              <Form className={classes.formRoot} noValidate autoComplete='off'>
-                <CommonTextField
-                  required
-                  name='orgName'
-                  id='outlined-basic'
-                  label='Organization Name'
-                  variant='outlined'
-                  margin='dense'
-                />
-                <CommonTextField
-                  required
-                  name='companyName'
-                  id='outlined-basic'
-                  label='Company Name '
-                  variant='outlined'
-                  margin='dense'
-                />
-                <CommonTextField
-                  required
-                  disabled
-                  name='email'
-                  id='outlined-basic'
-                  label='Primary Email'
-                  variant='outlined'
-                  margin='dense'
-                />
-                <MuiPhoneNumber
-                  required
-                  value={values.phoneNumber}
-                  size='small'
-                  name='phoneNumber'
-                  label='Phone '
-                  variant='outlined'
-                  margin='dense'
-                  defaultCountry={'ae'}
-                  onChange={handleChange('phoneNumber')}
-                />
-                <Box
-                  sx={{
-                    alignSelf: 'left',
-                    marginTop: 20,
-                  }}>
-                  <Typography variant='subtitle2'>ADDRESS</Typography>
+            {({isSubmitting, values, setFieldValue}) => (
+              <Form noValidate autoComplete='off'>
+                <Box className={classes.sectionHead}>
+                  <Box>
+                    <Typography className={classes.sectionTitle}>
+                      Company information
+                    </Typography>
+                    <Typography className={classes.sectionHint}>
+                      This address is used on invoices. The email here is your
+                      primary contact.
+                    </Typography>
+                  </Box>
+                  <Box className={classes.actions}>
+                    <Button
+                      className={classes.primaryBtn}
+                      type='submit'
+                      disabled={isSubmitting}>
+                      Save
+                    </Button>
+                  </Box>
                 </Box>
-                <CommonTextField
-                  required
-                  name='address1'
-                  id='outlined-basic'
-                  label='Address 1'
-                  variant='outlined'
-                  margin='dense'
-                />
-                <CommonTextField
-                  name='address2'
-                  id='outlined-basic'
-                  label='Address 2'
-                  variant='outlined'
-                  margin='dense'
-                />
-                <Stack direction='row' spacing={2} alignItems='baseline'>
+                <Box className={classes.fields}>
                   <CommonTextField
+                    classes={classes}
                     required
-                    name='city'
-                    id='outlined-basic'
-                    label='City '
-                    variant='outlined'
-                    margin='dense'
-                    fullWidth
+                    name='orgName'
+                    label='Organization name'
                   />
                   <CommonTextField
+                    classes={classes}
                     required
-                    fullWidth
-                    name='zipCode'
-                    id='outlined-basic'
-                    label='ZIP / Postal code'
-                    variant='outlined'
-                    margin='dense'
-                  />
-                </Stack>
-                <Stack direction='row' spacing={2} alignItems='baseline'>
-                  <CommonTextField
-                    required
-                    name='region'
-                    fullWidth
-                    id='outlined-basic'
-                    label='Region'
-                    variant='outlined'
-                    margin='dense'
+                    name='companyName'
+                    label='Company name'
                   />
                   <CommonTextField
+                    classes={classes}
                     required
-                    name='country'
-                    fullWidth
-                    id='outlined-select-currency'
-                    select
-                    variant='outlined'
-                    margin='dense'
-                    label='Country'
-                    style={{margin: 10}}
-                    helperText='Please select your country'>
-                    {countries.map((option) => (
-                      <MenuItem key={option.code} value={option.name}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </CommonTextField>
-                </Stack>
-                <Box style={{display: 'flex', justifyContent: 'right'}}>
-                  <Button
-                    variant='contained'
-                    className={classes.btnSubmit}
-                    type='submit'
-                    disabled={isSubmitting}
-                    color='primary'>
-                    Update
-                  </Button>
+                    disabled
+                    name='email'
+                    label='Primary email'
+                  />
+                  <Box className={classes.fieldWrap}>
+                    <Typography className={classes.fieldLabel} component='label'>
+                      Phone *
+                    </Typography>
+                    <MuiPhoneNumber
+                      required
+                      value={values.phoneNumber || ''}
+                      name='phoneNumber'
+                      variant='outlined'
+                      fullWidth
+                      defaultCountry={'ae'}
+                      className={classes.field}
+                      onChange={(value) => setFieldValue('phoneNumber', value)}
+                    />
+                  </Box>
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='address1'
+                    label='Address 1'
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    name='address2'
+                    label='Address 2'
+                  />
+                  <Box className={classes.row}>
+                    <CommonTextField
+                      classes={classes}
+                      required
+                      name='city'
+                      label='City'
+                    />
+                    <CommonTextField
+                      classes={classes}
+                      name='zipCode'
+                      label='ZIP / Postal code'
+                    />
+                  </Box>
+                  <Box className={classes.row}>
+                    <CommonTextField
+                      classes={classes}
+                      required
+                      name='region'
+                      label='Region'
+                    />
+                    <CommonTextField
+                      classes={classes}
+                      required
+                      name='country'
+                      select
+                      label='Country'>
+                      {countries.map((option) => (
+                        <MenuItem key={option.code} value={option.name}>
+                          {option.name}
+                        </MenuItem>
+                      ))}
+                    </CommonTextField>
+                  </Box>
                 </Box>
               </Form>
             )}
           </Formik>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
 };
