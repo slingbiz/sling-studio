@@ -34,6 +34,12 @@ describe('Settings → Company Details', () => {
     expect(src).toMatch(/htmlFor=/);
   });
 
+  test('fields fill the page in two columns, not a narrow left stack', () => {
+    expect(src).toMatch(/fields:[\s\S]*gridTemplateColumns:\s*['"]1fr 1fr['"]/);
+    expect(src).toMatch(/fieldWide/);
+    expect(src).not.toMatch(/maxWidth:\s*560/);
+  });
+
   test('keeps site and company fields and save actions', () => {
     expect(src).toMatch(/name=['"]storeName['"]/);
     expect(src).toMatch(/name=['"]clientUrl['"]/);

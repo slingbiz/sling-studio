@@ -100,13 +100,20 @@ const useStyles = makeStyles(() => ({
     color: '#6b6f76',
     lineHeight: 1.5,
     marginTop: 6,
-    maxWidth: 560,
+    maxWidth: 640,
     fontFamily: 'Open Sans, sans-serif',
   },
   fields: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: 560,
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '4px 20px',
+    width: '100%',
+    '@media (max-width: 720px)': {
+      gridTemplateColumns: '1fr',
+    },
+  },
+  fieldWide: {
+    gridColumn: '1 / -1',
   },
   fieldWrap: {
     marginBottom: 14,
@@ -141,14 +148,6 @@ const useStyles = makeStyles(() => ({
       fontSize: 14,
     },
   },
-  row: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 16,
-    '@media (max-width: 600px)': {
-      gridTemplateColumns: '1fr',
-    },
-  },
   primaryBtn: {
     textTransform: 'none',
     backgroundColor: SLING_ORANGE,
@@ -169,11 +168,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CommonTextField = ({classes, label, required, select, children, ...props}) => {
+const CommonTextField = ({classes, label, required, select, wide, children, ...props}) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
   return (
-    <Box className={classes.fieldWrap}>
+    <Box className={`${classes.fieldWrap}${wide ? ` ${classes.fieldWide}` : ''}`}>
       <Typography
         className={classes.fieldLabel}
         component='label'
@@ -284,11 +283,13 @@ const CompanyDetails = () => {
                   <CommonTextField
                     classes={classes}
                     required
+                    wide
                     name='storeDescription'
                     label={<IntlMessages id='common.storeDescription' />}
                   />
                   <CommonTextField
                     classes={classes}
+                    wide
                     name='wlIp'
                     label={<IntlMessages id='common.wlIp' />}
                   />
@@ -368,47 +369,45 @@ const CompanyDetails = () => {
                   <CommonTextField
                     classes={classes}
                     required
+                    wide
                     name='address1'
                     label='Address 1'
                   />
                   <CommonTextField
                     classes={classes}
+                    wide
                     name='address2'
                     label='Address 2'
                   />
-                  <Box className={classes.row}>
-                    <CommonTextField
-                      classes={classes}
-                      required
-                      name='city'
-                      label='City'
-                    />
-                    <CommonTextField
-                      classes={classes}
-                      name='zipCode'
-                      label='ZIP / Postal code'
-                    />
-                  </Box>
-                  <Box className={classes.row}>
-                    <CommonTextField
-                      classes={classes}
-                      required
-                      name='region'
-                      label='Region'
-                    />
-                    <CommonTextField
-                      classes={classes}
-                      required
-                      name='country'
-                      select
-                      label='Country'>
-                      {countries.map((option) => (
-                        <MenuItem key={option.code} value={option.name}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                    </CommonTextField>
-                  </Box>
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='city'
+                    label='City'
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    name='zipCode'
+                    label='ZIP / Postal code'
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='region'
+                    label='Region'
+                  />
+                  <CommonTextField
+                    classes={classes}
+                    required
+                    name='country'
+                    select
+                    label='Country'>
+                    {countries.map((option) => (
+                      <MenuItem key={option.code} value={option.name}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </CommonTextField>
                 </Box>
               </Form>
             )}
