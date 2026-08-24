@@ -17,4 +17,13 @@ describe('Accept invite', () => {
     expect(src).toMatch(/localStorage.setItem\('refreshToken'/);
     expect(src).toMatch(/loginToken/);
   });
+
+  test('existing accounts see Join / log in, not a create-password form', () => {
+    expect(src).toMatch(/existingAccount/);
+    expect(src).toMatch(/>\s*Join\s*</);
+    expect(src).toMatch(/Log in/);
+    expect(src).toMatch(/loggedInAsInvitee/);
+    expect(src).toMatch(/localStorage.getItem\('user'\)/);
+    expect(src).toMatch(/You already have a Sling account/);
+  });
 });

@@ -305,6 +305,14 @@ const rolePillClass = (classes, role) => {
   return classes.pill;
 };
 
+const inviteErrorCopy = (err) => {
+  const message = err?.response?.data?.message || 'Invite failed';
+  if (/Inviting existing accounts is not in v1/i.test(message)) {
+    return 'That person already has a Sling account. Send the invite — they join from the email.';
+  }
+  return message;
+};
+
 const Members = () => {
   const classes = useStyles();
   const {user} = useSelector(({auth}) => auth);
@@ -373,7 +381,7 @@ const Members = () => {
       setEmail('');
       load();
     } catch (err) {
-      setError(err?.response?.data?.message || 'Invite failed');
+      setError(inviteErrorCopy(err));
     } finally {
       setInviting(false);
     }

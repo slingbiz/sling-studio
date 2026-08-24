@@ -49,4 +49,9 @@ describe('Settings → Members', () => {
     expect(src).toMatch(/loading \?/);
     expect(src).toMatch(/CircularProgress/);
   });
+
+  test('existing-account invite errors are not a v1 dead end', () => {
+    expect(src).toMatch(/inviteErrorCopy/);
+    expect(src).toMatch(/Send the invite — they join from the email/);
+  });
 });
