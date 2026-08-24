@@ -3,14 +3,17 @@ name: pm-ui-review
 description: >-
   Product-manager review of UI before calling a frontend task done. Catches
   missing actions, default MUI look, sparse settings lists, hover-only
-  controls, lost object states, and button placement. Use after any Studio,
-  widget, page, modal, form, theme, members, invite, or layout change, and
-  whenever Ankur asks to ship, restyle, match Linear, or add a feature.
+  controls, lost object states, and button placement. Decides what to do next
+  from locked Sling product decisions and Pages screenshots. Use after any
+  Studio, widget, page, modal, form, theme, members, invite, or layout change,
+  and whenever Ankur asks to ship, restyle, match Linear, or add a feature.
 ---
 
 # PM UI review
 
 Walk the change as a product manager, not an engineer. Do this before you say done.
+
+Decide what to do next from locked Sling decisions and Pages work. Do not reopen closed calls.
 
 ## Hard stop
 
@@ -19,6 +22,28 @@ Do not ship a screen if a user can create or submit something and then cannot fi
 Do not ship a people/list/settings screen that looks like a leftover form on a blank page. Dress it like Linear. Brand it like Sling.
 
 **Gold standard:** Settings → Members (`modules/settingsModule/SettingsDetail/Members/index.js`). Ankur signed this off. Next settings pages (Keys, Company, Theme, any new list) must match that page: Linear structure, Sling orange/cream/Open Sans, 14px body, 16px names, 14px buttons, primary action on the right, cream fields, invite/create in a modal when adding people.
+
+## Product decisions already locked (do not reopen)
+
+- Keep widget props (slots editors fill). AI writes JSX; it does not replace props.
+- Gallery is the asset library. Hide Media Constants (dead, save was fake).
+- Image props: Gallery picker writes the URL. No Constants.
+- Restore widget version = new draft; live site unchanged until publish.
+- Invite existing Sling emails (they leave the old workspace). Last owner cannot move.
+- Hide dead Studio rail (AI Builder, Sitemap, Amp, Emailers, Analytics, Build & Deploy) and Market Place.
+- Identity: Ankur Pata / ankur@sling.biz / slingbiz. Never ankurtd for Sling git/gh.
+- Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
+
+## What to do next: Pages
+
+Pages (`/pages`) is the next surface to match the product.
+
+- Add Template modal: leftover MUI “Add Template Id”. Make it a Members-style modal (cream fields, orange Save on the right, 14px). Copy can stay human: unique id used by routes.
+- Configure layout (`/pages/{id}/layout`): structure is good. Do not flatten it. Recolor widget blocks from default MUI/#0081CB blue to a 2026 ink blue (suggested `#163a5f` blocks, `#e8eef4` nests). Keep orange for Apply/primary. Not Linear purple. Not Material Blue 500.
+- Edit layout left library: show widget **previews**, not generic icons. Do not stack infinite live iframes (that already felt like a hang). Lazy/static thumbnails or capped previews.
+- Make Pages list, modal, layout header, settings panel match Members (search left, primary right, one loader, no hover-only Configure/Delete).
+- Do not fake the Data tab Coming Soon. Hide or leave later — don’t ship a dead form.
+- Widget Props on the inspector already got Gallery pick — keep it.
 
 ## Checklist
 
@@ -57,3 +82,7 @@ Run every item against the changed screens and any screen that shares that state
 - Inner sidebars (Widgets/Settings) selected state must be Sling orange + cream, not MUI blue / primary.main.
 - Meta & Props looked like leftover MUI: cramped outlined inputs in a skinny left column. Match Company Details — two-column cream fields, orange focus, Required Props as a table with Add on the right and delete always visible.
 - Code tab (Edit Widget and AI Generate) was a basic box. Use the existing Monaco editor with cream chrome, 14px, line numbers — not a plain textarea.
+- Media Constants save was a mock. Gallery is the library; hide Constants.
+- Gallery search icon did nothing. Search must actually filter.
+- Layout widget library was icons, not previews. Show widget thumbnails, not generic icons — and do not stack infinite live iframes.
+- Add Template was default MUI. Members-style modal: cream fields, orange Save on the right, 14px.
