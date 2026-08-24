@@ -39,4 +39,11 @@ describe('WidgetReviewQueue cannot skip review', () => {
     expect(src).not.toMatch(/common\.loading/);
     expect(src).toMatch(/CircularProgress/);
   });
+
+  test('uses Sling orange for tabs and Approve, not default MUI blue', () => {
+    expect(src).toMatch(/SLING_ORANGE/);
+    expect(src).toMatch(/primaryBtn/);
+    expect(src).not.toMatch(/indicatorColor='primary'/);
+    expect(src).not.toMatch(/color='primary'/);
+  });
 });

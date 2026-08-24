@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   Icon,
@@ -270,6 +271,11 @@ const useStyles = makeStyles(() => ({
     padding: 12,
     marginTop: 16,
   },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 48,
+  },
 }));
 
 const initials = (name, email) => {
@@ -501,12 +507,17 @@ const Members = () => {
           )}
         </Box>
 
-        {loading && <Typography className={classes.mutedCell}>Loading members…</Typography>}
         {error && <Typography className={classes.status}>{error}</Typography>}
         {notice && !inviteOpen && (
           <Typography className={classes.notice}>{notice}</Typography>
         )}
 
+        {loading ? (
+          <Box className={classes.loader}>
+            <CircularProgress style={{color: SLING_ORANGE}} />
+          </Box>
+        ) : (
+          <>
         <Box className={classes.tableHead}>
           <span>Name</span>
           <span>Email</span>
@@ -628,6 +639,8 @@ const Members = () => {
             </MenuItem>
           ))}
         </Menu>
+          </>
+        )}
       </Box>
 
       <Dialog

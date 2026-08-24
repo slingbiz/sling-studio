@@ -31,6 +31,7 @@ import ListEmptyResult from '../../../@sling/core/AppList/ListEmptyResult';
 import {useAuthUser} from '../../../@sling/utility/AppHooks';
 import AppContext from '../../../@sling/utility/AppContext';
 import {resolveWidgetTheme} from '../../aiBuilder/widgetTheme';
+import {SLING_CREAM, SLING_ORANGE} from '../../aiBuilder/slingTheme';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +45,21 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   tabBar: {
-    borderBottom: '1px solid rgba(0,0,0,0.12)',
+    borderBottom: '1px solid #f0e6d8',
     marginBottom: 20,
+    '& .MuiTabs-indicator': {
+      backgroundColor: SLING_ORANGE,
+    },
+    '& .MuiTab-root': {
+      textTransform: 'none',
+      fontSize: 14,
+      fontWeight: 500,
+      minHeight: 44,
+      color: '#6b6f76',
+    },
+    '& .MuiTab-root.Mui-selected': {
+      color: SLING_ORANGE,
+    },
   },
   card: {
     padding: 16,
@@ -94,8 +108,37 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     fontWeight: Fonts.MEDIUM,
-    textTransform: 'capitalize',
+    textTransform: 'none',
+    fontSize: 14,
+  },
+  primaryBtn: {
+    fontWeight: 600,
+    textTransform: 'none',
+    fontSize: 14,
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    boxShadow: 'none',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+  },
+  ghostBtn: {
+    fontWeight: 500,
+    textTransform: 'none',
+    fontSize: 14,
+    color: SLING_ORANGE,
+    borderColor: SLING_ORANGE,
+  },
+  chipAi: {
+    height: 22,
     fontSize: 12,
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+  },
+  chipStatus: {
+    height: 22,
+    fontSize: 12,
+    backgroundColor: SLING_CREAM,
+    color: '#c2410c',
+    border: 'none',
   },
   metaRow: {
     display: 'flex',
@@ -111,14 +154,6 @@ const STATUS_TABS = [
   {label: 'Rejected', status: 'rejected'},
   {label: 'All Drafts', status: 'draft'},
 ];
-
-const statusColorMap = {
-  draft: 'default',
-  pending_review: 'primary',
-  approved: 'primary',
-  rejected: 'secondary',
-  published: 'primary',
-};
 
 const WidgetReviewQueue = () => {
   const classes = useStyles();
@@ -188,18 +223,15 @@ const WidgetReviewQueue = () => {
         {status === 'pending_review' && canDecide && (
           <>
             <Button
-              className={classes.btn}
-              variant='contained'
-              color='primary'
+              className={classes.primaryBtn}
               size='small'
               onClick={() => handleApprove(item._id)}
               startIcon={<Icon style={{fontSize: 16}}>check_circle</Icon>}>
               Approve
             </Button>
             <Button
-              className={classes.btn}
+              className={classes.ghostBtn}
               variant='outlined'
-              color='secondary'
               size='small'
               onClick={() => handleRejectOpen(item._id)}
               startIcon={<Icon style={{fontSize: 16}}>cancel</Icon>}>
@@ -209,9 +241,7 @@ const WidgetReviewQueue = () => {
         )}
         {status === 'approved' && canDecide && (
           <Button
-            className={classes.btn}
-            variant='contained'
-            color='primary'
+            className={classes.primaryBtn}
             size='small'
             onClick={() => handlePublish(item._id)}
             startIcon={<Icon style={{fontSize: 16}}>publish</Icon>}>
@@ -220,9 +250,8 @@ const WidgetReviewQueue = () => {
         )}
         {status === 'draft' && (
           <Button
-            className={classes.btn}
+            className={classes.ghostBtn}
             variant='outlined'
-            color='primary'
             size='small'
             onClick={() => handleSubmitForReview(item._id)}
             startIcon={<Icon style={{fontSize: 16}}>rate_review</Icon>}>
@@ -251,8 +280,6 @@ const WidgetReviewQueue = () => {
         <Tabs
           value={activeTab}
           onChange={(e, val) => setActiveTab(val)}
-          indicatorColor='primary'
-          textColor='primary'
           className={classes.tabBar}>
           {STATUS_TABS.map((tab, idx) => (
             <Tab key={idx} label={tab.label} />
@@ -261,7 +288,7 @@ const WidgetReviewQueue = () => {
 
         {fetching && (
           <Box style={{display: 'flex', justifyContent: 'center', padding: 40}}>
-            <CircularProgress style={{color: '#ff9800'}} />
+            <CircularProgress style={{color: SLING_ORANGE}} />
           </Box>
         )}
 
@@ -288,27 +315,20 @@ const WidgetReviewQueue = () => {
                       {item.name}
                     </Typography>
                     {item.source === 'ai_generated' && (
-                      <Chip
-                        size='small'
-                        label='AI'
-                        color='primary'
-                        style={{height: 20, fontSize: 10}}
-                      />
+                      <Chip size='small' label='AI' className={classes.chipAi} />
                     )}
                     {item.source && item.source !== 'ai_generated' && (
                       <Chip
                         size='small'
                         label='Manual'
                         variant='outlined'
-                        style={{height: 20, fontSize: 10}}
+                        style={{height: 22, fontSize: 12}}
                       />
                     )}
                     <Chip
                       size='small'
                       label={(item.status || 'draft').replace('_', ' ')}
-                      variant='outlined'
-                      color={statusColorMap[item.status] || 'default'}
-                      style={{height: 22, fontSize: 11}}
+                      className={classes.chipStatus}
                     />
                   </Box>
                   <Box className={classes.metaRow} style={{marginTop: 4}}>

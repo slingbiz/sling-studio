@@ -41,6 +41,12 @@ describe('Settings → Members', () => {
     expect(src).toMatch(/name:[\s\S]*fontSize:\s*16/);
     expect(src).toMatch(/cell:[\s\S]*fontSize:\s*14/);
     expect(src).not.toMatch(/fontSize:\s*12/);
-    expect(src).not.toMatch(/fontSize:\s*13/);
+    expect(src).toMatch(/CircularProgress/);
+    expect(src).not.toMatch(/Loading members/);
+  });
+
+  test('does not flash an empty Active 0 table while loading', () => {
+    expect(src).toMatch(/loading \?/);
+    expect(src).toMatch(/CircularProgress/);
   });
 });
