@@ -359,7 +359,11 @@ const Members = () => {
       const Api = await ApiAuth();
       const res = await Api.post(`${SERVICE_URL}v1/members/invite`, {email, role});
       setLastLink(res.data.inviteUrl || '');
-      setNotice('Invite created. Copy the link and send it.');
+      setNotice(
+        res.data.emailSent
+          ? 'Invite emailed. Copy the link if they do not see it.'
+          : 'Invite created. Email did not send — copy the link and send it.',
+      );
       setEmail('');
       load();
     } catch (err) {

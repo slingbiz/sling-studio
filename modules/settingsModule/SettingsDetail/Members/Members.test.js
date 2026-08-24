@@ -27,8 +27,8 @@ describe('Settings → Members', () => {
     expect(src).toMatch(/>\s*Invite\s*</);
     expect(src).toMatch(/Send invite/);
     expect(src).toMatch(/v1\/members\/invite/);
-    expect(src).toMatch(/Search by name or email/);
-    expect(src).toMatch(/Invite to your workspace/);
+    expect(src).toMatch(/emailSent/);
+    expect(src).toMatch(/Email did not send/);
   });
 
   test('403 tells the user only owners and admins can manage members', () => {
