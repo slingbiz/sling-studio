@@ -643,6 +643,17 @@ const AiGenerateWidget = () => {
                     streaming={isWorking}
                     initialTab={isWorking ? 'code' : 'widget'}
                     onPreviewError={setPreviewError}
+                    widgetId={widgetId}
+                    canRestore={canPublish}
+                    onRestored={(next) => {
+                      setWidget(next);
+                      setStreamingCode(next?.code || '');
+                      setPublished(false);
+                      setSubmitted(false);
+                      if (Array.isArray(next?.props) && next.props.length) {
+                        setEditorProps(next.props);
+                      }
+                    }}
                   />
                   {previewError && (
                     <Paper variant='outlined' style={{padding: 10, marginTop: 8, borderColor: '#f44336'}}>

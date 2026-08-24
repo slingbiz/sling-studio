@@ -25,12 +25,19 @@ describe('AddWidgetModal combined editor', () => {
 
   test('keeps Cancel and Save on the modal', () => {
     expect(src).toMatch(/Cancel/);
-    expect(src).toMatch(/updateProp \? 'Update' : 'Save'/);
+    expect(src).toMatch(/currentWidget \? 'Update' : 'Save'/);
   });
 
   test('modal save actions sit on the right with sling orange', () => {
     expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
     expect(src).toMatch(/SLING_ORANGE|#ff9800/);
     expect(src).toMatch(/saveBtn:[\s\S]*fontSize:\s*14/);
+  });
+
+  test('edit modal wires History with restore for publishers', () => {
+    expect(src).toMatch(/widgetId=\{currentWidget\?._id \|\| currentWidget\?\.id\}/);
+    expect(src).toMatch(/canRestore=\{canRestore\}/);
+    expect(src).toMatch(/role === 'publisher'/);
+    expect(src).toMatch(/onRestored/);
   });
 });

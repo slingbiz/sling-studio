@@ -4,10 +4,11 @@ const path = require('path');
 const src = fs.readFileSync(path.join(__dirname, 'WidgetEditorTabs.js'), 'utf8');
 
 describe('WidgetEditorTabs', () => {
-  test('exposes Widget, Code, and Meta & Props tabs', () => {
+  test('exposes Widget, Code, Meta & Props, and History tabs', () => {
     expect(src).toMatch(/['"]Widget['"]/);
     expect(src).toMatch(/['"]Code['"]/);
     expect(src).toMatch(/['"]Meta & Props['"]/);
+    expect(src).toMatch(/['"]History['"]/);
   });
 
   test('selected tab uses brand orange', () => {
@@ -70,5 +71,11 @@ describe('WidgetEditorTabs', () => {
     expect(src).toMatch(/sling-cream|#fff8f0/);
     expect(src).toMatch(/#ff9800/);
     expect(src).not.toMatch(/<textarea/);
+  });
+
+  test('History tab lists versions and Restore is always visible, never hover-only', () => {
+    expect(src).toMatch(/WidgetHistory/);
+    expect(src).toMatch(/canRestore/);
+    expect(src).toMatch(/widgetId/);
   });
 });

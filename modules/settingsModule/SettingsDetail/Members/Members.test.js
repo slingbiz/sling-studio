@@ -17,7 +17,7 @@ describe('Settings → Members', () => {
     expect(sidebarSrc).toMatch(/alias:\s*'members'/);
     expect(sidebarSrc).toMatch(/role === 'owner'/);
     expect(sidebarSrc).toMatch(/role === 'admin'/);
-    expect(sidebarSrc).toMatch(/item\.alias !== 'members'/);
+    expect(sidebarSrc).toMatch(/ownerAdminOnly/);
     expect(sidebarSrc).toMatch(/\/settings\/\$\{item\.alias\}/);
   });
 

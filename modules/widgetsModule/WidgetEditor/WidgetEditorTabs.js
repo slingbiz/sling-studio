@@ -20,6 +20,7 @@ import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 import {AllIcons} from '../../../shared/constants/IconList';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
 import {SLING_ORANGE, SLING_CREAM, SLING_INK} from '../../aiBuilder/slingTheme';
+import WidgetHistory from './WidgetHistory';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
@@ -30,6 +31,8 @@ const TABS = [
   {id: 'code', label: 'Code'},
   {id: 'meta', label: 'Meta & Props'},
 ];
+
+const HISTORY_TAB = {id: 'history', label: 'History'};
 
 const propType = [
   {label: 'Responsive', value: 'response-derived'},
@@ -417,10 +420,14 @@ const WidgetEditorTabs = ({
   streaming = false,
   initialTab = 'widget',
   onPreviewError,
+  widgetId,
+  canRestore = false,
+  onRestored,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(initialTab);
+  const tabs = widgetId ? TABS.concat(HISTORY_TAB) : TABS;
 
   useEffect(() => {
     setActiveTab(initialTab);
@@ -448,7 +455,7 @@ const WidgetEditorTabs = ({
   return (
     <Box className={classes.root}>
       <Box className={classes.tabBar}>
-        {TABS.map((tab) => (
+        {tabs.map((tab) => (
           <Button
             key={tab.id}
             className={`${classes.tab} ${
@@ -628,6 +635,14 @@ const WidgetEditorTabs = ({
             </Box>
           )}
         </Box>
+      )}
+
+      {activeTab === 'history' && widgetId && (
+        <WidgetHistory
+          widgetId={widgetId}
+          canRestore={canRestore}
+          onRestored={onRestored}
+        />
       )}
     </Box>
   );

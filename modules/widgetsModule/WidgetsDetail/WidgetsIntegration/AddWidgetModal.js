@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -91,22 +91,32 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
   const {user} = useSelector(({auth}) => auth);
   const {theme} = useContext(AppContext);
   const tenantTheme = resolveWidgetTheme(theme);
+  const [restoredWidget, setRestoredWidget] = useState(null);
+  const currentWidget = restoredWidget || updateProp;
+  const canRestore =
+    user?.role === 'owner' || user?.role === 'admin' || user?.role === 'publisher';
   const [props, setprops] = useState(
-    updateProp?.props?.length ? updateProp.props : [emptyProp],
+    currentWidget?.props?.length ? currentWidget.props : [emptyProp],
   );
 
+  useEffect(() => {
+    setRestoredWidget(null);
+    setprops(updateProp?.props?.length ? updateProp.props : [emptyProp]);
+  }, [updateProp, open]);
+
   const handleClose = () => {
+    setRestoredWidget(null);
     setOpen(false);
   };
 
   const initialValues = {
-    name: updateProp?.name || '',
-    description: updateProp?.description || '',
+    name: currentWidget?.name || '',
+    description: currentWidget?.description || '',
     type: 'widget',
-    key: updateProp?.key || '',
-    icon: updateProp?.icon || '',
-    ownership: updateProp?.ownership || 'private',
-    code: updateProp?.code || '',
+    key: currentWidget?.key || '',
+    icon: currentWidget?.icon || '',
+    ownership: currentWidget?.ownership || 'private',
+    code: currentWidget?.code || '',
   };
 
   return (
@@ -127,7 +137,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title}>
-            {updateProp ? ' Widgets / Edit Widget' : ' Widgets / Add a Widget'}
+            {currentWidget ? ' Widgets / Edit Widget' : ' Widgets / Add a Widget'}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -154,8 +164,8 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
               props: props,
               code: data.code || '',
             };
-            if (updateProp) {
-              dispatch(updateWidget(updateProp._id, payload));
+            if (currentWidget) {
+              dispatch(updateWidget(currentWidget._id || currentWidget.id, payload));
             } else {
               dispatch(createWidget({...payload, user: user.uid}));
             }
@@ -167,11 +177,23 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
               <WidgetEditorTabs
                 code={values.code}
                 onCodeChange={(next) => setFieldValue('code', next)}
-                dependencies={updateProp?.dependencies}
+                dependencies={currentWidget?.dependencies}
                 themeOverrides={tenantTheme}
                 props={props}
                 onPropsChange={setprops}
                 showImport
+                widgetId={currentWidget?._id || currentWidget?.id}
+                canRestore={canRestore}
+                onRestored={(widget) => {
+                  setRestoredWidget(widget);
+                  setprops(widget?.props?.length ? widget.props : [emptyProp]);
+                  setFieldValue('name', widget.name || '');
+                  setFieldValue('description', widget.description || '');
+                  setFieldValue('key', widget.key || '');
+                  setFieldValue('icon', widget.icon || '');
+                  setFieldValue('code', widget.code || '');
+                  setFieldValue('ownership', widget.ownership || 'private');
+                }}
                 onImportJson={(json) => {
                   setFieldValue('name', json.name || '');
                   setFieldValue('description', json.description || '');
@@ -197,7 +219,7 @@ const AddWidgetModal = ({open, setOpen, updateProp = null}) => {
                   type='submit'
                   variant='contained'
                   className={classes.saveBtn}>
-                  {updateProp ? 'Update' : 'Save'}
+                  {currentWidget ? 'Update' : 'Save'}
                 </Button>
               </Box>
             </Form>

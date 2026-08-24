@@ -6,6 +6,7 @@ import Guide from './Guide';
 import KeyUsage from './KeysUsage';
 import Theme from './Theme';
 import Members from './Members';
+import Audit from './Audit';
 
 const SettingsDetail = (props) => {
   const {query} = useRouter();
@@ -19,6 +20,7 @@ const SettingsDetail = (props) => {
     guide: Guide,
     theme: Theme,
     members: Members,
+    audit: Audit,
   };
 
   const RenderSection = sectionMapper[id];

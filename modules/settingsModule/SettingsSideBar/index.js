@@ -30,6 +30,12 @@ export const folderList = [
     icon: 'group',
   },
   {
+    id: 5,
+    name: 'Audit',
+    alias: 'audit',
+    icon: 'history',
+  },
+  {
     id: 3,
     name: 'Theme',
     alias: 'theme',
@@ -63,12 +69,13 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 const canManageMembers = (role) => role === 'owner' || role === 'admin';
+const ownerAdminOnly = ['members', 'audit'];
 
 const RoutesSideBar = ({basePath, noSubChild}) => {
   const classes = useStyle();
   const {user} = useSelector(({auth}) => auth);
   const items = folderList.filter(
-    (item) => item.alias !== 'members' || canManageMembers(user?.role),
+    (item) => !ownerAdminOnly.includes(item.alias) || canManageMembers(user?.role),
   );
 
   return (
