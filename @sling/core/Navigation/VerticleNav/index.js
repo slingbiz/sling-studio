@@ -26,7 +26,7 @@ const Navigation = (props) => {
               <VerticalCollapse item={item} level={0} />
             )}
 
-            {item.type === 'item' && (
+            {item.type === 'item' && !item.disabled && (
               <VerticalItem item={item} level={0} />
             )}
           </React.Fragment>

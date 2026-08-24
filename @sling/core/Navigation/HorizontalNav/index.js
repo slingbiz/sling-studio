@@ -21,7 +21,7 @@ const HorizontalNav = () => {
             <HorizontalCollapse item={item} nestedLevel={0} />
           )}
 
-          {item.type === 'item' && (
+          {item.type === 'item' && !item.disabled && (
             <HorizontalItem item={item} nestedLevel={0} />
           )}
 

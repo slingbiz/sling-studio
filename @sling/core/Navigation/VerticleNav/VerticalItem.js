@@ -24,8 +24,11 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
   if (!hasPermission) {
     return null;
   }
+  if (item.disabled) {
+    return null;
+  }
   return (
-    <Link href={item.disabled ? '' : item.url} as={item.as} legacyBehavior>
+    <Link href={item.url} as={item.as} legacyBehavior>
       <ListItem
         button
         className={clsx(classes.navItem, 'nav-item', {
@@ -36,7 +39,7 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
           <Box component='span' mr={6}>
             <Icon
               className={clsx(classes.listIcon, 'nav-item-icon')}
-              color={item.disabled ? '#cfcfcf' : 'action'}>
+              color='action'>
               {item.icon}
             </Icon>
           </Box>
@@ -44,7 +47,7 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
         <ListItemText
           primary={<IntlMessages id={item.messageId} />}
           classes={{
-            primary: item.disabled ? classes.disabled : 'nav-item-text',
+            primary: 'nav-item-text',
           }}
         />
         {item.count && (

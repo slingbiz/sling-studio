@@ -22,8 +22,13 @@ describe('Widgets sidebar folderList', () => {
     const names = [
       ...src.slice(folderStart, folderEnd).matchAll(/name:\s*'([^']+)'/g),
     ].map((match) => match[1]);
-    expect(names[0]).toBe('Widgets');
-    expect(names[1]).toBe('AI Generate');
-    expect(names[2]).toBe('Review Queue');
+    expect(names).toEqual(['Widgets', 'AI Generate', 'Review Queue']);
+  });
+
+  test('does not list Market Place or Guide stubs', () => {
+    expect(src).not.toMatch(/name:\s*'Market Place'/);
+    expect(src).not.toMatch(/alias:\s*'market-place'/);
+    expect(src).not.toMatch(/name:\s*'Guide'/);
+    expect(src).not.toMatch(/Coming Soon/);
   });
 });
