@@ -6,31 +6,30 @@ import * as MaterialPickers from '@material-ui/pickers';
 import * as EmotionReact from '@emotion/react';
 import * as EmotionStyled from '@emotion/styled';
 
-// Custom theme configuration for Claude-generated components
 const claudeTheme = {
   palette: {
     primary: {
-      main: '#2196F3',
+      main: '#0A8FDC',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#1976D2',
+      main: '#ff9800',
     },
     background: {
-      default: '#F8F9FA',
+      default: '#F4F7FE',
       paper: '#FFFFFF',
     },
     text: {
-      primary: '#212121',
-      secondary: '#757575',
+      primary: '#495057',
+      secondary: '#74788d',
     },
   },
   typography: {
-    fontFamily: 'Inter, system-ui, sans-serif',
-    h1: { fontSize: 24, fontWeight: 600 },
-    h2: { fontSize: 20, fontWeight: 600 },
-    h3: { fontSize: 18, fontWeight: 500 },
-    body1: { fontSize: 16 },
+    fontFamily: ['Open Sans', 'sans-serif'].join(','),
+    h1: { fontSize: 18, fontWeight: 600 },
+    h2: { fontSize: 16, fontWeight: 600 },
+    h3: { fontSize: 14, fontWeight: 500 },
+    body1: { fontSize: 14 },
     body2: { fontSize: 14 },
     button: {
       textTransform: 'none',
@@ -55,7 +54,7 @@ const claudeTheme = {
           },
         },
         text: {
-          color: '#2196F3',
+          color: '#0A8FDC',
         },
       },
     },
@@ -70,7 +69,7 @@ const claudeTheme = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#2196F3',
+          backgroundColor: '#0A8FDC',
         },
       },
     },
@@ -78,7 +77,7 @@ const claudeTheme = {
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          boxShadow: '0px 5px 6px rgba(0, 0, 0, 0.04)',
           border: '1px solid rgba(0,0,0,0.08)',
         },
       },
@@ -86,7 +85,7 @@ const claudeTheme = {
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          color: '#757575',
+          color: '#74788d',
         },
       },
     },
