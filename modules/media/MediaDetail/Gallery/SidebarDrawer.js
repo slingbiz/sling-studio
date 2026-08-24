@@ -1,254 +1,213 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
   Box,
   IconButton,
-  Grid,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   TextField,
   Button,
+  Dialog,
+  DialogContent,
+  Typography,
+  Icon,
 } from '@material-ui/core';
-import FileCopyIcon from '@material-ui/icons/FileCopy'; // Import FileCopyIcon
-
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ClearIcon from '@material-ui/icons/Clear';
 import {useDispatch} from 'react-redux';
-import {addImage} from '../../../../redux/actions';
-import { SHOW_MESSAGE } from '../../../../shared/constants/ActionTypes';
+import {updateImage} from '../../../../redux/actions';
+import {SHOW_MESSAGE} from '../../../../shared/constants/ActionTypes';
+import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 
-const useStyles = makeStyles((theme) => ({
-  list: {
-    width: 'auto',
-    '& .MuiAccordion-rounded:last-child': {
-      maxWidth: 450,
-      width: '100%',
-    },
+const useStyles = makeStyles(() => ({
+  dialogPaper: {
+    borderRadius: 12,
+    padding: '8px 4px 4px',
+    width: 480,
+    maxWidth: '92vw',
   },
-  input: {
-    '& .MuiInputBase-input': {
-      height: 10,
-      fontSize: 14,
-    },
-    paddingTop: 10,
-    paddingBottom: 10,
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: SLING_INK,
+    fontFamily: 'Open Sans, sans-serif',
   },
-  drawerContent: {
-    padding: 10,
-  },
-  imgSize: {
-    width: 320,
-    height: 'auto',
-    maxHeight: 320,
-    padding: 20,
-
-    [theme.breakpoints.down('sm')]: {
-      width: 220,
-      height: 220,
-      padding: 5,
-    },
-  },
-  bottomContainer: {
-    display: 'flex',
+  preview: {
     width: '100%',
-    justifyContent: 'flex-end',
-    marginTop: 15,
-    marginBottom: 15,
+    maxHeight: 220,
+    objectFit: 'contain',
+    background: SLING_CREAM,
+    borderRadius: 8,
+    marginTop: 8,
   },
-  btn: {
-    marginRight: 15,
-    marginLeft: 'auto',
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    marginTop: 16,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  dialogField: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+  },
+  muted: {
+    fontSize: 14,
+    color: '#6b6f76',
+    marginTop: 8,
+  },
+  urlRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  },
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+  },
+  copyBtn: {
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    fontSize: 14,
+    fontWeight: 500,
+    minWidth: 0,
+    padding: '6px 10px',
+  },
+  dialogFooter: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: 24,
+    marginBottom: 8,
   },
 }));
-export const SidebarDrawer = ({toggleDrawer, details}) => {
+
+const mediaId = (item) => {
+  if (!item) return '';
+  const raw = item._id || item.id;
+  if (!raw) return '';
+  if (typeof raw === 'string') return raw;
+  return raw.$oid || String(raw);
+};
+
+const formatDate = (value) => {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
+export const SidebarDrawer = ({open, toggleDrawer, details}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [openAccordion, setOpenAccordion] = useState(true);
-  const [imageDetail, setImageDetail] = useState(details);
+  const [name, setName] = useState('');
+  const [altText, setAltText] = useState('');
 
-  const handleChange = () => {
-    setOpenAccordion(!openAccordion);
-  };
+  useEffect(() => {
+    setName(details?.title || details?.name || '');
+    setAltText(details?.alt_text || details?.altText || '');
+  }, [details]);
 
-  // Function to copy the image URL to the clipboard
   const handleCopyUrl = () => {
-    if (imageDetail?.url) {
-      navigator.clipboard
-        .writeText(imageDetail.url)
-        .then(() => {
-          // alert('Image URL copied to clipboard!');
- 
-          dispatch({
-            type: SHOW_MESSAGE,
-            payload: 'Image URL copied to clipboard.',
-          });
-        })
-        .catch((err) => {
-          console.error('Failed to copy: ', err);
+    if (!details?.url) return;
+    navigator.clipboard
+      .writeText(details.url)
+      .then(() => {
+        dispatch({
+          type: SHOW_MESSAGE,
+          payload: 'Image URL copied to clipboard.',
         });
-    }
+      })
+      .catch(() => {});
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const updatedData = {
-      id: imageDetail?.id,
-      update: {
-        name: imageDetail?.name,
-        key: imageDetail?.key,
-        alt_text: imageDetail?.alt_text,
-      },
-    };
-
-    dispatch(addImage(updatedData));
+    dispatch(
+      updateImage({
+        id: mediaId(details),
+        name,
+        altText,
+      }),
+    );
     toggleDrawer(false);
   };
 
-  function handleClose(event) {
-    event.preventDefault();
-    toggleDrawer(false);
-  }
+  const handleClose = () => toggleDrawer(false);
 
   return (
-    <div className={classes.list} role='presentation'>
-      <AppsHeader>
-        <Box fontWeight={Fonts.EXTRA_BOLD}>{details?.title}</Box>
-        <IconButton onClick={() => toggleDrawer(false)}>
-          <ClearIcon />
+    <Dialog
+      open={Boolean(open)}
+      onClose={handleClose}
+      classes={{paper: classes.dialogPaper}}>
+      <Box display='flex' alignItems='center' justifyContent='space-between' px={2} pt={1}>
+        <Typography className={classes.dialogTitle}>Edit image</Typography>
+        <IconButton aria-label='Close edit' size='small' onClick={handleClose}>
+          <Icon>close</Icon>
         </IconButton>
-      </AppsHeader>
-      <form onSubmit={handleSubmit}>
-        <Grid
-          container
-          alignItems='center'
-          direction='column'
-          className={classes.drawerContent}>
-          <Grid item xs={12}>
-            <img src={details?.url} className={classes.imgSize} />
-          </Grid>
-          <Grid item xs={12} style={{padding: 10}}>
-            <Accordion
-              expanded={openAccordion}
-              onChange={handleChange}
-              style={{padding: 10}}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls='panel1bh-content'
-                id='panel1bh-header'>
-                <Box fontWeight={Fonts.BOLD}>Edit Details</Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={3} alignItems='center'>
-                  <Grid item xs={3}>
-                    <Box fontWeight={Fonts.MEDIUM}>Name</Box>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      placeholder='Name'
-                      value={imageDetail?.title}
-                      onChange={(e) =>
-                        setImageDetail({...imageDetail, name: e.target.value})
-                      }
-                      className={classes.input}
-                      variant='outlined'
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box fontWeight={Fonts.MEDIUM}>Image Key</Box>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      placeholder='Image Key'
-                      value={imageDetail?.key}
-                      onChange={(e) =>
-                        setImageDetail({...imageDetail, key: e.target.value})
-                      }
-                      className={classes.input}
-                      variant='outlined'
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box fontWeight={Fonts.MEDIUM}>Alt Text</Box>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      placeholder='Alt Text'
-                      value={imageDetail?.alt_text}
-                      onChange={(e) =>
-                        setImageDetail({
-                          ...imageDetail,
-                          alt_text: e.target.value,
-                        })
-                      }
-                      className={classes.input}
-                      variant='outlined'
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box fontWeight={Fonts.MEDIUM}>Updated</Box>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      placeholder='Uploaded'
-                      disabled
-                      value={imageDetail?.upload_date}
-                      className={classes.input}
-                      variant='outlined'
-                      readOnly
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Box fontWeight='fontWeightMedium'>Image URL</Box>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <TextField
-                      placeholder='Uploaded'
-                      disabled
-                      value={imageDetail?.url || ''}
-                      className={classes.input}
-                      variant='outlined'
-                      readOnly
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={1} style={{padding: 0 , marginLeft: '-5px'}}>
-                    {/* Add the IconButton with FileCopyIcon */}
-                    <IconButton aria-label='copy' onClick={handleCopyUrl}>
-                      <FileCopyIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-          <Grid item xs={12} style={{width: '100%'}}>
-            <Box container className={classes.bottomContainer}>
-              <Button
-                type='button'
-                variant='contained'
-                color='primary'
-                style={{margin: '0 10px'}}
-                onClick={handleClose}>
-                Close
-              </Button>
-              <Button
-                type='submit'
-                variant='contained'
-                color='secondary'
-                style={{margin: '0 10px', color: '#fff'}}>
-                Save
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </form>
-    </div>
+      </Box>
+      <DialogContent>
+        <form onSubmit={handleSubmit}>
+          {details?.url && (
+            <img src={details.url} alt={altText || name} className={classes.preview} />
+          )}
+          <Typography className={classes.fieldLabel}>Name</Typography>
+          <TextField
+            className={classes.dialogField}
+            variant='outlined'
+            placeholder='Name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Typography className={classes.fieldLabel}>Alt text</Typography>
+          <TextField
+            className={classes.dialogField}
+            variant='outlined'
+            placeholder='Alt text'
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+          />
+          <Typography className={classes.fieldLabel}>Image URL</Typography>
+          <Box className={classes.urlRow}>
+            <TextField
+              className={classes.dialogField}
+              variant='outlined'
+              value={details?.url || ''}
+              InputProps={{readOnly: true}}
+            />
+            <Button className={classes.copyBtn} onClick={handleCopyUrl}>
+              Copy URL
+            </Button>
+          </Box>
+          <Typography className={classes.muted}>
+            Added {formatDate(details?.added_on)} · Updated {formatDate(details?.updated_on)}
+          </Typography>
+          <Box className={classes.dialogFooter}>
+            <Button type='submit' className={classes.primaryBtn}>
+              Save
+            </Button>
+          </Box>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };

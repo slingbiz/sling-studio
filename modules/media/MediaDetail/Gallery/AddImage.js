@@ -3,66 +3,86 @@ import {makeStyles} from '@material-ui/core/styles';
 import {
   Button,
   Dialog,
-  AppBar,
-  Toolbar,
+  DialogContent,
   IconButton,
-  Slide,
-  Grid,
   Typography,
   TextField,
+  Box,
+  Icon,
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
 import {useDispatch, useSelector} from 'react-redux';
 import {addImage, uploadImage} from '../../../../redux/actions';
 import FormData from 'form-data';
+import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 
-const useStyles = makeStyles((theme) => ({
-  boxLayoutView: {padding: '1.5em'},
-  appBar: {position: 'relative'},
-  toolBar: {
+const useStyles = makeStyles(() => ({
+  dialogPaper: {
+    borderRadius: 12,
+    padding: '8px 4px 4px',
+    width: 480,
+    maxWidth: '92vw',
+  },
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: SLING_INK,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    marginTop: 16,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  dialogField: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+  },
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+    '&:disabled': {backgroundColor: '#ffcc80', color: '#fff'},
+  },
+  dialogFooter: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  mainContainer: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 40,
-    textAlign: 'center',
-    maxWidth: 400,
-    '& .MuiInputBase-input': {
-      width: 400,
-    },
-  },
-  formContainer: {
-    width: '100%',
-  },
-  btn: {
-    width: '100%',
-    background: '#ff9800',
-    marginTop: 10,
-    fontWeight: 'bold',
-    height: '50px',
-    '&:hover': {
-      background: '#f57c00',
-    },
+    justifyContent: 'flex-end',
+    marginTop: 24,
+    marginBottom: 8,
   },
   previewBox: {
-    marginTop: 20,
-    padding: '10px',
+    marginTop: 16,
+    padding: 10,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px dashed #ccc',
+    border: '1px dashed #e6e6e6',
     position: 'relative',
-    height: '150px',
-    backgroundColor: '#f9f9f9',
+    height: 150,
+    backgroundColor: SLING_CREAM,
+    borderRadius: 8,
   },
   previewImage: {
     maxWidth: '100%',
@@ -70,59 +90,54 @@ const useStyles = makeStyles((theme) => ({
   },
   closeIcon: {
     position: 'absolute',
-    top: '5px',
-    right: '5px',
+    top: 5,
+    right: 5,
     cursor: 'pointer',
     backgroundColor: '#fff',
     borderRadius: '50%',
-    padding: '2px',
-    boxShadow: '0px 0px 2px rgba(0,0,0,0.2)',
-  },
-  fileDetails: {
-    marginTop: 10,
-    textAlign: 'left',
+    padding: 2,
   },
   selectImageButton: {
-    backgroundColor: '#f0f0f0',
-    padding: '20px',
+    backgroundColor: SLING_CREAM,
+    padding: 20,
     cursor: 'pointer',
     textAlign: 'center',
-    border: '1px dashed #ccc',
+    border: '1px dashed #e6e6e6',
     width: '100%',
-    '&:hover': {
-      backgroundColor: '#e8e8e8',
-    },
+    borderRadius: 8,
+    fontSize: 14,
+    color: SLING_INK,
+    fontFamily: 'Open Sans, sans-serif',
+    display: 'block',
+    marginTop: 16,
   },
   fileInput: {
     display: 'none',
   },
+  hint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    marginTop: 8,
+  },
   errorText: {
-    color: 'red',
-    fontSize: '0.85rem',
-    marginTop: 5,
+    color: '#c62828',
+    fontSize: 14,
+    marginTop: 8,
   },
 }));
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
-});
 
 const AddImage = ({open, setOpen}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  // Reference to the file input for resetting
   const fileInputRef = useRef(null);
 
-  // Local state for form fields
   const [name, setName] = useState('');
-  const [imgKey, setImgKey] = useState('');
   const [altText, setAltText] = useState('');
   const [imgFile, setImgFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [error, setError] = useState('');
   const [fileSize, setFileSize] = useState(null);
-  const maxFileSize = 2 * 1024 * 1024; // 2 MB
+  const maxFileSize = 2 * 1024 * 1024;
 
   const {uploadedImageUrl: reduxUploadedImageUrl} = useSelector(
     ({media}) => media,
@@ -134,185 +149,139 @@ const AddImage = ({open, setOpen}) => {
     }
   }, [reduxUploadedImageUrl]);
 
+  const resetForm = () => {
+    setName('');
+    setAltText('');
+    setImgFile(null);
+    setUploadedImageUrl(null);
+    setError('');
+    setFileSize(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setError('');
-
     if (!file) return;
-
-    // Validate file size (limit to 2MB)
     if (file.size > maxFileSize) {
       setError('File size exceeds the 2MB limit');
       return;
     }
-
     setImgFile(file);
     setFileSize((file.size / 1024 / 1024).toFixed(2) + ' MB');
-
-    // Create form data and dispatch the upload action
     const formData = new FormData();
     formData.append('file', file);
-
-    dispatch(uploadImage(formData)); // Dispatch the upload action to upload image and get the URL
+    dispatch(uploadImage(formData));
   };
 
-  // Handle removing the image
   const handleRemoveImage = () => {
     setUploadedImageUrl(null);
     setImgFile(null);
     setFileSize(null);
-
-    // Reset the file input value so that users can upload the same file again
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // This clears the input element
+      fileInputRef.current.value = '';
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!uploadedImageUrl) {
-      alert('Please upload an image first');
+      setError('Upload an image first');
       return;
     }
-
+    if (!name.trim()) {
+      setError('Name is required');
+      return;
+    }
     const formData = new FormData();
     formData.append('image_url', uploadedImageUrl);
-    formData.append('name', name);
-    formData.append('imgKey', imgKey);
+    formData.append('name', name.trim());
     formData.append('altText', altText);
-
-    dispatch(addImage(formData)); // Dispatch action to save image metadata
+    dispatch(addImage(formData));
+    resetForm();
     setOpen(false);
   };
 
   const handleClose = () => {
+    resetForm();
     setOpen(false);
   };
 
   return (
     <Dialog
-      fullScreen
       open={open}
       onClose={handleClose}
-      TransitionComponent={Transition}>
-      <AppBar className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-          <IconButton onClick={handleClose}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Button autoFocus={true} color='inherit' onClick={handleClose}>
-            Cancel
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3} className={classes.mainContainer}>
-          <Grid item xs={12}>
-            <Typography
-              variant='h5'
-              component='h5'
-              fullWidth
-              style={{fontWeight: 'bold'}}>
-              Add Image
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label='Name'
-              variant='outlined'
-              value={name}
-              fullWidth
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label='Image Key'
-              variant='outlined'
-              fullWidth
-              value={imgKey}
-              onChange={(e) => {
-                const value = e.target.value;
-                const filteredValue = value.replace(/[^a-zA-Z0-9]/g, ''); // remove any character that's not a letter or number
-                setImgKey(filteredValue);
-              }}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label='Alt Text'
-              variant='outlined'
-              fullWidth
-              value={altText}
-              onChange={(e) => setAltText(e.target.value)}
-            />
-          </Grid>
+      classes={{paper: classes.dialogPaper}}>
+      <Box display='flex' alignItems='center' justifyContent='space-between' px={2} pt={1}>
+        <Typography className={classes.dialogTitle}>Upload image</Typography>
+        <IconButton aria-label='Close upload' size='small' onClick={handleClose}>
+          <Icon>close</Icon>
+        </IconButton>
+      </Box>
+      <DialogContent>
+        <form onSubmit={handleSubmit}>
+          <Typography className={classes.fieldLabel}>Name</Typography>
+          <TextField
+            className={classes.dialogField}
+            variant='outlined'
+            placeholder='Hero banner'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <Typography className={classes.fieldLabel}>Alt text</Typography>
+          <TextField
+            className={classes.dialogField}
+            variant='outlined'
+            placeholder='What is in the image'
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+          />
 
-          {/* File Upload Section */}
-          {/* Preview Section */}
           {uploadedImageUrl && (
-            <Grid
-              item
-              xs={12}
-              style={{display: 'flex', justifyContent: 'center'}}>
-              <div className={classes.previewBox}>
-                <img
-                  src={uploadedImageUrl}
-                  alt='Uploaded Preview'
-                  className={classes.previewImage}
-                />
-                <IconButton
-                  className={classes.closeIcon}
-                  size='small'
-                  onClick={handleRemoveImage}>
-                  <CloseIcon />
-                </IconButton>
-              </div>
-            </Grid>
+            <div className={classes.previewBox}>
+              <img
+                src={uploadedImageUrl}
+                alt='Uploaded preview'
+                className={classes.previewImage}
+              />
+              <IconButton
+                className={classes.closeIcon}
+                size='small'
+                onClick={handleRemoveImage}>
+                <CloseIcon />
+              </IconButton>
+            </div>
           )}
 
-          <Grid
-            item
-            xs={12}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <label htmlFor='image-upload' className={classes.selectImageButton}>
-              {imgFile ? imgFile.name : 'Select Image'}
-              <input
-                type='file'
-                id='image-upload'
-                ref={fileInputRef} // Add the ref here
-                className={classes.fileInput}
-                onChange={handleImageUpload}
-                disabled={!!uploadedImageUrl} // Disable if an image is already uploaded
-              />
-            </label>
-            <Typography variant='caption'>
-              Max file size: 2MB | Permitted file types: jpg, jpeg, png, gif
-            </Typography>
-            {error && (
-              <Typography className={classes.errorText}>{error}</Typography>
-            )}
-          </Grid>
-
-          {/* Save Button */}
-          <Grid item xs={12}>
+          <label htmlFor='image-upload' className={classes.selectImageButton}>
+            {imgFile ? `${imgFile.name}${fileSize ? ` · ${fileSize}` : ''}` : 'Select image'}
+            <input
+              type='file'
+              id='image-upload'
+              accept='image/jpeg,image/png,image/gif,image/jpg'
+              ref={fileInputRef}
+              className={classes.fileInput}
+              onChange={handleImageUpload}
+              disabled={!!uploadedImageUrl}
+            />
+          </label>
+          <Typography className={classes.hint}>
+            Max 2MB. jpg, jpeg, png, or gif.
+          </Typography>
+          {error && <Typography className={classes.errorText}>{error}</Typography>}
+          <Box className={classes.dialogFooter}>
             <Button
               type='submit'
-              color='primary'
-              variant='contained'
-              className={classes.btn}>
+              className={classes.primaryBtn}
+              disabled={!uploadedImageUrl || !name.trim()}>
               Save
             </Button>
-          </Grid>
-        </Grid>
-      </form>
+          </Box>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };

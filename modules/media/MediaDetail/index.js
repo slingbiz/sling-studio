@@ -1,30 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import Box from '@material-ui/core/Box';
-import Basic from './Basic';
 import Gallery from './Gallery';
-import Constants from './Constants';
-import RoutesList from '../MediaList';
+
+const LEGACY_MEDIA = {
+  constants: 'gallery',
+  basic: 'gallery',
+  guide: 'gallery',
+};
 
 const PagesDetail = (props) => {
-  const {query} = useRouter();
-  const id = query.all[0];
-  const sectionMapper = {
-    basic: Basic,
-    gallery: Gallery,
-    constants: Constants,
-  };
+  const router = useRouter();
+  const {query} = router;
+  const rawId = query?.all?.[0] || 'gallery';
+  const id = LEGACY_MEDIA[rawId] || rawId;
 
-  const RenderSection = sectionMapper[id];
-  if (RenderSection) {
+  useEffect(() => {
+    if (LEGACY_MEDIA[rawId]) {
+      router.replace('/media/gallery');
+    }
+  }, [rawId, router]);
+
+  if (id === 'gallery') {
     return (
       <Box style={{height: '100%'}}>
-        <RenderSection {...props}></RenderSection>
+        <Gallery {...props} />
       </Box>
     );
   }
 
-  return <RoutesList {...props}></RoutesList>;
+  return (
+    <Box style={{height: '100%'}}>
+      <Gallery {...props} />
+    </Box>
+  );
 };
 
 export default PagesDetail;

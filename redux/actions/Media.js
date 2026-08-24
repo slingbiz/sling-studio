@@ -5,7 +5,6 @@ import {
   GET_MEDIA_CONSTANTS,
   GET_MEDIA_DATA,
   SHOW_MESSAGE,
-  UPLOAD_IMAGE,
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
@@ -17,6 +16,19 @@ import {
   GET_MEDIA_CONSTANTS_API,
   SERVICE_URL,
 } from '../../shared/constants/Services';
+
+const mediaId = (value) => {
+  if (!value) return value;
+  if (typeof value === 'string') return value;
+  return value.$oid || value._id || value.id || String(value);
+};
+
+const normalizeMediaPayload = (body) => {
+  const block = body?.media;
+  const media = Array.isArray(block) ? block : block?.media || [];
+  const tc = body?.tc ?? block?.tc ?? media.length;
+  return {media, tc};
+};
 
 export const addImage = (imageMeta) => {
   const {messages} = appIntl();
@@ -39,12 +51,11 @@ export const addImage = (imageMeta) => {
             type: SHOW_MESSAGE,
             payload: 'New Image Added.',
           });
-          // Clear the uploaded image URL from redux store
           dispatch({
             type: 'UPLOAD_IMAGE',
             payload: '',
           });
-          dispatch(getMedia());
+          dispatch(getMedia({quiet: true}));
         } else {
           dispatch({
             type: FETCH_ERROR,
@@ -54,6 +65,90 @@ export const addImage = (imageMeta) => {
       })
       .catch((error) => {
         dispatch({type: FETCH_ERROR, payload: error.message});
+      });
+  };
+};
+
+export const updateImage = (imageMeta) => {
+  const {messages} = appIntl();
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    const Api = await ApiAuth();
+    if (!Api) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: <IntlMessages id='message.invalidSession' />,
+      });
+      return;
+    }
+    Api.post(`${SERVICE_URL}v1/media/updateImage`, {
+      id: mediaId(imageMeta.id),
+      name: imageMeta.name,
+      altText: imageMeta.altText,
+    })
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'Image updated.',
+          });
+          dispatch(getMedia({quiet: true}));
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: FETCH_ERROR,
+          payload:
+            error?.response?.data?.message ??
+            error.message ??
+            messages['message.somethingWentWrong'],
+        });
+      });
+  };
+};
+
+export const deleteImage = (id) => {
+  const {messages} = appIntl();
+  return async (dispatch) => {
+    dispatch({type: FETCH_START});
+    const Api = await ApiAuth();
+    if (!Api) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: <IntlMessages id='message.invalidSession' />,
+      });
+      return;
+    }
+    Api.delete(`${SERVICE_URL}v1/media/deleteImage/${mediaId(id)}`)
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch({type: FETCH_SUCCESS});
+          dispatch({
+            type: SHOW_MESSAGE,
+            payload: 'Image deleted.',
+          });
+          dispatch(getMedia({quiet: true}));
+        } else {
+          dispatch({
+            type: FETCH_ERROR,
+            payload: messages['message.somethingWentWrong'],
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: FETCH_ERROR,
+          payload:
+            error?.response?.data?.message ??
+            error.message ??
+            messages['message.somethingWentWrong'],
+        });
       });
   };
 };
@@ -78,7 +173,6 @@ export const uploadImage = (imageMeta) => {
             payload: 'Uploaded.',
           });
 
-          // Take imageUrl and dispatch store update.
           const imageUrl = data.data.imageUrl;
           dispatch({
             type: 'UPLOAD_IMAGE',
@@ -87,7 +181,7 @@ export const uploadImage = (imageMeta) => {
         } else {
           dispatch({
             type: FETCH_ERROR,
-            payload: error?.message || messages['message.somethingWentWrong'],
+            payload: messages['message.somethingWentWrong'],
           });
         }
       })
@@ -105,7 +199,10 @@ export const uploadImage = (imageMeta) => {
 export const getMedia = (filters) => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCH_START});
+      const {quiet, ...apiFilters} = filters || {};
+      if (!quiet) {
+        dispatch({type: FETCH_START});
+      }
       const Api = await ApiAuth();
       if (!Api) {
         dispatch({
@@ -113,12 +210,17 @@ export const getMedia = (filters) => {
           payload: <IntlMessages id='message.invalidSession' />,
         });
       }
-      const data = await Api.post(`${GET_MEDIA_API}`, filters);
+      const data = await Api.post(`${GET_MEDIA_API}`, apiFilters);
       console.log('[getMedia] actions Response: ', JSON.stringify(data));
 
       if (data.status === 200) {
-        dispatch({type: FETCH_SUCCESS});
-        dispatch({type: GET_MEDIA_DATA, payload: data.data.media});
+        if (!quiet) {
+          dispatch({type: FETCH_SUCCESS});
+        }
+        dispatch({
+          type: GET_MEDIA_DATA,
+          payload: normalizeMediaPayload(data.data),
+        });
       } else {
         console.log('[getMedia] Error');
         dispatch({
@@ -133,37 +235,8 @@ export const getMedia = (filters) => {
   };
 };
 
-export const updateMediaConstant = (constants) => {
-  const {messages} = appIntl();
-  return async (dispatch) => {
-    dispatch({type: FETCH_START});
-    const Api = await ApiAuth();
-    if (!Api) {
-      dispatch({
-        type: FETCH_ERROR,
-        payload: <IntlMessages id='message.invalidSession' />,
-      });
-    }
-    Api.post('/api/updateMediaConstant', constants)
-      .then((data) => {
-        if (data.status === 200) {
-          dispatch({type: FETCH_SUCCESS});
-          dispatch({
-            type: SHOW_MESSAGE,
-            payload: 'New Image Added.',
-          });
-          dispatch(getMediaConstants());
-        } else {
-          dispatch({
-            type: FETCH_ERROR,
-            payload: messages['message.somethingWentWrong'],
-          });
-        }
-      })
-      .catch((error) => {
-        dispatch({type: FETCH_ERROR, payload: error.message});
-      });
-  };
+export const updateMediaConstant = () => {
+  return async () => {};
 };
 
 export const getMediaConstants = (filters) => {
