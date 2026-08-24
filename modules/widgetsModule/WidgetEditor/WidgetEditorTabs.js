@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import dynamic from 'next/dynamic';
 import {makeStyles} from '@material-ui/core/styles';
 import {
   Box,
@@ -9,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import {AddCircle, CloseOutlined} from '@material-ui/icons';
+import {CloseOutlined} from '@material-ui/icons';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import {useField} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -18,7 +19,11 @@ import {capital} from '../../../@sling/utility/Utils';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 import {AllIcons} from '../../../shared/constants/IconList';
 import SandboxedPreview from '../../aiBuilder/components/SandboxedPreview';
-import {SLING_ORANGE, SLING_CREAM} from '../../aiBuilder/slingTheme';
+import {SLING_ORANGE, SLING_CREAM, SLING_INK} from '../../aiBuilder/slingTheme';
+
+const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
+  ssr: false,
+});
 
 const TABS = [
   {id: 'widget', label: 'Widget'},
@@ -49,9 +54,10 @@ export const emptyProp = {
   default: '',
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
+    fontFamily: 'Open Sans, sans-serif',
   },
   tabBar: {
     display: 'flex',
@@ -65,8 +71,10 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 0,
     padding: '10px 16px',
     borderRadius: 0,
-    color: theme.palette.text.secondary,
+    color: '#6b6f76',
     borderBottom: '2px solid transparent',
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
   },
   tabSelected: {
     color: SLING_ORANGE,
@@ -92,40 +100,78 @@ const useStyles = makeStyles((theme) => ({
     border: `1px dashed ${SLING_ORANGE}`,
     gap: 12,
   },
-  codePane: {
-    width: '100%',
-    backgroundColor: '#1a1a1a',
-    color: '#f5efef',
-    fontFamily:
-      "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace",
-    fontSize: 13,
-    lineHeight: 1.7,
-    padding: '16px 20px',
+  codeWrap: {
+    border: '1px solid #e6e6e6',
     borderRadius: 8,
-    overflowX: 'auto',
-    overflowY: 'scroll',
-    height: 480,
-    boxSizing: 'border-box',
-    whiteSpace: 'pre',
-    wordBreak: 'normal',
-    border: 'none',
-    outline: 'none',
-    resize: 'none',
+    overflow: 'hidden',
+    background: '#fff',
+  },
+  codeChrome: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '8px 12px',
+    background: SLING_CREAM,
+    borderBottom: '1px solid #f0e6d8',
+  },
+  codeChromeLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_ORANGE,
+    fontFamily: 'Open Sans, sans-serif',
   },
   metaPane: {
-    '& .MuiOutlinedInput-root': {
-      borderRadius: 6,
-      backgroundColor: SLING_CREAM,
-      '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: SLING_ORANGE,
-      },
-      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: SLING_ORANGE,
-        borderWidth: 2,
-      },
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  fields: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '4px 20px',
+    width: '100%',
+    '@media (max-width: 720px)': {
+      gridTemplateColumns: '1fr',
     },
-    '& .MuiInputLabel-outlined.Mui-focused': {
-      color: SLING_ORANGE,
+  },
+  fieldWide: {
+    gridColumn: '1 / -1',
+  },
+  fieldWrap: {
+    marginBottom: 14,
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    display: 'block',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  field: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
+    },
+    '& .MuiSelect-root': {
+      fontSize: 14,
+    },
+    '& .MuiFormHelperText-root': {
+      fontSize: 14,
     },
   },
   metaImport: {
@@ -135,88 +181,181 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 16,
     padding: '10px 12px',
     background: SLING_CREAM,
-    borderRadius: 6,
+    borderRadius: 8,
+    border: '1px solid #f0e6d8',
+  },
+  importLabel: {
+    fontSize: 14,
+    color: '#6b6f76',
+    fontFamily: 'Open Sans, sans-serif',
   },
   importBtn: {
     textTransform: 'none',
     color: SLING_ORANGE,
     borderColor: SLING_ORANGE,
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: 8,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  sampleLink: {
+    display: 'flex',
+    color: SLING_ORANGE,
+    fontSize: 14,
+    alignItems: 'center',
+    textDecoration: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  propsHead: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 8,
   },
   titleRequiredProp: {
-    fontSize: 18,
-    fontWeight: 700,
+    fontSize: 16,
+    fontWeight: 600,
+    color: SLING_INK,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  addBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
   },
   propsBox: {
     display: 'flex',
     flexDirection: 'column',
+    background: '#fff',
+    borderRadius: 8,
+    border: '1px solid #eee',
+    overflow: 'hidden',
+  },
+  propsTableHead: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(140px, 1.4fr) 150px minmax(120px, 1.2fr) 160px 44px',
+    gap: 12,
+    padding: '12px 12px 10px',
+    color: '#6b6f76',
+    fontSize: 14,
+    fontWeight: 500,
     background: SLING_CREAM,
-    borderRadius: 5,
-    padding: '20px 0px',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  propsRow: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(140px, 1.4fr) 150px minmax(120px, 1.2fr) 160px 44px',
+    gap: 12,
+    alignItems: 'center',
+    padding: '10px 12px',
+    borderTop: '1px solid #f0e6d8',
+  },
+  deleteBtn: {
+    color: '#6b6f76',
+    padding: 6,
+    visibility: 'visible',
+    opacity: 1,
   },
   hiddenInput: {
     display: 'none',
   },
 }));
 
-const CommonTextField = (props) => {
+const slingEditorOptions = {
+  readOnly: false,
+  minimap: {enabled: false},
+  fontSize: 14,
+  lineNumbers: 'on',
+  wordWrap: 'on',
+  scrollBeyondLastLine: false,
+  automaticLayout: true,
+  padding: {top: 12, bottom: 12},
+};
+
+const handleEditorBeforeMount = (monaco) => {
+  monaco.editor.defineTheme('sling-cream', {
+    base: 'vs',
+    inherit: true,
+    rules: [],
+    colors: {
+      'editor.background': '#ffffff',
+      'editor.lineHighlightBackground': '#fff8f0',
+      'editorLineNumber.foreground': '#c4a574',
+      'editorCursor.foreground': '#ff9800',
+      'editor.selectionBackground': '#ff980033',
+    },
+  });
+};
+
+const CommonTextField = ({classes, label, required, select, wide, children, ...props}) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : '';
   return (
-    <TextField
-      {...props}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-      style={{marginTop: 10, marginBottom: 10}}
-    />
+    <Box className={`${classes.fieldWrap}${wide ? ` ${classes.fieldWide}` : ''}`}>
+      <Typography
+        className={classes.fieldLabel}
+        component='label'
+        htmlFor={props.id || props.name}>
+        {label}
+        {required ? ' *' : ''}
+      </Typography>
+      <TextField
+        id={props.id || props.name}
+        {...props}
+        {...field}
+        select={select}
+        required={required}
+        helperText={errorText}
+        error={!!errorText}
+        variant='outlined'
+        fullWidth
+        className={classes.field}>
+        {children}
+      </TextField>
+    </Box>
   );
 };
 
-const ItemProp = ({props, index, updateState}) => {
+const ItemProp = ({classes, props, index, updateState}) => {
   const dispatch = useDispatch();
 
+  const patch = (key, value) => {
+    const updatedState = [...props];
+    updatedState[index] = {
+      ...props[index],
+      [key]: value,
+    };
+    updateState(updatedState);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-        justifyContent: 'space-between',
-      }}>
-      <Typography variant='h6' style={{marginLeft: 15, fontSize: 18}}>
-        {index + 1}
-      </Typography>
+    <Box className={classes.propsRow}>
       <TextField
         required
         size='small'
-        label={<IntlMessages id='common.propName' />}
         variant='outlined'
+        className={classes.field}
         value={props[index].name}
-        onChange={(e) => {
-          const updatedState = [...props];
-          updatedState[index] = {
-            ...props[index],
-            name: e.target.value,
-          };
-          updateState(updatedState);
-        }}
+        onChange={(e) => patch('name', e.target.value)}
+        inputProps={{'aria-label': 'Prop Name'}}
       />
       <TextField
         size='small'
         variant='outlined'
         required
-        style={{width: 150}}
         select
-        label={<IntlMessages id='common.dataType' />}
+        className={classes.field}
         value={props[index].dataType}
-        onChange={(e) => {
-          const updatedState = [...props];
-          updatedState[index] = {
-            ...props[index],
-            dataType: e.target.value,
-          };
-          updateState(updatedState);
-        }}>
+        onChange={(e) => patch('dataType', e.target.value)}
+        inputProps={{'aria-label': 'Data Type'}}>
         {propDataType.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
@@ -226,34 +365,21 @@ const ItemProp = ({props, index, updateState}) => {
       <TextField
         required
         size='small'
-        label={<IntlMessages id='common.default' />}
         variant='outlined'
+        className={classes.field}
         value={props[index].default}
-        onChange={(e) => {
-          const updatedState = [...props];
-          updatedState[index] = {
-            ...props[index],
-            default: e.target.value,
-          };
-          updateState(updatedState);
-        }}
+        onChange={(e) => patch('default', e.target.value)}
+        inputProps={{'aria-label': 'Default Value'}}
       />
       <TextField
         size='small'
         variant='outlined'
         required
-        label={<IntlMessages id='common.propType' />}
-        style={{width: 150}}
         select
+        className={classes.field}
         value={props[index].propType}
-        onChange={(e) => {
-          const updatedState = [...props];
-          updatedState[index] = {
-            ...props[index],
-            propType: e.target.value,
-          };
-          updateState(updatedState);
-        }}>
+        onChange={(e) => patch('propType', e.target.value)}
+        inputProps={{'aria-label': 'Prop Type'}}>
         {propType.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
@@ -262,6 +388,7 @@ const ItemProp = ({props, index, updateState}) => {
       </TextField>
       <IconButton
         aria-label='delete'
+        className={classes.deleteBtn}
         onClick={() => {
           if (props.length > 1) {
             updateState(props.slice(0, index).concat(props.slice(index + 1)));
@@ -272,7 +399,7 @@ const ItemProp = ({props, index, updateState}) => {
             });
           }
         }}>
-        <CloseOutlined />
+        <CloseOutlined fontSize='small' />
       </IconButton>
     </Box>
   );
@@ -355,26 +482,31 @@ const WidgetEditorTabs = ({
           </Box>
         ))}
 
-      {activeTab === 'code' &&
-        (onCodeChange ? (
-          <textarea
-            className={classes.codePane}
-            value={code}
-            onChange={(e) => onCodeChange(e.target.value)}
-            spellCheck={false}
-            readOnly={streaming}
+      {activeTab === 'code' && (
+        <Box className={classes.codeWrap}>
+          <Box className={classes.codeChrome}>
+            <Typography className={classes.codeChromeLabel}>Code</Typography>
+          </Box>
+          <MonacoEditor
+            height='432px'
+            language='javascript'
+            theme='sling-cream'
+            value={code || ''}
+            onChange={(value) => onCodeChange?.(value || '')}
+            beforeMount={handleEditorBeforeMount}
+            options={{
+              ...slingEditorOptions,
+              readOnly: streaming || !onCodeChange,
+            }}
           />
-        ) : (
-          <Box className={classes.codePane}>{code}</Box>
-        ))}
+        </Box>
+      )}
 
       {activeTab === 'meta' && (
         <Box className={classes.metaPane}>
           {showImport && (
             <Box className={classes.metaImport}>
-              <Typography variant='body2' color='textSecondary'>
-                Import JSON
-              </Typography>
+              <Typography className={classes.importLabel}>Import JSON</Typography>
               <Box style={{display: 'flex', alignItems: 'center', gap: 12}}>
                 <input
                   accept='*/*'
@@ -390,20 +522,14 @@ const WidgetEditorTabs = ({
                   <Button
                     variant='outlined'
                     className={classes.importBtn}
-                    component='span'
-                    size='small'>
+                    component='span'>
                     Import File
                   </Button>
                 </label>
                 <a
                   href={'/files/widget.json'}
                   download={'/files/widget.json'}
-                  style={{
-                    display: 'flex',
-                    color: 'grey',
-                    fontSize: 12,
-                    alignItems: 'center',
-                  }}>
+                  className={classes.sampleLink}>
                   Sample JSON
                   <CloudDownloadIcon style={{height: 18, width: 18, marginLeft: 4}} />
                 </a>
@@ -411,97 +537,88 @@ const WidgetEditorTabs = ({
             </Box>
           )}
 
-          <CommonTextField
-            required
-            size='small'
-            fullWidth
-            label={<IntlMessages id='common.title' />}
-            name='name'
-            variant='outlined'
-          />
-          <CommonTextField
-            required
-            size='small'
-            fullWidth
-            label={'Key'}
-            name='key'
-            variant='outlined'
-          />
-          <CommonTextField
-            required
-            size='small'
-            fullWidth
-            name='description'
-            label={<IntlMessages id='common.description' />}
-            variant='outlined'
-          />
-          <CommonTextField
-            size='small'
-            variant='outlined'
-            required
-            name='icon'
-            fullWidth
-            select
-            label={<IntlMessages id='common.widgetIcon' />}>
-            {AllIcons.map((cat, index) =>
-              cat.icons.map((item, i) => (
-                <MenuItem value={item.ligature} key={`${index}+${i}`}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: '100%',
-                      alignItems: 'center',
-                    }}>
-                    <Icon>{item.ligature}</Icon>
-                    <Typography
-                      style={{
-                        marginLeft: 5,
-                        textTransform: 'capitalize',
+          <Box className={classes.fields}>
+            <CommonTextField
+              classes={classes}
+              required
+              label={<IntlMessages id='common.title' />}
+              name='name'
+            />
+            <CommonTextField classes={classes} required label={'Key'} name='key' />
+            <CommonTextField
+              classes={classes}
+              required
+              wide
+              name='description'
+              label={<IntlMessages id='common.description' />}
+            />
+            <CommonTextField
+              classes={classes}
+              required
+              name='icon'
+              select
+              label={<IntlMessages id='common.widgetIcon' />}>
+              {AllIcons.map((cat, index) =>
+                cat.icons.map((item, i) => (
+                  <MenuItem value={item.ligature} key={`${index}+${i}`}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        width: '100%',
+                        alignItems: 'center',
                       }}>
-                      {capital(item.name)}
-                    </Typography>
-                  </Box>
+                      <Icon>{item.ligature}</Icon>
+                      <Typography
+                        style={{
+                          marginLeft: 5,
+                          textTransform: 'capitalize',
+                        }}>
+                        {capital(item.name)}
+                      </Typography>
+                    </Box>
+                  </MenuItem>
+                )),
+              )}
+            </CommonTextField>
+            <CommonTextField
+              classes={classes}
+              name='ownership'
+              select
+              label='Ownership'>
+              {ownershipOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
                 </MenuItem>
-              )),
-            )}
-          </CommonTextField>
-          <CommonTextField
-            size='small'
-            variant='outlined'
-            name='ownership'
-            fullWidth
-            select
-            label='Ownership'>
-            {ownershipOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </CommonTextField>
+              ))}
+            </CommonTextField>
+          </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 25,
-            }}>
+          <Box className={classes.propsHead}>
             <Typography
               variant='h3'
               component='h2'
               className={classes.titleRequiredProp}>
               Required Props
             </Typography>
-            <IconButton
+            <Button
+              className={classes.addBtn}
               aria-label='add prop'
               onClick={() => onPropsChange((props || []).concat(emptyProp))}>
-              <AddCircle />
-            </IconButton>
+              Add
+            </Button>
           </Box>
           {props?.length > 0 && (
             <Box className={classes.propsBox}>
+              <Box className={classes.propsTableHead}>
+                <span>Prop Name</span>
+                <span>Data Type</span>
+                <span>Default Value</span>
+                <span>Prop Type</span>
+                <span />
+              </Box>
               {props.map((prop, index) => (
                 <ItemProp
+                  classes={classes}
                   props={props}
                   key={`${prop.name || 'prop'}-${index}`}
                   index={index}

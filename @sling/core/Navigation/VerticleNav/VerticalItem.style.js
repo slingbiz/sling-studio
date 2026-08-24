@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => {
         textTransform: 'uppercase',
       },
       '&.active': {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#ff9800',
         pointerEvents: 'none',
         transition: 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1)',
         '& .nav-item-text': {
@@ -35,21 +35,21 @@ const useStyles = makeStyles((theme) => {
         '& .nav-item-text': {
           color: (props) =>
             props.themeMode === ThemeMode.LIGHT
-              ? theme.palette.primary.main
+              ? '#ff9800'
               : '#fff',
         },
 
         '& .nav-item-icon': {
           color: (props) =>
             props.themeMode === ThemeMode.LIGHT
-              ? theme.palette.primary.main
+              ? '#ff9800'
               : '#fff',
         },
 
         '& .nav-item-icon-arrow': {
           color: (props) =>
             props.themeMode === ThemeMode.LIGHT
-              ? theme.palette.primary.main
+              ? '#ff9800'
               : '#fff',
         },
       },

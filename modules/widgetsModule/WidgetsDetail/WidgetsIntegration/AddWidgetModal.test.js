@@ -31,5 +31,6 @@ describe('AddWidgetModal combined editor', () => {
   test('modal save actions sit on the right with sling orange', () => {
     expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
     expect(src).toMatch(/SLING_ORANGE|#ff9800/);
+    expect(src).toMatch(/saveBtn:[\s\S]*fontSize:\s*14/);
   });
 });
