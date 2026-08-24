@@ -1,0 +1,46 @@
+---
+description: Sling git/GitHub identity is Ankur Pata / ankur@sling.biz / slingbiz — never ankurtd.
+alwaysApply: true
+---
+
+# Sling git identity
+
+Repos: sling-studio, sling-api, sling-ai, slingEarly, publishloud.
+
+Global git stays TimeDoctor. Set LOCAL `user.email` / `user.name` only. Never `git config --global`.
+
+## Commits
+
+Before every commit, local email MUST be `ankur@sling.biz` and name `Ankur Pata`. Set LOCAL if missing.
+
+```
+# BAD — global rewrite, or commit as TimeDoctor
+git config --global user.email "ankur@sling.biz"
+git commit   # local email is ankur.patankar@timedoctor.com
+
+# GOOD
+git config --local user.email "ankur@sling.biz"
+git config --local user.name "Ankur Pata"
+git commit
+```
+
+## GitHub (`gh pr create|merge|close`)
+
+`gh api user` login must be `slingbiz` (or the GitHub user that owns the slingbiz org), NOT `ankurtd`.
+
+If gh is `ankurtd`, do not create/merge/close PRs with gh. Ship with:
+`git push git@github-secondary:slingbiz/<repo>.git HEAD:master`
+(use `HEAD:main` for sling-ai). Tell Ankur the GitHub PR still shows ankurtd until he uses slingbiz on github.com.
+
+```
+# BAD — gh is ankurtd (including "already on master so just gh merge")
+gh pr merge 35 --repo slingbiz/sling-studio
+
+# GOOD — gh is slingbiz, or push via github-secondary
+gh pr merge 35 --repo slingbiz/sling-studio
+git push git@github-secondary:slingbiz/sling-studio.git HEAD:master
+```
+
+Exception only if Ankur says it is fine THIS time AND names the PR. The hook still denies ankurtd `gh pr`; he can approve the prompt or run it himself.
+
+Do not rewrite published master history to fix old ankurtd commits.
