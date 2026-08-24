@@ -35,4 +35,12 @@ describe('Settings → Members', () => {
     expect(src).toMatch(/status === 403/);
     expect(src).toMatch(/Only Owners and Admins/);
   });
+
+  test('uses Sling type scale, not Linear 12px', () => {
+    expect(src).toMatch(/primaryBtn:[\s\S]*fontSize:\s*14/);
+    expect(src).toMatch(/name:[\s\S]*fontSize:\s*16/);
+    expect(src).toMatch(/cell:[\s\S]*fontSize:\s*14/);
+    expect(src).not.toMatch(/fontSize:\s*12/);
+    expect(src).not.toMatch(/fontSize:\s*13/);
+  });
 });

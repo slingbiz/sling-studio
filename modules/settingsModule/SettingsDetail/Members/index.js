@@ -44,7 +44,7 @@ const ROLE_FILTERS = [
 
 const useStyles = makeStyles(() => ({
   page: {
-    padding: '8px 28px 32px',
+    padding: '12px 28px 32px',
     background: '#fff',
   },
   toolbar: {
@@ -52,23 +52,23 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 12,
-    marginBottom: 8,
+    marginBottom: 16,
   },
   toolbarLeft: {
     display: 'flex',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
     minWidth: 0,
     flex: 1,
   },
   search: {
-    maxWidth: 280,
+    maxWidth: 320,
     width: '100%',
     background: '#fff',
     '& .MuiOutlinedInput-root': {
       borderRadius: 8,
-      fontSize: 13,
-      height: 34,
+      fontSize: 14,
+      height: 40,
       background: '#fff',
     },
     '& .MuiOutlinedInput-notchedOutline': {
@@ -78,16 +78,16 @@ const useStyles = makeStyles(() => ({
       borderColor: SLING_ORANGE,
     },
     '& .MuiOutlinedInput-input': {
-      padding: '8px 10px 8px 0',
+      padding: '10px 12px 10px 0',
     },
   },
   filterBtn: {
     textTransform: 'none',
     color: '#6b6f76',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '6px 10px',
+    padding: '8px 12px',
     border: '1px solid #e6e6e6',
     borderRadius: 8,
     background: '#fff',
@@ -97,99 +97,99 @@ const useStyles = makeStyles(() => ({
     backgroundColor: SLING_ORANGE,
     color: '#fff',
     fontWeight: 600,
-    fontSize: 13,
-    borderRadius: 16,
-    padding: '6px 14px',
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
     boxShadow: 'none',
     '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
   },
   ghostBtn: {
     textTransform: 'none',
     color: '#6b6f76',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '4px 8px',
+    padding: '6px 10px',
   },
   copyBtn: {
     textTransform: 'none',
     color: SLING_ORANGE,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '4px 8px',
+    padding: '6px 10px',
   },
   tableHead: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(160px, 1.6fr) minmax(140px, 1.4fr) 110px 90px auto',
+    gridTemplateColumns: 'minmax(180px, 1.6fr) minmax(160px, 1.4fr) 130px 110px auto',
     gap: 12,
-    padding: '10px 8px 8px',
-    color: '#9ea3a8',
-    fontSize: 12,
+    padding: '12px 8px 10px',
+    color: '#6b6f76',
+    fontSize: 14,
     fontWeight: 500,
   },
   sectionBar: {
     display: 'flex',
     alignItems: 'center',
-    padding: '6px 8px',
+    padding: '8px 10px',
     margin: '0 -8px 0',
     background: '#f6f7f9',
     color: '#6b6f76',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 600,
     borderRadius: 4,
   },
   row: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(160px, 1.6fr) minmax(140px, 1.4fr) 110px 90px auto',
+    gridTemplateColumns: 'minmax(180px, 1.6fr) minmax(160px, 1.4fr) 130px 110px auto',
     gap: 12,
     alignItems: 'center',
-    padding: '10px 8px',
-    minHeight: 52,
+    padding: '12px 8px',
+    minHeight: 60,
   },
   nameCell: {
     display: 'flex',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
     minWidth: 0,
   },
   avatar: {
-    width: 28,
-    height: 28,
-    fontSize: 12,
+    width: 36,
+    height: 36,
+    fontSize: 14,
     fontWeight: 600,
     backgroundColor: SLING_ORANGE,
     color: '#fff',
   },
   name: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: 600,
     color: SLING_INK,
-    lineHeight: 1.3,
+    lineHeight: 1.35,
   },
   handle: {
-    fontSize: 12,
-    color: '#9ea3a8',
-    lineHeight: 1.3,
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.35,
   },
   cell: {
-    fontSize: 13,
+    fontSize: 14,
     color: SLING_INK,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
   mutedCell: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#6b6f76',
   },
   pill: {
     display: 'inline-flex',
     alignItems: 'center',
-    height: 22,
-    padding: '0 8px',
-    borderRadius: 11,
-    fontSize: 12,
+    height: 26,
+    padding: '0 10px',
+    borderRadius: 13,
+    fontSize: 14,
     fontWeight: 500,
     border: 'none',
     cursor: 'default',
@@ -214,12 +214,12 @@ const useStyles = makeStyles(() => ({
     gap: 4,
   },
   status: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#c62828',
     margin: '8px 0',
   },
   notice: {
-    fontSize: 13,
+    fontSize: 14,
     color: SLING_ORANGE,
     margin: '8px 0',
   },
@@ -230,12 +230,12 @@ const useStyles = makeStyles(() => ({
     maxWidth: '92vw',
   },
   dialogTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 700,
     color: SLING_INK,
   },
   fieldLabel: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 600,
     color: SLING_INK,
     marginBottom: 6,
@@ -262,12 +262,12 @@ const useStyles = makeStyles(() => ({
     marginBottom: 8,
   },
   inviteLink: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#6b6f76',
     wordBreak: 'break-all',
     background: SLING_CREAM,
     borderRadius: 8,
-    padding: 10,
+    padding: 12,
     marginTop: 16,
   },
 }));
@@ -463,7 +463,7 @@ const Members = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
-                    <Icon style={{fontSize: 18, color: '#9ea3a8'}}>search</Icon>
+                    <Icon style={{fontSize: 20, color: '#9ea3a8'}}>search</Icon>
                   </InputAdornment>
                 ),
               }}
@@ -471,7 +471,7 @@ const Members = () => {
             <Button
               className={classes.filterBtn}
               onClick={(e) => setFilterAnchor(e.currentTarget)}
-              endIcon={<Icon style={{fontSize: 16}}>expand_more</Icon>}>
+              endIcon={<Icon style={{fontSize: 18}}>expand_more</Icon>}>
               {ROLE_FILTERS.find((item) => item.value === roleFilter)?.label || 'All'}
             </Button>
             <Menu
