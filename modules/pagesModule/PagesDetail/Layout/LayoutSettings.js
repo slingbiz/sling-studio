@@ -15,8 +15,10 @@ import {useSelector} from 'react-redux';
 
 const Accordion = withStyles({
     root: {
-        border: '1px solid rgba(0, 0, 0, .125)',
+        border: '1px solid #e6e6e6',
         boxShadow: 'none',
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: 14,
         '&:not(:last-child)': {
             borderBottom: 0,
         },
@@ -32,10 +34,12 @@ const Accordion = withStyles({
 
 const AccordionSummary = withStyles({
     root: {
-        // backgroundColor: 'rgba(0, 0, 0, .03)',
-        borderBottom: '1px solid rgba(0, 0, 0, .125)',
+        borderBottom: '1px solid #e6e6e6',
         marginBottom: -1,
         minHeight: 56,
+        fontSize: 14,
+        fontFamily: 'Open Sans, sans-serif',
+        backgroundColor: '#fff8f0',
         '&$expanded': {
             minHeight: 56,
         },
@@ -43,6 +47,10 @@ const AccordionSummary = withStyles({
     content: {
         '&$expanded': {
             margin: '12px 0',
+        },
+        '& .MuiTypography-root': {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
         },
     },
     expanded: {},
@@ -57,13 +65,37 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     textTruncate: {
         padding: '10px 0',
+        fontSize: 14,
+        fontFamily: 'Open Sans, sans-serif',
     },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 180,
+        fontSize: 14,
+        fontFamily: 'Open Sans, sans-serif',
+        '& .MuiInputBase-root': {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
+            backgroundColor: '#fff8f0',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#ff9800',
+        },
+        '& .MuiInputLabel-root': {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: '#ff9800',
+        },
+        '& .MuiSelect-select': {
+            backgroundColor: '#fff8f0',
+        },
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+        fontSize: 14,
+        backgroundColor: '#fff8f0',
     },
     accordianDetails: {
         width: '100%',
@@ -165,9 +197,10 @@ const LayoutSettings = ({settingsObj}) => {
                 className={classes.textTruncate}
                 color='text.primary'
                 alignSelf='flex-start'
-                fontWeight={Fonts.BOLD}>
+                fontWeight={Fonts.BOLD}
+                style={{fontSize: 14, fontFamily: 'Open Sans, sans-serif'}}>
                 {'Settings'}{' '}
-                <span style={{fontWeight: Fonts.LIGHT}}>
+                <span style={{fontWeight: Fonts.LIGHT, fontSize: 14}}>
           {key ? key : '(Click on a Widget to view Settings)'}
         </span>
             </Box>

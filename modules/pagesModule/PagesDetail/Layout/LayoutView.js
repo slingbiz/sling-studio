@@ -26,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tinyBtn: {
-    backgroundColor: '#f2f3f5',
-    fontSize: '12px',
+    backgroundColor: '#fff8f0',
+    color: '#163a5f',
+    fontSize: '14px',
     width: '36px',
     height: '36px',
+    boxShadow: 'none',
+    border: '1px solid #d5dde6',
   },
   divDragWrap: {
     position: 'relative',
@@ -41,9 +44,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 1,
   },
   boxSection: {
-    backgroundColor: '#b0c4df',
+    backgroundColor: '#e8eef4',
     display: 'flex',
     flexDirection: 'column',
+    borderRadius: 8,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    fontWeight: 600,
+    color: '#163a5f',
   },
 }));
 const LayoutView = forwardRef((props, ref) => {
@@ -180,7 +190,18 @@ const LayoutView = forwardRef((props, ref) => {
 
   return (
     <>
-      <ListItemText style={{marginTop: '0px'}}>{'Head Blocks'}</ListItemText>
+      <ListItemText
+        style={{marginTop: '0px'}}
+        primaryTypographyProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
+            fontWeight: 600,
+            color: '#163a5f',
+          },
+        }}>
+        {'Head Blocks'}
+      </ListItemText>
       <Box p={6} mb={6} className={classes.boxSection}>
         {headerBlocks?.rows?.map((row, k) => {
           return (
@@ -219,7 +240,18 @@ const LayoutView = forwardRef((props, ref) => {
           </Fab>
         )}
       </Box>
-      <ListItemText style={{marginTop: '0px'}}>{'Body Blocks'}</ListItemText>
+      <ListItemText
+        style={{marginTop: '0px'}}
+        primaryTypographyProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
+            fontWeight: 600,
+            color: '#163a5f',
+          },
+        }}>
+        {'Body Blocks'}
+      </ListItemText>
       <Box p={6} mb={6} className={classes.boxSection}>
         {bodyBlocks?.rows?.map((row, k) => {
           return (
@@ -258,7 +290,18 @@ const LayoutView = forwardRef((props, ref) => {
           </Fab>
         )}
       </Box>
-      <ListItemText style={{marginTop: '0px'}}>{'Footer Blocks'}</ListItemText>
+      <ListItemText
+        style={{marginTop: '0px'}}
+        primaryTypographyProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'Open Sans, sans-serif',
+            fontWeight: 600,
+            color: '#163a5f',
+          },
+        }}>
+        {'Footer Blocks'}
+      </ListItemText>
       <Box p={6} mb={6} className={classes.boxSection}>
         {footerBlocks?.rows?.map((row, k) => {
           return (

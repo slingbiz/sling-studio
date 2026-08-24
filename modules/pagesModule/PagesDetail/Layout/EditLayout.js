@@ -18,16 +18,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import _ from 'lodash';
-import {orange} from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   appBar: {
     position: 'relative',
+    backgroundColor: '#163a5f',
+    color: '#fff',
+    boxShadow: 'none',
   },
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    fontWeight: 600,
   },
   root: {
     padding: '2px 4px',
@@ -37,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
+    fontSize: 14,
   },
   iconButton: {
     padding: 10,
@@ -60,16 +66,44 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  cancelBtn: {
+    textTransform: 'none',
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: 'Open Sans, sans-serif',
+    border: '1px solid rgba(255,255,255,0.55)',
+    backgroundColor: 'transparent',
+    padding: '6px 16px',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.08)',
+    },
+  },
+  applyBtn: {
+    textTransform: 'none',
+    backgroundColor: '#ff9800',
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 600,
+    fontFamily: 'Open Sans, sans-serif',
+    marginLeft: 15,
+    padding: '6px 18px',
+    boxShadow: 'none',
+    '&:hover, &:focus': {
+      backgroundColor: '#f57c00',
+      boxShadow: 'none',
+    },
+  },
   button: {
-    backgroundColor: orange[500],
+    backgroundColor: '#ff9800',
     marginBottom: 20,
-    color: theme.palette.primary.contrastText,
+    color: '#fff',
     fontWeight: Fonts.BOLD,
     paddingRight: 20,
     paddingLeft: 20,
     '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: theme.palette.secondary.contrastText,
+      backgroundColor: '#f57c00',
+      color: '#fff',
     },
   },
 }));
@@ -153,7 +187,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
         {/* Same as */}
       </ToastContainer>
 
-      <AppBar className={classes.appBar}>
+      <AppBar className={classes.appBar} color='default'>
         <Toolbar>
           <IconButton
             edge='start'
@@ -166,12 +200,15 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
           <Typography variant='h6' className={classes.title}>
             {titleKey} {' / Edit'}
           </Typography>
-          <Button autoFocus={true} color='inherit' onClick={handleClose} disableRipple>
+          <Button
+            autoFocus={true}
+            className={classes.cancelBtn}
+            onClick={handleClose}
+            disableRipple>
             Cancel
           </Button>
           <Button
-            style={{backgroundColor: orange[500], color: 'white', marginLeft: 15}}
-            classes={classes.button}
+            className={classes.applyBtn}
             autoFocus={true}
             onClick={handleRootSave}
             disableRipple>

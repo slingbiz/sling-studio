@@ -2,6 +2,23 @@ import React from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import {withStyles} from '@material-ui/core/styles';
+
+const OrangeSwitch = withStyles({
+  switchBase: {
+    color: '#c5c6cb',
+    '&$checked': {
+      color: '#ff9800',
+    },
+    '&$checked + $track': {
+      backgroundColor: '#ff9800',
+    },
+  },
+  checked: {},
+  track: {
+    backgroundColor: '#d5dde6',
+  },
+})(Switch);
 
 const DeviceWidthMapper = {
     'mobile' : 'sm',
@@ -23,12 +40,18 @@ export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus
     setHiddenStatus({...hiddenStatus});
   };
 
+  const labelStyle = {
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+  };
+
   return (
     <FormGroup row >
       <FormControlLabel
         disabled={disabled}
+        style={labelStyle}
         control={
-          <Switch
+          <OrangeSwitch
             checked={state.mobile}
             onChange={handleChange('mobile')}
             value='mobile'
@@ -38,24 +61,24 @@ export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus
       />
       <FormControlLabel
         disabled={disabled}
+        style={labelStyle}
         control={
-          <Switch
+          <OrangeSwitch
             checked={state.tablet}
             onChange={handleChange('tablet')}
             value='tablet'
-            color='primary'
           />
         }
         label='Show on Tablet'
       />
       <FormControlLabel
         disabled={disabled}
+        style={labelStyle}
         control={
-          <Switch
+          <OrangeSwitch
             checked={state.desktop}
             onChange={handleChange('desktop')}
             value='desktop'
-            color='primary'
           />
         }
         label='Show on Desktop'

@@ -6,29 +6,29 @@ import {initialWidth} from './NewCellModal';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import blue from '@material-ui/core/colors/blue';
 import clsx from 'clsx';
-import green from '@material-ui/core/colors/green';
 
 const grid = 8;
 
 const useStyles = makeStyles((theme) => ({
   content: {
     position: 'relative',
-    '&:hover $replyBtn': {
-      visibility: 'visible',
-    },
   },
   replyBtn: {
     position: 'absolute',
-    color: blue['50'],
-    top: -7,
-    right: -15,
-    visibility: 'hidden',
+    color: '#fff',
+    top: -6,
+    right: -10,
+    visibility: 'visible',
+    opacity: 1,
+    backgroundColor: '#163a5f',
+    padding: 4,
   },
   active: {
-    background: blue['800'],
+    background: '#0f2a46',
+    outline: '2px solid #ff9800',
     padding: 15,
+    borderRadius: 4,
   },
 }));
 
@@ -53,11 +53,12 @@ const getItemStyle = (isDragging, draggableStyle, item) => ({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   fontWeight: 'bold',
+  fontSize: 14,
+  fontFamily: 'Open Sans, sans-serif',
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : '#1c55a0',
+  background: isDragging ? '#2a5a85' : '#163a5f',
   // background: isDragging ? 'lightgreen' : '#b0c4df',
   borderRadius: '3px',
-  boxShadow: '8px 8px 6px #888888',
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -91,12 +92,13 @@ const DragMe = (props) => {
   }, [initItems]);
 
   const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? 'lightblue' : '#f0f4f9',
+    background: isDraggingOver ? '#d5dde6' : '#e8eef4',
     display: 'flex',
     padding: grid * 3,
-    boxShadow: !recursion ? '8px 8px 6px #888888' : '2px 2px 1px #888888',
+    boxShadow: 'none',
     overflow: 'auto',
     justifyContent: 'flex-start',
+    borderRadius: 8,
   });
 
   const onDragEnd = (result) => {

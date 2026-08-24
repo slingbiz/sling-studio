@@ -23,14 +23,17 @@ const grid = 8;
 const styles = (theme) => {
   return {
     rootList: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: '#fff8f0',
+      borderLeft: '3px solid #163a5f',
+      fontFamily: 'Open Sans, sans-serif',
+      fontSize: 14,
     },
   };
 };
 
 const getListStyle = (isDraggingOver) => ({
-  // background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  border: '1px solid #E0E0E0',
+  border: '1px solid #e8eef4',
+  background: isDraggingOver ? '#e8eef4' : '#fff8f0',
   display: 'flex',
   padding: grid,
   width:'100%',

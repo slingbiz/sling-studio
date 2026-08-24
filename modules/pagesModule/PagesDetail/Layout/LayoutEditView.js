@@ -11,8 +11,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchLayoutConfig, setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/CloseOutlined';
-import * as AllIcons from '@material-ui/icons';
-import {WidgetsOutlined} from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
 import clsx from 'clsx';
@@ -31,6 +29,12 @@ import LayoutSettings from './LayoutSettings';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import {FETCH_SUCCESS} from '../../../../shared/constants/ActionTypes';
+import WidgetLibraryPreview, {
+  LivePreviewGate,
+  LAYOUT_WELL,
+  SLING_CREAM,
+  SLING_ORANGE,
+} from './WidgetLibraryPreview';
 
 const _ = require('lodash');
 
@@ -46,24 +50,24 @@ const useStyles = makeStyles((theme) => ({
   },
   divDragWrap: {
     position: 'relative',
-    '&:hover $floatingButtons': {
-      opacity: 1,
-    },
   },
   floatingButtons: {
     position: 'absolute',
-    right: 0,
-    top: 0,
-    opacity: 0,
-    transition: 'opacity 0.2s ease-in-out',
+    right: 4,
+    top: 4,
+    opacity: 1,
+    visibility: 'visible',
+    zIndex: 2,
   },
   tinyBtn: {
-    backgroundColor: '#f2f3f5',
-    fontSize: '12px',
+    backgroundColor: SLING_CREAM,
+    color: '#163a5f',
+    fontSize: '14px',
     width: '36px',
-    border: 'none',
+    border: '1px solid #d5dde6',
     height: '36px',
     margin: '0 2px',
+    boxShadow: 'none',
   },
   floatingRight: {
     position: 'absolute',
@@ -72,9 +76,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 1,
   },
   boxSection: {
-    backgroundColor: '#b0c4df',
+    backgroundColor: LAYOUT_WELL,
     display: 'flex',
     flexDirection: 'column',
+    borderRadius: 8,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    fontWeight: 600,
+    color: '#163a5f',
   },
   boxLayoutView: {padding: '1.5em'},
   appBar: {
@@ -88,13 +99,20 @@ const useStyles = makeStyles((theme) => ({
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
+    backgroundColor: SLING_CREAM,
+    boxShadow: 'none',
+    border: '1px solid #e6e6e6',
+    borderRadius: 8,
   },
   input: {
     marginLeft: theme.spacing(2),
     flex: 1,
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
   },
   iconButton: {
     padding: 10,
+    color: SLING_ORANGE,
   },
   divider: {
     marginTop: 5,
@@ -103,23 +121,33 @@ const useStyles = makeStyles((theme) => ({
   textTruncate: {
     padding: '10px 0',
   },
-  iconWidget: {margin: 5},
-  widgetName: {padding: '5px 10px 10px 10px'},
-  componentBox: {
-    height: '8em',
+  widgetName: {
+    padding: '8px 4px 0',
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    fontWeight: 600,
+    color: '#163a5f',
     width: '100%',
-    padding: 15,
-    boxShadow: 'rgb(136 136 136) 0px 0.5px 1px',
-    backgroundColor: '',
-    border: '1px solid #d6d3d3',
-    borderRadius: '4px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  componentBox: {
+    minHeight: '8em',
+    width: '100%',
+    padding: 10,
+    boxShadow: 'none',
+    backgroundColor: '#fff',
+    border: '1px solid #e6e6e6',
+    borderRadius: 8,
     textAlign: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     margin: '0.5em',
     flex: '40%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    cursor: 'grab',
   },
 }));
 
@@ -444,14 +472,25 @@ const LayoutEditView = forwardRef((props, ref) => {
     }
   };
 
+  const applySearch = () => {
+    const q = (query || '').trim().toLowerCase();
+    const list = widgets || [];
+    if (!q) {
+      setSearchWidgets(list);
+      return;
+    }
+    setSearchWidgets(
+      list.filter(
+        (widget) =>
+          (widget.name || '').toLowerCase().indexOf(q) > -1 ||
+          (widget.key || '').toLowerCase().indexOf(q) > -1,
+      ),
+    );
+  };
+
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
-      const filteredWidgets = widgets.filter(
-        (widget) =>
-          widget.name.toLowerCase().indexOf(query) > -1 ||
-          widget.key.toLowerCase().indexOf(query) > -1,
-      );
-      setSearchWidgets(filteredWidgets);
+      applySearch();
     }
   };
 
@@ -485,79 +524,67 @@ const LayoutEditView = forwardRef((props, ref) => {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleEnter}
                 />
-                <IconButton className={classes.iconButton} aria-label='search' disableRipple>
+                <IconButton
+                  className={classes.iconButton}
+                  aria-label='search'
+                  onClick={applySearch}
+                  disableRipple>
                   <SearchIcon />
                 </IconButton>
-                {/*<Divider className={classes.divider} orientation='vertical' />*/}
               </Paper>
               <Divider style={{marginTop: 15, marginBottom: 15}} />
               <Box>
-                <Droppable
-                  droppableId='droppable-widgets'
-                  isDropDisabled={true}>
-                  {(provided, snapshot) => (
-                    <Box
-                      ref={provided.innerRef}
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        height: '100%',
-                        maxHeight: '550px',
-                        overflowY: 'scroll',
-                      }}>
-                      {searchWidgets.map((item, index) => {
-                        return (
-                          <Draggable
-                            key={item['_id']}
-                            draggableId={item['_id']}
-                            index={item['_id']}>
-                            {(provided, snapshot) => {
-                              let WidgetIcon = WidgetsOutlined;
-                              if (item.icon) {
-                                const iconKey = _.upperFirst(
-                                  _.camelCase(item.icon),
-                                );
-                                if (AllIcons[iconKey]) {
-                                  WidgetIcon = AllIcons[iconKey];
-                                }
-                              }
-
-                              return (
+                <LivePreviewGate>
+                  <Droppable
+                    droppableId='droppable-widgets'
+                    isDropDisabled={true}>
+                    {(provided) => (
+                      <Box
+                        ref={provided.innerRef}
+                        data-widget-library='true'
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          height: '100%',
+                          maxHeight: '550px',
+                          overflowY: 'scroll',
+                        }}>
+                        {(searchWidgets || []).map((item) => {
+                          return (
+                            <Draggable
+                              key={item['_id']}
+                              draggableId={item['_id']}
+                              index={item['_id']}>
+                              {(provided) => (
                                 <div
                                   componentBox={'componentBox'}
                                   className={classes.componentBox}
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}>
-                                  {WidgetIcon ? (
-                                    <WidgetIcon
-                                      className={classes.iconWidget}
-                                    />
-                                  ) : (
-                                    ''
-                                  )}
-                                  {
-                                    <Box className={classes.widgetName}>
-                                      {item.name}
-                                    </Box>
-                                  }
+                                  <WidgetLibraryPreview item={item} />
+                                  <Box className={classes.widgetName}>
+                                    {item.name}
+                                  </Box>
                                 </div>
-                              );
-                            }}
-                          </Draggable>
-                        );
-                      })}
-                      {provided.placeholder}
-                    </Box>
-                  )}
-                </Droppable>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
+                </LivePreviewGate>
               </Box>
             </Card>
           </Hidden>
         </Grid>
         <Grid item sm={9} lg={6}>
           <Box className={classes.boxLayoutView}>
-            <ListItemText style={{marginTop: '0px'}}>
+            <ListItemText
+              style={{marginTop: '0px'}}
+              primaryTypographyProps={{className: classes.sectionLabel}}>
               {'Head Blocks'}
             </ListItemText>
             <Box p={6} mb={6} className={classes.boxSection}>
@@ -589,6 +616,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       <Fab
                         onClick={() => deleteRow('header', k)}
                         className={clsx(classes.tinyBtn)}
+                        aria-label='Delete row'
                         disableRipple>
                         <Delete />
                       </Fab>
@@ -605,7 +633,9 @@ const LayoutEditView = forwardRef((props, ref) => {
                 </Fab>
               </div>
             </Box>
-            <ListItemText style={{marginTop: '0px'}}>
+            <ListItemText
+              style={{marginTop: '0px'}}
+              primaryTypographyProps={{className: classes.sectionLabel}}>
               {'Body Blocks'}
             </ListItemText>
             <Box p={6} mb={6} className={classes.boxSection}>
@@ -637,6 +667,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       <Fab
                         onClick={() => deleteRow('body', k)}
                         className={clsx(classes.tinyBtn)}
+                        aria-label='Delete row'
                         disableRipple>
                         <Delete />
                       </Fab>
@@ -653,7 +684,9 @@ const LayoutEditView = forwardRef((props, ref) => {
                 </Fab>
               </div>
             </Box>
-            <ListItemText style={{marginTop: '0px'}}>
+            <ListItemText
+              style={{marginTop: '0px'}}
+              primaryTypographyProps={{className: classes.sectionLabel}}>
               {'Footer Blocks'}
             </ListItemText>
             <Box p={6} mb={6} className={classes.boxSection}>
@@ -685,6 +718,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                       <Fab
                         onClick={() => deleteRow('footer', k)}
                         className={clsx(classes.tinyBtn)}
+                        aria-label='Delete row'
                         disableRipple>
                         <Delete />
                       </Fab>
@@ -715,6 +749,9 @@ const LayoutEditView = forwardRef((props, ref) => {
             style={{
               padding: '1.5em',
               marginTop: '1.5em',
+              backgroundColor: SLING_CREAM,
+              fontFamily: 'Open Sans, sans-serif',
+              fontSize: 14,
             }}>
             <LayoutSettings settingsObj={settingsObj} key={settingsObj.boxId} />
           </Card>

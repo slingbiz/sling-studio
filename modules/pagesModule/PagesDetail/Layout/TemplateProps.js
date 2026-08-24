@@ -4,13 +4,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import blue from '@material-ui/core/colors/blue';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import {
   Accordion,
   AccordionDetails,
@@ -52,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'end',
   },
   active: {
-    background: blue['800'],
+    background: '#163a5f',
     padding: 15,
   },
   formControl: {
@@ -61,11 +59,25 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '14px',
     fontWeight: '400',
     padding: '0 10',
+    fontFamily: 'Open Sans, sans-serif',
+    '& .MuiInputBase-root': {
+      fontSize: 14,
+      fontFamily: 'Open Sans, sans-serif',
+      backgroundColor: '#fff8f0',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#ff9800',
+    },
+    '& .MuiSelect-select': {
+      backgroundColor: '#fff8f0',
+    },
   },
   fontSet: {
     fontSize: '14px',
     fontWeight: '400',
     margin: '10px',
+    fontFamily: 'Open Sans, sans-serif',
+    backgroundColor: '#fff8f0',
   },
   accordianDetails: {
     padding: 0,
@@ -98,33 +110,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewProp = ({classes}) => {
-  return (
-    <FormGroup row>
-      <Box style={{width: '100%'}}>
-        <Box
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}>
-          <IconButton onClick={() => true} disabled={true} disableRipple>
-            <Icon
-              color='secondary'
-              className={classes.Icon}
-              style={{marginRight: '-5px'}}>
-              add_circle
-            </Icon>
-          </IconButton>
-          <Box style={{fontWeight: 'bold'}}>Add New Prop? </Box>
-        </Box>
-        <Box style={{padding: '0 20px', marginBottom: 10}}>
-          Add new props for this Widget in the Widgets section. New props will
-          automatically reflect here.
-        </Box>
-      </Box>
-    </FormGroup>
-  );
+const emptyPropsCopy = {
+  fontSize: 14,
+  fontFamily: 'Open Sans, sans-serif',
+  color: '#666',
+  padding: '8px 4px',
+  lineHeight: 1.5,
 };
 
 export default function TemplateProps({cellProps, disabled}) {
@@ -186,7 +177,11 @@ export default function TemplateProps({cellProps, disabled}) {
   };
 
   if (!Object.keys(widgetProps).length) {
-    return <NewProp classes={classes} />;
+    return (
+      <Box style={emptyPropsCopy}>
+        Add props for this widget in Widgets. They show up here automatically.
+      </Box>
+    );
   }
 
   return (
@@ -315,7 +310,6 @@ export default function TemplateProps({cellProps, disabled}) {
           </Accordion>
         );
       })}
-      <NewProp classes={classes} />
       <GalleryPickerModal
         open={Boolean(pickerKey)}
         onClose={() => setPickerKey(null)}
