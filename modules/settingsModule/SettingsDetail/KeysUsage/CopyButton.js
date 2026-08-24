@@ -1,50 +1,50 @@
 import React, {useState} from 'react';
-import {Button, Grid} from '@material-ui/core';
-import {orange} from '@material-ui/core/colors';
+import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {Fonts} from '../../../../shared/constants/AppEnums';
+import {SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 
-const useStyles = makeStyles((theme) => ({
-  btnSubmit: {
+const useStyles = makeStyles(() => ({
+  copyBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
     fontSize: 14,
-    fontWeight: Fonts.BOLD,
-    backgroundColor: orange[500],
-    margin: 'auto',
-    width: '60%',
-    transition: 'transform 0.3s ease',
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    minWidth: 0,
     '&:hover, &:focus': {
-      backgroundColor: orange[700],
+      backgroundColor: '#f57c00',
+      boxShadow: 'none',
       color: '#fff',
     },
   },
   copied: {
-    backgroundColor: orange[300],
-    transform: 'scale(1.1)',
-    transition: 'transform 0.3s ease',
+    backgroundColor: '#f57c00',
   },
 }));
 
-const CopyButton = ({content}) => {
+const CopyButton = ({content, label}) => {
   const classes = useStyles();
   const [copied, setCopied] = useState(false);
 
-  const copyToClipBoard = (content) => {
-    navigator.clipboard.writeText(content).then(() => {
+  const copyToClipBoard = (value) => {
+    navigator.clipboard.writeText(value || '').then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     });
   };
 
   return (
-      <Button
-        onClick={() => copyToClipBoard(content)}
-        variant='contained'
-        className={`${classes.btnSubmit} ${copied ? classes.copied : ''}`}
-        type='submit'
-        color='primary'>
-        {copied ? 'Copied!' : 'Copy'}
-      </Button>
-   );
+    <Button
+      onClick={() => copyToClipBoard(content)}
+      className={`${classes.copyBtn} ${copied ? classes.copied : ''}`}
+      type='button'
+      aria-label={label || 'Copy'}>
+      {copied ? 'Copied!' : 'Copy'}
+    </Button>
+  );
 };
 
 export default CopyButton;

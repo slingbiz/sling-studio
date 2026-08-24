@@ -1,60 +1,110 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-  IconButton,
-  TextField,
-} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core';
-import {orange} from '@material-ui/core/colors';
+import React from 'react';
+import {Box, Typography, TextField} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {useSelector, useDispatch} from 'react-redux';
-import {Alert} from '@mui/material';
-import InfoIcon from '@material-ui/icons/Info';
+import {useSelector} from 'react-redux';
+import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 import CopyButton from './CopyButton';
 
-const useStyles = makeStyles((theme) => ({
-  btnSubmit: {
+const useStyles = makeStyles(() => ({
+  page: {
+    padding: '12px 28px 32px',
+    background: '#fff',
+    fontFamily: 'Open Sans, system-ui, sans-serif',
+  },
+  intro: {
+    marginBottom: 8,
+  },
+  title: {
     fontSize: 16,
-    fontWeight: Fonts.BOLD,
-    backgroundColor: orange[500],
-    margin: 'auto',
-    width: 150,
-    '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: '#fff',
-    },
+    fontWeight: 600,
+    color: SLING_INK,
+    lineHeight: 1.35,
   },
-  inputText: {
+  hint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  tableHead: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 2fr) auto',
+    gap: 12,
+    padding: '12px 8px 10px',
+    color: '#6b6f76',
+    fontSize: 14,
+    fontWeight: 500,
+  },
+  row: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 2fr) auto',
+    gap: 12,
+    alignItems: 'center',
+    padding: '12px 8px',
+    minHeight: 60,
+  },
+  nameCell: {
+    minWidth: 0,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: SLING_INK,
+    lineHeight: 1.35,
+  },
+  handle: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.35,
+  },
+  field: {
+    width: '100%',
     '& .MuiOutlinedInput-root': {
-      backgroundColor: 'rgb(232, 241, 250)',
+      borderRadius: 8,
+      fontSize: 14,
+      height: 40,
+      background: SLING_CREAM,
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
     },
   },
-  InfoBox: {
+  actions: {
     display: 'flex',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  main: {
-    marginTop: 20,
-    alignItems: 'center',
+  guide: {
+    fontSize: 14,
+    color: '#6b6f76',
+    background: SLING_CREAM,
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 24,
   },
   linkGuide: {
     cursor: 'pointer',
-    color: theme.palette.primary.light,
-  },
-  alertGuide: {
-    width: '100%',
-    marginTop: 20,
+    color: SLING_ORANGE,
+    fontWeight: 600,
+    fontSize: 14,
   },
 }));
 
 const KeyUsage = (props) => {
   const classes = useStyles(props);
-  const {titleKey, pageKey} = props;
+  const {titleKey} = props;
   const {account} = useSelector(({account}) => account);
+  const apiKey = account?.apiKey || '';
+  const clientId = account?.user || '';
 
   return (
     <>
@@ -63,80 +113,71 @@ const KeyUsage = (props) => {
           {titleKey}
         </Box>
       </AppsHeader>
-      <Box p={6} mb={6} className={classes.boxSection}>
-        <Typography variant='h5' gutterBottom='true'>
-          API Authentication
-        </Typography>
-        <Grid spacing={2} container direction='row' className={classes.main}>
-          <Grid xs={12} lg={4} item>
-            <Typography variant='h6' noWrap>
-              Your API Key
+      <Box className={classes.page}>
+        <Box className={classes.intro}>
+          <Typography className={classes.title}>API Authentication</Typography>
+          <Typography className={classes.hint}>
+            Find your API key and client id, then copy them into your frontend.
+          </Typography>
+        </Box>
+
+        <Box className={classes.tableHead}>
+          <span>Key</span>
+          <span>Value</span>
+          <span />
+        </Box>
+
+        <Box className={classes.row}>
+          <Box className={classes.nameCell}>
+            <Typography className={classes.name}>Your API Key</Typography>
+            <Typography className={classes.handle}>
+              NEXT_PUBLIC_CLIENT_KEY_SECRET
             </Typography>
-            <Typography noWrap>NEXT_PUBLIC_CLIENT_KEY_SECRET </Typography>
-          </Grid>
-          <Grid xs={10} lg={6} item container>
-            <TextField
-              value={account?.apiKey}
-              size='small'
-              fullWidth
-              variant='outlined'
-              InputProps={{
-                readOnly: true,
-              }}
-              className={classes.inputText}
-            />
-          </Grid>
-          <Grid xs={2} lg={2} item container style={{display: 'flex'}}>
-            <CopyButton content={account?.apiKey} />
-          </Grid>
-        </Grid>
-        <Grid spacing={2} container direction='row' className={classes.main}>
-          <Grid xs={12} lg={4} item>
-            <Typography variant='h6' noWrap>
-              Your Client Id
-            </Typography>
-            <Typography noWrap>NEXT_PUBLIC_CLIENT_ID </Typography>
-          </Grid>
-          <Grid xs={10} lg={6} item container>
-            <TextField
-              value={account?.user}
-              size='small'
-              fullWidth
-              variant='outlined'
-              InputProps={{
-                readOnly: true,
-              }}
-              className={classes.inputText}
-            />
-          </Grid>
-          <Grid xs={2} item container style={{display: 'flex'}}>
-            <CopyButton content={account?.user} />
-          </Grid>
-        </Grid>
-        <Grid
-          spacing={2}
-          container
-          direction='row'
-          style={{marginTop: 35}}
-          className={classes.main}>
-          <Alert
-            icon={<InfoIcon />}
-            severity='info'
-            className={classes.alertGuide}>
-            <Typography>
-              Learn more about the{' '}
-              <Typography
-                onClick={() =>
-                  window.open(`${process.env.GUIDE_URL}`, '_blank')
-                }
-                variant='subtitle2'
-                component='span'
-                className={classes.linkGuide}>
-                Sling Key Usage and Frontend Setup.
-              </Typography>{' '}
-            </Typography>{' '}
-          </Alert>
-        </Grid>
+          </Box>
+          <TextField
+            value={apiKey}
+            placeholder='API key'
+            fullWidth
+            variant='outlined'
+            InputProps={{
+              readOnly: true,
+            }}
+            className={classes.field}
+          />
+          <Box className={classes.actions}>
+            <CopyButton content={apiKey} label='Copy API key' />
+          </Box>
+        </Box>
+
+        <Box className={classes.row}>
+          <Box className={classes.nameCell}>
+            <Typography className={classes.name}>Your Client Id</Typography>
+            <Typography className={classes.handle}>NEXT_PUBLIC_CLIENT_ID</Typography>
+          </Box>
+          <TextField
+            value={clientId}
+            placeholder='Client id'
+            fullWidth
+            variant='outlined'
+            InputProps={{
+              readOnly: true,
+            }}
+            className={classes.field}
+          />
+          <Box className={classes.actions}>
+            <CopyButton content={clientId} label='Copy client id' />
+          </Box>
+        </Box>
+
+        <Box className={classes.guide}>
+          Learn more about the{' '}
+          <Typography
+            onClick={() => window.open(`${process.env.GUIDE_URL}`, '_blank')}
+            component='span'
+            className={classes.linkGuide}>
+            Sling Key Usage and Frontend Setup.
+          </Typography>
+        </Box>
       </Box>
     </>
   );
