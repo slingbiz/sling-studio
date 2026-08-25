@@ -37,6 +37,8 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Pages Data tab is gone. Old `/pages/{id}/data` URLs land on Layout. Do not bring back Coming Soon.
 - Headless APIs rail is gone. Old `/headless-apis` URLs land on Widgets. Bring back only as a real rebuild (persist tenant APIs + bind response-derived). Do not polish this screen.
 - Widget Props inspector: labeled Source + Value; Add prop writes schema + this instance, not a fake button.
+- Theme is a main rail item at `/theme`, not a Settings subpage. Settings keeps Company, Keys, Members, Audit. Old `/settings/theme` redirects. Storefront widgets must read MUI `theme.palette`, not hardcoded brand hex.
+- Audit is a log, not an inbox. Names not “Someone”. Action is a label not a CTA.
 
 ## Buttons (signed off)
 

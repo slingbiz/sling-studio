@@ -39,7 +39,6 @@ describe('Settings → Audit', () => {
 
   test('uses Sling type scale, orange/cream, one loader', () => {
     expect(src).toMatch(/SLING_ORANGE|#ff9800/);
-    expect(src).toMatch(/SLING_CREAM|#fff8f0/);
     expect(src).toMatch(/name:[\s\S]*fontSize:\s*16/);
     expect(src).toMatch(/cell:[\s\S]*fontSize:\s*14/);
     expect(src).toMatch(/Open Sans/);
@@ -48,6 +47,16 @@ describe('Settings → Audit', () => {
     expect(src).toMatch(/CircularProgress/);
     expect(src).toMatch(/loading \?/);
     expect(src).not.toMatch(/Loading audit/);
+  });
+
+  test('action is a label, not a CTA', () => {
+    expect(src).toMatch(/cursor:\s*'default'/);
+    expect(src).not.toMatch(/cursor:\s*'pointer'/);
+    expect(src).not.toMatch(/variant=['"]contained['"]/);
+    expect(src).not.toMatch(/color=['"]primary['"]/);
+    expect(src).not.toMatch(/Take action/i);
+    expect(src).not.toMatch(/pillHot/);
+    expect(src).not.toMatch(/background:\s*SLING_ORANGE/);
   });
 
   test('empty state tells them to generate or save a widget', () => {

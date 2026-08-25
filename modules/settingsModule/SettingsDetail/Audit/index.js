@@ -17,8 +17,9 @@ import AppsPagination from '../../../../@sling/core/AppsPagination';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import ApiAuth from '../../../../@sling/services/ApiAuthConfig';
 import {SERVICE_URL} from '../../../../shared/constants/Services';
-import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
+import {SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 import {useSelector} from 'react-redux';
+import {whoEmail, whoLabel, whoName} from './whoLabel';
 
 const PAGE_SIZE = 25;
 
@@ -172,12 +173,10 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     fontWeight: 500,
     border: 'none',
+    cursor: 'default',
+    pointerEvents: 'none',
     background: '#f4f5f8',
-    color: '#5c6066',
-  },
-  pillHot: {
-    background: SLING_CREAM,
-    color: '#c2410c',
+    color: SLING_INK,
   },
   status: {
     fontSize: 14,
@@ -222,8 +221,6 @@ const formatWhen = (value) => {
     minute: '2-digit',
   });
 };
-
-const whoLabel = (event) => event.actorName || event.actorEmail || 'Someone in this workspace';
 
 const objectLabel = (event) => {
   if (event.metadata && event.metadata.key) return event.metadata.key;
@@ -298,13 +295,6 @@ const Audit = () => {
     load({nextPage: 0, nextQuery: query, nextAction: value});
   };
 
-  const pillClass = (action) => {
-    if (action === 'widget.revert' || action === 'widget.publish') {
-      return `${classes.pill} ${classes.pillHot}`;
-    }
-    return classes.pill;
-  };
-
   return (
     <>
       <AppsHeader>
@@ -375,6 +365,8 @@ const Audit = () => {
             )}
             {events.map((event) => {
               const id = event.id || event._id;
+              const name = whoLabel(event);
+              const email = whoEmail(event);
               return (
                 <Box className={classes.row} key={id}>
                   <Typography className={classes.mutedCell}>
@@ -382,18 +374,18 @@ const Audit = () => {
                   </Typography>
                   <Box className={classes.nameCell}>
                     <Avatar className={classes.avatar}>
-                      {initials(event.actorName, event.actorEmail)}
+                      {initials(whoName(event), email)}
                     </Avatar>
                     <Box minWidth={0}>
                       <Typography className={classes.name} noWrap>
-                        {whoLabel(event)}
+                        {name}
                       </Typography>
                       <Typography className={classes.handle} noWrap>
-                        {event.actorEmail || ''}
+                        {email && email !== name ? email : ''}
                       </Typography>
                     </Box>
                   </Box>
-                  <span className={pillClass(event.action)}>
+                  <span className={classes.pill}>
                     {ACTION_LABELS[event.action] || event.action}
                   </span>
                   <Typography className={classes.cell}>{objectLabel(event)}</Typography>
