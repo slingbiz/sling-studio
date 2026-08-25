@@ -12,12 +12,15 @@ import {useRouter} from 'next/router';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import AppContext from '../../@sling/utility/AppContext';
 import {FETCH_ERROR} from '../../shared/constants/ActionTypes';
-import {createCopy} from './sectionContract';
+import {createCopy, ensureWidgetLabel} from './sectionContract';
 import SectionPreview from './SectionPreview';
+import ProcessedSetup from './ProcessedSetup';
 import {streamPageFromPrompt} from './streamPageGenerate';
-import {processGeneratedPage} from '../../redux/actions/CreatePage';
+import {loadCreateAttempts, saveCreateAttempt} from './createAttempts';
+import {processGeneratedPage, publishGeneratedPage} from '../../redux/actions/CreatePage';
 import {resolveWidgetTheme} from '../aiBuilder/widgetTheme';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
+import {useAuthUser} from '../../@sling/utility/AppHooks';
 
 const STARTERS = [
   {
@@ -214,22 +217,59 @@ const useStyles = makeStyles(() => ({
     color: '#6b6f76',
     textAlign: 'center',
   },
-  doneTitle: {
-    fontSize: 20,
-    fontWeight: 700,
+  followUp: {
+    display: 'flex',
+    gap: 8,
+    marginTop: 16,
+    alignItems: 'flex-end',
+  },
+  followField: {
+    flex: 1,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      background: SLING_CREAM,
+      fontSize: 14,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+  },
+  recents: {
+    marginTop: 32,
+    textAlign: 'left',
+  },
+  recentsTitle: {
+    fontSize: 14,
+    fontWeight: 600,
     color: SLING_INK,
     marginBottom: 8,
   },
-  doneHint: {
+  recentItem: {
+    display: 'block',
+    width: '100%',
+    textAlign: 'left',
+    textTransform: 'none',
+    border: '1px solid #eee',
+    borderRadius: 8,
+    padding: '10px 12px',
+    marginBottom: 8,
+    background: '#fff',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: SLING_CREAM, boxShadow: 'none'},
+  },
+  recentName: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+  },
+  recentMeta: {
     fontSize: 14,
     color: '#6b6f76',
-    marginBottom: 20,
-    maxWidth: 560,
-  },
-  doneActions: {
-    display: 'flex',
-    gap: 8,
-    flexWrap: 'wrap',
   },
 }));
 
@@ -239,20 +279,31 @@ const CreatePage = () => {
   const router = useRouter();
   const {theme} = useContext(AppContext);
   const tenantTheme = resolveWidgetTheme(theme);
+  const user = useAuthUser();
+  const canPublish =
+    user?.role === 'owner' || user?.role === 'admin' || user?.role === 'publisher';
 
   const [prompt, setPrompt] = useState('');
+  const [followUp, setFollowUp] = useState('');
   const [streaming, setStreaming] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [streamText, setStreamText] = useState('');
   const [result, setResult] = useState(null);
   const [done, setDone] = useState(null);
+  const [attempts, setAttempts] = useState([]);
   const abortRef = useRef(null);
   const streamLogRef = useRef(null);
+  const replaceOnSection = useRef(true);
 
   const sections = result?.sections || [];
   const count = sections.length;
   const visibleCode = streamText.split('\n').slice(-40).join('\n');
+
+  useEffect(() => {
+    setAttempts(loadCreateAttempts());
+  }, []);
 
   useEffect(() => {
     if (streamLogRef.current) {
@@ -267,48 +318,99 @@ const CreatePage = () => {
     setStreamText('');
     setStatusMessage('');
     setDone(null);
+    setFollowUp('');
   };
 
-  const generate = async () => {
-    if (!prompt.trim() || prompt.trim().length < 5) return;
+  const runStream = async (nextPrompt, options = {}) => {
     abortRef.current?.abort();
     const ac = new AbortController();
     abortRef.current = ac;
     setStreaming(true);
     setDone(null);
-    setResult({page: null, sections: []});
     setStreamText('');
-    setStatusMessage('Streaming…');
+    setStatusMessage(options.followUp ? 'Improving…' : 'Streaming…');
+    replaceOnSection.current = true;
     try {
       const data = await streamPageFromPrompt(
-        prompt.trim(),
+        nextPrompt,
         tenantTheme,
         {
           onStatus: setStatusMessage,
           onCodeToken: (text) => setStreamText((prev) => prev + text),
           onPage: (page) =>
-            setResult((prev) => ({page, sections: prev?.sections || []})),
+            setResult((prev) => ({
+              page,
+              sections: replaceOnSection.current ? [] : prev?.sections || [],
+            })),
           onSection: (section) =>
             setResult((prev) => {
+              const labeled = {
+                ...section,
+                label: ensureWidgetLabel(section.label),
+                name: ensureWidgetLabel(section.name || section.label),
+              };
+              if (replaceOnSection.current) {
+                replaceOnSection.current = false;
+                return {page: prev?.page || null, sections: [labeled]};
+              }
               const current = prev?.sections || [];
-              if (current.some((item) => item.id === section.id)) return prev;
-              return {page: prev?.page || null, sections: [...current, section]};
+              if (current.some((item) => item.id === labeled.id)) return prev;
+              return {page: prev?.page || null, sections: [...current, labeled]};
             }),
-          onComplete: (payload) => setResult(payload),
+          onComplete: (payload) =>
+            setResult({
+              page: payload.page,
+              sections: (payload.sections || []).map((section) => ({
+                ...section,
+                label: ensureWidgetLabel(section.label),
+                name: ensureWidgetLabel(section.name || section.label),
+              })),
+            }),
         },
         ac.signal,
+        options,
       );
-      setResult(data);
+      setResult({
+        page: data.page,
+        sections: (data.sections || []).map((section) => ({
+          ...section,
+          label: ensureWidgetLabel(section.label),
+          name: ensureWidgetLabel(section.name || section.label),
+        })),
+      });
     } catch (error) {
       if (error.name === 'AbortError') return;
       dispatch({
         type: FETCH_ERROR,
         payload: error.message || 'Could not generate this page.',
       });
-      setResult(null);
+      if (!options.followUp) setResult(null);
     } finally {
       setStreaming(false);
     }
+  };
+
+  const generate = async () => {
+    if (!prompt.trim() || prompt.trim().length < 5) return;
+    setResult({page: null, sections: []});
+    await runStream(prompt.trim());
+  };
+
+  const improve = async () => {
+    if (!followUp.trim() || !result?.page) return;
+    const note = followUp.trim();
+    setFollowUp('');
+    await runStream(prompt.trim(), {
+      followUp: note,
+      previous: {
+        page: result.page,
+        sections: (result.sections || []).map((section) => ({
+          id: section.id,
+          label: section.label,
+          name: section.name,
+        })),
+      },
+    });
   };
 
   const processPage = async () => {
@@ -322,7 +424,22 @@ const CreatePage = () => {
       }),
     );
     setProcessing(false);
-    if (saved) setDone(saved);
+    if (saved) {
+      setDone(saved);
+      setAttempts(saveCreateAttempt({...saved, at: Date.now()}));
+    }
+  };
+
+  const publishPage = async () => {
+    if (!done?.widgets?.length) return;
+    setPublishing(true);
+    const published = await dispatch(publishGeneratedPage({widgets: done.widgets}));
+    setPublishing(false);
+    if (published) {
+      const next = {...done, published: true, widgets: published};
+      setDone(next);
+      setAttempts(saveCreateAttempt({...next, at: Date.now()}));
+    }
   };
 
   const working = streaming || processing;
@@ -332,33 +449,15 @@ const CreatePage = () => {
     <AppsContainer fullView>
       <Box className={classes.page}>
         {done ? (
-          <>
-            <Typography className={classes.doneTitle}>
-              This page is {done.widgetCount} draft widgets
-            </Typography>
-            <Typography className={classes.doneHint}>
-              Process saved the sections as widgets, a page template, and the
-              route {done.path}. Edit them in Widgets and Page templates. Nothing
-              is live until you publish.
-            </Typography>
-            <Box className={classes.doneActions}>
-              <Button
-                className={classes.primaryBtn}
-                onClick={() => router.push(`/pages/${done.pageKey}/layout?edit=1`)}>
-                Open template
-              </Button>
-              <Button
-                className={classes.ghostBtn}
-                onClick={() => router.push('/widgets/widgets-integration')}>
-                Widgets
-              </Button>
-              <Button
-                className={classes.ghostBtn}
-                onClick={() => router.push('/routes')}>
-                Routes
-              </Button>
-            </Box>
-          </>
+          <ProcessedSetup
+            setup={done}
+            themeOverrides={tenantTheme}
+            canPublish={canPublish}
+            publishing={publishing}
+            onPublish={publishPage}
+            onClose={resetPreview}
+            onOpen={(path) => router.push(path)}
+          />
         ) : !showBuilder ? (
           <Box className={classes.emptyPage}>
             <Box className={classes.promptWrap}>
@@ -401,6 +500,34 @@ const CreatePage = () => {
                   Generate
                 </Button>
               </Box>
+              {attempts.length ? (
+                <Box className={classes.recents}>
+                  <Typography className={classes.recentsTitle}>
+                    Recent pages
+                  </Typography>
+                  {attempts.map((item) => (
+                    <Button
+                      key={item.id || item.pageKey || item.at}
+                      className={classes.recentItem}
+                      onClick={() => {
+                        if (item.widgets?.length) {
+                          setDone(item);
+                          setPrompt(item.prompt || '');
+                          return;
+                        }
+                        setPrompt(item.prompt || '');
+                      }}>
+                      <Box className={classes.recentName}>
+                        {item.title || item.prompt || 'Untitled page'}
+                      </Box>
+                      <Box className={classes.recentMeta}>
+                        {item.published ? 'Published' : 'Draft'}
+                        {item.path ? ` · ${item.path}` : ''}
+                      </Box>
+                    </Button>
+                  ))}
+                </Box>
+              ) : null}
             </Box>
           </Box>
         ) : (
@@ -409,7 +536,7 @@ const CreatePage = () => {
               <Typography className={classes.summaryText}>
                 {streaming
                   ? statusMessage || 'Streaming…'
-                  : `This page will be ${count} widget${count === 1 ? '' : 's'}. Hover a section to lift it as a tile. Process saves the same code — we do not generate again.`}
+                  : `This page is broken into ${count} widgets. Each one can be governed, given props, and published on its own.`}
               </Typography>
               <Box style={{display: 'flex', gap: 8}}>
                 <Button
@@ -462,6 +589,30 @@ const CreatePage = () => {
                     The page appears here as each section finishes.
                   </Typography>
                 )}
+              </Box>
+            )}
+            {!processing && (
+              <Box className={classes.followUp}>
+                <TextField
+                  className={classes.followField}
+                  variant='outlined'
+                  placeholder='Ask to change this page…'
+                  value={followUp}
+                  disabled={working || count < 5}
+                  onChange={(e) => setFollowUp(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      improve();
+                    }
+                  }}
+                />
+                <Button
+                  className={classes.primaryBtn}
+                  onClick={improve}
+                  disabled={working || count < 5 || !followUp.trim()}>
+                  Improve
+                </Button>
               </Box>
             )}
           </>

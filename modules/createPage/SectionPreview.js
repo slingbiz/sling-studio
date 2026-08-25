@@ -3,6 +3,7 @@ import {Box, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import SandboxedPreview from '../aiBuilder/components/SandboxedPreview';
 import {SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
+import {ensureWidgetLabel} from './sectionContract';
 
 const useStyles = makeStyles(() => ({
   section: {
@@ -46,7 +47,7 @@ const SectionPreview = ({section, themeOverrides}) => {
       data-sling-section={section.id}
       tabIndex={0}>
       <Typography className={classes.label} component='span'>
-        {section.label}
+        {ensureWidgetLabel(section.label)}
       </Typography>
       <SandboxedPreview
         code={section.code}

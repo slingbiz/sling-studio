@@ -9,5 +9,7 @@ describe('section contract helpers', () => {
     expect(src).toMatch(/used\.has\(next\)/);
     expect(src).toMatch(/muiWidths:\s*\{sm:\s*12,\s*md:\s*12,\s*lg:\s*12\}/);
     expect(src).toMatch(/propsToPayload/);
+    expect(src).toMatch(/ensureWidgetLabel/);
+    expect(src).toMatch(/\\bwidget\$/);
   });
 });

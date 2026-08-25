@@ -58,7 +58,7 @@ async function readSse(res, callbacks, signal) {
   return complete;
 }
 
-async function generateOnce(prompt, themeConfig, signal) {
+async function generateOnce(prompt, themeConfig, signal, options = {}) {
   const aiBase = getAiBase();
   if (!aiBase) {
     throw new Error('AI service is not configured.');
@@ -66,7 +66,12 @@ async function generateOnce(prompt, themeConfig, signal) {
   const res = await fetch(`${aiBase}/page/generate`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({prompt, themeConfig}),
+    body: JSON.stringify({
+      prompt,
+      themeConfig,
+      followUp: options.followUp,
+      previous: options.previous,
+    }),
     signal,
   });
   const data = await res.json().catch(() => ({}));
@@ -79,7 +84,7 @@ async function generateOnce(prompt, themeConfig, signal) {
   return data;
 }
 
-export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, signal) {
+export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, signal, options = {}) {
   const aiBase = getAiBase();
   if (!aiBase) {
     throw new Error('AI service is not configured.');
@@ -88,13 +93,18 @@ export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, 
   const res = await fetch(`${aiBase}/page/generate/stream`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({prompt, themeConfig}),
+    body: JSON.stringify({
+      prompt,
+      themeConfig,
+      followUp: options.followUp,
+      previous: options.previous,
+    }),
     signal,
   });
 
   if (res.status === 404 || res.status === 405) {
-    callbacks.onStatus?.('Generating…');
-    const data = await generateOnce(prompt, themeConfig, signal);
+    callbacks.onStatus?.(options.followUp ? 'Improving…' : 'Generating…');
+    const data = await generateOnce(prompt, themeConfig, signal, options);
     callbacks.onPage?.(data.page);
     data.sections.forEach((section) => callbacks.onSection?.(section));
     callbacks.onComplete?.(data);

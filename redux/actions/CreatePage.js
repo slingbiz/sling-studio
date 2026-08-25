@@ -4,13 +4,14 @@ import {
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 import {AI_SERVICE_URL, SAVE_ROUTE, SET_CONFIG} from '../../shared/constants/Services';
-import {saveGeneratedWidget} from './Widgets';
+import {publishWidgetAction, saveGeneratedWidget} from './Widgets';
 import {fetchLayoutConfig} from './Dashboard';
 import {getRoutesList} from './Route';
 import {
   buildLayoutRoot,
   uniquePageKey,
   uniqueWidgetKey,
+  ensureWidgetLabel,
 } from '../../modules/createPage/sectionContract';
 
 export const generatePageFromPrompt = (prompt, themeConfig) => {
@@ -26,7 +27,7 @@ export const generatePageFromPrompt = (prompt, themeConfig) => {
       if (!aiRes.ok) {
         throw new Error(data.error || 'Could not generate this page. Try a clearer prompt.');
       }
-      if (!data.page || !Array.isArray(data.sections) || data.sections.length < 2) {
+      if (!data.page || !Array.isArray(data.sections) || data.sections.length < 5) {
         throw new Error('That page did not split into sections. Try again.');
       }
       return data;
@@ -50,7 +51,7 @@ export const processGeneratedPage = ({page, sections, prompt}) => {
             {
               code: section.code,
               dependencies: section.dependencies,
-              name: section.name || section.label || key,
+              name: ensureWidgetLabel(section.name || section.label || key),
               description: section.description || section.label || '',
               key,
               icon: section.icon || 'widgets',
@@ -101,15 +102,49 @@ export const processGeneratedPage = ({page, sections, prompt}) => {
       dispatch(getRoutesList({page: 0, size: 100, quiet: true}));
       dispatch({
         type: SHOW_MESSAGE,
-        payload: 'Saved as drafts. Edit them in Widgets and Page templates. Nothing is live yet.',
+        payload: 'Saved as drafts. Publish when you want this page live.',
       });
       return {
+        id: pageKey,
         pageKey,
         path,
-        widgetCount: savedWidgets.length,
+        title: page?.title || pageKey,
+        prompt,
+        widgets: savedWidgets,
+        published: false,
       };
     } catch (error) {
       const msg = error.message || 'Process failed.';
+      dispatch({type: FETCH_ERROR, payload: msg});
+      return null;
+    }
+  };
+};
+
+export const publishGeneratedPage = ({widgets}) => {
+  return async (dispatch) => {
+    try {
+      const list = Array.isArray(widgets) ? widgets : [];
+      if (!list.length) {
+        throw new Error('There are no widgets to publish.');
+      }
+      const published = [];
+      for (const widget of list) {
+        const id = widget._id || widget.id;
+        if (!id) continue;
+        const next = await dispatch(publishWidgetAction(id, {quiet: true}));
+        if (!next) {
+          throw new Error(`Could not publish “${widget.name || widget.key}”.`);
+        }
+        published.push(next);
+      }
+      dispatch({
+        type: SHOW_MESSAGE,
+        payload: 'Published. These widgets are live anywhere this template is used.',
+      });
+      return published;
+    } catch (error) {
+      const msg = error.message || 'Publish failed.';
       dispatch({type: FETCH_ERROR, payload: msg});
       return null;
     }

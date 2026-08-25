@@ -1,8 +1,14 @@
 export const createCopy = {
   title: 'Create',
   description:
-    'Describe a page. We split it into widgets. Process saves drafts, a template, and a route — nothing goes live until you publish.',
+    'Describe a page. We break it into widgets you govern, give props, and publish on their own. Each one stays in Sling, with the same restrictions as the rest of the CMS.',
 };
+
+export function ensureWidgetLabel(label) {
+  const raw = String(label || 'Section').trim() || 'Section';
+  if (/\bwidget$/i.test(raw)) return raw;
+  return `${raw} widget`;
+}
 
 export function propsToPayload(props = []) {
   const ret = {};

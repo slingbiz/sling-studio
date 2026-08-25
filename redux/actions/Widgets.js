@@ -264,16 +264,18 @@ export const reviewWidgetAction = (widgetId, action, notes) => {
   };
 };
 
-export const publishWidgetAction = (widgetId) => {
+export const publishWidgetAction = (widgetId, options = {}) => {
   return async (dispatch) => {
-    dispatch({type: FETCH_START});
+    if (!options.quiet) dispatch({type: FETCH_START});
     try {
       const Api = await ApiAuth();
       const res = await Api.post(
         `${SERVICE_URL}v1/widgets/${widgetId}/publish`,
       );
-      dispatch({type: FETCH_SUCCESS});
-      dispatch({type: SHOW_MESSAGE, payload: 'Widget published successfully'});
+      if (!options.quiet) {
+        dispatch({type: FETCH_SUCCESS});
+        dispatch({type: SHOW_MESSAGE, payload: 'Widget published successfully'});
+      }
       return res.data.widget;
     } catch (error) {
       dispatch({
