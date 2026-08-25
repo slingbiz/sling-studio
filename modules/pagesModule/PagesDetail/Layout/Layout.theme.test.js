@@ -63,6 +63,7 @@ describe('Layout editor 2026 ink restyle', () => {
     expect(read('DragMeEdit.js')).toMatch(/visibility:\s*['"]visible['"]/);
     expect(read('LayoutEditView.js')).toMatch(/opacity:\s*1/);
     expect(read('index.js')).toMatch(/Edit Layout/);
+    expect(read('index.js')).toMatch(/router\.query\?\.edit/);
   });
 
   test('General Settings is a white card with ink labels and human breakpoints', () => {

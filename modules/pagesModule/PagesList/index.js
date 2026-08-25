@@ -118,12 +118,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 0,
     position: 'relative',
     '&:hover': {borderColor: '#ffcc80'},
-    '&:hover $deleteIcon, &:hover $actionBtn, &:focus-within $deleteIcon, &:focus-within $actionBtn': {
+    '&:hover $deleteIcon, &:hover $actionBtn, &:hover $configureBtn, &:focus-within $deleteIcon, &:focus-within $actionBtn, &:focus-within $configureBtn': {
       opacity: 1,
       pointerEvents: 'auto',
     },
     '@media (hover: none)': {
-      '& $deleteIcon, & $actionBtn': {
+      '& $deleteIcon, & $actionBtn, & $configureBtn': {
         opacity: 1,
         pointerEvents: 'auto',
       },
@@ -208,6 +208,22 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     fontFamily: 'Open Sans, sans-serif',
     '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
+  },
+  configureBtn: {
+    textTransform: 'none',
+    backgroundColor: '#ff9800',
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    minWidth: 72,
+    minHeight: 40,
+    padding: '8px 18px',
+    borderRadius: 8,
+    boxShadow: 'none',
+    opacity: 0,
+    pointerEvents: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
   },
   deleteIcon: {
     position: 'absolute',
@@ -653,6 +669,16 @@ const PageTemplatesList = () => {
                             setOpen(true);
                           }}>
                           Edit
+                        </Button>
+                        <Button
+                          className={classes.configureBtn}
+                          aria-label='Configure'
+                          onClick={() =>
+                            router.push(
+                              `/pages/${templateKey}/layout?edit=1`,
+                            )
+                          }>
+                          Configure
                         </Button>
                       </Box>
                     </Box>

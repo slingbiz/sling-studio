@@ -55,13 +55,17 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/actionBtn:[\s\S]*padding:\s*['"]8px 18px['"]/);
     expect(src).not.toMatch(/actionBtn:[\s\S]*padding:\s*['"]2px 6px['"]/);
     expect(src).toMatch(/aria-label='Delete'/);
+    expect(src).toMatch(/aria-label='Configure'/);
+    expect(src).toMatch(/>\s*Configure\s*</);
+    expect(src).toMatch(/configureBtn:[\s\S]*minHeight:\s*40/);
+    expect(src).toMatch(/handleTemplateClick\(templateKey\)/);
+    expect(src).toMatch(/\/pages\/\$\{templateKey\}\/layout\?edit=1/);
     expect(src).toMatch(/delete_outline/);
     expect(src).toMatch(/deleteIcon:[\s\S]*top:\s*8/);
     expect(src).toMatch(/&:hover \$deleteIcon/);
     expect(src).toMatch(/&:focus-within \$deleteIcon/);
     expect(src).toMatch(/opacity:\s*0/);
     expect(src).not.toMatch(/sectionBar/);
-    expect(src).not.toMatch(/>\s*Configure\s*</);
     expect(src).not.toMatch(/onMouseOver/);
     expect(src).not.toMatch(/showDelete/);
     expect(src).not.toMatch(/Export/);

@@ -11,7 +11,7 @@ import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Preview from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
-import Router from 'next/router';
+import Router, {useRouter} from 'next/router';
 import {useSelector} from 'react-redux';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -25,6 +25,7 @@ import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 
 const Layout = (props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const {titleKey, pageKey} = props;
   const {routesList} = useSelector(({routeList}) => routeList);
@@ -46,6 +47,12 @@ const Layout = (props) => {
   const [open, setOpen] = useState(false);
   const [previewAnchorEl, setPreviewAnchorEl] = useState(null);
   const [previewUrls, setPreviewUrls] = useState([]);
+
+  useEffect(() => {
+    if (router.query?.edit) {
+      setOpen(true);
+    }
+  }, [router.query?.edit]);
 
   useEffect(() => {
     if (routesList?.length) {
