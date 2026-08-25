@@ -17,7 +17,7 @@ export const SLING_CREAM = '#fff8f0';
 
 const MAX_LIVE = 3;
 
-const LivePreviewContext = createContext({
+export const LivePreviewContext = createContext({
   request: () => false,
   release: () => {},
   generation: 0,

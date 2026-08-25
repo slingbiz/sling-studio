@@ -40,6 +40,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Theme is a main rail item at `/theme`, not a Settings subpage. Settings keeps Company, Keys, Members, Audit. Old `/settings/theme` redirects. Storefront widgets must read MUI `theme.palette`, not hardcoded brand hex.
 - Audit is a log, not an inbox. Names not “Someone”. Action is a label not a CTA.
 - Routes is a Members-style list: search left, Add route right, template picker in the add/edit modal, Preview/Layout/Edit/Delete always visible. No Guide. Old `/routes/guide` and `/routes/routes-list` land on `/routes`.
+- Page templates landing (`/pages`) is tiles of the real storefront (capped live iframes), not a table of fake thumbs. Tile click opens layout. Edit/Delete stay visible. No Configure. Show the route path, not a URL count. No route = assign one. Do not iframe every template at once.
 
 ## Buttons (signed off)
 
@@ -62,7 +63,7 @@ Pages (`/pages`) is the next surface to match the product.
 - Add Template modal: leftover MUI “Add Template Id”. Make it a Members-style modal (cream fields, orange Save on the right, 14px). Copy can stay human: unique id used by routes.
 - Configure layout (`/pages/{id}/layout`): structure is good. Do not flatten it. Recolor widget blocks from default MUI/#0081CB blue to a 2026 ink blue (suggested `#163a5f` blocks, `#e8eef4` nests). Keep orange for Apply/primary. Not Linear purple. Not Material Blue 500.
 - Edit layout left library: show widget **previews**, not generic icons. Do not stack infinite live iframes (that already felt like a hang). Lazy/static thumbnails or capped previews.
-- Make Pages list, modal, layout header, settings panel match Members (search left, primary right, one loader, no hover-only Configure/Delete).
+- Page templates list is tiles with live storefront previews (search left, Add template right, one loader). Do not go back to the fake-thumb table.
 - Edit Layout General Settings: white card on cream, ink 14px, human breakpoint labels (Mobile (sm)). Not cream-on-cream sm/md/lg.
 - Data tab is gone, not later. Do not ship a Coming Soon Data page.
 - Widget Props inspector: labeled Source + Value cards; Add prop writes the widget schema and this placement. Gallery still picks image URLs. Do not ship a fake Add.
@@ -113,3 +114,4 @@ Run every item against the changed screens and any screen that shares that state
 - Default MUI contained primary (blue, ALL CAPS).
 - Data tab Coming Soon with a fake Save. The tab is gone; `/pages/{id}/data` opens Layout.
 - Widget Props inspector was unlabeled accordion fields with a disabled “+ Add New Prop?” that did nothing. Labeled Source + Value; Add prop writes the widget definition and this cell.
+- Page templates list used the same generic png for every row. Tiles must iframe a real storefront route, capped like the widget library. Empty tile copy if there is no route.

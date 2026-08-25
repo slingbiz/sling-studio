@@ -16,7 +16,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import PreviewModal from './Modal';
 import {getRoutesList, getCompanyInfo} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import {generateSlug} from 'random-word-slugs';
+import {buildPreviewUrl} from '../../previewUrl';
 import {
   SLING_CREAM,
   SLING_INK,
@@ -136,19 +136,6 @@ const useStyles = makeStyles(() => ({
     padding: 48,
   },
 }));
-
-const buildPreviewUrl = (route, clientUrl) => {
-  let url = route.sample_string || route.url_string || '';
-  url = url.replace(/\<.*?\>/g, () =>
-    generateSlug(1, {
-      format: 'lower',
-      partsOfSpeech: ['noun'],
-    }),
-  );
-  const base = clientUrl || '';
-  const slash = url.startsWith('/') || base.endsWith('/') ? '' : '/';
-  return `${base}${slash}${url}`;
-};
 
 const Preview = ({pageKey}) => {
   const dispatch = useDispatch();

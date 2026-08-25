@@ -20,7 +20,7 @@ const overlayStyle = {
   textAlign: 'center',
 };
 
-const PreviewIframe = ({urlToPreview}) => {
+const PreviewIframe = ({urlToPreview, chromeScale = 1}) => {
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const [frameSrc, setFrameSrc] = useState('');
@@ -54,14 +54,17 @@ const PreviewIframe = ({urlToPreview}) => {
       }}>
       {loading && (
         <Box aria-label='Loading preview' style={overlayStyle}>
-          <CircularProgress style={{color: SLING_ORANGE}} />
+          <CircularProgress
+            size={Math.round(40 / chromeScale)}
+            style={{color: SLING_ORANGE}}
+          />
         </Box>
       )}
       {failed && !loading && (
         <Box style={overlayStyle}>
           <Typography
             style={{
-              fontSize: 14,
+              fontSize: 14 / chromeScale,
               fontFamily: 'Open Sans, sans-serif',
               color: '#212121',
             }}>

@@ -12,16 +12,16 @@ import {
   Typography,
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../shared/constants/AppEnums';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   deletePageTemplateAction,
   getRoutesList,
   setLayoutConfig,
 } from '../../../redux/actions';
+import {getCompanyInfo} from '../../../redux/actions/AccountAction';
+import {LivePreviewGate, TemplateTilePreview} from './TemplateTilePreview';
+import {buildPreviewUrl} from '../previewUrl';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles(() => ({
@@ -95,8 +95,14 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '6px 10px',
+    minHeight: 0,
+    padding: '2px 6px',
+    lineHeight: 1.3,
+    backgroundColor: 'transparent',
+    boxShadow: 'none !important',
+    border: 0,
     fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
   },
   ghostBtn: {
     textTransform: 'none',
@@ -104,53 +110,48 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '6px 10px',
+    minHeight: 0,
+    padding: '2px 6px',
+    lineHeight: 1.3,
+    backgroundColor: 'transparent',
+    boxShadow: 'none !important',
+    border: 0,
     fontFamily: 'Open Sans, sans-serif',
-  },
-  tableHead: {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(200px, 1.6fr) minmax(180px, 1.5fr) 90px auto',
-    gap: 12,
-    padding: '12px 8px 10px',
-    color: '#6b6f76',
-    fontSize: 14,
-    fontWeight: 500,
+    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
   },
   sectionBar: {
     display: 'flex',
     alignItems: 'center',
     padding: '8px 10px',
-    margin: '0 -8px 0',
+    margin: '0 0 16px',
     background: '#f6f7f9',
     color: '#6b6f76',
     fontSize: 14,
     fontWeight: 600,
     borderRadius: 4,
   },
-  row: {
+  grid: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(200px, 1.6fr) minmax(180px, 1.5fr) 90px auto',
-    gap: 12,
-    alignItems: 'center',
-    padding: '12px 8px',
-    minHeight: 60,
-    cursor: 'pointer',
-    '&:hover': {background: '#fff8f0'},
+    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gap: 20,
   },
-  nameCell: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    minWidth: 0,
-  },
-  thumb: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    objectFit: 'cover',
-    background: '#fff8f0',
-    flexShrink: 0,
+  card: {
     border: '1px solid #eee',
+    borderRadius: 12,
+    overflow: 'hidden',
+    background: '#fff',
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 0,
+    '&:hover': {borderColor: '#ffcc80'},
+  },
+  cardBody: {
+    padding: '14px 16px 12px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+    minWidth: 0,
   },
   name: {
     fontSize: 16,
@@ -158,27 +159,31 @@ const useStyles = makeStyles(() => ({
     color: '#212121',
     lineHeight: 1.35,
   },
-  handle: {
+  path: {
     fontSize: 14,
     color: '#6b6f76',
     lineHeight: 1.35,
   },
-  cell: {
+  desc: {
     fontSize: 14,
-    color: '#212121',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    color: '#6b6f76',
+    lineHeight: 1.4,
+    marginTop: 2,
   },
   mutedCell: {
     fontSize: 14,
     color: '#6b6f76',
   },
-  actions: {
+  emptyGrid: {
+    gridColumn: '1 / -1',
+    padding: '24px 8px',
+  },
+  cardActions: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
     gap: 4,
+    padding: '0 10px 10px',
   },
   loader: {
     display: 'flex',
@@ -375,6 +380,9 @@ const PageTemplatesList = () => {
   const loading = !layoutData;
   const {layoutConfig = {}} = layoutData || {};
   const {routesList = []} = useSelector(({routeList}) => routeList);
+  const {account} = useSelector(({account}) => account);
+  const {user} = useSelector(({auth}) => auth);
+  const clientUrl = account?.clientUrl;
 
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -382,6 +390,12 @@ const PageTemplatesList = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [templateToDelete, setTemplateToDelete] = useState(null);
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (!account && user?.email) {
+      dispatch(getCompanyInfo(user.email));
+    }
+  }, [dispatch, account, user?.email]);
 
   useEffect(() => {
     if (!routesList.length) {
@@ -424,11 +438,16 @@ const PageTemplatesList = () => {
   const allowDelete =
     isAdmin || process.env.NEXT_PUBLIC_DISABLE_DELETE !== 'true';
 
-  const getPreviewUrlsCount = (templateKey) => {
-    if (!routesList?.length) return 0;
-    return routesList.filter((route) => route.page_template === templateKey)
-      .length;
-  };
+  const firstRouteByTemplate = useMemo(() => {
+    const map = {};
+    (routesList || []).forEach((route) => {
+      const key = route.page_template;
+      if (key && !map[key]) {
+        map[key] = route;
+      }
+    });
+    return map;
+  }, [routesList]);
 
   const handleTemplateClick = (templateKey) => {
     router.push(`/pages/${templateKey}/layout`);
@@ -449,11 +468,6 @@ const PageTemplatesList = () => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Page templates
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>
@@ -499,85 +513,85 @@ const PageTemplatesList = () => {
           </Box>
         ) : (
           <>
-            <Box className={classes.tableHead}>
-              <span>Template</span>
-              <span>Description</span>
-              <span>URLs</span>
-              <span />
-            </Box>
             <Box className={classes.sectionBar}>
               Templates {visibleKeys.length}
             </Box>
-            {visibleKeys.length === 0 && (
-              <Box className={classes.row} style={{cursor: 'default'}}>
-                <Typography className={classes.mutedCell}>
-                  {needle
-                    ? 'No templates match this search.'
-                    : 'No page templates yet. Add a template to get started.'}
-                </Typography>
-              </Box>
-            )}
-            {visibleKeys.map((templateKey) => {
-              const {meta} = layoutConfig[templateKey] || {};
-              const {title, description} = meta || {};
-              const urlCount = getPreviewUrlsCount(templateKey);
-              return (
-                <Box
-                  className={classes.row}
-                  key={templateKey}
-                  onClick={() => handleTemplateClick(templateKey)}>
-                  <Box className={classes.nameCell}>
-                    <img
-                      className={classes.thumb}
-                      src={
-                        meta?.preview_image ||
-                        '/images/cards/pagelayout_default.png'
-                      }
-                      alt=''
-                    />
-                    <Box minWidth={0}>
-                      <Typography className={classes.name} noWrap>
-                        {title || templateKey}
-                      </Typography>
-                      <Typography className={classes.handle} noWrap>
-                        {templateKey}
-                      </Typography>
+            <LivePreviewGate>
+              <Box className={classes.grid}>
+                {visibleKeys.length === 0 && (
+                  <Box className={classes.emptyGrid}>
+                    <Typography className={classes.mutedCell}>
+                      {needle
+                        ? 'No templates match this search.'
+                        : 'No page templates yet. Add a template to get started.'}
+                    </Typography>
+                  </Box>
+                )}
+                {visibleKeys.map((templateKey) => {
+                  const {meta} = layoutConfig[templateKey] || {};
+                  const {title, description} = meta || {};
+                  const route = firstRouteByTemplate[templateKey];
+                  const previewUrl = buildPreviewUrl(route, clientUrl);
+                  const pathLabel = route
+                    ? route.url_string || route.sample_string
+                    : 'No route yet';
+                  const emptyHint = route
+                    ? 'Add your store URL in Settings → Company first.'
+                    : 'Assign a route to see this page on the storefront.';
+                  return (
+                    <Box
+                      className={classes.card}
+                      key={templateKey}
+                      onClick={() => handleTemplateClick(templateKey)}>
+                      <TemplateTilePreview
+                        id={templateKey}
+                        previewUrl={previewUrl}
+                        emptyHint={emptyHint}
+                      />
+                      <Box className={classes.cardBody}>
+                        <Typography className={classes.name} noWrap>
+                          {title || templateKey}
+                        </Typography>
+                        <Typography className={classes.path} noWrap>
+                          {pathLabel}
+                        </Typography>
+                        {description ? (
+                          <Typography className={classes.desc} noWrap>
+                            {description}
+                          </Typography>
+                        ) : null}
+                      </Box>
+                      <Box
+                        className={classes.cardActions}
+                        onClick={(e) => e.stopPropagation()}>
+                        <Button
+                          className={classes.actionBtn}
+                          variant='text'
+                          aria-label='Edit'
+                          onClick={() => {
+                            setCurrentTemplate({
+                              templateKey,
+                              title,
+                              description,
+                            });
+                            setEdit(true);
+                            setOpen(true);
+                          }}>
+                          Edit
+                        </Button>
+                        <Button
+                          className={classes.ghostBtn}
+                          variant='text'
+                          aria-label='Delete'
+                          onClick={() => deletePageTemplate(templateKey)}>
+                          Delete
+                        </Button>
+                      </Box>
                     </Box>
-                  </Box>
-                  <Typography className={classes.cell}>
-                    {description || '—'}
-                  </Typography>
-                  <Typography className={classes.mutedCell}>{urlCount}</Typography>
-                  <Box className={classes.actions} onClick={(e) => e.stopPropagation()}>
-                    <Link href={`/pages/${templateKey}/layout`} passHref legacyBehavior>
-                      <Button className={classes.actionBtn} aria-label='Configure'>
-                        Configure
-                      </Button>
-                    </Link>
-                    <Button
-                      className={classes.actionBtn}
-                      aria-label='Edit'
-                      onClick={() => {
-                        setCurrentTemplate({
-                          templateKey,
-                          title,
-                          description,
-                        });
-                        setEdit(true);
-                        setOpen(true);
-                      }}>
-                      Edit
-                    </Button>
-                    <Button
-                      className={classes.ghostBtn}
-                      aria-label='Delete'
-                      onClick={() => deletePageTemplate(templateKey)}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Box>
-              );
-            })}
+                  );
+                })}
+              </Box>
+            </LivePreviewGate>
           </>
         )}
 

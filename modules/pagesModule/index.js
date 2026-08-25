@@ -70,7 +70,7 @@ const Index = (props) => {
   return (
     <AppsContainer
       pagesClasses={classes}
-      title={getTitle()}
+      title={!all ? 'Page templates' : getTitle()}
       sidebarContent={<ApisSideBar basePath={basePath} noSubChild={true} />}>
       {onGetMainComponent()}
     </AppsContainer>
