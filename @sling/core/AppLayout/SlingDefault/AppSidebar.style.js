@@ -1,13 +1,16 @@
 import {makeStyles} from '@material-ui/core';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
 const useStyles = makeStyles((theme) => {
   return {
     miniSidebar: {
       zIndex: 1109,
       width: '19rem',
       height: `calc(100vh - 70px)`,
-      transition: 'all 0.5s ease',
+      overflow: 'hidden',
+      transition: `width 280ms ${EASE}`,
 
       [theme.breakpoints.up('lg')]: {
         width: '5.5rem',
@@ -15,8 +18,12 @@ const useStyles = makeStyles((theme) => {
         left: 0,
 
         '& .nav-item-text, & .nav-item-icon-arrow': {
-          opecity: 0,
+          opacity: 0,
           visibility: 'hidden',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          transition: `opacity 120ms ${EASE}, visibility 120ms ${EASE}`,
         },
 
         '& .nav-item-header, & .user-info, & .collapse-children': {
@@ -31,7 +38,7 @@ const useStyles = makeStyles((theme) => {
       '& .sl-user-info': {
         paddingLeft: '10px !important',
         paddingRight: '10px !important',
-        transition: 'all 0.5s ease',
+        transition: `padding 280ms ${EASE}`,
 
         [theme.breakpoints.up('xl')]: {
           paddingLeft: '12px !important',
@@ -40,8 +47,9 @@ const useStyles = makeStyles((theme) => {
       },
 
       '& .nav-item-icon': {
-        transition: 'all 0.5s ease',
+        transition: `margin 280ms ${EASE}`,
         display: 'block',
+        flexShrink: 0,
 
         [theme.breakpoints.up('lg')]: {
           marginRight: '5px !important',
@@ -54,27 +62,39 @@ const useStyles = makeStyles((theme) => {
         },
       },
 
-      '& .nav-item': {
-        // width: 48,
-        paddingLeft: 20,
-        // marginLeft: ,
+      '& .MuiListItemText-root': {
+        minWidth: 0,
+        overflow: 'hidden',
+        flex: '1 1 auto',
+      },
 
-        // borderRadius: '50%',
+      '& .nav-item': {
+        overflow: 'hidden',
+        borderRadius: 8,
+        marginLeft: 8,
+        marginRight: 8,
+        width: 'calc(100% - 16px)',
+        paddingLeft: 12,
+        paddingRight: 12,
+        transition: `background-color 180ms ${EASE}`,
 
         [theme.breakpoints.up('xl')]: {
           height: 64,
-          paddingLeft: 20,
-          marginLeft: 0,
+          paddingLeft: 12,
         },
       },
 
       '&:hover': {
         [theme.breakpoints.up('lg')]: {
-          width: '14.6rem',
+          width: '16rem',
 
           '& .nav-item-text, & .nav-item-icon-arrow': {
-            opecity: 1,
+            opacity: 1,
             visibility: 'visible',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            transition: `opacity 180ms ${EASE} 90ms, visibility 180ms ${EASE} 90ms`,
           },
 
           '& .nav-item-header, & .user-info, & .collapse-children': {
@@ -87,34 +107,34 @@ const useStyles = makeStyles((theme) => {
 
           '& .nav-item': {
             width: 'calc(100% - 16px)',
-            paddingLeft: 17,
-            marginLeft: 0,
-            borderRadius: '0 30px 30px 0',
+            paddingLeft: 12,
+            marginLeft: 8,
+            borderRadius: 8,
           },
           '& .collapse-children .nav-item': {
-            paddingLeft: 67,
+            paddingLeft: 36,
           },
           '& .collapse-children .collapse-children .nav-item': {
-            paddingLeft: 117,
+            paddingLeft: 56,
           },
           '& .collapse-children .collapse-children .collapse-children .nav-item': {
-            paddingLeft: 167,
+            paddingLeft: 76,
           },
         },
 
         [theme.breakpoints.up('xl')]: {
           '& .nav-item': {
-            paddingLeft: 24,
-            marginLeft: 0,
+            paddingLeft: 12,
+            marginLeft: 8,
           },
           '& .collapse-children .nav-item': {
-            paddingLeft: 74,
+            paddingLeft: 36,
           },
           '& .collapse-children .collapse-children .nav-item': {
-            paddingLeft: 124,
+            paddingLeft: 56,
           },
           '& .collapse-children .collapse-children .collapse-children .nav-item': {
-            paddingLeft: 174,
+            paddingLeft: 76,
           },
         },
       },

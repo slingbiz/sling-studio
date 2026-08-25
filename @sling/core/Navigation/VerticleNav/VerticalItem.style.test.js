@@ -10,6 +10,10 @@ describe('VerticalItem main rail Sling theme', () => {
     expect(src).not.toMatch(/#0A8FDC/);
   });
 
+  test('keeps rail labels on one line', () => {
+    expect(src).toMatch(/whiteSpace:\s*['"]nowrap['"]/);
+  });
+
   test('still highlights the active route', () => {
     expect(src).toMatch(/&.active/);
     expect(src).toMatch(/backgroundColor:\s*['"]#ff9800['"]/);

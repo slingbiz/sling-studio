@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => {
       marginTop: 2,
       marginBottom: 2,
       width: 'calc(100% - 16px)',
-      borderRadius: '0 30px 30px 0',
+      borderRadius: 8,
       paddingLeft:
         theme.direction === 'ltr' ? (props) => 24 + 40 * props.level : 24,
       paddingRight:

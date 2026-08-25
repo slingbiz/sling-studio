@@ -36,7 +36,7 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
         })}
         exact={item.exact}>
         {item.icon && (
-          <Box component='span' mr={6}>
+          <Box component='span' mr={2}>
             <Icon
               className={clsx(classes.listIcon, 'nav-item-icon')}
               color='action'>
@@ -47,6 +47,7 @@ const VerticalItem = ({level, router, item, classes: classesProps}) => {
         <ListItemText
           primary={<IntlMessages id={item.messageId} />}
           classes={{
+            root: classes.listItemText,
             primary: 'nav-item-text',
           }}
         />

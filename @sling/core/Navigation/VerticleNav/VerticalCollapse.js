@@ -92,7 +92,7 @@ const VerticalCollapse = ({item, level, router, pages}) => {
         className={clsx(classes.navItem, 'nav-item', open && 'open')}
         onClick={handleClick}>
         {item.icon && (
-          <Box component='span' mr={6}>
+          <Box component='span' mr={2}>
             <Icon
               color='action'
               className={clsx('nav-item-icon', classes.listIcon)}>

@@ -9,19 +9,20 @@ const useStyles = makeStyles((theme) => {
       marginBottom: 2,
       cursor: 'pointer',
       textDecoration: 'none !important',
-      width: 'calc(100% - 0px)',
-      borderRadius: '0 30px 30px 0',
+      width: 'calc(100% - 16px)',
+      borderRadius: 8,
+      overflow: 'hidden',
       paddingLeft:
-        theme.direction === 'ltr' ? (props) => 24 + 40 * props.level : 12,
+        theme.direction === 'ltr' ? (props) => 12 + 20 * props.level : 12,
       paddingRight:
-        theme.direction === 'rtl' ? (props) => 24 + 40 * props.level : 12,
+        theme.direction === 'rtl' ? (props) => 12 + 20 * props.level : 12,
+      transition: 'background-color 180ms cubic-bezier(0.22, 1, 0.36, 1)',
       '&.nav-item-header': {
         textTransform: 'uppercase',
       },
       '&.active': {
         backgroundColor: '#ff9800',
         pointerEvents: 'none',
-        transition: 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1)',
         '& .nav-item-text': {
           color: theme.palette.common.white + '!important',
           fontWeight: Fonts.MEDIUM,
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => {
       },
 
       '&:hover, &:focus': {
+        backgroundColor: 'rgba(255, 152, 0, 0.1)',
         '& .nav-item-text': {
           color: (props) =>
             props.themeMode === ThemeMode.LIGHT
@@ -53,6 +55,9 @@ const useStyles = makeStyles((theme) => {
               : '#fff',
         },
       },
+      '&.active:hover, &.active:focus': {
+        backgroundColor: '#ff9800',
+      },
       '& .nav-item-icon': {
         color: theme.palette.sidebar.textColor,
       },
@@ -61,6 +66,9 @@ const useStyles = makeStyles((theme) => {
         fontWeight: Fonts.MEDIUM,
         fontSize: 16,
         fontFamily: 'Open Sans, system-ui, sans-serif',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
       },
     },
     listIcon: {
