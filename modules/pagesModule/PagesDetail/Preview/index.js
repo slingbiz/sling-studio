@@ -156,7 +156,7 @@ const Preview = ({pageKey}) => {
 
   useEffect(() => {
     let cancelled = false;
-    dispatch(getRoutesList({size: 100})).finally(() => {
+    dispatch(getRoutesList({size: 100, quiet: true})).finally(() => {
       if (!cancelled) setRoutesReady(true);
     });
     return () => {

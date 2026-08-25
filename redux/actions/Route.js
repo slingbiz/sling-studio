@@ -33,7 +33,7 @@ export const addRoute = (route) => {
           type: SHOW_MESSAGE,
           payload: 'New Route Added.',
         });
-        dispatch(getRoutesList({page: 0, size: 100}));
+        dispatch(getRoutesList({page: 0, size: 100, quiet: true}));
       } else {
         dispatch({
           type: FETCH_ERROR,
@@ -49,7 +49,10 @@ export const addRoute = (route) => {
 // Get Routes List
 export const getRoutesList = (filters) => {
   return async (dispatch) => {
-    dispatch({type: FETCH_START});
+    const {quiet, ...apiFilters} = filters || {};
+    if (!quiet) {
+      dispatch({type: FETCH_START});
+    }
     const Api = await ApiAuth();
     if (!Api) {
       dispatch({
@@ -59,9 +62,11 @@ export const getRoutesList = (filters) => {
       return;
     }
     try {
-      const data = await Api.post(`${GET_ROUTES_LIST_API}`, filters);
+      const data = await Api.post(`${GET_ROUTES_LIST_API}`, apiFilters);
       if (data.status === 200) {
-        dispatch({type: FETCH_SUCCESS});
+        if (!quiet) {
+          dispatch({type: FETCH_SUCCESS});
+        }
         dispatch({type: GET_ROUTES_LIST, payload: data.data.routesList});
       } else {
         console.log('[getRoutesList] Error');
@@ -98,7 +103,7 @@ export const updateRoute = (route) => {
           type: SHOW_MESSAGE,
           payload: 'Route Updated Successfully.',
         });
-        dispatch(getRoutesList({page: 0, size: 100}));
+        dispatch(getRoutesList({page: 0, size: 100, quiet: true}));
       } else {
         dispatch({
           type: FETCH_ERROR,
@@ -132,7 +137,7 @@ export const deleteRoute = (routeId) => {
           type: SHOW_MESSAGE,
           payload: 'Route Deleted Successfully.',
         });
-        dispatch(getRoutesList({page: 0, size: 100}));
+        dispatch(getRoutesList({page: 0, size: 100, quiet: true}));
       } else {
         dispatch({
           type: FETCH_ERROR,

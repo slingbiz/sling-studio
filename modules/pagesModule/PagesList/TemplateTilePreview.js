@@ -7,7 +7,9 @@ import {
 } from '../PagesDetail/Layout/WidgetLibraryPreview';
 import PreviewIframe from '../PagesDetail/Preview/Modal/PreviewIframe';
 
+export const DEFAULT_TEMPLATE_THUMB = '/images/cards/pagelayout_default.png';
 const SCALE = 0.25;
+const TILE_HEIGHT = 240;
 
 export {LivePreviewGate};
 
@@ -57,32 +59,55 @@ export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
     <Box
       ref={wrapRef}
       style={{
-        height: 180,
+        height: TILE_HEIGHT,
         overflow: 'hidden',
         background: '#fff8f0',
         borderBottom: '1px solid #eee',
         pointerEvents: 'none',
         position: 'relative',
       }}>
+      <img
+        src={DEFAULT_TEMPLATE_THUMB}
+        alt=''
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+      />
       {live && previewUrl ? (
         <Box
           style={{
+            position: 'relative',
+            zIndex: 1,
             width: `${100 / SCALE}%`,
             height: `${100 / SCALE}%`,
             transform: `scale(${SCALE})`,
             transformOrigin: 'top left',
           }}>
-          <PreviewIframe urlToPreview={previewUrl} chromeScale={SCALE} />
+          <PreviewIframe
+            urlToPreview={previewUrl}
+            chromeScale={SCALE}
+            silent
+          />
         </Box>
-      ) : (
+      ) : null}
+      {!previewUrl ? (
         <Box
           style={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 16,
-            textAlign: 'center',
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            left: 0,
+            zIndex: 2,
+            background: 'rgba(255,248,240,0.94)',
+            padding: '8px 12px',
           }}>
           <Typography
             style={{
@@ -91,13 +116,11 @@ export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
               fontFamily: 'Open Sans, sans-serif',
               lineHeight: 1.45,
             }}>
-            {previewUrl
-              ? 'Loading preview…'
-              : emptyHint ||
-                'Assign a route to see this page on the storefront.'}
+            {emptyHint ||
+              'Assign a route to see this page on the storefront.'}
           </Typography>
         </Box>
-      )}
+      ) : null}
     </Box>
   );
 };

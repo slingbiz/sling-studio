@@ -68,16 +68,19 @@ describe('Pages list + Add template modal', () => {
     expect(src).not.toMatch(/Loading templates/);
   });
 
-  test('tiles show a real storefront preview, not the generic default png', () => {
+  test('tiles show a real storefront preview, with the default image until it loads', () => {
     expect(src).toMatch(/LivePreviewGate/);
     expect(src).toMatch(/TemplateTilePreview/);
     expect(src).toMatch(/buildPreviewUrl\(route, clientUrl\)/);
     expect(src).toMatch(/Assign a route to see this page on the storefront/);
-    expect(src).not.toMatch(/pagelayout_default/);
+    expect(src).toMatch(/getRoutesList\(\{size: 100, quiet: true\}\)/);
+    expect(src).toMatch(/repeat\(3, minmax\(0, 1fr\)\)/);
+    expect(src).not.toMatch(/auto-fill/);
     expect(src).not.toMatch(/preview_image/);
     expect(src).not.toMatch(/getPreviewUrlsCount/);
     expect(tileSrc).toMatch(/PreviewIframe/);
-    expect(tileSrc).toMatch(/MAX_LIVE|LivePreviewGate/);
+    expect(tileSrc).toMatch(/pagelayout_default/);
+    expect(tileSrc).toMatch(/silent/);
     expect(tileSrc).toMatch(/IntersectionObserver/);
     expect(previewUrlSrc).toMatch(/sample_string \|\| route\.url_string/);
     expect(previewUrlSrc).toMatch(/if \(!route \|\| !clientUrl\)/);

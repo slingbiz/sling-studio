@@ -9,4 +9,9 @@ describe('InfoView session toasts', () => {
     expect(src).toMatch(/invalidSession/i);
     expect(src).toMatch(/401/);
   });
+
+  test('does not paint a second overlay spinner on FETCH_START', () => {
+    expect(src).not.toMatch(/loading && <Loader/);
+    expect(src).not.toMatch(/<Loader\s*\/>/);
+  });
 });

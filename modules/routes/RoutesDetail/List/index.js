@@ -453,7 +453,7 @@ const RoutesList = () => {
 
   useEffect(() => {
     let cancelled = false;
-    Promise.resolve(dispatch(getRoutesList({page: 0, size: 100}))).finally(() => {
+    Promise.resolve(dispatch(getRoutesList({page: 0, size: 100, quiet: true}))).finally(() => {
       if (!cancelled) {
         setLoaded(true);
       }

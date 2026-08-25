@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Loader, MessageView} from '../../../@sling';
-import {useDispatch, useSelector} from 'react-redux';
+import {MessageView} from '../../../@sling';
+import {useSelector} from 'react-redux';
 
 const isSessionAuthToast = (error) => {
   if (error == null || error === '') {
@@ -17,7 +17,7 @@ const isSessionAuthToast = (error) => {
 };
 
 const InfoView = () => {
-  const {error, loading, message, warning, _v} = useSelector(
+  const {error, message, warning, _v} = useSelector(
     ({common}) => common,
   );
   const [open, setOpen] = React.useState(true);
@@ -63,7 +63,6 @@ const InfoView = () => {
 
   return (
     <>
-      {loading && <Loader />}
       {message && showMessage()}
       {warning && showWarning()}
       {error && !isSessionAuthToast(error) && showError()}

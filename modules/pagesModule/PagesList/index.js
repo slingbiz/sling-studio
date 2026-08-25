@@ -24,7 +24,7 @@ import {buildPreviewUrl} from '../previewUrl';
 import {FETCH_ERROR} from '../../../shared/constants/ActionTypes';
 import {useRouter} from 'next/router';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   page: {
     padding: '12px 28px 32px',
     background: '#fff',
@@ -132,8 +132,14 @@ const useStyles = makeStyles(() => ({
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
     gap: 20,
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    },
+    [theme.breakpoints.up('lg')]: {
+      gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+    },
   },
   card: {
     border: '1px solid #eee',
@@ -399,7 +405,7 @@ const PageTemplatesList = () => {
 
   useEffect(() => {
     if (!routesList.length) {
-      dispatch(getRoutesList({size: 100}));
+      dispatch(getRoutesList({size: 100, quiet: true}));
     }
   }, [dispatch, routesList.length]);
 

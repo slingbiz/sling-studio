@@ -96,8 +96,6 @@ export const onCompanyKeyCodeSetupForm = (id, formData) => {
 
 export const getCompanyInfo = (email) => {
   return (dispatch) => {
-    dispatch({type: FETCH_START});
-
     return GetCompanyInfo(email)
       .then((res) => {
         console.log('getCompanyInfo', res);
@@ -109,7 +107,6 @@ export const getCompanyInfo = (email) => {
             payload: <IntlMessages id='message.invalidSession' />,
           });
         }
-        dispatch({type: FETCH_SUCCESS});
         return res;
       })
       .catch((error) => {

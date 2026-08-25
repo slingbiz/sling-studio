@@ -40,7 +40,7 @@ const Layout = (props) => {
 
   useEffect(() => {
     if (!routesList.length) {
-      dispatch(getRoutesList({size: 100}));
+      dispatch(getRoutesList({size: 100, quiet: true}));
     }
   }, [dispatch, routesList.length]);
 
