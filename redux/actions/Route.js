@@ -33,7 +33,7 @@ export const addRoute = (route) => {
           type: SHOW_MESSAGE,
           payload: 'New Route Added.',
         });
-        dispatch(getRoutesList());
+        dispatch(getRoutesList({page: 0, size: 100}));
       } else {
         dispatch({
           type: FETCH_ERROR,
@@ -98,7 +98,7 @@ export const updateRoute = (route) => {
           type: SHOW_MESSAGE,
           payload: 'Route Updated Successfully.',
         });
-        dispatch(getRoutesList());
+        dispatch(getRoutesList({page: 0, size: 100}));
       } else {
         dispatch({
           type: FETCH_ERROR,
@@ -132,7 +132,7 @@ export const deleteRoute = (routeId) => {
           type: SHOW_MESSAGE,
           payload: 'Route Deleted Successfully.',
         });
-        dispatch(getRoutesList());
+        dispatch(getRoutesList({page: 0, size: 100}));
       } else {
         dispatch({
           type: FETCH_ERROR,

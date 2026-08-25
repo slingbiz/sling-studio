@@ -39,6 +39,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Widget Props inspector: labeled Source + Value; Add prop writes schema + this instance, not a fake button.
 - Theme is a main rail item at `/theme`, not a Settings subpage. Settings keeps Company, Keys, Members, Audit. Old `/settings/theme` redirects. Storefront widgets must read MUI `theme.palette`, not hardcoded brand hex.
 - Audit is a log, not an inbox. Names not “Someone”. Action is a label not a CTA.
+- Routes is a Members-style list: search left, Add route right, template picker in the add/edit modal, Preview/Layout/Edit/Delete always visible. No Guide. Old `/routes/guide` and `/routes/routes-list` land on `/routes`.
 
 ## Buttons (signed off)
 

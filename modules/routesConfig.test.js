@@ -42,5 +42,6 @@ describe('main left rail routesConfig', () => {
     );
     expect(skill).toMatch(/Headless APIs rail is gone/);
     expect(skill).toMatch(/Theme is a main rail/);
+    expect(skill).toMatch(/Routes is a Members-style list/);
   });
 });
