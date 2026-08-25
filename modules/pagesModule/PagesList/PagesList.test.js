@@ -21,8 +21,8 @@ describe('Pages list + Add template modal', () => {
     expect(src).not.toMatch(/Add Template Id/);
     expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
     expect(src).toMatch(/justifyContent:\s*['"]space-between['"]/);
-    expect(pagesIndexSrc).toMatch(/title=\{!all \? 'Page templates' : getTitle\(\)\}/);
-    expect(src).toMatch(/A template is the layout/);
+    expect(pagesIndexSrc).toMatch(/title=\{!all \? pagesLanding\.title : getTitle\(\)\}/);
+    expect(pagesIndexSrc).toMatch(/description=\{intro\.description\}/);
     expect(src).not.toMatch(/AppsHeader/);
   });
 

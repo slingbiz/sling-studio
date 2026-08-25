@@ -21,7 +21,6 @@ import {generateSlug} from 'random-word-slugs';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import LinkIcon from '@material-ui/icons/Link';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 
 const Layout = (props) => {
@@ -156,18 +155,6 @@ const Layout = (props) => {
       right: theme.spacing(4),
       zIndex: theme.zIndex.speedDial,
     },
-    helperText: {
-      color: theme.palette.text.secondary,
-      fontSize: 14,
-      fontFamily: 'Open Sans, sans-serif',
-      marginTop: theme.spacing(0.5),
-    },
-    pageTitle: {
-      display: 'flex',
-      flexDirection: 'column',
-      fontSize: 14,
-      fontFamily: 'Open Sans, sans-serif',
-    },
     extendedIcon: {
       marginRight: theme.spacing(1),
     },
@@ -254,19 +241,7 @@ const Layout = (props) => {
   return (
     <>
       <AppsHeader>
-        <Box display="flex" alignItems="center" width="100%">
-          <Box flex={1}>
-            <Box
-              fontSize={14}
-              fontWeight={Fonts.MEDIUM}
-              fontFamily='Open Sans, sans-serif'
-              className={classes.pageTitle}>
-              Page Layout
-            </Box>
-            <Typography className={classes.helperText}>
-              Drag widgets onto the page, then Apply Changes.
-            </Typography>
-          </Box>
+        <Box display="flex" alignItems="center" width="100%" style={{justifyContent: 'flex-end'}}>
           <Box display="flex" alignItems="center">
             <Tooltip title="Back" placement="bottom">
               <IconButton onClick={() => Router.back()} aria-label='Back'>

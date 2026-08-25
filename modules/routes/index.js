@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useRouter, withRouter} from 'next/router';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import RoutesList from './RoutesDetail/List';
+import {routesCopy} from '../../@sling/core/AppsContainer/pageIntro';
 
 const Index = (props) => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const Index = (props) => {
   }, [all, router]);
 
   return (
-    <AppsContainer title='Routes' fullView>
+    <AppsContainer title={routesCopy.title} description={routesCopy.description} fullView>
       <RoutesList />
     </AppsContainer>
   );

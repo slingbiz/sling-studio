@@ -32,7 +32,7 @@ describe('Settings → Keys & Usage', () => {
 
   test('uses Sling type scale, not Linear 12px', () => {
     expect(src).toMatch(/name:[\s\S]*fontSize:\s*16/);
-    expect(src).toMatch(/hint:[\s\S]*fontSize:\s*14/);
+    expect(src).toMatch(/handle:[\s\S]*fontSize:\s*14/);
     expect(src).toMatch(/field:[\s\S]*fontSize:\s*14/);
     expect(src).not.toMatch(/fontSize:\s*12/);
     expect(src).not.toMatch(/fontSize:\s*13/);

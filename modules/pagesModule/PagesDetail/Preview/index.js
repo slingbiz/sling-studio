@@ -11,8 +11,6 @@ import {
 } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import {makeStyles} from '@material-ui/core/styles';
-import AppHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import PreviewModal from './Modal';
 import {getRoutesList, getCompanyInfo} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
@@ -185,7 +183,6 @@ const Preview = ({pageKey}) => {
 
   return (
     <>
-      <AppHeader>Preview</AppHeader>
       <Box className={classes.page}>
         {loading ? (
           <Box className={classes.loader}>

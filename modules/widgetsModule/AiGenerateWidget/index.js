@@ -472,10 +472,6 @@ const AiGenerateWidget = () => {
   return (
     <Box className={classes.root}>
       <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3' style={{display: 'flex', alignItems: 'center', gap: 8}}>
-          <Icon className={classes.headerIcon}>auto_awesome</Icon>
-          AI Widget Generator
-        </Box>
         <Button className={classes.ghostBtn} variant='outlined' onClick={() => router.push('/widgets/widgets-integration')}>
           Back to Widgets
         </Button>

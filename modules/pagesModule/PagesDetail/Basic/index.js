@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, CircularProgress, TextField, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLayoutConfig} from '../../../../redux/actions';
 import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
@@ -164,11 +162,6 @@ const Basic = ({pageKey}) => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Page details
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         {loading ? (
           <Box className={classes.loader}>

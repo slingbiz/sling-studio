@@ -265,14 +265,7 @@ const WidgetReviewQueue = () => {
   return (
     <Box className={classes.root}>
       <AppsHeader>
-        <Box
-          fontWeight={Fonts.BOLD}
-          component='h3'
-          style={{display: 'flex', alignItems: 'center', gap: 8}}>
-          <Icon>rate_review</Icon>
-          Review Queue
-        </Box>
-        <IconButton onClick={fetchWidgets}>
+        <IconButton onClick={fetchWidgets} aria-label='Refresh'>
           <Icon>refresh</Icon>
         </IconButton>
       </AppsHeader>

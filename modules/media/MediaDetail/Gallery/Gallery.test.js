@@ -33,6 +33,7 @@ describe('Studio Media Gallery', () => {
 
   test('/media opens Gallery and leftover routes redirect', () => {
     expect(mediaSrc).toMatch(/all\?\.\[0\] \|\| 'gallery'/);
+    expect(mediaSrc).toMatch(/description=\{intro\.description\}/);
     expect(mediaSrc).not.toMatch(/MediaList/);
     expect(mediaSrc).not.toMatch(/'guide'/);
     expect(detailSrc).toMatch(/constants:\s*'gallery'/);

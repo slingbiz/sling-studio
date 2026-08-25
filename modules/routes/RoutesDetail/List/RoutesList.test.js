@@ -29,7 +29,8 @@ describe('Routes list', () => {
     expect(src).toMatch(/aria-label='Delete'/);
     expect(src).toMatch(/boxShadow:\s*'none !important'/);
     expect(src).toMatch(/variant='text'/);
-    expect(src).not.toMatch(/AppsHeader/);
+    expect(moduleSrc).not.toMatch(/AppsHeader/);
+    expect(moduleSrc).toMatch(/description=\{routesCopy\.description\}/);
   });
 
   test('add and edit pick a page template in one Members-style modal', () => {

@@ -1,12 +1,11 @@
 import React from 'react';
 import ApisSideBar from './MediaSideBar/index';
 import MediaDetail from './MediaDetail';
-import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
-import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import {withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {mediaCopy} from '../../@sling/core/AppsContainer/pageIntro';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -27,21 +26,16 @@ const Index = (props) => {
   const query = props.router.query || {};
   const {all} = query;
   const pageKey = all?.[0] || 'gallery';
-
-  const {messages} = useIntl();
-  const getTitle = () => {
-    const titleKey = all?.join('.') || 'gallery';
-    return messages[titleKey] || all?.map((v) => capitalize(v)).join(' / ') || 'Media Gallery';
-  };
-
+  const intro = mediaCopy[pageKey] || mediaCopy.gallery;
   const basePath = all ? `` : `media/`;
 
   return (
     <AppsContainer
       pagesClasses={classes}
-      title={getTitle()}
+      title={intro.title}
+      description={intro.description}
       sidebarContent={<ApisSideBar basePath={basePath} noSubChild={true} />}>
-      <MediaDetail titleKey={getTitle()} pageKey={pageKey} />
+      <MediaDetail titleKey={intro.title} pageKey={pageKey} />
     </AppsContainer>
   );
 };

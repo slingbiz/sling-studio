@@ -15,8 +15,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import ApiAuth from '../../../../@sling/services/ApiAuthConfig';
 import {SERVICE_URL} from '../../../../shared/constants/Services';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
@@ -463,11 +461,6 @@ const Members = () => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Members
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>

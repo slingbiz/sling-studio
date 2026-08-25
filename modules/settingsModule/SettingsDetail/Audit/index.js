@@ -12,9 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import AppsPagination from '../../../../@sling/core/AppsPagination';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import ApiAuth from '../../../../@sling/services/ApiAuthConfig';
 import {SERVICE_URL} from '../../../../shared/constants/Services';
 import {SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
@@ -297,11 +295,6 @@ const Audit = () => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Audit
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>

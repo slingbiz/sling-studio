@@ -12,8 +12,6 @@ import {
   Icon,
   IconButton,
 } from '@material-ui/core';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import {getMedia, deleteImage} from '../../../../redux/actions';
 import {SidebarDrawer} from './SidebarDrawer';
 import AddImage from './AddImage';
@@ -309,11 +307,6 @@ const Gallery = () => {
         pageKey='Add New Image'
         titleKey='add-new-image'
       />
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Media Gallery
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>

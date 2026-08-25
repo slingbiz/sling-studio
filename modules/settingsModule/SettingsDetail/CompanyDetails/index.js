@@ -4,8 +4,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
 import MuiPhoneNumber from 'material-ui-phone-number';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import IntlMessages from '../../../../@sling/utility/IntlMessages';
 import {countries} from '../../../../shared/constants/CountryList';
 import {useDispatch, useSelector} from 'react-redux';
@@ -229,11 +227,6 @@ const CompanyDetails = () => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Company Details
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.section}>
           <Formik

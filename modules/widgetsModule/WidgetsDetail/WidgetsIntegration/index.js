@@ -301,12 +301,6 @@ const WidgetsIntegration = (props) => {
   return (
     <>
       <AppsHeader>
-        <Box
-          fontWeight={Fonts.BOLD}
-          component='h3'
-          style={{textTransform: 'capitalize'}}>
-          Widgets
-        </Box>
         <Box style={{display: 'flex', alignItems: 'center'}}>
           <Box className={classes.statusFilters}>
             {STATUS_FILTERS.map((option) => (

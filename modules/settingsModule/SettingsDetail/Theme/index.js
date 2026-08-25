@@ -455,10 +455,7 @@ const ThemeSettings = (props) => {
   return (
     <>
       <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3' style={{textTransform: 'capitalize'}}>
-          {titleKey}
-        </Box>
-        <Box style={{display: 'flex', gap: 8}}>
+        <Box style={{display: 'flex', gap: 8, marginLeft: 'auto'}}>
           <Button
             className={classes.ghostBtn}
             variant='outlined'

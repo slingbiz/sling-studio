@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import {withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {widgetIntro} from '../../@sling/core/AppsContainer/pageIntro';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -42,12 +43,15 @@ const Index = (props) => {
   };
 
   const {messages} = useIntl();
+  const pageKey = all?.[0] || 'widgets-integration';
+  const intro = widgetIntro(pageKey);
   const basePath = all ? `` : `widgets/`;
 
   return (
     <AppsContainer
       pagesClasses={classes}
-      title={getTitle()}
+      title={intro.title}
+      description={intro.description}
       sidebarContent={<WidgetsSideBar basePath={basePath} noSubChild={true} />}>
       {onGetMainComponent()}
     </AppsContainer>

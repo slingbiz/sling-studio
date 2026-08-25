@@ -6,10 +6,11 @@ import {capitalize} from '@material-ui/core/utils';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AppsContainer from '../../@sling/core/AppsContainer';
-import {useRouter, withRouter} from 'next/router';
+import {withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchLayoutConfig} from '../../redux/actions';
+import {pagesIntro, pagesLanding} from '../../@sling/core/AppsContainer/pageIntro';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -67,10 +68,13 @@ const Index = (props) => {
   //   }
   // }, [account]);
 
+  const intro = pagesIntro(all);
+
   return (
     <AppsContainer
       pagesClasses={classes}
-      title={!all ? 'Page templates' : getTitle()}
+      title={!all ? pagesLanding.title : getTitle()}
+      description={intro.description}
       sidebarContent={<ApisSideBar basePath={basePath} noSubChild={true} />}>
       {onGetMainComponent()}
     </AppsContainer>

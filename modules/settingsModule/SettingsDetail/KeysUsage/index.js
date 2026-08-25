@@ -1,8 +1,6 @@
 import React from 'react';
 import {Box, Typography, TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {Fonts} from '../../../../shared/constants/AppEnums';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {useSelector} from 'react-redux';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
 import CopyButton from './CopyButton';
@@ -12,21 +10,6 @@ const useStyles = makeStyles(() => ({
     padding: '12px 28px 32px',
     background: '#fff',
     fontFamily: 'Open Sans, system-ui, sans-serif',
-  },
-  intro: {
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 600,
-    color: SLING_INK,
-    lineHeight: 1.35,
-  },
-  hint: {
-    fontSize: 14,
-    color: '#6b6f76',
-    marginTop: 4,
-    marginBottom: 16,
   },
   tableHead: {
     display: 'grid',
@@ -99,28 +82,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const KeyUsage = (props) => {
-  const classes = useStyles(props);
-  const {titleKey} = props;
+const KeyUsage = () => {
+  const classes = useStyles();
   const {account} = useSelector(({account}) => account);
   const apiKey = account?.apiKey || '';
   const clientId = account?.user || '';
 
   return (
-    <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          {titleKey}
-        </Box>
-      </AppsHeader>
-      <Box className={classes.page}>
-        <Box className={classes.intro}>
-          <Typography className={classes.title}>API Authentication</Typography>
-          <Typography className={classes.hint}>
-            Find your API key and client id, then copy them into your frontend.
-          </Typography>
-        </Box>
-
+    <Box className={classes.page}>
         <Box className={classes.tableHead}>
           <span>Key</span>
           <span>Value</span>
@@ -178,8 +147,7 @@ const KeyUsage = (props) => {
             Sling Key Usage and Frontend Setup.
           </Typography>
         </Box>
-      </Box>
-    </>
+    </Box>
   );
 };
 

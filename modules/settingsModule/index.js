@@ -9,6 +9,7 @@ import {useRouter, withRouter} from 'next/router';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCompanyInfo} from '../../redux/actions/AccountAction';
+import {settingIntro} from '../../@sling/core/AppsContainer/pageIntro';
 
 const useStyle = makeStyles((theme) => ({
   appsSidebar: {
@@ -34,12 +35,6 @@ const Index = (props) => {
   const dispatch = useDispatch();
 
   const {all} = query;
-  console.log(all);
-  console.log('Page Key ==> ', all?.[0] || 'company-details');
-  const onGetMainComponent = () => {
-    let pageKey = all?.[0] || 'company-details';
-    return <SettingsDetail titleKey={getTitle()} pageKey={pageKey} />;
-  };
 
   useEffect(() => {
     if (all?.[0] === 'theme') {
@@ -60,12 +55,15 @@ const Index = (props) => {
   };
 
   const {messages} = useIntl();
+  const pageKey = all?.[0] || 'company-details';
+  const intro = settingIntro(pageKey);
   const basePath = all ? `` : `settings/`;
 
   return (
     <AppsContainer
       pagesClasses={classes}
-      title={getTitle()}
+      title={intro.title}
+      description={intro.description}
       sidebarContent={
         <SettingsSideBar basePath={basePath} noSubChild={true} />
       }>
