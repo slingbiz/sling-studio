@@ -10,6 +10,11 @@ export function ensureWidgetLabel(label) {
   return `${raw} widget`;
 }
 
+export function displayWidgetName(label) {
+  const raw = String(label || 'Section').trim() || 'Section';
+  return raw.replace(/\s+widget$/i, '').trim() || 'Section';
+}
+
 export function propsToPayload(props = []) {
   const ret = {};
   (Array.isArray(props) ? props : []).forEach((item) => {

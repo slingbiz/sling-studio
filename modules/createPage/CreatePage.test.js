@@ -89,4 +89,13 @@ describe('Create page builder', () => {
     expect(attemptsSrc).toMatch(/findCreateAttempt/);
     expect(attemptsSrc).toMatch(/stripCodes/);
   });
+
+  test('setup widget tiles keep one line names and aligned Open buttons', () => {
+    expect(processed).toMatch(/displayWidgetName/);
+    expect(processed).toMatch(/textOverflow:\s*['"]ellipsis['"]/);
+    expect(processed).toMatch(/whiteSpace:\s*['"]nowrap['"]/);
+    expect(processed).toMatch(/marginTop:\s*['"]auto['"]/);
+    expect(processed).toMatch(/<Tooltip/);
+    expect(processed).not.toMatch(/ensureWidgetLabel/);
+  });
 });

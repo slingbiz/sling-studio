@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Button, Typography} from '@material-ui/core';
+import {Box, Button, Tooltip, Typography} from '@material-ui/core';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
@@ -7,7 +7,7 @@ import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Icon from '@material-ui/core/Icon';
 import SandboxedPreview from '../aiBuilder/components/SandboxedPreview';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
-import {ensureWidgetLabel} from './sectionContract';
+import {displayWidgetName} from './sectionContract';
 
 const Accordion = withStyles({
   root: {
@@ -126,20 +126,30 @@ const useStyles = makeStyles(() => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
     gap: 12,
+    alignItems: 'stretch',
   },
   tile: {
     border: '1px solid #eee',
     borderRadius: 10,
     overflow: 'hidden',
     background: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    minHeight: 248,
   },
   preview: {
     height: 140,
+    flexShrink: 0,
     background: '#fff',
     overflow: 'hidden',
   },
   tileMeta: {
     padding: '10px 12px 12px',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    minHeight: 108,
   },
   tileName: {
     fontSize: 16,
@@ -147,11 +157,18 @@ const useStyles = makeStyles(() => ({
     color: SLING_INK,
     fontFamily: 'Open Sans, sans-serif',
     marginBottom: 8,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   status: {
     fontSize: 14,
     color: '#6b6f76',
     marginBottom: 8,
+  },
+  tileBtn: {
+    marginTop: 'auto',
+    alignSelf: 'stretch',
   },
   summaryRow: {
     display: 'flex',
@@ -258,37 +275,42 @@ const ProcessedSetup = ({
             Publish makes them appear anywhere this template is used.
           </Typography>
           <Box className={classes.grid}>
-            {widgets.map((widget) => (
-              <Box className={classes.tile} key={widget._id || widget.key}>
-                <Box className={classes.preview}>
-                  {widget.code ? (
-                    <SandboxedPreview
-                      code={widget.code}
-                      dependencies={widget.dependencies}
-                      themeOverrides={themeOverrides}
-                      style={{height: 140}}
-                    />
-                  ) : null}
+            {widgets.map((widget) => {
+              const name = displayWidgetName(widget.name || widget.key);
+              return (
+                <Box className={classes.tile} key={widget._id || widget.key}>
+                  <Box className={classes.preview}>
+                    {widget.code ? (
+                      <SandboxedPreview
+                        code={widget.code}
+                        dependencies={widget.dependencies}
+                        themeOverrides={themeOverrides}
+                        style={{height: 140}}
+                      />
+                    ) : null}
+                  </Box>
+                  <Box className={classes.tileMeta}>
+                    <Tooltip title={name} placement='top'>
+                      <Typography className={classes.tileName} noWrap>
+                        {name}
+                      </Typography>
+                    </Tooltip>
+                    <Typography className={classes.status}>
+                      {published || widget.status === 'published'
+                        ? 'Published'
+                        : 'Draft'}
+                    </Typography>
+                    <Button
+                      className={`${classes.ghostBtn} ${classes.tileBtn}`}
+                      onClick={() =>
+                        onOpen(draftWidgetsPath(widget.name || widget.key))
+                      }>
+                      Open widget
+                    </Button>
+                  </Box>
                 </Box>
-                <Box className={classes.tileMeta}>
-                  <Typography className={classes.tileName}>
-                    {ensureWidgetLabel(widget.name || widget.key)}
-                  </Typography>
-                  <Typography className={classes.status}>
-                    {published || widget.status === 'published'
-                      ? 'Published'
-                      : 'Draft'}
-                  </Typography>
-                  <Button
-                    className={classes.ghostBtn}
-                    onClick={() =>
-                      onOpen(draftWidgetsPath(widget.name || widget.key))
-                    }>
-                    Open widget
-                  </Button>
-                </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Box>
           <Box style={{marginTop: 12}}>
             <Button
