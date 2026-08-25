@@ -44,6 +44,12 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 0,
     flex: 1,
   },
+  count: {
+    fontSize: 14,
+    color: '#6b6f76',
+    whiteSpace: 'nowrap',
+    fontFamily: 'Open Sans, sans-serif',
+  },
   search: {
     maxWidth: 320,
     width: '100%',
@@ -90,17 +96,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Open Sans, sans-serif',
     '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none'},
   },
-  sectionBar: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '8px 10px',
-    margin: '0 0 16px',
-    background: '#f6f7f9',
-    color: '#6b6f76',
-    fontSize: 14,
-    fontWeight: 600,
-    borderRadius: 4,
-  },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
@@ -121,6 +116,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0,
+    position: 'relative',
     '&:hover': {borderColor: '#ffcc80'},
   },
   cardBody: {
@@ -140,28 +136,28 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     background: '#fff8f0',
     border: '1px solid #eee',
-    borderRadius: 8,
-    padding: '6px 10px',
+    borderRadius: 6,
+    padding: '4px 8px',
     fontFamily:
       'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-    fontSize: 14,
-    color: '#163a5f',
-    lineHeight: 1.45,
+    fontSize: 13,
+    color: '#6b6f76',
+    lineHeight: 1.4,
     wordBreak: 'break-word',
   },
   pathToken: {
-    color: '#ff9800',
-    fontWeight: 600,
+    color: '#163a5f',
+    fontWeight: 500,
   },
   pathEmpty: {
     display: 'block',
     background: '#fff8f0',
     border: '1px solid #eee',
-    borderRadius: 8,
-    padding: '6px 10px',
-    fontSize: 14,
+    borderRadius: 6,
+    padding: '4px 8px',
+    fontSize: 13,
     color: '#6b6f76',
-    lineHeight: 1.45,
+    lineHeight: 1.4,
     fontFamily: 'Open Sans, sans-serif',
   },
   desc: {
@@ -184,6 +180,36 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: 8,
     padding: '0 16px 14px',
+  },
+  actionBtn: {
+    textTransform: 'none',
+    color: '#ff9800',
+    fontSize: 14,
+    fontWeight: 500,
+    minWidth: 0,
+    minHeight: 0,
+    padding: '2px 6px',
+    lineHeight: 1.3,
+    backgroundColor: 'transparent',
+    boxShadow: 'none !important',
+    border: 0,
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 3,
+    width: 32,
+    height: 32,
+    padding: 0,
+    backgroundColor: '#fff',
+    border: '1px solid #eee',
+    color: '#6b6f76',
+    boxShadow: 'none',
+    '&:hover': {backgroundColor: '#fff8f0', color: '#ff9800'},
+    '& .MuiIcon-root': {fontSize: 18},
   },
   loader: {
     display: 'flex',
@@ -501,6 +527,12 @@ const PageTemplatesList = () => {
                 ),
               }}
             />
+            {!loading ? (
+              <Typography className={classes.count}>
+                {visibleKeys.length}{' '}
+                {visibleKeys.length === 1 ? 'template' : 'templates'}
+              </Typography>
+            ) : null}
           </Box>
           <Button
             className={classes.primaryBtn}
@@ -527,11 +559,7 @@ const PageTemplatesList = () => {
             <CircularProgress style={{color: '#ff9800'}} />
           </Box>
         ) : (
-          <>
-            <Box className={classes.sectionBar}>
-              Templates {visibleKeys.length}
-            </Box>
-            <LivePreviewGate>
+          <LivePreviewGate>
               <Box className={classes.grid}>
                 {visibleKeys.length === 0 && (
                   <Box className={classes.emptyGrid}>
@@ -558,6 +586,15 @@ const PageTemplatesList = () => {
                       className={classes.card}
                       key={templateKey}
                       onClick={() => handleTemplateClick(templateKey)}>
+                      <IconButton
+                        className={classes.deleteIcon}
+                        aria-label='Delete'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deletePageTemplate(templateKey);
+                        }}>
+                        <Icon>delete_outline</Icon>
+                      </IconButton>
                       <TemplateTilePreview
                         id={templateKey}
                         previewUrl={previewUrl}
@@ -589,7 +626,7 @@ const PageTemplatesList = () => {
                         className={classes.cardActions}
                         onClick={(e) => e.stopPropagation()}>
                         <Button
-                          className={classes.outlineBtn}
+                          className={classes.actionBtn}
                           aria-label='Edit'
                           onClick={() => {
                             setCurrentTemplate({
@@ -602,19 +639,12 @@ const PageTemplatesList = () => {
                           }}>
                           Edit
                         </Button>
-                        <Button
-                          className={classes.outlineBtn}
-                          aria-label='Delete'
-                          onClick={() => deletePageTemplate(templateKey)}>
-                          Delete
-                        </Button>
                       </Box>
                     </Box>
                   );
                 })}
               </Box>
             </LivePreviewGate>
-          </>
         )}
 
         <Dialog

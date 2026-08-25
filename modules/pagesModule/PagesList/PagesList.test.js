@@ -51,7 +51,9 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/toolbarLeft/);
     expect(src).toMatch(/aria-label='Edit'/);
     expect(src).toMatch(/aria-label='Delete'/);
-    expect(src).toMatch(/className=\{classes\.outlineBtn\}/);
+    expect(src).toMatch(/delete_outline/);
+    expect(src).toMatch(/deleteIcon:[\s\S]*top:\s*8/);
+    expect(src).not.toMatch(/sectionBar/);
     expect(src).not.toMatch(/>\s*Configure\s*</);
     expect(src).not.toMatch(/onMouseOver/);
     expect(src).not.toMatch(/showDelete/);
@@ -63,7 +65,8 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/CircularProgress/);
     expect(src).toMatch(/No page templates yet/);
     expect(src).toMatch(/No templates match this search/);
-    expect(src).toMatch(/Templates \{visibleKeys\.length\}/);
+    expect(src).toMatch(/templates/);
+    expect(src).not.toMatch(/Templates \{visibleKeys\.length\}/);
     expect(src).not.toMatch(/Loading templates/);
   });
 
@@ -75,7 +78,8 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/getRoutesList\(\{size: 100, quiet: true\}\)/);
     expect(src).toMatch(/repeat\(3, minmax\(0, 1fr\)\)/);
     expect(src).not.toMatch(/auto-fill/);
-    expect(src).toMatch(/pathCode/);
+    expect(src).toMatch(/pathCode:[\s\S]*fontSize:\s*13/);
+    expect(src).not.toMatch(/pathCode:[\s\S]*fontSize:\s*12/);
     expect(src).toMatch(/pathToken/);
     expect(src).toMatch(/renderRoutePattern/);
     expect(src).not.toMatch(/preview_image/);
