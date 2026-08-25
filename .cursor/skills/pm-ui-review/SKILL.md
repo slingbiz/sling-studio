@@ -33,6 +33,21 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Hide dead Studio rail (AI Builder, Sitemap, Amp, Emailers, Analytics, Build & Deploy) and Market Place.
 - Identity: Ankur Pata / ankur@sling.biz / slingbiz. Never ankurtd for Sling git/gh.
 - Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
+- Button chrome is Edit Layout / Pages list. Ankur signed this off.
+
+## Buttons (signed off)
+
+Copy Edit Layout + Pages list. Do not invent a third look.
+
+**Primary** (Apply Changes, Save, Add template, Invite, Upload): fill `#ff9800`, text white, 14px, fontWeight 600, Open Sans, `textTransform: none` (never ALL CAPS), `borderRadius: 8`, padding ~`8px 18px`, `boxShadow: none`, hover `#f57c00`. Sits on the **right**.
+
+**Secondary / Cancel** on white or cream: orange text + 1px `#ff9800` border, white fill, 14px weight 500, radius 8, hover background `#fff8f0`.
+
+**Cancel** on ink header (`#163a5f` Edit Layout bar): white ghost, 1px `rgba(255,255,255,0.55)` border, 14px, hover `rgba(255,255,255,0.08)`.
+
+**Text actions** (Configure, Delete, Gallery): 14px `#ff9800`, no caps, always visible (not hover-only).
+
+Never: `theme.palette.primary.main` / MUI blue contained, Linear purple, 12px, default MUI uppercase, drop-shadow on buttons, primary on the left.
 
 ## What to do next: Pages
 
@@ -89,3 +104,4 @@ Run every item against the changed screens and any screen that shares that state
 - Layout widget library was icons, not previews. Show widget thumbnails, not generic icons — and do not stack infinite live iframes.
 - Add Template was default MUI. Members-style modal: cream fields, orange Save on the right, 14px.
 - Edit Layout General Settings was cream-on-cream with sm/md/lg. White card, ink 14px, human breakpoint labels (Mobile (sm)).
+- Default MUI contained primary (blue, ALL CAPS).
