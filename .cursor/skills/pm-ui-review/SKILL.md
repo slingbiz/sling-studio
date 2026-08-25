@@ -43,12 +43,13 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Page templates landing (`/pages`) is tiles of the real storefront (capped live iframes), not a table of fake thumbs. Three tiles across on large screens. Default `pagelayout_default` image until the live preview actually paints (ignore about:blank). While that wait is on, three orange dots in the bottom-right of the pane — not a center spinner. Heading + one line live on AppsContainer (a template is the layout, routes pick which one a URL uses) — do not repeat that title inside the card. No grey “Templates N” strip — count sits next to search. Route path is a small (13px) cream code chip. Edit, Configure, and Delete on tiles show on hover (and keyboard focus), not always. Configure (orange, right) opens Edit Layout (`/pages/{id}/layout`). Edit opens the name modal. Tile click still opens layout. No route = assign one. Do not iframe every template at once.
 - Every AppsContainer screen has a 20px ink h1 and a 14px muted one-line description so people know what the page is. Copy lives on AppsContainer. Do not put a second title in the card. Keep inner bars that hold actions (Theme Save, Widgets filters, Layout Edit).
 - One loader per screen. InfoView is toasts only — do not overlay a second spinner on FETCH_START. Shared Loader is Sling orange, never MUI blue. Hydrating company info must not flash a page loader.
+- Header “View shop” opens the live storefront (`clientUrl`) in a new tab. Never label it Frontend. If there is no store URL, disable it and point people to Settings → Company.
 
 ## Buttons (signed off)
 
 Copy Edit Layout + Pages list. Do not invent a third look.
 
-**Primary** (Apply Changes, Save, Add template, Invite, Upload): fill `#ff9800`, text white, 14px, fontWeight 600, Open Sans, `textTransform: none` (never ALL CAPS), `borderRadius: 8`, padding ~`8px 18px`, `boxShadow: none`, hover `#f57c00`. Sits on the **right**.
+**Primary** (Apply Changes, Save, Add template, Invite, Upload, View shop): fill `#ff9800`, text white, 14px, fontWeight 600, Open Sans, `textTransform: none` (never ALL CAPS), `borderRadius: 8`, padding ~`8px 18px`, `boxShadow: none`, hover `#f57c00`. Sits on the **right**.
 
 **Secondary / Cancel** on white or cream: orange text + 1px `#ff9800` border, white fill, 14px weight 500, radius 8, hover background `#fff8f0`.
 
