@@ -37,6 +37,8 @@ describe('Create page builder', () => {
     expect(preview).toMatch(/data-sling-section/);
     expect(preview).toMatch(/&:hover, &:focus-within/);
     expect(preview).toMatch(/section\.label/);
+    expect(preview).toMatch(/boxShadow/);
+    expect(preview).toMatch(/borderColor: SLING_ORANGE/);
     expect(preview).toMatch(/fitContent/);
     expect(preview).not.toMatch(/height:\s*280/);
     expect(src).toMatch(/classes\.canvas/);

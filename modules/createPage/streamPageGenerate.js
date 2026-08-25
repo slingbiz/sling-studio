@@ -73,7 +73,7 @@ async function generateOnce(prompt, themeConfig, signal) {
   if (!res.ok) {
     throw new Error(data.error || 'Could not generate this page. Try a clearer prompt.');
   }
-  if (!data.page || !Array.isArray(data.sections) || data.sections.length < 2) {
+  if (!data.page || !Array.isArray(data.sections) || data.sections.length < 5) {
     throw new Error('That page did not split into sections. Try again.');
   }
   return data;
@@ -107,7 +107,7 @@ export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, 
   }
 
   const complete = await readSse(res, callbacks, signal);
-  if (!complete?.page || !Array.isArray(complete.sections) || complete.sections.length < 2) {
+  if (!complete?.page || !Array.isArray(complete.sections) || complete.sections.length < 5) {
     throw new Error('That page did not split into sections. Try again.');
   }
   return complete;

@@ -7,12 +7,15 @@ import {SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
 const useStyles = makeStyles(() => ({
   section: {
     position: 'relative',
-    outline: '2px solid transparent',
-    outlineOffset: -2,
+    zIndex: 0,
+    border: '2px solid transparent',
+    borderRadius: 10,
     background: '#fff',
+    transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
     '&:hover, &:focus-within': {
-      outlineColor: SLING_ORANGE,
-      zIndex: 1,
+      borderColor: SLING_ORANGE,
+      boxShadow: '0 10px 28px rgba(22, 58, 95, 0.18)',
+      zIndex: 2,
     },
     '&:hover $label, &:focus-within $label': {
       opacity: 1,
@@ -22,7 +25,7 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     top: 8,
     left: 8,
-    zIndex: 2,
+    zIndex: 3,
     opacity: 0,
     pointerEvents: 'none',
     background: SLING_INK,

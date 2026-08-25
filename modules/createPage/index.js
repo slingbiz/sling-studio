@@ -44,7 +44,6 @@ const useStyles = makeStyles(() => ({
     background: '#fff',
     fontFamily: 'Open Sans, sans-serif',
     minHeight: '100%',
-    height: '100%',
   },
   emptyPage: {
     display: 'flex',
@@ -206,7 +205,7 @@ const useStyles = makeStyles(() => ({
   canvas: {
     border: '1px solid #e6e6e6',
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: 'visible',
     background: '#fff',
   },
   canvasHint: {
@@ -410,7 +409,7 @@ const CreatePage = () => {
               <Typography className={classes.summaryText}>
                 {streaming
                   ? statusMessage || 'Streaming…'
-                  : `This page will be ${count} widget${count === 1 ? '' : 's'}. Hover a section to see its name. Process saves the same code — we do not generate again.`}
+                  : `This page will be ${count} widget${count === 1 ? '' : 's'}. Hover a section to lift it as a tile. Process saves the same code — we do not generate again.`}
               </Typography>
               <Box style={{display: 'flex', gap: 8}}>
                 <Button
@@ -422,7 +421,7 @@ const CreatePage = () => {
                 <Button
                   className={classes.primaryBtn}
                   onClick={processPage}
-                  disabled={working || count < 2}>
+                  disabled={working || count < 5}>
                   {processing ? 'Processing…' : 'Process'}
                 </Button>
               </Box>

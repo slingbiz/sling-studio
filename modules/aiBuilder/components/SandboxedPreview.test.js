@@ -26,7 +26,7 @@ describe('SandboxedPreview', () => {
   test('fitContent sizes to sandbox HEIGHT and turns off inner scroll', () => {
     expect(src).toMatch(/fitContent/);
     expect(src).toMatch(/HEIGHT/);
-    expect(src).toMatch(/scrolling=\{fitContent \? 'no' : 'yes'\}/);
+    expect(src).toMatch(/pointerEvents: fitContent \? 'none' : 'auto'/);
   });
 
   test('does not reload the iframe when onError identity changes', () => {

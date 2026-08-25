@@ -144,6 +144,7 @@ const SandboxedPreview = ({
           height: '100%',
           border: 'none',
           display: 'block',
+          pointerEvents: fitContent ? 'none' : 'auto',
         }}
       />
     </Box>
