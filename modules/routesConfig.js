@@ -41,14 +41,6 @@ const routesConfig = [
     url: '/media/gallery',
   },
   {
-    id: 'headless-apis',
-    title: 'Apis',
-    messageId: 'sidebar.app.backendApis',
-    type: 'item',
-    icon: 'storage',
-    url: '/headless-apis',
-  },
-  {
     id: 'settings',
     title: 'Settings',
     messageId: 'sidebar.app.settings',

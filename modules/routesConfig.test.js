@@ -14,7 +14,6 @@ describe('main left rail routesConfig', () => {
       'Routes',
       'Widgets',
       'Media',
-      'Apis',
       'Settings',
     ]);
   });
@@ -29,5 +28,16 @@ describe('main left rail routesConfig', () => {
     expect(src).not.toMatch(/Build & Deploy/);
     expect(src).not.toMatch(/Market Place/);
     expect(src).not.toMatch(/Coming Soon/);
+    expect(src).not.toMatch(/headless-apis/);
+    expect(src).not.toMatch(/All Apis/);
+    expect(src).not.toMatch(/title:\s*'Apis'/);
+  });
+
+  test('PM skill records Headless APIs rail as gone', () => {
+    const skill = fs.readFileSync(
+      path.join(__dirname, '../.cursor/skills/pm-ui-review/SKILL.md'),
+      'utf8',
+    );
+    expect(skill).toMatch(/Headless APIs rail is gone/);
   });
 });

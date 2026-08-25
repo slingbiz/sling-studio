@@ -30,11 +30,12 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Image props: Gallery picker writes the URL. No Constants.
 - Restore widget version = new draft; live site unchanged until publish.
 - Invite existing Sling emails (they leave the old workspace). Last owner cannot move.
-- Hide dead Studio rail (AI Builder, Sitemap, Amp, Emailers, Analytics, Build & Deploy) and Market Place.
+- Hide dead Studio rail (AI Builder, Sitemap, Amp, Emailers, Analytics, Build & Deploy, Headless APIs) and Market Place.
 - Identity: Ankur Pata / ankur@sling.biz / slingbiz. Never ankurtd for Sling git/gh.
 - Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
 - Button chrome is Edit Layout / Pages list. Ankur signed this off.
 - Pages Data tab is gone. Old `/pages/{id}/data` URLs land on Layout. Do not bring back Coming Soon.
+- Headless APIs rail is gone. Old `/headless-apis` URLs land on Widgets. Bring back only as a real rebuild (persist tenant APIs + bind response-derived). Do not polish this screen.
 - Widget Props inspector: labeled Source + Value; Add prop writes schema + this instance, not a fake button.
 
 ## Buttons (signed off)

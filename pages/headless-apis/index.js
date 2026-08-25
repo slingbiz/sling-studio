@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useRouter} from 'next/router';
 import AppPage from '../../@sling/hoc/AppPage';
-import asyncComponent from '../../@sling/utility/asyncComponent';
 
-const ApiModule = asyncComponent(() => import('../../modules/apisModule'));
-export default AppPage(() => <ApiModule />);
+const RedirectToWidgets = () => {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/widgets');
+  }, [router]);
+  return null;
+};
+
+export default AppPage(() => <RedirectToWidgets />);
