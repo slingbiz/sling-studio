@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@material-ui/core/styles';
 import {
   LivePreviewGate,
   LivePreviewContext,
@@ -13,11 +14,52 @@ const TILE_HEIGHT = 240;
 
 export {LivePreviewGate};
 
+const useDotStyles = makeStyles({
+  dots: {
+    position: 'absolute',
+    right: 12,
+    bottom: 10,
+    zIndex: 2,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 4,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: '50%',
+    background: '#ff9800',
+    animation: '$pulse 1.2s ease-in-out infinite',
+    '&:nth-child(2)': {animationDelay: '0.2s'},
+    '&:nth-child(3)': {animationDelay: '0.4s'},
+  },
+  '@keyframes pulse': {
+    '0%, 80%, 100%': {opacity: 0.25},
+    '40%': {opacity: 1},
+  },
+});
+
+const PreviewWaitDots = () => {
+  const classes = useDotStyles();
+  return (
+    <Box className={classes.dots} aria-label='Loading preview'>
+      <span className={classes.dot} />
+      <span className={classes.dot} />
+      <span className={classes.dot} />
+    </Box>
+  );
+};
+
 export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
   const wrapRef = useRef(null);
   const {request, release, generation} = useContext(LivePreviewContext);
   const [live, setLive] = useState(false);
+  const [frameStatus, setFrameStatus] = useState('loading');
   const wantsLive = Boolean(previewUrl);
+
+  useEffect(() => {
+    setFrameStatus('loading');
+  }, [previewUrl]);
 
   useEffect(() => {
     if (!wantsLive) {
@@ -35,6 +77,8 @@ export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
     }
     setLive(request(id));
   }, [generation, wantsLive, live, id, request]);
+
+  const waiting = Boolean(previewUrl) && frameStatus === 'loading';
 
   return (
     <Box
@@ -76,9 +120,11 @@ export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
             urlToPreview={previewUrl}
             chromeScale={SCALE}
             silent
+            onStatusChange={setFrameStatus}
           />
         </Box>
       ) : null}
+      {waiting ? <PreviewWaitDots /> : null}
       {!previewUrl ? (
         <Box
           style={{

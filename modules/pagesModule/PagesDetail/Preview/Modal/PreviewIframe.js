@@ -20,7 +20,12 @@ const overlayStyle = {
   textAlign: 'center',
 };
 
-const PreviewIframe = ({urlToPreview, chromeScale = 1, silent = false}) => {
+const PreviewIframe = ({
+  urlToPreview,
+  chromeScale = 1,
+  silent = false,
+  onStatusChange,
+}) => {
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const [frameSrc, setFrameSrc] = useState('');
@@ -38,6 +43,19 @@ const PreviewIframe = ({urlToPreview, chromeScale = 1, silent = false}) => {
     }, LOAD_TIMEOUT_MS);
     return () => clearTimeout(timerRef.current);
   }, [urlToPreview]);
+
+  useEffect(() => {
+    if (!onStatusChange) {
+      return;
+    }
+    if (failed) {
+      onStatusChange('failed');
+    } else if (loading) {
+      onStatusChange('loading');
+    } else {
+      onStatusChange('ready');
+    }
+  }, [loading, failed, onStatusChange]);
 
   const handleLoad = () => {
     try {

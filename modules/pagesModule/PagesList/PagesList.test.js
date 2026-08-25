@@ -22,6 +22,7 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/justifyContent:\s*['"]flex-end['"]/);
     expect(src).toMatch(/justifyContent:\s*['"]space-between['"]/);
     expect(pagesIndexSrc).toMatch(/title=\{!all \? 'Page templates' : getTitle\(\)\}/);
+    expect(src).toMatch(/A template is the layout/);
     expect(src).not.toMatch(/AppsHeader/);
   });
 
@@ -87,7 +88,10 @@ describe('Pages list + Add template modal', () => {
     expect(tileSrc).toMatch(/PreviewIframe/);
     expect(tileSrc).toMatch(/pagelayout_default/);
     expect(tileSrc).toMatch(/silent/);
+    expect(tileSrc).toMatch(/Loading preview/);
+    expect(tileSrc).toMatch(/@keyframes pulse/);
     expect(tileSrc).not.toMatch(/IntersectionObserver/);
+    expect(tileSrc).not.toMatch(/CircularProgress/);
     expect(previewUrlSrc).toMatch(/sample_string \|\| route\.url_string/);
     expect(previewUrlSrc).toMatch(/if \(!route \|\| !clientUrl\)/);
   });

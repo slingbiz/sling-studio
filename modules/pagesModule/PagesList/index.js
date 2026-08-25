@@ -30,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
     background: '#fff',
     fontFamily: 'Open Sans, sans-serif',
   },
+  intro: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.5,
+    margin: '0 0 16px',
+    maxWidth: 560,
+  },
   toolbar: {
     display: 'flex',
     alignItems: 'center',
@@ -510,6 +517,9 @@ const PageTemplatesList = () => {
   return (
     <>
       <Box className={classes.page}>
+        <Typography className={classes.intro}>
+          A template is the layout. Routes pick which one a URL uses.
+        </Typography>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>
             <TextField
