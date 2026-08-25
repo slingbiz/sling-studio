@@ -34,6 +34,7 @@ describe('main left rail routesConfig', () => {
     expect(src).not.toMatch(/All Apis/);
     expect(src).toMatch(/url:\s*'\/create'/);
     expect(src).toMatch(/title:\s*'Create'/);
+    expect(src).toMatch(/sidebar\.app\.create/);
     expect(src).toMatch(/title:\s*'Theme'/);
   });
 
@@ -45,5 +46,10 @@ describe('main left rail routesConfig', () => {
     expect(skill).toMatch(/Headless APIs rail is gone/);
     expect(skill).toMatch(/Theme is a main rail/);
     expect(skill).toMatch(/Create \(`\/create`\) generates a page as named sections/);
+    const en = fs.readFileSync(
+      path.join(__dirname, '../shared/localization/locales/en_US.json'),
+      'utf8',
+    );
+    expect(en).toMatch(/"sidebar\.app\.create":\s*"Create"/);
   });
 });

@@ -29,5 +29,6 @@ describe('AppsContainer page heading', () => {
     expect(readModule('settingsModule/index.js')).toMatch(/description=\{intro\.description\}/);
     expect(readModule('widgetsModule/index.js')).toMatch(/description=\{intro\.description\}/);
     expect(readModule('media/index.js')).toMatch(/description=\{intro\.description\}/);
+    expect(readModule('createPage/index.js')).toMatch(/createCopy\.title/);
   });
 });

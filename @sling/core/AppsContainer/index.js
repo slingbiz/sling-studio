@@ -23,54 +23,56 @@ const AppsContainer = (props) => {
 
   return (
     <Box pt={{xl: 4}} flex={1} display='flex' flexDirection='column'>
-      <Box
-        mb={{xs: fullView ? 4 : 2, lg: fullView ? 5 : 4}}
-        mt={{xs: fullView ? 0 : -3, lg: 0}}
-        display='flex'
-        alignItems='flex-start'>
-        {fullView ? null : (
-          <Hidden lgUp>
-            <IconButton
-              edge='start'
-              className={classes.menuButton}
-              color='inherit'
-              aria-label='open drawer'
-              onClick={() => dispatch(onToggleAppDrawer())}>
-              <MenuIcon className={classes.menuIcon} />
-            </IconButton>
-          </Hidden>
-        )}
-        <Box minWidth={0}>
-          {heading ? (
-            <Box
-              component='h1'
-              style={{
-                margin: 0,
-                color: '#163a5f',
-                fontWeight: 700,
-                fontSize: 20,
-                lineHeight: 1.3,
-                fontFamily: 'Open Sans, sans-serif',
-              }}>
-              {heading}
-            </Box>
-          ) : null}
-          {description ? (
-            <Box
-              component='p'
-              style={{
-                margin: '6px 0 0',
-                color: '#6b6f76',
-                fontSize: 14,
-                lineHeight: 1.5,
-                fontFamily: 'Open Sans, sans-serif',
-                maxWidth: 640,
-              }}>
-              {description}
-            </Box>
-          ) : null}
+      {heading || description ? (
+        <Box
+          mb={{xs: fullView ? 4 : 2, lg: fullView ? 5 : 4}}
+          mt={{xs: fullView ? 0 : -3, lg: 0}}
+          display='flex'
+          alignItems='flex-start'>
+          {fullView ? null : (
+            <Hidden lgUp>
+              <IconButton
+                edge='start'
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='open drawer'
+                onClick={() => dispatch(onToggleAppDrawer())}>
+                <MenuIcon className={classes.menuIcon} />
+              </IconButton>
+            </Hidden>
+          )}
+          <Box minWidth={0}>
+            {heading ? (
+              <Box
+                component='h1'
+                style={{
+                  margin: 0,
+                  color: '#163a5f',
+                  fontWeight: 700,
+                  fontSize: 20,
+                  lineHeight: 1.3,
+                  fontFamily: 'Open Sans, sans-serif',
+                }}>
+                {heading}
+              </Box>
+            ) : null}
+            {description ? (
+              <Box
+                component='p'
+                style={{
+                  margin: '6px 0 0',
+                  color: '#6b6f76',
+                  fontSize: 14,
+                  lineHeight: 1.5,
+                  fontFamily: 'Open Sans, sans-serif',
+                  maxWidth: 640,
+                }}>
+                {description}
+              </Box>
+            ) : null}
+          </Box>
         </Box>
-      </Box>
+      ) : null}
       <Box className={classes.appsContainer}>
         {sidebarContent ? (
           <AppSidebar

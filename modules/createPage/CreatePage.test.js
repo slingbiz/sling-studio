@@ -12,10 +12,14 @@ const actions = fs.readFileSync(
 describe('Create page builder', () => {
   test('has a heading, a big prompt, starters, and Process', () => {
     expect(src).toMatch(/createCopy\.title/);
+    expect(src).toMatch(/component='h1'/);
+    expect(src).toMatch(/textAlign:\s*['"]center['"]/);
+    expect(src).toMatch(/gridTemplateColumns:\s*['"]1fr 1fr['"]/);
     expect(src).toMatch(/I want a landing page/);
     expect(src).toMatch(/>\s*Generate\s*</);
     expect(src).toMatch(/processing \? 'Processing…' : 'Process'/);
     expect(src).toMatch(/This page will be \{count\} widget/);
+    expect(src).not.toMatch(/Chip/);
   });
 
   test('hover boxes are Studio chrome, not generated CSS', () => {
