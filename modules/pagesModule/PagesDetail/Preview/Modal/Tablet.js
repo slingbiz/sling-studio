@@ -1,11 +1,12 @@
 import React from 'react';
+import PreviewIframe from './PreviewIframe';
 
 const Tablet = ({urlToPreview}) => {
   return (
     <div className='marvel-device ipad silver'>
       <div className='camera'></div>
       <div className='screen'>
-        <iframe src={urlToPreview} width='100%' height='100%'></iframe>
+        <PreviewIframe urlToPreview={urlToPreview} />
       </div>
       <div className='home'></div>
     </div>

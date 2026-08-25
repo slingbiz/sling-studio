@@ -31,4 +31,13 @@ describe('Page template Preview', () => {
     expect(modalSrc).not.toMatch(/#0288d1/);
     expect(modalSrc).not.toMatch(/color=['"]inherit['"]/);
   });
+
+  test('urlItemSelected includes #ff9800', () => {
+    expect(src).toMatch(/urlItemSelected:[\s\S]*#ff9800/);
+    expect(src).toMatch(/urlItem:[\s\S]*1px solid #eee/);
+    expect(src).toMatch(/urlTextSelected:[\s\S]*fontSize:\s*16/);
+    expect(src).toMatch(/urlTextSelected:[\s\S]*fontWeight:\s*600/);
+    expect(src).toMatch(/CheckCircleIcon/);
+    expect(src).toMatch(/selectedCheck:[\s\S]*#ff9800/);
+  });
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import PreviewIframe from './PreviewIframe';
 
 const Mobile = ({urlToPreview}) => {
   return (
@@ -19,7 +20,7 @@ const Mobile = ({urlToPreview}) => {
       </div>
       <div class='inner-shadow'></div>
       <div class='screen'>
-        <iframe src={urlToPreview} width='100%' height='100%'></iframe>
+        <PreviewIframe urlToPreview={urlToPreview} />
       </div>
     </div>
   );

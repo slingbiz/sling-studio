@@ -1,4 +1,5 @@
 import React from 'react';
+import PreviewIframe from './PreviewIframe';
 
 const Desktop = ({urlToPreview}) => {
   return (
@@ -6,7 +7,7 @@ const Desktop = ({urlToPreview}) => {
       <div className='top-bar'></div>
       <div className='camera'></div>
       <div className='screen'>
-        <iframe src={urlToPreview} width='100%' height='100%'></iframe>
+        <PreviewIframe urlToPreview={urlToPreview} />
       </div>
       <div className='bottom-bar'></div>
     </div>
