@@ -35,6 +35,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
 - Button chrome is Edit Layout / Pages list. Ankur signed this off.
 - Pages Data tab is gone. Old `/pages/{id}/data` URLs land on Layout. Do not bring back Coming Soon.
+- Widget Props inspector: labeled Source + Value; Add prop writes schema + this instance, not a fake button.
 
 ## Buttons (signed off)
 
@@ -60,7 +61,7 @@ Pages (`/pages`) is the next surface to match the product.
 - Make Pages list, modal, layout header, settings panel match Members (search left, primary right, one loader, no hover-only Configure/Delete).
 - Edit Layout General Settings: white card on cream, ink 14px, human breakpoint labels (Mobile (sm)). Not cream-on-cream sm/md/lg.
 - Data tab is gone, not later. Do not ship a Coming Soon Data page.
-- Widget Props on the inspector already got Gallery pick — keep it.
+- Widget Props inspector: labeled Source + Value cards; Add prop writes the widget schema and this placement. Gallery still picks image URLs. Do not ship a fake Add.
 
 ## Checklist
 
@@ -107,3 +108,4 @@ Run every item against the changed screens and any screen that shares that state
 - Edit Layout General Settings was cream-on-cream with sm/md/lg. White card, ink 14px, human breakpoint labels (Mobile (sm)).
 - Default MUI contained primary (blue, ALL CAPS).
 - Data tab Coming Soon with a fake Save. The tab is gone; `/pages/{id}/data` opens Layout.
+- Widget Props inspector was unlabeled accordion fields with a disabled “+ Add New Prop?” that did nothing. Labeled Source + Value; Add prop writes the widget definition and this cell.

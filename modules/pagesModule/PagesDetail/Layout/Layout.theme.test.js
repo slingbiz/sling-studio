@@ -54,7 +54,9 @@ describe('Layout editor 2026 ink restyle', () => {
 
   test('does not fake Add New Prop and keeps Gallery pick', () => {
     expect(templateProps).not.toMatch(/Add New Prop/);
+    expect(templateProps).toMatch(/>\s*Add prop\s*</);
     expect(templateProps).toMatch(/>\s*Gallery\s*</);
+    expect(templateProps).toMatch(/updateWidget/);
   });
 
   test('delete and edit actions stay visible, not hover-only', () => {

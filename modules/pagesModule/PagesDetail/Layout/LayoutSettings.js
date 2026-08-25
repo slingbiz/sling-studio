@@ -99,6 +99,15 @@ const useStyles = makeStyles(() => ({
     marginBottom: 8,
     flexDirection: 'column',
   },
+  propsCard: {
+    backgroundColor: '#fff',
+    border: '1px solid #eee',
+    borderRadius: 8,
+    boxShadow: 'none',
+    padding: 16,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
 }));
 
 const widthMapper = {
@@ -123,21 +132,27 @@ const LayoutSettings = ({settingsObj}) => {
   const {key, payload} = settingsObj;
   const {widgets} = useSelector(({widgets}) => widgets);
 
-  const {props: cellProps = {}, muiWidths = {}, muiHidden = {only: []}} =
-    payload || {};
+  if (payload && !payload.props) {
+    payload.props = {};
+  }
+  const cellProps = (payload && payload.props) || {};
+  const muiWidths = (payload && payload.muiWidths) || {};
+  const muiHidden = (payload && payload.muiHidden) || {only: []};
 
   const selectedWidget = widgets.find((w) => w.key === key);
-  let widgetProps = {};
   if (selectedWidget) {
-    (selectedWidget.props || []).map(
+    (selectedWidget.props || []).forEach(
       ({name, propType, dataType, default: defaultVal}) => {
-        if (!cellProps[name]) {
-          cellProps[name] = {type: propType, dataType, default: defaultVal};
-        }
+        if (!name || cellProps[name]) return;
+        cellProps[name] = {
+          type: propType,
+          dataType,
+          default: defaultVal,
+          value: defaultVal,
+        };
       },
     );
   }
-  console.log(widgetProps, cellProps, '[widgetProps - cellProps]');
   const [expanded, setExpanded] = useState('panel1');
   const [layoutWidth, setLayoutWidth] = useState(
     Object.keys(muiWidths).length ? muiWidths : initialWidth,
@@ -205,19 +220,13 @@ const LayoutSettings = ({settingsObj}) => {
           />
         </AccordionDetails>
       </Accordion>
-      <Accordion
-        expanded={true}
-        onChange={handleChange('panel2')}>
-        <AccordionSummary
-          aria-controls='panel2d-content'
-          id='panel2d-header'
-          disableRipple>
-          <Typography>Widget Props</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <TemplateProps cellProps={cellProps} disabled={controlsDisabled} />
-        </AccordionDetails>
-      </Accordion>
+      <Box className={classes.propsCard}>
+        <TemplateProps
+          cellProps={cellProps}
+          disabled={controlsDisabled}
+          selectedWidget={selectedWidget}
+        />
+      </Box>
     </>
   );
 };
