@@ -14,6 +14,7 @@ import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
 import clsx from 'clsx';
+import {normalizeLayoutRoot} from '../../../createPage/sectionContract';
 
 //Styles
 const useStyles = makeStyles((theme) => ({
@@ -101,15 +102,14 @@ const LayoutView = forwardRef((props, ref) => {
 
   //Update root and child elements
   useEffect(() => {
-    if (layoutConfig) {
-      const root = layoutConfig[pageKey].root;
-      console.log(layoutConfig, 'layoutConfig@Layout', pageKey, root);
-      setHeaderBlocks(root.header);
-      setBodyBlocks(root.body);
-      setFooterBlocks(root.footer);
-      setRoot(root);
-    }
-  }, [layoutConfig]);
+    const nextRoot = layoutConfig?.[pageKey]?.root;
+    if (!nextRoot) return;
+    const root = normalizeLayoutRoot(nextRoot);
+    setHeaderBlocks(root.header);
+    setBodyBlocks(root.body);
+    setFooterBlocks(root.footer);
+    setRoot(root);
+  }, [layoutConfig, pageKey]);
 
   //Save child wrapper with new re ordered layout.
   const setItemToParent = (rowKey, parentKey, items, section) => {

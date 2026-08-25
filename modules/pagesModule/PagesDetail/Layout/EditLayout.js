@@ -218,7 +218,7 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
       </AppBar>
       <LayoutView
         getItems={getItems}
-        widgets={widgets}
+        widgets={widgets || []}
         ref={childRef}
         pageKey={pageKey}
         isEditable={true}

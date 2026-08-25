@@ -39,7 +39,7 @@ const Layout = (props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!routesList.length) {
+    if (!routesList?.length) {
       dispatch(getRoutesList({size: 100, quiet: true}));
     }
   }, [dispatch, routesList.length]);

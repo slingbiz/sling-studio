@@ -35,6 +35,7 @@ import WidgetLibraryPreview, {
   SLING_CREAM,
   SLING_ORANGE,
 } from './WidgetLibraryPreview';
+import {normalizeLayoutRoot} from '../../../createPage/sectionContract';
 
 const _ = require('lodash');
 
@@ -229,15 +230,14 @@ const LayoutEditView = forwardRef((props, ref) => {
 
   //Update root and child elements
   useEffect(() => {
-    if (layoutConfig) {
-      const root = layoutConfig[pageKey].root;
-      console.log(layoutConfig, 'layoutConfig@Layout', pageKey, root);
-      setHeaderBlocks(root.header);
-      setBodyBlocks(root.body);
-      setFooterBlocks(root.footer);
-      setRoot(root);
-    }
-  }, [layoutConfig]);
+    const nextRoot = layoutConfig?.[pageKey]?.root;
+    if (!nextRoot) return;
+    const root = normalizeLayoutRoot(nextRoot);
+    setHeaderBlocks(root.header);
+    setBodyBlocks(root.body);
+    setFooterBlocks(root.footer);
+    setRoot(root);
+  }, [layoutConfig, pageKey]);
 
   //Save child wrapper with new re ordered layout.
   const setItemToParent = (rowKey, parentKey, items, section) => {
@@ -278,7 +278,7 @@ const LayoutEditView = forwardRef((props, ref) => {
 
   const getWidgetPropsObj = (props) => {
     const ret = {};
-    props.forEach(({name, propType, dataType, default: defaultVal}) => {
+    (Array.isArray(props) ? props : []).forEach(({name, propType, dataType, default: defaultVal}) => {
       ret[name] = {type: propType, value: defaultVal, default: defaultVal};
     });
     return ret;
@@ -297,8 +297,12 @@ const LayoutEditView = forwardRef((props, ref) => {
       payload: {muiWidths: config},
     };
     if (newWidgetCell) {
-      const matchingWidget = widgets.find((v) => v['_id'] === newWidgetCell);
-
+      const matchingWidget = (widgets || []).find((v) => v['_id'] === newWidgetCell);
+      if (!matchingWidget) {
+        setNewCellModal(false);
+        setNewWidgetCell(undefined);
+        return;
+      }
       const {type, props} = matchingWidget;
       const propsObj = getWidgetPropsObj(props);
       let matchingWidgetKey = matchingWidget.key;

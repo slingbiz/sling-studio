@@ -11,5 +11,8 @@ describe('section contract helpers', () => {
     expect(src).toMatch(/propsToPayload/);
     expect(src).toMatch(/ensureWidgetLabel/);
     expect(src).toMatch(/\\bwidget\$/);
+    expect(src).toMatch(/normalizeLayoutRoot/);
+    expect(src).toMatch(/header:\s*\{rows:\s*\[\]\}/);
+    expect(src).toMatch(/footer:\s*\{rows:\s*\[\]\}/);
   });
 });

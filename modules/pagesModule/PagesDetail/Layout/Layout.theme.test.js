@@ -66,6 +66,13 @@ describe('Layout editor 2026 ink restyle', () => {
     expect(read('index.js')).toMatch(/router\.query\?\.edit/);
   });
 
+  test('does not crash when widgets have not loaded yet', () => {
+    expect(settings).toMatch(/widgets \|\| \[\]/);
+    expect(editView).toMatch(/layoutConfig\?\.\[pageKey\]\?\.root/);
+    expect(read('LayoutView.js')).toMatch(/layoutConfig\?\.\[pageKey\]\?\.root/);
+    expect(read('EditLayout.js')).toMatch(/widgets \|\| \[\]/);
+  });
+
   test('widget bars keep one trash remove, not a second X on the row', () => {
     expect(editView).not.toMatch(/CloseOutlined/);
     expect(editView).not.toMatch(/@material-ui\/icons\/Close/);

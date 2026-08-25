@@ -25,11 +25,23 @@ export function propsToPayload(props = []) {
   return ret;
 }
 
-export function buildLayoutRoot(savedWidgets) {
+export function normalizeLayoutRoot(root) {
+  const asSection = (section) => ({
+    ...(section && typeof section === 'object' ? section : {}),
+    rows: Array.isArray(section?.rows) ? section.rows : [],
+  });
   return {
-    header: {},
+    header: asSection(root?.header),
+    body: asSection(root?.body),
+    footer: asSection(root?.footer),
+  };
+}
+
+export function buildLayoutRoot(savedWidgets) {
+  return normalizeLayoutRoot({
+    header: {rows: []},
     body: {
-      rows: savedWidgets.map((widget) => ({
+      rows: (savedWidgets || []).map((widget) => ({
         cells: [
           {
             key: widget.key,
@@ -42,8 +54,8 @@ export function buildLayoutRoot(savedWidgets) {
         ],
       })),
     },
-    footer: {},
-  };
+    footer: {rows: []},
+  });
 }
 
 export function uniquePageKey(base) {

@@ -139,7 +139,7 @@ const LayoutSettings = ({settingsObj}) => {
   const muiWidths = (payload && payload.muiWidths) || {};
   const muiHidden = (payload && payload.muiHidden) || {only: []};
 
-  const selectedWidget = widgets.find((w) => w.key === key);
+  const selectedWidget = (widgets || []).find((w) => w.key === key);
   if (selectedWidget) {
     (selectedWidget.props || []).forEach(
       ({name, propType, dataType, default: defaultVal}) => {
