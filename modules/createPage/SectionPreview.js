@@ -7,12 +7,12 @@ import {SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
 const useStyles = makeStyles(() => ({
   section: {
     position: 'relative',
-    border: '2px solid transparent',
-    borderRadius: 10,
-    overflow: 'hidden',
+    outline: '2px solid transparent',
+    outlineOffset: -2,
     background: '#fff',
     '&:hover, &:focus-within': {
-      borderColor: SLING_ORANGE,
+      outlineColor: SLING_ORANGE,
+      zIndex: 1,
     },
     '&:hover $label, &:focus-within $label': {
       opacity: 1,
@@ -49,7 +49,7 @@ const SectionPreview = ({section, themeOverrides}) => {
         code={section.code}
         dependencies={section.dependencies}
         themeOverrides={themeOverrides}
-        style={{height: 280}}
+        fitContent
       />
     </Box>
   );

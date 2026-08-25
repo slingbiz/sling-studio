@@ -16,12 +16,23 @@
         height: 100%;
         overflow: auto;
       }
+      html.sling-fit,
+      html.sling-fit body {
+        height: auto;
+        overflow: hidden;
+      }
       #sling-sandbox-root {
         min-height: 100%;
         min-width: 100%;
         width: max-content;
         padding: 8px;
         box-sizing: border-box;
+      }
+      html.sling-fit #sling-sandbox-root {
+        min-height: 0;
+        min-width: 0;
+        width: 100%;
+        padding: 0;
       }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -40,6 +51,17 @@
         var params = new URLSearchParams(window.location.search);
         var nonce = params.get('nonce');
         var mount = document.getElementById('sling-sandbox-root');
+        var resizeObserver = null;
+
+        function contentHeight() {
+          var rootHeight = mount ? mount.scrollHeight : 0;
+          return Math.ceil(Math.max(rootHeight, document.body.scrollHeight, 1));
+        }
+
+        function reportHeight() {
+          if (!nonce) return;
+          postToParent('HEIGHT', {nonce: nonce, height: contentHeight()});
+        }
 
         function postToParent(type, payload) {
           if (window.parent === window) return;
@@ -79,7 +101,11 @@
           Search: 'search',
           Settings: 'settings',
           ShoppingCart: 'shopping_cart',
+          Speed: 'speed',
           Star: 'star',
+          Storage: 'storage',
+          Timer: 'timer',
+          TrendingUp: 'trending_up',
           Visibility: 'visibility',
           VisibilityOff: 'visibility_off',
           Warning: 'warning',
@@ -203,7 +229,15 @@
               React.createElement(ThemedComponent, null, React.createElement(Component)),
               mount,
             );
-            postToParent('RENDER_SUCCESS', {nonce: nonce, height: document.body.scrollHeight});
+            postToParent('RENDER_SUCCESS', {nonce: nonce, height: contentHeight()});
+            reportHeight();
+            if (window.ResizeObserver) {
+              if (resizeObserver) resizeObserver.disconnect();
+              resizeObserver = new ResizeObserver(function () {
+                reportHeight();
+              });
+              resizeObserver.observe(mount);
+            }
           } catch (error) {
             var message = (error && error.message) || 'Failed to render generated widget.';
             showError(message);
@@ -220,6 +254,11 @@
           if (!data || data.source !== PARENT_MESSAGE_SOURCE) return;
           if (!nonce || data.nonce !== nonce) return;
           if (data.type === 'RENDER') {
+            if (data.fitContent) {
+              document.documentElement.classList.add('sling-fit');
+            } else {
+              document.documentElement.classList.remove('sling-fit');
+            }
             renderCode(data.code, data.themeOverrides);
           }
         });

@@ -44,7 +44,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Every AppsContainer screen has a 20px ink h1 and a 14px muted one-line description so people know what the page is. Copy lives on AppsContainer. Do not put a second title in the card. Keep inner bars that hold actions (Theme Save, Widgets filters, Layout Edit).
 - One loader per screen. InfoView is toasts only — do not overlay a second spinner on FETCH_START. Shared Loader is Sling orange, never MUI blue. Hydrating company info must not flash a page loader.
 - Header “View site” opens the live site (`clientUrl`) in a new tab. Never label it Frontend or View shop. If there is no site URL, disable it and point people to Settings → Company.
-- Create (`/create`) generates a page as named sections in one AI call. Hover boxes are Studio chrome (`data-sling-section`), never lift-CSS in the generated site. Process saves the same section code as draft widgets, one template, and a default route. Do not generate again on Process. Do not publish.
+- Create (`/create`) generates a page as named sections in one AI call, streamed. Show a Streaming box with live lines immediately; paint each section on the page as it finishes. Hover boxes are Studio chrome (`data-sling-section`) on one continuous page — not inner-scrolling cards. Process saves the same section code as draft widgets, one template, and a default route. Do not generate again on Process. Do not publish.
 
 ## Buttons (signed off)
 

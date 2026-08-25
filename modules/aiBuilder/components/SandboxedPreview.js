@@ -20,13 +20,24 @@ function createNonce() {
 // The framed document is a standalone HTML runtime, not a Next.js page —
 // loading Studio's _app/webpack in this sandbox crashes on cookie and
 // localStorage access and blanks the preview.
-const SandboxedPreview = ({code, dependencies, themeOverrides, className, style, onError}) => {
+const SandboxedPreview = ({
+  code,
+  dependencies,
+  themeOverrides,
+  className,
+  style,
+  onError,
+  fitContent = false,
+}) => {
   const iframeRef = useRef(null);
   const nonceRef = useRef(createNonce());
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
+  const fitContentRef = useRef(fitContent);
+  fitContentRef.current = fitContent;
   const [isReady, setIsReady] = useState(false);
   const [painted, setPainted] = useState(false);
+  const [contentHeight, setContentHeight] = useState(80);
   // Load the iframe only after the message listener is attached. A cached
   // sandbox document can post READY during first paint, before useEffect,
   // and then the preview stays blank forever.
@@ -44,8 +55,15 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
       }
       if (data.nonce !== nonceRef.current) return;
 
+      if (data.type === 'HEIGHT' && fitContentRef.current && data.height) {
+        setContentHeight(Math.max(40, Math.ceil(data.height)));
+      }
+
       if (data.type === 'RENDER_SUCCESS') {
         setPainted(true);
+        if (fitContentRef.current && data.height) {
+          setContentHeight(Math.max(40, Math.ceil(data.height)));
+        }
         onErrorRef.current?.(null);
       } else if (data.type === 'RENDER_ERROR') {
         setPainted(true);
@@ -68,6 +86,7 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
         code,
         dependencies,
         themeOverrides,
+        fitContent: fitContentRef.current,
       },
       // The sandbox frame has an opaque origin, so it can never match a
       // real targetOrigin string here — '*' is required. Specificity comes
@@ -75,13 +94,13 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
       // not from an origin check.
       '*',
     );
-  }, [isReady, code, dependencies, themeOverrides]);
+  }, [isReady, code, dependencies, themeOverrides, fitContent]);
 
   useEffect(() => {
     setPainted(false);
   }, [code]);
 
-  const height = style?.height || 480;
+  const height = fitContent ? contentHeight : style?.height || 480;
 
   return (
     <Box
@@ -115,7 +134,7 @@ const SandboxedPreview = ({code, dependencies, themeOverrides, className, style,
         title='Widget preview'
         src={frameSrc || undefined}
         sandbox='allow-scripts'
-        scrolling='yes'
+        scrolling={fitContent ? 'no' : 'yes'}
         className={className}
         style={{
           position: 'absolute',
@@ -138,6 +157,7 @@ SandboxedPreview.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   onError: PropTypes.func,
+  fitContent: PropTypes.bool,
 };
 
 export default SandboxedPreview;

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -11,12 +11,11 @@ import {useDispatch} from 'react-redux';
 import {useRouter} from 'next/router';
 import AppsContainer from '../../@sling/core/AppsContainer';
 import AppContext from '../../@sling/utility/AppContext';
+import {FETCH_ERROR} from '../../shared/constants/ActionTypes';
 import {createCopy} from './sectionContract';
 import SectionPreview from './SectionPreview';
-import {
-  generatePageFromPrompt,
-  processGeneratedPage,
-} from '../../redux/actions/CreatePage';
+import {streamPageFromPrompt} from './streamPageGenerate';
+import {processGeneratedPage} from '../../redux/actions/CreatePage';
 import {resolveWidgetTheme} from '../aiBuilder/widgetTheme';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
 
@@ -163,10 +162,58 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     color: '#6b6f76',
   },
-  stack: {
+  streamPane: {
+    border: '1px solid #ffd59a',
+    background: SLING_CREAM,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+  },
+  streamStatus: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
+    alignItems: 'center',
+    gap: 8,
+    fontSize: 14,
+    color: SLING_INK,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  streamDot: {
+    width: 8,
+    height: 8,
+    borderRadius: '50%',
+    background: SLING_ORANGE,
+    animation: '$pulse 1.2s ease-in-out infinite',
+  },
+  '@keyframes pulse': {
+    '0%': {opacity: 1},
+    '50%': {opacity: 0.35},
+    '100%': {opacity: 1},
+  },
+  streamCode: {
+    marginTop: 10,
+    maxHeight: 168,
+    overflow: 'auto',
+    background: SLING_INK,
+    color: SLING_CREAM,
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+    fontSize: 13,
+    lineHeight: 1.5,
+    padding: 12,
+    borderRadius: 6,
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+  },
+  canvas: {
+    border: '1px solid #e6e6e6',
+    borderRadius: 10,
+    overflow: 'hidden',
+    background: '#fff',
+  },
+  canvasHint: {
+    padding: 28,
+    fontSize: 14,
+    color: '#6b6f76',
+    textAlign: 'center',
   },
   doneTitle: {
     fontSize: 20,
@@ -195,24 +242,78 @@ const CreatePage = () => {
   const tenantTheme = resolveWidgetTheme(theme);
 
   const [prompt, setPrompt] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [streamText, setStreamText] = useState('');
   const [result, setResult] = useState(null);
   const [done, setDone] = useState(null);
+  const abortRef = useRef(null);
+  const streamLogRef = useRef(null);
+
+  const sections = result?.sections || [];
+  const count = sections.length;
+  const visibleCode = streamText.split('\n').slice(-40).join('\n');
+
+  useEffect(() => {
+    if (streamLogRef.current) {
+      streamLogRef.current.scrollTop = streamLogRef.current.scrollHeight;
+    }
+  }, [streamText]);
+
+  const resetPreview = () => {
+    abortRef.current?.abort();
+    setStreaming(false);
+    setResult(null);
+    setStreamText('');
+    setStatusMessage('');
+    setDone(null);
+  };
 
   const generate = async () => {
     if (!prompt.trim() || prompt.trim().length < 5) return;
-    setLoading(true);
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
+    setStreaming(true);
     setDone(null);
-    const data = await dispatch(
-      generatePageFromPrompt(prompt.trim(), tenantTheme),
-    );
-    setLoading(false);
-    if (data) setResult(data);
+    setResult({page: null, sections: []});
+    setStreamText('');
+    setStatusMessage('Streaming…');
+    try {
+      const data = await streamPageFromPrompt(
+        prompt.trim(),
+        tenantTheme,
+        {
+          onStatus: setStatusMessage,
+          onCodeToken: (text) => setStreamText((prev) => prev + text),
+          onPage: (page) =>
+            setResult((prev) => ({page, sections: prev?.sections || []})),
+          onSection: (section) =>
+            setResult((prev) => {
+              const current = prev?.sections || [];
+              if (current.some((item) => item.id === section.id)) return prev;
+              return {page: prev?.page || null, sections: [...current, section]};
+            }),
+          onComplete: (payload) => setResult(payload),
+        },
+        ac.signal,
+      );
+      setResult(data);
+    } catch (error) {
+      if (error.name === 'AbortError') return;
+      dispatch({
+        type: FETCH_ERROR,
+        payload: error.message || 'Could not generate this page.',
+      });
+      setResult(null);
+    } finally {
+      setStreaming(false);
+    }
   };
 
   const processPage = async () => {
-    if (!result) return;
+    if (!result?.page || !result.sections?.length) return;
     setProcessing(true);
     const saved = await dispatch(
       processGeneratedPage({
@@ -225,7 +326,8 @@ const CreatePage = () => {
     if (saved) setDone(saved);
   };
 
-  const count = result?.sections?.length || 0;
+  const working = streaming || processing;
+  const showBuilder = streaming || result;
 
   return (
     <AppsContainer fullView>
@@ -258,94 +360,109 @@ const CreatePage = () => {
               </Button>
             </Box>
           </>
-        ) : !result ? (
+        ) : !showBuilder ? (
           <Box className={classes.emptyPage}>
             <Box className={classes.promptWrap}>
-              {loading ? (
-                <Box className={classes.loader}>
-                  <CircularProgress style={{color: SLING_ORANGE}} />
-                </Box>
-              ) : (
-                <>
-                  <Box component='h1' className={classes.heading}>
-                    {createCopy.title}
-                  </Box>
-                  <Typography className={classes.description}>
-                    {createCopy.description}
-                  </Typography>
-                  <TextField
-                    className={classes.field}
-                    variant='outlined'
-                    multiline
-                    rows={4}
-                    placeholder='I want a landing page for…'
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        generate();
-                      }
-                    }}
-                  />
-                  <Box className={classes.starters}>
-                    {STARTERS.map((item) => (
-                      <Button
-                        key={item.label}
-                        className={classes.starterBtn}
-                        onClick={() => setPrompt(item.prompt)}>
-                        {item.label}
-                      </Button>
-                    ))}
-                  </Box>
-                  <Box className={classes.actions}>
-                    <Button
-                      className={classes.primaryBtn}
-                      onClick={generate}
-                      disabled={prompt.trim().length < 5}>
-                      Generate
-                    </Button>
-                  </Box>
-                </>
-              )}
+              <Box component='h1' className={classes.heading}>
+                {createCopy.title}
+              </Box>
+              <Typography className={classes.description}>
+                {createCopy.description}
+              </Typography>
+              <TextField
+                className={classes.field}
+                variant='outlined'
+                multiline
+                rows={4}
+                placeholder='I want a landing page for…'
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    generate();
+                  }
+                }}
+              />
+              <Box className={classes.starters}>
+                {STARTERS.map((item) => (
+                  <Button
+                    key={item.label}
+                    className={classes.starterBtn}
+                    onClick={() => setPrompt(item.prompt)}>
+                    {item.label}
+                  </Button>
+                ))}
+              </Box>
+              <Box className={classes.actions}>
+                <Button
+                  className={classes.primaryBtn}
+                  onClick={generate}
+                  disabled={prompt.trim().length < 5}>
+                  Generate
+                </Button>
+              </Box>
             </Box>
           </Box>
         ) : (
           <>
             <Box className={classes.summary}>
               <Typography className={classes.summaryText}>
-                This page will be {count} widget{count === 1 ? '' : 's'}. Hover a
-                section to see its name. Process saves the same code — we do not
-                generate again.
+                {streaming
+                  ? statusMessage || 'Streaming…'
+                  : `This page will be ${count} widget${count === 1 ? '' : 's'}. Hover a section to see its name. Process saves the same code — we do not generate again.`}
               </Typography>
               <Box style={{display: 'flex', gap: 8}}>
                 <Button
                   className={classes.ghostBtn}
-                  onClick={() => setResult(null)}
+                  onClick={resetPreview}
                   disabled={processing}>
                   Start over
                 </Button>
                 <Button
                   className={classes.primaryBtn}
                   onClick={processPage}
-                  disabled={processing}>
+                  disabled={working || count < 2}>
                   {processing ? 'Processing…' : 'Process'}
                 </Button>
               </Box>
             </Box>
+            {streaming && (
+              <Box className={classes.streamPane}>
+                <Box className={classes.streamStatus}>
+                  <Box className={classes.streamDot} />
+                  Streaming
+                  {streamText
+                    ? ` · ${streamText.length.toLocaleString()} chars received`
+                    : ''}
+                </Box>
+                <Box
+                  ref={streamLogRef}
+                  className={classes.streamCode}
+                  component='pre'>
+                  {visibleCode || 'Waiting for the first lines…'}
+                </Box>
+              </Box>
+            )}
             {processing ? (
               <Box className={classes.loader}>
                 <CircularProgress style={{color: SLING_ORANGE}} />
               </Box>
             ) : (
-              <Box className={classes.stack}>
-                {result.sections.map((section) => (
-                  <SectionPreview
-                    key={section.id}
-                    section={section}
-                    themeOverrides={tenantTheme}
-                  />
-                ))}
+              <Box className={classes.canvas}>
+                {count ? (
+                  sections.map((section) => (
+                    <SectionPreview
+                      key={section.id}
+                      section={section}
+                      themeOverrides={tenantTheme}
+                    />
+                  ))
+                ) : (
+                  <Typography className={classes.canvasHint}>
+                    The page appears here as each section finishes.
+                  </Typography>
+                )}
               </Box>
             )}
           </>
