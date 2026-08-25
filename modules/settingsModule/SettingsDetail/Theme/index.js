@@ -124,12 +124,12 @@ const useStyles = makeStyles(() => ({
     textTransform: 'none',
     backgroundColor: SLING_ORANGE,
     color: '#fff',
-    borderRadius: 6,
+    borderRadius: 8,
     padding: '8px 18px',
     boxShadow: 'none',
     '&:hover': {
       backgroundColor: '#f57c00',
-      boxShadow: '0 4px 12px rgba(255, 152, 0, 0.28)',
+      boxShadow: 'none',
     },
     '&:disabled': {
       backgroundColor: '#ffd59a',
@@ -141,7 +141,7 @@ const useStyles = makeStyles(() => ({
     textTransform: 'none',
     color: SLING_ORANGE,
     borderColor: '#ffd59a',
-    borderRadius: 6,
+    borderRadius: 8,
     backgroundColor: '#fff',
   },
   page: {
@@ -484,7 +484,7 @@ const ThemeSettings = (props) => {
         )}
         {saved && (
           <Box className={classes.banner} style={{background: '#fff8f0', color: '#7a4a00'}}>
-            Theme saved. Refresh the storefront to see it on the live site.
+            Theme saved. Refresh the storefront to see buttons, links, and themed widgets change.
           </Box>
         )}
 
@@ -494,8 +494,8 @@ const ThemeSettings = (props) => {
               <Typography className={classes.eyebrow}>Storefront brand</Typography>
               <Typography className={classes.introTitle}>Make the shop look like you</Typography>
               <Typography className={classes.introCopy}>
-                These colors drive Studio, the storefront, and new AI widgets. Click a swatch or
-                paste a hex. Save when it looks right in the preview.
+                These colors drive the storefront. Click a swatch or paste a hex.
+                Save, then refresh the shop to see it.
               </Typography>
             </Box>
 
@@ -608,7 +608,8 @@ const ThemeSettings = (props) => {
                 </Box>
               </Box>
               <Typography className={classes.previewNote}>
-                Hardcoded colors in old widgets will not change. New AI widgets pick this palette up.
+                Buttons, links, and widgets that read the theme update on refresh.
+                Old rating greens and reds stay as-is.
               </Typography>
             </Box>
           </Box>

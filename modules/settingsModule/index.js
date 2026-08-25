@@ -42,6 +42,12 @@ const Index = (props) => {
   };
 
   useEffect(() => {
+    if (all?.[0] === 'theme') {
+      router.replace('/theme');
+    }
+  }, [all, router]);
+
+  useEffect(() => {
     console.log('account', account);
     if (account == null || account == '') {
       dispatch(getCompanyInfo(user.email));

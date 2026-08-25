@@ -43,7 +43,7 @@ const renderTheme = (updateTheme = jest.fn()) =>
     </AppContext.Provider>,
   );
 
-describe('Settings → Theme', () => {
+describe('Theme', () => {
   beforeEach(() => {
     mockGet.mockReset();
     mockPut.mockReset();

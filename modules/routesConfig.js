@@ -41,6 +41,14 @@ const routesConfig = [
     url: '/media/gallery',
   },
   {
+    id: 'theme',
+    title: 'Theme',
+    messageId: 'sidebar.app.theme',
+    type: 'item',
+    icon: 'palette',
+    url: '/theme',
+  },
+  {
     id: 'settings',
     title: 'Settings',
     messageId: 'sidebar.app.settings',

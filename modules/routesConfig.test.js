@@ -14,6 +14,7 @@ describe('main left rail routesConfig', () => {
       'Routes',
       'Widgets',
       'Media',
+      'Theme',
       'Settings',
     ]);
   });
@@ -30,14 +31,16 @@ describe('main left rail routesConfig', () => {
     expect(src).not.toMatch(/Coming Soon/);
     expect(src).not.toMatch(/headless-apis/);
     expect(src).not.toMatch(/All Apis/);
-    expect(src).not.toMatch(/title:\s*'Apis'/);
+    expect(src).toMatch(/url:\s*'\/theme'/);
+    expect(src).toMatch(/title:\s*'Theme'/);
   });
 
-  test('PM skill records Headless APIs rail as gone', () => {
+  test('PM skill records Headless APIs rail as gone and Theme as main rail', () => {
     const skill = fs.readFileSync(
       path.join(__dirname, '../.cursor/skills/pm-ui-review/SKILL.md'),
       'utf8',
     );
     expect(skill).toMatch(/Headless APIs rail is gone/);
+    expect(skill).toMatch(/Theme is a main rail/);
   });
 });

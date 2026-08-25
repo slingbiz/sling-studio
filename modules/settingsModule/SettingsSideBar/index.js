@@ -35,12 +35,6 @@ export const folderList = [
     alias: 'audit',
     icon: 'history',
   },
-  {
-    id: 3,
-    name: 'Theme',
-    alias: 'theme',
-    icon: 'palette',
-  },
   // {id: 3, name: 'Guide', alias: 'guide', icon: 'web'},
 ];
 
