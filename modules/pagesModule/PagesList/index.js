@@ -125,6 +125,16 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 0,
     position: 'relative',
     '&:hover': {borderColor: '#ffcc80'},
+    '&:hover $deleteIcon, &:hover $actionBtn, &:focus-within $deleteIcon, &:focus-within $actionBtn': {
+      opacity: 1,
+      pointerEvents: 'auto',
+    },
+    '@media (hover: none)': {
+      '& $deleteIcon, & $actionBtn': {
+        opacity: 1,
+        pointerEvents: 'auto',
+      },
+    },
   },
   cardBody: {
     padding: '14px 16px 12px',
@@ -200,6 +210,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     boxShadow: 'none !important',
     border: 0,
+    opacity: 0,
+    pointerEvents: 'none',
     fontFamily: 'Open Sans, sans-serif',
     '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
   },
@@ -215,6 +227,8 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #eee',
     color: '#6b6f76',
     boxShadow: 'none',
+    opacity: 0,
+    pointerEvents: 'none',
     '&:hover': {backgroundColor: '#fff8f0', color: '#ff9800'},
     '& .MuiIcon-root': {fontSize: 18},
   },

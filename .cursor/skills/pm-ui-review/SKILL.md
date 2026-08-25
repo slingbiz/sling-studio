@@ -40,7 +40,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Theme is a main rail item at `/theme`, not a Settings subpage. Settings keeps Company, Keys, Members, Audit. Old `/settings/theme` redirects. Storefront widgets must read MUI `theme.palette`, not hardcoded brand hex.
 - Audit is a log, not an inbox. Names not “Someone”. Action is a label not a CTA.
 - Routes is a Members-style list: search left, Add route right, template picker in the add/edit modal, Preview/Layout/Edit/Delete always visible. No Guide. Old `/routes/guide` and `/routes/routes-list` land on `/routes`.
-- Page templates landing (`/pages`) is tiles of the real storefront (capped live iframes), not a table of fake thumbs. Three tiles across on large screens. Default `pagelayout_default` image until the live preview actually paints (ignore about:blank). While that wait is on, three orange dots in the bottom-right of the pane — not a center spinner. One line under the heading: a template is the layout, routes pick which one a URL uses. No grey “Templates N” strip — count sits next to search. Route path is a small (13px) cream code chip. Delete is a always-visible icon on the top-right of the tile. Edit is a 14px orange text action. Tile click opens layout. No Configure. No route = assign one. Do not iframe every template at once.
+- Page templates landing (`/pages`) is tiles of the real storefront (capped live iframes), not a table of fake thumbs. Three tiles across on large screens. Default `pagelayout_default` image until the live preview actually paints (ignore about:blank). While that wait is on, three orange dots in the bottom-right of the pane — not a center spinner. One line under the heading: a template is the layout, routes pick which one a URL uses. No grey “Templates N” strip — count sits next to search. Route path is a small (13px) cream code chip. Edit and Delete on tiles show on hover (and keyboard focus), not always. Tile click opens layout. No Configure. No route = assign one. Do not iframe every template at once.
 - One loader per screen. InfoView is toasts only — do not overlay a second spinner on FETCH_START. Shared Loader is Sling orange, never MUI blue. Hydrating company info must not flash a page loader.
 
 ## Buttons (signed off)
@@ -53,7 +53,7 @@ Copy Edit Layout + Pages list. Do not invent a third look.
 
 **Cancel** on ink header (`#163a5f` Edit Layout bar): white ghost, 1px `rgba(255,255,255,0.55)` border, 14px, hover `rgba(255,255,255,0.08)`.
 
-**Text actions** (Configure, Delete, Gallery): 14px `#ff9800`, no caps, always visible (not hover-only).
+**Text actions** (Configure, Delete, Gallery): 14px `#ff9800`, no caps, always visible on **lists** (Members, Routes). Template **tiles** are the exception: Edit and Delete show on hover / focus-within so the preview stays clean. Do not make Members hover-only.
 
 Never: `theme.palette.primary.main` / MUI blue contained, Linear purple, 12px, default MUI uppercase, drop-shadow on buttons, primary on the left.
 
@@ -74,7 +74,7 @@ Pages (`/pages`) is the next surface to match the product.
 Run every item against the changed screens and any screen that shares that state.
 
 - **Find it.** Every status you can put an object in has a visible list or filter (draft, in review, published). Do not hide the only inbox behind an admin-only nav item.
-- **Edit it.** Critical actions (edit, save, submit, publish, invite, remove) are always visible. Never hover-only.
+- **Edit it.** Critical actions (edit, save, submit, publish, invite, remove) are always visible on lists. Never hover-only on Members or Routes. Template tiles are different: Edit and Delete on hover so the shop preview is the product.
 - **Place it.** Primary actions sit on the right. Status text can sit on the left.
 - **Dress it.** Lists match Linear’s layout, not Linear’s type. Search on the left, primary button on the right, column headers, avatars, status/role pills, a count bar (`Active 12`). Invite/create opens a modal. Do not dump email + role fields on the page. Keep Sling orange `#ff9800`, cream, Open Sans, and Sling sizes: body 14px, names 16px, buttons 14px. Never Linear purple. Never Linear 12px. Settings forms use a two-column field grid that fills the page. Do not leave a 560px left column with Save stranded on empty white. Do not add decorative infographics.
 - **Brand it.** No default MUI chrome. Cream fields, orange focus, no floating-label-in-outline look unless the rest of the page already does. Selected chips use color only — no X unless the chip is removable.
@@ -115,5 +115,5 @@ Run every item against the changed screens and any screen that shares that state
 - Default MUI contained primary (blue, ALL CAPS).
 - Data tab Coming Soon with a fake Save. The tab is gone; `/pages/{id}/data` opens Layout.
 - Widget Props inspector was unlabeled accordion fields with a disabled “+ Add New Prop?” that did nothing. Labeled Source + Value; Add prop writes the widget definition and this cell.
-- Page templates list used the same generic png for every row. Tiles must iframe a real storefront route, capped like the widget library. Show the default png until the live page paints, not a white about:blank flash. Empty copy if there is no route. Three tiles across on large screens. Route path is a 13px cream code chip. No grey Templates-count bar. Delete is a corner icon, always visible. Edit is orange text.
+- Page templates list used the same generic png for every row. Tiles must iframe a real storefront route, capped like the widget library. Show the default png until the live page paints, not a white about:blank flash. Empty copy if there is no route. Three tiles across on large screens. Route path is a 13px cream code chip. No grey Templates-count bar. Edit and Delete on tiles are hover-only. Lists stay always-visible.
 - Two loaders on most Studio pages: a leftover blue overlay on every fetch plus the page’s own orange spinner. InfoView is toasts only. Shared Loader is orange. Company info hydrate is silent.

@@ -47,13 +47,16 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/>\s*Cancel\s*</);
   });
 
-  test('search sits on the left and Edit and Delete stay visible', () => {
+  test('search sits on the left; tile Edit and Delete show on hover', () => {
     expect(src).toMatch(/placeholder='Search templates'/);
     expect(src).toMatch(/toolbarLeft/);
     expect(src).toMatch(/aria-label='Edit'/);
     expect(src).toMatch(/aria-label='Delete'/);
     expect(src).toMatch(/delete_outline/);
     expect(src).toMatch(/deleteIcon:[\s\S]*top:\s*8/);
+    expect(src).toMatch(/&:hover \$deleteIcon/);
+    expect(src).toMatch(/&:focus-within \$deleteIcon/);
+    expect(src).toMatch(/opacity:\s*0/);
     expect(src).not.toMatch(/sectionBar/);
     expect(src).not.toMatch(/>\s*Configure\s*</);
     expect(src).not.toMatch(/onMouseOver/);
