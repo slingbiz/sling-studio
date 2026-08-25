@@ -25,6 +25,7 @@ const PreviewIframe = ({urlToPreview, chromeScale = 1, silent = false}) => {
   const [failed, setFailed] = useState(false);
   const [frameSrc, setFrameSrc] = useState('');
   const timerRef = useRef(null);
+  const frameRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +40,14 @@ const PreviewIframe = ({urlToPreview, chromeScale = 1, silent = false}) => {
   }, [urlToPreview]);
 
   const handleLoad = () => {
+    try {
+      const href = frameRef.current?.contentWindow?.location?.href;
+      if (!href || href === 'about:blank') {
+        return;
+      }
+    } catch (_err) {
+      // Cross-origin storefront: the real page painted.
+    }
     clearTimeout(timerRef.current);
     setLoading(false);
     setFailed(false);
@@ -74,6 +83,7 @@ const PreviewIframe = ({urlToPreview, chromeScale = 1, silent = false}) => {
       )}
       {frameSrc ? (
         <iframe
+          ref={frameRef}
           title='Page preview'
           src={frameSrc}
           width='100%'

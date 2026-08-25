@@ -86,38 +86,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     padding: '7px 16px',
     background: '#fff',
+    boxShadow: 'none',
     fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: '#fff8f0'},
-  },
-  actionBtn: {
-    textTransform: 'none',
-    color: '#ff9800',
-    fontSize: 14,
-    fontWeight: 500,
-    minWidth: 0,
-    minHeight: 0,
-    padding: '2px 6px',
-    lineHeight: 1.3,
-    backgroundColor: 'transparent',
-    boxShadow: 'none !important',
-    border: 0,
-    fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
-  },
-  ghostBtn: {
-    textTransform: 'none',
-    color: '#6b6f76',
-    fontSize: 14,
-    fontWeight: 500,
-    minWidth: 0,
-    minHeight: 0,
-    padding: '2px 6px',
-    lineHeight: 1.3,
-    backgroundColor: 'transparent',
-    boxShadow: 'none !important',
-    border: 0,
-    fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none !important'},
+    '&:hover': {backgroundColor: '#fff8f0', boxShadow: 'none'},
   },
   sectionBar: {
     display: 'flex',
@@ -162,13 +133,36 @@ const useStyles = makeStyles((theme) => ({
   name: {
     fontSize: 16,
     fontWeight: 600,
-    color: '#212121',
+    color: '#163a5f',
     lineHeight: 1.35,
   },
-  path: {
+  pathCode: {
+    display: 'block',
+    background: '#fff8f0',
+    border: '1px solid #eee',
+    borderRadius: 8,
+    padding: '6px 10px',
+    fontFamily:
+      'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+    fontSize: 14,
+    color: '#163a5f',
+    lineHeight: 1.45,
+    wordBreak: 'break-word',
+  },
+  pathToken: {
+    color: '#ff9800',
+    fontWeight: 600,
+  },
+  pathEmpty: {
+    display: 'block',
+    background: '#fff8f0',
+    border: '1px solid #eee',
+    borderRadius: 8,
+    padding: '6px 10px',
     fontSize: 14,
     color: '#6b6f76',
-    lineHeight: 1.35,
+    lineHeight: 1.45,
+    fontFamily: 'Open Sans, sans-serif',
   },
   desc: {
     fontSize: 14,
@@ -188,8 +182,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    gap: 4,
-    padding: '0 10px 10px',
+    gap: 8,
+    padding: '0 16px 14px',
   },
   loader: {
     display: 'flex',
@@ -378,6 +372,21 @@ const ModalPageTemplate = ({
   );
 };
 
+const renderRoutePattern = (path, classes) => {
+  const chunks = String(path)
+    .split(/(<[^>]+>)/g)
+    .filter(Boolean);
+  return chunks.map((chunk, i) =>
+    chunk.startsWith('<') && chunk.endsWith('>') ? (
+      <span key={i} className={classes.pathToken}>
+        {chunk}
+      </span>
+    ) : (
+      <span key={i}>{chunk}</span>
+    ),
+  );
+};
+
 const PageTemplatesList = () => {
   const router = useRouter();
   const classes = useStyles();
@@ -558,9 +567,18 @@ const PageTemplatesList = () => {
                         <Typography className={classes.name} noWrap>
                           {title || templateKey}
                         </Typography>
-                        <Typography className={classes.path} noWrap>
-                          {pathLabel}
-                        </Typography>
+                        {route ? (
+                          <Typography
+                            className={classes.pathCode}
+                            component='code'
+                            title={pathLabel}>
+                            {renderRoutePattern(pathLabel, classes)}
+                          </Typography>
+                        ) : (
+                          <Typography className={classes.pathEmpty}>
+                            No route yet
+                          </Typography>
+                        )}
                         {description ? (
                           <Typography className={classes.desc} noWrap>
                             {description}
@@ -571,8 +589,7 @@ const PageTemplatesList = () => {
                         className={classes.cardActions}
                         onClick={(e) => e.stopPropagation()}>
                         <Button
-                          className={classes.actionBtn}
-                          variant='text'
+                          className={classes.outlineBtn}
                           aria-label='Edit'
                           onClick={() => {
                             setCurrentTemplate({
@@ -586,8 +603,7 @@ const PageTemplatesList = () => {
                           Edit
                         </Button>
                         <Button
-                          className={classes.ghostBtn}
-                          variant='text'
+                          className={classes.outlineBtn}
                           aria-label='Delete'
                           onClick={() => deletePageTemplate(templateKey)}>
                           Delete

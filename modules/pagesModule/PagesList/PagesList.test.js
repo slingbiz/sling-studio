@@ -30,7 +30,6 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/#fff8f0/);
     expect(src).toMatch(/primaryBtn:[\s\S]*fontSize:\s*14/);
     expect(src).toMatch(/outlineBtn:[\s\S]*fontSize:\s*14/);
-    expect(src).toMatch(/actionBtn:[\s\S]*fontSize:\s*14/);
     expect(src).not.toMatch(/palette\.primary\.main/);
     expect(src).not.toMatch(/palette\.primary\.light/);
     expect(src).not.toMatch(/orange\[500\]/);
@@ -52,7 +51,7 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/toolbarLeft/);
     expect(src).toMatch(/aria-label='Edit'/);
     expect(src).toMatch(/aria-label='Delete'/);
-    expect(src).toMatch(/variant='text'/);
+    expect(src).toMatch(/className=\{classes\.outlineBtn\}/);
     expect(src).not.toMatch(/>\s*Configure\s*</);
     expect(src).not.toMatch(/onMouseOver/);
     expect(src).not.toMatch(/showDelete/);
@@ -76,12 +75,15 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/getRoutesList\(\{size: 100, quiet: true\}\)/);
     expect(src).toMatch(/repeat\(3, minmax\(0, 1fr\)\)/);
     expect(src).not.toMatch(/auto-fill/);
+    expect(src).toMatch(/pathCode/);
+    expect(src).toMatch(/pathToken/);
+    expect(src).toMatch(/renderRoutePattern/);
     expect(src).not.toMatch(/preview_image/);
     expect(src).not.toMatch(/getPreviewUrlsCount/);
     expect(tileSrc).toMatch(/PreviewIframe/);
     expect(tileSrc).toMatch(/pagelayout_default/);
     expect(tileSrc).toMatch(/silent/);
-    expect(tileSrc).toMatch(/IntersectionObserver/);
+    expect(tileSrc).not.toMatch(/IntersectionObserver/);
     expect(previewUrlSrc).toMatch(/sample_string \|\| route\.url_string/);
     expect(previewUrlSrc).toMatch(/if \(!route \|\| !clientUrl\)/);
   });

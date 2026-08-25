@@ -3,6 +3,10 @@ const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, 'index.js'), 'utf8');
 const modalSrc = fs.readFileSync(path.join(__dirname, 'Modal/index.js'), 'utf8');
+const iframeSrc = fs.readFileSync(
+  path.join(__dirname, 'Modal/PreviewIframe.js'),
+  'utf8',
+);
 
 describe('Page template Preview', () => {
   test('lists real workspace routes only, not dummy urls', () => {
@@ -39,5 +43,10 @@ describe('Page template Preview', () => {
     expect(src).toMatch(/urlTextSelected:[\s\S]*fontWeight:\s*600/);
     expect(src).toMatch(/CheckCircleIcon/);
     expect(src).toMatch(/selectedCheck:[\s\S]*#ff9800/);
+  });
+
+  test('iframe stays hidden until the real storefront paints, not about:blank', () => {
+    expect(iframeSrc).toMatch(/about:blank/);
+    expect(iframeSrc).toMatch(/opacity: loading \|\| failed \? 0 : 1/);
   });
 });

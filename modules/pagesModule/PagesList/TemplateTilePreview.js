@@ -16,27 +16,8 @@ export {LivePreviewGate};
 export const TemplateTilePreview = ({id, previewUrl, emptyHint}) => {
   const wrapRef = useRef(null);
   const {request, release, generation} = useContext(LivePreviewContext);
-  const [visible, setVisible] = useState(false);
   const [live, setLive] = useState(false);
-
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) {
-      return undefined;
-    }
-    if (typeof IntersectionObserver === 'undefined') {
-      setVisible(true);
-      return undefined;
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      {rootMargin: '80px', threshold: 0.12},
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  const wantsLive = visible && Boolean(previewUrl);
+  const wantsLive = Boolean(previewUrl);
 
   useEffect(() => {
     if (!wantsLive) {
