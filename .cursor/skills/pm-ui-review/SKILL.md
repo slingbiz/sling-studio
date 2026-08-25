@@ -30,7 +30,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Image props: Gallery picker writes the URL. No Constants.
 - Restore widget version = new draft; live site unchanged until publish.
 - Invite existing Sling emails (they leave the old workspace). Last owner cannot move.
-- Hide dead Studio rail (AI Builder, Sitemap, Amp, Emailers, Analytics, Build & Deploy, Headless APIs) and Market Place.
+- Hide dead Studio rail (Sitemap, Amp, Emailers, Analytics, Build & Deploy, Headless APIs) and Market Place. Create at `/create` is live: prompt → named sections → Process saves draft widgets + a template + a route. Do not resurrect the old AI Builder canvas. `/ai-builder` redirects to `/create`.
 - Identity: Ankur Pata / ankur@sling.biz / slingbiz. Never ankurtd for Sling git/gh.
 - Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
 - Button chrome is Edit Layout / Pages list. Ankur signed this off.
@@ -44,12 +44,13 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Every AppsContainer screen has a 20px ink h1 and a 14px muted one-line description so people know what the page is. Copy lives on AppsContainer. Do not put a second title in the card. Keep inner bars that hold actions (Theme Save, Widgets filters, Layout Edit).
 - One loader per screen. InfoView is toasts only — do not overlay a second spinner on FETCH_START. Shared Loader is Sling orange, never MUI blue. Hydrating company info must not flash a page loader.
 - Header “View site” opens the live site (`clientUrl`) in a new tab. Never label it Frontend or View shop. If there is no site URL, disable it and point people to Settings → Company.
+- Create (`/create`) generates a page as named sections in one AI call. Hover boxes are Studio chrome (`data-sling-section`), never lift-CSS in the generated site. Process saves the same section code as draft widgets, one template, and a default route. Do not generate again on Process. Do not publish.
 
 ## Buttons (signed off)
 
 Copy Edit Layout + Pages list. Do not invent a third look.
 
-**Primary** (Apply Changes, Save, Add template, Invite, Upload, View site): fill `#ff9800`, text white, 14px, fontWeight 600, Open Sans, `textTransform: none` (never ALL CAPS), `borderRadius: 8`, padding ~`8px 18px`, `boxShadow: none`, hover `#f57c00`. Sits on the **right**.
+**Primary** (Apply Changes, Save, Add template, Invite, Upload, View site, Generate, Process): fill `#ff9800`, text white, 14px, fontWeight 600, Open Sans, `textTransform: none` (never ALL CAPS), `borderRadius: 8`, padding ~`8px 18px`, `boxShadow: none`, hover `#f57c00`. Sits on the **right**.
 
 **Secondary / Cancel** on white or cream: orange text + 1px `#ff9800` border, white fill, 14px weight 500, radius 8, hover background `#fff8f0`.
 

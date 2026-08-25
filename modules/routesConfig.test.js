@@ -10,6 +10,7 @@ describe('main left rail routesConfig', () => {
     );
     expect(titles).toEqual([
       'Home',
+      'Create',
       'Page Templates',
       'Routes',
       'Widgets',
@@ -31,7 +32,8 @@ describe('main left rail routesConfig', () => {
     expect(src).not.toMatch(/Coming Soon/);
     expect(src).not.toMatch(/headless-apis/);
     expect(src).not.toMatch(/All Apis/);
-    expect(src).toMatch(/url:\s*'\/theme'/);
+    expect(src).toMatch(/url:\s*'\/create'/);
+    expect(src).toMatch(/title:\s*'Create'/);
     expect(src).toMatch(/title:\s*'Theme'/);
   });
 
@@ -42,6 +44,6 @@ describe('main left rail routesConfig', () => {
     );
     expect(skill).toMatch(/Headless APIs rail is gone/);
     expect(skill).toMatch(/Theme is a main rail/);
-    expect(skill).toMatch(/Routes is a Members-style list/);
+    expect(skill).toMatch(/Create \(`\/create`\) generates a page as named sections/);
   });
 });

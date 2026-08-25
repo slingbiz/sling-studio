@@ -8,6 +8,14 @@ const routesConfig = [
     url: '/dashboards/',
   },
   {
+    id: 'create',
+    title: 'Create',
+    messageId: 'sidebar.app.create',
+    type: 'item',
+    icon: 'auto_awesome',
+    url: '/create',
+  },
+  {
     id: 'pages',
     title: 'Page Templates',
     messageId: 'sidebar.app.pagesTemplates',

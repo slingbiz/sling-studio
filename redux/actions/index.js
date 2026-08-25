@@ -10,3 +10,4 @@ export * from './PageTemplate';
 export * from './Media';
 export * from './Widgets';
 export * from './Auth';
+export * from './CreatePage';

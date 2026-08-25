@@ -184,7 +184,7 @@ export const generateWidget = (prompt, themeConfig) => {
   };
 };
 
-export const saveGeneratedWidget = (widgetData, prompt) => {
+export const saveGeneratedWidget = (widgetData, prompt, options = {}) => {
   return async (dispatch) => {
     try {
       const policy = checkCodePolicy(widgetData.code || '', widgetData.dependencies);
@@ -204,7 +204,9 @@ export const saveGeneratedWidget = (widgetData, prompt) => {
       });
       if (res.status === 201) {
         dispatch({type: GENERATE_WIDGET_SUCCESS, payload: res.data.widget});
-        dispatch({type: SHOW_MESSAGE, payload: 'Widget generated successfully'});
+        if (!options.quiet) {
+          dispatch({type: SHOW_MESSAGE, payload: 'Widget generated successfully'});
+        }
         return res.data.widget;
       }
       dispatch({type: GENERATE_WIDGET_ERROR, payload: 'Failed to save widget'});
