@@ -18,6 +18,7 @@ import {SHOW_MESSAGE} from '../../shared/constants/ActionTypes';
 import PaginationControlled from '../../@sling/core/Pagination';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
 import AddImage from './MediaDetail/Gallery/AddImage';
+import MediaThumb from './MediaThumb';
 
 const useStyles = makeStyles(() => ({
   dialogPaper: {
@@ -351,7 +352,7 @@ const GalleryPickerModal = ({open, onClose, onSelect}) => {
                           pick(item);
                         }
                       }}>
-                      <img
+                      <MediaThumb
                         src={item.url}
                         alt={item.alt_text || item.altText || imageName(item)}
                         className={classes.thumb}

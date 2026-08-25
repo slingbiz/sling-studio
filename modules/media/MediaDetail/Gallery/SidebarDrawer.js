@@ -14,6 +14,7 @@ import {useDispatch} from 'react-redux';
 import {updateImage} from '../../../../redux/actions';
 import {SHOW_MESSAGE} from '../../../../shared/constants/ActionTypes';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
+import MediaThumb from '../../MediaThumb';
 
 const useStyles = makeStyles(() => ({
   dialogPaper: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles(() => ({
   },
   preview: {
     width: '100%',
-    maxHeight: 220,
+    height: 180,
     objectFit: 'contain',
     background: SLING_CREAM,
     borderRadius: 8,
@@ -167,9 +168,12 @@ export const SidebarDrawer = ({open, toggleDrawer, details}) => {
       </Box>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          {details?.url && (
-            <img src={details.url} alt={altText || name} className={classes.preview} />
-          )}
+          <MediaThumb
+            src={details?.url}
+            alt={altText || name}
+            className={classes.preview}
+            objectFit='contain'
+          />
           <Typography className={classes.fieldLabel}>Name</Typography>
           <TextField
             className={classes.dialogField}

@@ -31,6 +31,11 @@ describe('GalleryPickerModal', () => {
     expect(src).not.toMatch(/fontSize:\s*12/);
   });
 
+  test('broken or missing files show No image instead of a broken img', () => {
+    expect(src).toMatch(/MediaThumb/);
+    expect(src).not.toMatch(/<img/);
+  });
+
   test('Upload is the primary action on the right', () => {
     expect(src).toMatch(/toolbar:[\s\S]*justifyContent:\s*['"]space-between['"]/);
     expect(src).toMatch(/primaryBtn:[\s\S]*fontSize:\s*14/);

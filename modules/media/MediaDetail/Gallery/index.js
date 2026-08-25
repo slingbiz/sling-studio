@@ -21,6 +21,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import PaginationControlled from '../../../../@sling/core/Pagination';
 import {SHOW_MESSAGE} from '../../../../shared/constants/ActionTypes';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../../../aiBuilder/slingTheme';
+import MediaThumb from '../../MediaThumb';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -382,7 +383,7 @@ const Gallery = () => {
                     <Box
                       className={classes.thumbWrap}
                       onClick={() => toggleDrawer(true, item)}>
-                      <img
+                      <MediaThumb
                         src={item.url}
                         alt={item.alt_text || item.altText || imageName(item)}
                         className={classes.thumb}
