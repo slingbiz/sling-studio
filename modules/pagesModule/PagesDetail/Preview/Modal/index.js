@@ -23,24 +23,52 @@ import Mobile from './Mobile';
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: { padding: '1.5em' },
   activeIcon: {
-    color: '#FFFFFF',
-    backgroundColor: '#0288d1',
+    color: '#fff',
+    backgroundColor: '#ff9800',
+    textTransform: 'none',
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    boxShadow: 'none',
     '&:hover': {
-      backgroundColor: '#0277bd',
+      backgroundColor: '#f57c00',
+      boxShadow: 'none',
     },
   },
   titlePreview: {
-    fontWeight: 'bold',
+    fontWeight: 600,
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
   },
   inactiveIcon: {
-    color: '#B0BEC5',
+    color: 'rgba(255,255,255,0.75)',
     backgroundColor: 'transparent',
+    textTransform: 'none',
+    fontSize: 14,
+    fontFamily: 'Open Sans, sans-serif',
+    boxShadow: 'none',
     '&:hover': {
-      backgroundColor: '#eceff1',
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      boxShadow: 'none',
     },
   },
   appBar: {
     position: 'relative',
+    backgroundColor: '#163a5f',
+    color: '#fff',
+    boxShadow: 'none',
+  },
+  closeBtn: {
+    textTransform: 'none',
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: 'Open Sans, sans-serif',
+    border: '1px solid rgba(255,255,255,0.55)',
+    backgroundColor: 'transparent',
+    padding: '6px 16px',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.08)',
+    },
   },
   toolBar: {
     display: 'flex',
@@ -90,12 +118,12 @@ const PreviewModal = ({ open, setOpen, urlToPreview }) => {
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <AppBar className={classes.appBar}>
+      <AppBar className={classes.appBar} color='default'>
         <Toolbar className={classes.toolBar}>
           <Grid container alignItems='center' className={classes.responsiveGrid}>
             <Grid item xs={12} sm={4}>
               <Box style={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton onClick={handleClose}>
+                <IconButton onClick={handleClose} style={{color: '#fff'}}>
                   <ArrowBackIcon />
                 </IconButton>
                 <Typography className={classes.titlePreview}>
@@ -136,7 +164,7 @@ const PreviewModal = ({ open, setOpen, urlToPreview }) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={4} style={{ textAlign: 'end' }}>
-              <Button autoFocus={true} color='inherit' onClick={handleClose}>
+              <Button autoFocus={true} className={classes.closeBtn} onClick={handleClose}>
                 Close
               </Button>
             </Grid>

@@ -1,145 +1,259 @@
-import React from 'react';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import {orange} from '@material-ui/core/colors';
-import {Fonts} from '../../../../shared/constants/AppEnums';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import React, {useEffect, useState} from 'react';
+import {Box, Button, CircularProgress, TextField, Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {useDispatch} from "react-redux";
-import {SHOW_MESSAGE} from "../../../../shared/constants/ActionTypes";
+import {Fonts} from '../../../../shared/constants/AppEnums';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLayoutConfig} from '../../../../redux/actions';
+import {FETCH_ERROR} from '../../../../shared/constants/ActionTypes';
+import {
+  SLING_CREAM,
+  SLING_INK,
+  SLING_ORANGE,
+} from '../../../aiBuilder/slingTheme';
 
-const Basic = (props) => {
-  const useStyles = makeStyles((theme) => ({
-    selectBox: {
-      cursor: 'pointer',
-      '& .MuiOutlinedInput-input': {
-        paddingBottom: 10,
-        paddingTop: 10,
-      },
-      '& .MuiSelect-select': {
-        paddingLeft: 10,
-      },
+const useStyles = makeStyles(() => ({
+  page: {
+    padding: '12px 28px 32px',
+    background: '#fff',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  sectionHead: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 16,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: SLING_INK,
+    lineHeight: 1.35,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  sectionHint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.5,
+    marginTop: 6,
+    maxWidth: 640,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  fields: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '4px 20px',
+    width: '100%',
+    '@media (max-width: 720px)': {
+      gridTemplateColumns: '1fr',
     },
-    taskBtn: {
-      borderRadius: theme.overrides.MuiCard.root.borderRadius,
+  },
+  fieldWide: {
+    gridColumn: '1 / -1',
+  },
+  fieldWrap: {
+    marginBottom: 14,
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    display: 'block',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  field: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
     },
-    pointer: {
-      cursor: 'pointer',
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
     },
-    mr12: {
-      marginRight: 12,
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
     },
-    minWidth100: {
-      minWidth: 100,
-      width: '100%',
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
     },
-    avtr50: {
-      height: 50,
-      width: 50,
+    '& .MuiOutlinedInput-root.Mui-disabled': {
+      background: SLING_CREAM,
     },
-    datePicker: {
-      marginTop: 0,
+    '& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-input': {
+      color: SLING_INK,
     },
-    divider: {
-      marginTop: 20,
-      marginBottom: 20,
-    },
-    textArea: {
-      width: '100%',
-      marginBottom: 16,
-    },
-    option: {
-      padding: 8,
-      cursor: 'pointer',
-    },
-    button: {
-      backgroundColor: orange[500],
-      color: theme.palette.primary.contrastText,
-      fontWeight: Fonts.BOLD,
-      paddingRight: 20,
-      paddingLeft: 20,
-      '&:hover, &:focus': {
-        backgroundColor: orange[700],
-        color: theme.palette.secondary.contrastText,
-      },
-    },
-    basicFormTxt: {
-      margin: 10,
-    },
-  }));
+  },
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    flexShrink: 0,
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+    '&:disabled': {backgroundColor: '#ffcc80', color: '#fff'},
+  },
+  actions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexShrink: 0,
+  },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 48,
+  },
+  empty: {
+    fontSize: 14,
+    color: '#6b6f76',
+    fontFamily: 'Open Sans, sans-serif',
+    padding: '24px 0',
+  },
+}));
 
-  const classes = useStyles(props);
+const Basic = ({pageKey}) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
+  const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
+  const loading = !layoutData;
+  const {layoutConfig = {}} = layoutData || {};
+  const template = layoutConfig[pageKey];
+  const meta = template?.meta || {};
 
-  const {titleKey} = props;
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    setTitle(meta.title || '');
+    setDescription(meta.description || '');
+  }, [meta.title, meta.description]);
+
+  const handleSave = () => {
+    const nextTitle = title.trim();
+    const nextDescription = description.trim();
+    if (!nextTitle || !nextDescription) {
+      dispatch({
+        type: FETCH_ERROR,
+        payload: 'Add a title and description before saving.',
+      });
+      return;
+    }
+    setSaving(true);
+    dispatch(
+      setLayoutConfig({
+        pageKey,
+        meta: {
+          ...meta,
+          title: nextTitle,
+          description: nextDescription,
+        },
+      }),
+    );
+    setSaving(false);
+  };
+
   return (
     <>
       <AppsHeader>
         <Box fontWeight={Fonts.BOLD} component='h3'>
-          Meta Tags & SEO
+          Page details
         </Box>
       </AppsHeader>
-      <Box px={6} pb={8}>
-        {/*<ListItemText style={{marginTop: '0px'}}>{'}</ListItemText>*/}
-        <Box p={6} mb={6} className={classes.boxSection}>
-          <TextField
-            id='standard-full-width'
-            label='Page Name'
-            className={classes.basicFormTxt}
-            value={`${titleKey}`}
-            // helperText=''
-            fullWidth
-            margin='normal'
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id='standard-full-width'
-            label='Page Title'
-            className={classes.basicFormTxt}
-            helperText='Best selling products in your {{city}}}.'
-            // helperText=''
-            fullWidth
-            margin='normal'
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id='standard-full-width'
-            label='Meta Description'
-            className={classes.basicFormTxt}
-            // placeholder='Placeholder'
-            helperText='Found {{count}} products matching your search.'
-            fullWidth
-            margin='normal'
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <FormControlLabel
-            control={<Switch value='checkedC' />}
-            label='Allow Bots'
-          />
-        </Box>
-
-        <Divider className={classes.divider} />
-
-        <Button
-          className={classes.button}
-          onClick={() => {
-            dispatch({
-              type: SHOW_MESSAGE,
-              payload: `Sling is running in read-only mode. Changes will not be saved.`,
-            });
-          }}>
-          Save
-        </Button>
+      <Box className={classes.page}>
+        {loading ? (
+          <Box className={classes.loader}>
+            <CircularProgress style={{color: SLING_ORANGE}} />
+          </Box>
+        ) : !template ? (
+          <Typography className={classes.empty}>
+            This template could not be found. Go back to Pages and pick it from
+            the list.
+          </Typography>
+        ) : (
+          <>
+            <Box className={classes.sectionHead}>
+              <Box>
+                <Typography className={classes.sectionTitle}>
+                  Title and description
+                </Typography>
+                <Typography className={classes.sectionHint}>
+                  These show up on the templates list. The page key stays the
+                  same so existing routes keep working.
+                </Typography>
+              </Box>
+              <Box className={classes.actions}>
+                <Button
+                  className={classes.primaryBtn}
+                  onClick={handleSave}
+                  disabled={saving}>
+                  Save
+                </Button>
+              </Box>
+            </Box>
+            <Box className={classes.fields}>
+              <Box className={classes.fieldWrap}>
+                <Typography
+                  className={classes.fieldLabel}
+                  component='label'
+                  htmlFor='pageKey'>
+                  Page name
+                </Typography>
+                <TextField
+                  id='pageKey'
+                  value={pageKey || ''}
+                  variant='outlined'
+                  fullWidth
+                  disabled
+                  className={classes.field}
+                />
+              </Box>
+              <Box className={classes.fieldWrap}>
+                <Typography
+                  className={classes.fieldLabel}
+                  component='label'
+                  htmlFor='title'>
+                  Title
+                </Typography>
+                <TextField
+                  id='title'
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  variant='outlined'
+                  fullWidth
+                  className={classes.field}
+                />
+              </Box>
+              <Box className={`${classes.fieldWrap} ${classes.fieldWide}`}>
+                <Typography
+                  className={classes.fieldLabel}
+                  component='label'
+                  htmlFor='description'>
+                  Description
+                </Typography>
+                <TextField
+                  id='description'
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  variant='outlined'
+                  fullWidth
+                  multiline
+                  minRows={3}
+                  className={classes.field}
+                />
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
     </>
   );

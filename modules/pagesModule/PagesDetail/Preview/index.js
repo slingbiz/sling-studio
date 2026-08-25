@@ -1,181 +1,237 @@
-import React, {useEffect, useState} from 'react';
-import AppHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
-  Grid,
-  TextField,
-  makeStyles,
+  Box,
+  Button,
+  CircularProgress,
   List,
   ListItem,
   ListItemText,
-  Button,
-  Paper,
-  Box,
+  TextField,
+  Typography,
 } from '@material-ui/core';
-import PreviewModal from './Modal';
-import orange from '@material-ui/core/colors/orange';
+import {makeStyles} from '@material-ui/core/styles';
+import AppHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {Fonts} from '../../../../shared/constants/AppEnums';
+import PreviewModal from './Modal';
 import {getRoutesList, getCompanyInfo} from '../../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import {generateSlug} from 'random-word-slugs';
+import {
+  SLING_CREAM,
+  SLING_INK,
+  SLING_ORANGE,
+} from '../../../aiBuilder/slingTheme';
 
-const useStyles = makeStyles((theme) => ({
-  mainContainer: {
-    padding: theme.spacing(5),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2),
+const useStyles = makeStyles(() => ({
+  page: {
+    padding: '12px 28px 32px',
+    background: '#fff',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 16,
+  },
+  toolbarLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    minWidth: 0,
+    flex: 1,
+  },
+  search: {
+    maxWidth: 420,
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      height: 40,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
     },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
+    },
+  },
+  primaryBtn: {
+    textTransform: 'none',
+    backgroundColor: SLING_ORANGE,
+    color: '#fff',
+    fontWeight: 600,
+    fontSize: 14,
+    borderRadius: 8,
+    padding: '8px 18px',
+    boxShadow: 'none',
+    fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {backgroundColor: '#f57c00', boxShadow: 'none'},
+    '&:disabled': {backgroundColor: '#ffcc80', color: '#fff'},
+  },
+  hint: {
+    fontSize: 14,
+    color: '#6b6f76',
+    lineHeight: 1.5,
+    marginBottom: 16,
+    fontFamily: 'Open Sans, sans-serif',
   },
   listRoot: {
     width: '100%',
-    maxHeight: '100%',
-    overflow: 'auto',
-    border: 'none',
+    padding: 0,
   },
-  urlContainer: {
-    border: 'none',
-    boxShadow: 'none',
-    maxHeight: '35em',
-    overflow: 'auto',
-    height: '100%',
-    '& .MuiListItem-root': {
-      paddingTop: theme.spacing(0.5),
-      paddingBottom: theme.spacing(0.5),
+  urlItem: {
+    padding: '8px 4px',
+    borderRadius: 8,
+    '&:hover': {background: SLING_CREAM},
+  },
+  urlItemSelected: {
+    background: SLING_CREAM,
+  },
+  urlText: {
+    '& .MuiListItemText-primary': {
+      fontSize: 14,
+      color: SLING_INK,
+      fontFamily: 'Open Sans, sans-serif',
     },
   },
-  button: {
-    height: '50px',
-    backgroundColor: orange[500],
-    color: theme.palette.primary.contrastText,
-    fontWeight: Fonts.BOLD,
-    paddingRight: 20,
-    paddingLeft: 20,
-    '&:hover, &:focus': {
-      backgroundColor: orange[700],
-      color: theme.palette.primary.contrastText,
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: 'auto',
-      padding: theme.spacing(1),
-    },
+  empty: {
+    fontSize: 14,
+    color: '#6b6f76',
+    fontFamily: 'Open Sans, sans-serif',
+    padding: '24px 4px',
   },
-  searchField: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-  },
-  descriptionText: {
-    marginBottom: theme.spacing(3),
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 48,
   },
 }));
 
-const urlList = [
-  'https://demo.sling.biz/dubai/women/clothes/products',
-  'https://sling.biz/',
-  'https://demo.sling.biz/',
-  'https://www.booking.com/',
-];
+const buildPreviewUrl = (route, clientUrl) => {
+  let url = route.sample_string || route.url_string || '';
+  url = url.replace(/\<.*?\>/g, () =>
+    generateSlug(1, {
+      format: 'lower',
+      partsOfSpeech: ['noun'],
+    }),
+  );
+  const base = clientUrl || '';
+  const slash = url.startsWith('/') || base.endsWith('/') ? '' : '/';
+  return `${base}${slash}${url}`;
+};
 
-const Preview = () => {
+const Preview = ({pageKey}) => {
   const dispatch = useDispatch();
-  const {routesList} = useSelector(({routeList}) => routeList);
+  const {routesList = []} = useSelector(({routeList}) => routeList);
   const {account} = useSelector(({account}) => account);
   const {user} = useSelector(({auth}) => auth);
-
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [urlToPreview, setUrlToPreview] = useState('');
   const [previewMapperDialog, setPreviewMapperDialog] = useState(false);
-
-  const getList = () => {
-    const {clientUrl} = account || {};
-    const list = routesList.map(
-      ({sample_string: sampleString, url_string: urlString}) => {
-        let url = sampleString || urlString;
-        const slug = generateSlug();
-        url = url.replace(/\<.*?\>/g, slug);
-        const slash = url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
-        return `${clientUrl}${slash}${url}`;
-      },
-    );
-    let res = [...list, ...urlList];
-    if (query) {
-      res = res.filter((data) => data.search(query) !== -1);
-    }
-    return res;
-  };
+  const [routesReady, setRoutesReady] = useState(false);
 
   useEffect(() => {
-    if (!account) {
+    if (!account && user?.email) {
       dispatch(getCompanyInfo(user.email));
     }
-  }, [dispatch, account, user.email]);
+  }, [dispatch, account, user?.email]);
 
   useEffect(() => {
-    if (!routesList.length) {
-      dispatch(getRoutesList({size: 100}));
-    }
-  }, [dispatch, routesList.length]);
+    let cancelled = false;
+    dispatch(getRoutesList({size: 100})).finally(() => {
+      if (!cancelled) setRoutesReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch]);
+
+  const urls = useMemo(() => {
+    const {clientUrl} = account || {};
+    return (routesList || [])
+      .filter((route) => route.page_template === pageKey)
+      .map((route) => buildPreviewUrl(route, clientUrl));
+  }, [routesList, pageKey, account]);
+
+  const visibleUrls = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return urls;
+    return urls.filter((url) => url.toLowerCase().includes(needle));
+  }, [urls, query]);
+
+  const loading = !routesReady;
 
   const handleClick = (item) => {
-    setQuery(item);
     setUrlToPreview(item);
   };
 
   return (
     <>
-      <AppHeader>Preview Page</AppHeader>
-      <Grid container direction='column' className={classes.mainContainer}>
-        <Grid item xs={12}>
-          <Box
-            fontWeight={Fonts.MEDIUM}
-            component='h5'
-            className={classes.descriptionText}>
-            The list shows Page Urls matching this Page Template. Select and
-            click Preview to preview a page.
+      <AppHeader>Preview</AppHeader>
+      <Box className={classes.page}>
+        {loading ? (
+          <Box className={classes.loader}>
+            <CircularProgress style={{color: SLING_ORANGE}} />
           </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container direction='row' alignItems='center' spacing={3}>
-            <Grid item xs={12} sm={8} className={classes.searchField}>
-              <TextField
-                id='search'
-                label='Search url'
-                variant='outlined'
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+        ) : (
+          <>
+            <Typography className={classes.hint}>
+              These are the live routes that use this template. Pick one and
+              click Preview.
+            </Typography>
+            <Box className={classes.toolbar}>
+              <Box className={classes.toolbarLeft}>
+                <TextField
+                  id='search'
+                  placeholder='Search urls'
+                  variant='outlined'
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  className={classes.search}
+                />
+              </Box>
               <Button
-                variant='contained'
-                color='primary'
-                className={classes.button}
+                className={classes.primaryBtn}
+                disabled={!urlToPreview}
                 onClick={() => setPreviewMapperDialog(true)}>
                 Preview
               </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.urlContainer}>
-            <List className={classes.listRoot}>
-              {getList().map((item, index) => (
-                <ListItem
-                  value={item}
-                  key={index}
-                  dense
-                  button
-                  onClick={() => handleClick(item)}>
-                  <ListItemText primary={item} />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        </Grid>
-      </Grid>
+            </Box>
+            {visibleUrls.length === 0 ? (
+              <Typography className={classes.empty}>
+                {urls.length === 0
+                  ? 'This template has no routes yet.'
+                  : 'No routes match this search.'}
+              </Typography>
+            ) : (
+              <List className={classes.listRoot}>
+                {visibleUrls.map((item) => (
+                  <ListItem
+                    value={item}
+                    key={item}
+                    dense
+                    button
+                    className={`${classes.urlItem}${
+                      item === urlToPreview ? ` ${classes.urlItemSelected}` : ''
+                    }`}
+                    onClick={() => handleClick(item)}>
+                    <ListItemText className={classes.urlText} primary={item} />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </>
+        )}
+      </Box>
       <PreviewModal
         open={previewMapperDialog}
         setOpen={setPreviewMapperDialog}

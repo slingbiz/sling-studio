@@ -34,6 +34,7 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - Identity: Ankur Pata / ankur@sling.biz / slingbiz. Never ankurtd for Sling git/gh.
 - Gold standard remains Members. Orange `#ff9800`, cream `#fff8f0`, Open Sans, 14px/16px/14px. Never Linear purple. Never Linear 12px.
 - Button chrome is Edit Layout / Pages list. Ankur signed this off.
+- Pages Data tab is gone. Old `/pages/{id}/data` URLs land on Layout. Do not bring back Coming Soon.
 
 ## Buttons (signed off)
 
@@ -58,7 +59,7 @@ Pages (`/pages`) is the next surface to match the product.
 - Edit layout left library: show widget **previews**, not generic icons. Do not stack infinite live iframes (that already felt like a hang). Lazy/static thumbnails or capped previews.
 - Make Pages list, modal, layout header, settings panel match Members (search left, primary right, one loader, no hover-only Configure/Delete).
 - Edit Layout General Settings: white card on cream, ink 14px, human breakpoint labels (Mobile (sm)). Not cream-on-cream sm/md/lg.
-- Do not fake the Data tab Coming Soon. Hide or leave later — don’t ship a dead form.
+- Data tab is gone, not later. Do not ship a Coming Soon Data page.
 - Widget Props on the inspector already got Gallery pick — keep it.
 
 ## Checklist
@@ -105,3 +106,4 @@ Run every item against the changed screens and any screen that shares that state
 - Add Template was default MUI. Members-style modal: cream fields, orange Save on the right, 14px.
 - Edit Layout General Settings was cream-on-cream with sm/md/lg. White card, ink 14px, human breakpoint labels (Mobile (sm)).
 - Default MUI contained primary (blue, ALL CAPS).
+- Data tab Coming Soon with a fake Save. The tab is gone; `/pages/{id}/data` opens Layout.

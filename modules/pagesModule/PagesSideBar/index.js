@@ -14,7 +14,6 @@ export const folderListChild = [
   {id: 120, name: 'Basic', alias: 'basic', icon: 'border_color'},
   {id: 121, name: 'Layout', alias: 'layout', icon: 'view_quilt'},
   {id: 123, name: 'Preview', alias: 'preview', icon: 'pageview-icon'},
-  {id: 124, name: 'Data', alias: 'data', icon: 'storage-icon'},
 ];
 export const folderListParent = [
   {id: 100, name: 'Templates', alias: 'pages/templates', icon: 'list'},

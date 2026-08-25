@@ -1,20 +1,26 @@
-import React from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import Box from '@material-ui/core/Box';
 import Basic from './Basic';
 import Layout from './Layout';
-import DataSource from './DataSource';
-import TasksList from '../TasksList';
 import Preview from './Preview';
 import PagesList from '../PagesList';
 import Guide from './Guide';
 
 const PagesDetail = (props) => {
-  const {query} = useRouter();
-  const id = query.all[1] || query.all[0];
+  const router = useRouter();
+  const {query} = router;
+  const pageKey = query.all?.[0];
+  const section = query.all?.[1] || query.all?.[0];
+
+  useEffect(() => {
+    if (section === 'data' && pageKey) {
+      router.replace(`/pages/${pageKey}/layout`);
+    }
+  }, [pageKey, section, router]);
+
   const sectionMapper =
-    id === 'templates' || id === 'guide'
+    pageKey === 'templates' || pageKey === 'guide'
       ? {
           templates: PagesList,
         }
@@ -23,20 +29,19 @@ const PagesDetail = (props) => {
           basic: Basic,
           layout: Layout,
           preview: Preview,
-          data: DataSource,
           guide: Guide,
         };
 
-  const RenderSection = sectionMapper[id];
-  console.log('Render Section ==> ', RenderSection);
+  const RenderSection =
+    section === 'data' ? Layout : sectionMapper[section];
   if (RenderSection) {
     return (
       <Box style={{height: '100%'}}>
-        <RenderSection {...props}></RenderSection>
+        <RenderSection {...props} />
       </Box>
     );
   }
-  return <Guide {...props}></Guide>;
+  return <Guide {...props} />;
 };
 
 export default PagesDetail;

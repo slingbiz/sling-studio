@@ -15,6 +15,11 @@ describe('Pages sidebar', () => {
     expect(src).not.toMatch(/AddNewTask/);
   });
 
+  test('does not list a Data tab', () => {
+    expect(src).not.toMatch(/alias:\s*'data'/);
+    expect(src).not.toMatch(/name:\s*'Data'/);
+  });
+
   test('selected styles use Sling orange and cream, not MUI primary', () => {
     expect(styleSrc).toMatch(/#ff9800/);
     expect(styleSrc).toMatch(/#fff8f0/);
