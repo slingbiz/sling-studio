@@ -16,7 +16,11 @@ import {createCopy, ensureWidgetLabel} from './sectionContract';
 import SectionPreview from './SectionPreview';
 import ProcessedSetup from './ProcessedSetup';
 import {streamPageFromPrompt} from './streamPageGenerate';
-import {loadCreateAttempts, saveCreateAttempt} from './createAttempts';
+import {
+  findCreateAttempt,
+  loadCreateAttempts,
+  saveCreateAttempt,
+} from './createAttempts';
 import {processGeneratedPage, publishGeneratedPage} from '../../redux/actions/CreatePage';
 import {resolveWidgetTheme} from '../aiBuilder/widgetTheme';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
@@ -292,18 +296,67 @@ const CreatePage = () => {
   const [streamText, setStreamText] = useState('');
   const [result, setResult] = useState(null);
   const [done, setDone] = useState(null);
+  const [view, setView] = useState('setup');
   const [attempts, setAttempts] = useState([]);
   const abortRef = useRef(null);
   const streamLogRef = useRef(null);
   const replaceOnSection = useRef(true);
+  const setupId =
+    typeof router.query?.setup === 'string' ? router.query.setup : '';
 
-  const sections = result?.sections || [];
+  const sections = result?.sections?.length
+    ? result.sections
+    : done?.sections || [];
   const count = sections.length;
   const visibleCode = streamText.split('\n').slice(-40).join('\n');
+
+  const restoreAttempt = (item) => {
+    if (!item) return;
+    setDone(item);
+    setView('setup');
+    setPrompt(item.prompt || '');
+    if (item.sections?.length || item.widgets?.length) {
+      setResult({
+        page:
+          item.page || {
+            title: item.title,
+            path: item.path,
+            key: item.pageKey,
+          },
+        sections:
+          item.sections?.length > 0
+            ? item.sections
+            : (item.widgets || []).map((widget) => ({
+                id: widget._id || widget.key,
+                label: widget.name,
+                name: widget.name,
+                key: widget.key,
+                code: widget.code,
+                dependencies: widget.dependencies,
+                props: widget.props,
+              })),
+      });
+    }
+  };
+
+  const goToSetup = (item) => {
+    restoreAttempt(item);
+    const id = item.pageKey || item.id;
+    if (!id) return;
+    router.replace({pathname: '/create', query: {setup: id}}, undefined, {
+      shallow: true,
+    });
+  };
 
   useEffect(() => {
     setAttempts(loadCreateAttempts());
   }, []);
+
+  useEffect(() => {
+    if (!router.isReady || !setupId) return;
+    if (done?.pageKey === setupId || done?.id === setupId) return;
+    restoreAttempt(findCreateAttempt(setupId));
+  }, [router.isReady, setupId, done?.pageKey, done?.id]);
 
   useEffect(() => {
     if (streamLogRef.current) {
@@ -318,7 +371,13 @@ const CreatePage = () => {
     setStreamText('');
     setStatusMessage('');
     setDone(null);
+    setView('setup');
     setFollowUp('');
+  };
+
+  const closeSetup = () => {
+    resetPreview();
+    router.replace('/create', undefined, {shallow: true});
   };
 
   const runStream = async (nextPrompt, options = {}) => {
@@ -425,8 +484,14 @@ const CreatePage = () => {
     );
     setProcessing(false);
     if (saved) {
-      setDone(saved);
-      setAttempts(saveCreateAttempt({...saved, at: Date.now()}));
+      const record = {
+        ...saved,
+        at: Date.now(),
+        page: result.page,
+        sections: result.sections,
+      };
+      setAttempts(saveCreateAttempt(record));
+      goToSetup(record);
     }
   };
 
@@ -436,9 +501,15 @@ const CreatePage = () => {
     const published = await dispatch(publishGeneratedPage({widgets: done.widgets}));
     setPublishing(false);
     if (published) {
-      const next = {...done, published: true, widgets: published};
+      const next = {
+        ...done,
+        published: true,
+        widgets: published,
+        sections: result?.sections || done.sections,
+        page: result?.page || done.page,
+      };
+      setAttempts(saveCreateAttempt(next));
       setDone(next);
-      setAttempts(saveCreateAttempt({...next, at: Date.now()}));
     }
   };
 
@@ -448,15 +519,43 @@ const CreatePage = () => {
   return (
     <AppsContainer fullView>
       <Box className={classes.page}>
-        {done ? (
+        {done && view === 'preview' && sections.some((section) => section.code) ? (
+          <>
+            <Box className={classes.summary}>
+              <Typography className={classes.summaryText}>
+                This is the page Create generated. It is still a draft until you
+                publish.
+              </Typography>
+              <Button
+                className={classes.ghostBtn}
+                onClick={() => setView('setup')}>
+                Back to setup
+              </Button>
+            </Box>
+            <Box className={classes.canvas}>
+              {sections.map((section) => (
+                <SectionPreview
+                  key={section.id || section.key}
+                  section={section}
+                  themeOverrides={tenantTheme}
+                />
+              ))}
+            </Box>
+          </>
+        ) : done ? (
           <ProcessedSetup
             setup={done}
             themeOverrides={tenantTheme}
             canPublish={canPublish}
             publishing={publishing}
             onPublish={publishPage}
-            onClose={resetPreview}
+            onClose={closeSetup}
             onOpen={(path) => router.push(path)}
+            onViewPage={
+              sections.some((section) => section.code)
+                ? () => setView('preview')
+                : undefined
+            }
           />
         ) : !showBuilder ? (
           <Box className={classes.emptyPage}>
@@ -505,14 +604,16 @@ const CreatePage = () => {
                   <Typography className={classes.recentsTitle}>
                     Recent pages
                   </Typography>
+                  <Typography className={classes.recentMeta} style={{marginBottom: 8}}>
+                    Open one to get back to the generated page and its drafts.
+                  </Typography>
                   {attempts.map((item) => (
                     <Button
                       key={item.id || item.pageKey || item.at}
                       className={classes.recentItem}
                       onClick={() => {
-                        if (item.widgets?.length) {
-                          setDone(item);
-                          setPrompt(item.prompt || '');
+                        if (item.widgets?.length || item.pageKey) {
+                          goToSetup(item);
                           return;
                         }
                         setPrompt(item.prompt || '');

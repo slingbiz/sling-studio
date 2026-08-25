@@ -96,8 +96,14 @@ export const processGeneratedPage = ({page, sections, prompt}) => {
         url: path,
         sample_string: path,
       });
-      if (routeRes.status !== 200) {
-        throw new Error('Template saved, but the route could not be created.');
+      if (
+        routeRes.status !== 200 ||
+        routeRes.data?.response?.status === false
+      ) {
+        throw new Error(
+          routeRes.data?.response?.msg ||
+            'Template saved, but the route could not be created.',
+        );
       }
       dispatch(getRoutesList({page: 0, size: 100, quiet: true}));
       dispatch({

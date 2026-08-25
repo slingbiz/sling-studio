@@ -20,6 +20,7 @@ import {generateSlug} from 'random-word-slugs';
 import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
 import {keysFromPattern, buildSample, samplesFromRoute} from './routePattern';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -437,6 +438,7 @@ const RouteModal = ({open, onClose, editRoute, templates, onSave, classes}) => {
 const RoutesList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const router = useRouter();
   const {routesList = []} = useSelector(({routeList}) => routeList);
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {account} = useSelector(({account}) => account);
@@ -450,6 +452,12 @@ const RoutesList = () => {
   const [routeToDelete, setRouteToDelete] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [urlToPreview, setUrlToPreview] = useState('');
+
+  useEffect(() => {
+    if (typeof router.query?.q === 'string' && router.query.q) {
+      setQuery(router.query.q);
+    }
+  }, [router.query?.q]);
 
   useEffect(() => {
     let cancelled = false;

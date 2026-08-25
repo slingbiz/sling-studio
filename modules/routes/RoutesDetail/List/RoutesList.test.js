@@ -22,6 +22,7 @@ describe('Routes list', () => {
 
   test('search sits on the left and Edit, Preview, Layout, Delete stay visible', () => {
     expect(src).toMatch(/placeholder='Search routes'/);
+    expect(src).toMatch(/router\.query\?\.q/);
     expect(src).toMatch(/toolbarLeft/);
     expect(src).toMatch(/aria-label='Preview'/);
     expect(src).toMatch(/aria-label='Layout'/);

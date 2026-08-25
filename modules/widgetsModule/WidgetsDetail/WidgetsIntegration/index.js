@@ -260,6 +260,23 @@ const WidgetsIntegration = (props) => {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
+    const status = router.query?.status;
+    const searchQuery =
+      typeof router.query?.q === 'string' ? router.query.q : '';
+    const validStatus =
+      status === 'draft' ||
+      status === 'pending_review' ||
+      status === 'published';
+    if (!validStatus && !searchQuery) return;
+    setFilter((prev) => ({
+      ...prev,
+      ...(validStatus ? {status} : {}),
+      ...(searchQuery ? {query: searchQuery} : {}),
+    }));
+    if (searchQuery) setQuery(searchQuery);
+  }, [router.query?.status, router.query?.q]);
+
+  useEffect(() => {
     dispatch(getWidgets({...filter, page, size: PAGE_SIZE}));
   }, [filter, page]);
 

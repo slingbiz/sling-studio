@@ -31,6 +31,7 @@ describe('WidgetsIntegration live preview', () => {
     expect(src).toMatch(/label: 'Draft'/);
     expect(src).toMatch(/label: 'In review'/);
     expect(src).toMatch(/pending_review/);
+    expect(src).toMatch(/router\.query\?\.status/);
   });
 
   test('has a Review Queue shortcut next to the status chips', () => {

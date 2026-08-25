@@ -153,7 +153,24 @@ const useStyles = makeStyles(() => ({
     color: '#6b6f76',
     marginBottom: 8,
   },
+  summaryRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    minWidth: 0,
+  },
+  summaryPath: {
+    fontSize: 13,
+    color: '#6b6f76',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+  },
 }));
+
+const draftWidgetsPath = (query) => {
+  const params = new URLSearchParams({status: 'draft'});
+  if (query) params.set('q', query);
+  return `/widgets/widgets-integration?${params.toString()}`;
+};
 
 const ProcessedSetup = ({
   setup,
@@ -163,11 +180,14 @@ const ProcessedSetup = ({
   onPublish,
   onClose,
   onOpen,
+  onViewPage,
 }) => {
   const classes = useStyles();
   const [open, setOpen] = useState('route');
   const widgets = setup?.widgets || [];
   const published = Boolean(setup?.published);
+  const routePath = setup?.path || '/';
+  const routesHref = `/routes?q=${encodeURIComponent(routePath)}`;
 
   const toggle = (key) => (_, expanded) => setOpen(expanded ? key : false);
 
@@ -180,10 +200,16 @@ const ProcessedSetup = ({
           </Typography>
           <Typography className={classes.hint}>
             Route is the URL. The template is the layout. Each widget can take
-            props and is governed on its own.
+            props and is governed on its own. This screen stays under Create, so
+            come back here after you inspect a draft.
           </Typography>
         </Box>
         <Box className={classes.actions}>
+          {onViewPage ? (
+            <Button className={classes.ghostBtn} onClick={onViewPage}>
+              View generated page
+            </Button>
+          ) : null}
           <Button className={classes.ghostBtn} onClick={onClose}>
             Close
           </Button>
@@ -203,15 +229,18 @@ const ProcessedSetup = ({
 
       <Accordion expanded={open === 'route'} onChange={toggle('route')}>
         <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-          <Typography className={classes.panelTitle}>Page route</Typography>
+          <Box className={classes.summaryRow}>
+            <Typography className={classes.panelTitle}>Page route</Typography>
+            <Typography className={classes.summaryPath}>{routePath}</Typography>
+          </Box>
         </AccordionSummary>
         <AccordionDetails>
           <Typography className={classes.explain}>
             The route is the entry point. People hit this URL, and Sling loads
             the template behind it.
           </Typography>
-          <Box className={classes.path}>{setup?.path || '/'}</Box>
-          <Button className={classes.ghostBtn} onClick={() => onOpen('/routes')}>
+          <Box className={classes.path}>{routePath}</Box>
+          <Button className={classes.ghostBtn} onClick={() => onOpen(routesHref)}>
             Go to Routes
           </Button>
         </AccordionDetails>
@@ -252,7 +281,9 @@ const ProcessedSetup = ({
                   </Typography>
                   <Button
                     className={classes.ghostBtn}
-                    onClick={() => onOpen('/widgets/widgets-integration')}>
+                    onClick={() =>
+                      onOpen(draftWidgetsPath(widget.name || widget.key))
+                    }>
                     Open widget
                   </Button>
                 </Box>
@@ -262,7 +293,7 @@ const ProcessedSetup = ({
           <Box style={{marginTop: 12}}>
             <Button
               className={classes.ghostBtn}
-              onClick={() => onOpen('/widgets/widgets-integration')}>
+              onClick={() => onOpen(draftWidgetsPath())}>
               Go to Widgets
             </Button>
           </Box>

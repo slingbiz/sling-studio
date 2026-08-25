@@ -6,6 +6,7 @@ const preview = fs.readFileSync(path.join(__dirname, 'SectionPreview.js'), 'utf8
 const contract = fs.readFileSync(path.join(__dirname, 'sectionContract.js'), 'utf8');
 const stream = fs.readFileSync(path.join(__dirname, 'streamPageGenerate.js'), 'utf8');
 const processed = fs.readFileSync(path.join(__dirname, 'ProcessedSetup.js'), 'utf8');
+const attemptsSrc = fs.readFileSync(path.join(__dirname, 'createAttempts.js'), 'utf8');
 const actions = fs.readFileSync(
   path.join(__dirname, '../../redux/actions/CreatePage.js'),
   'utf8',
@@ -74,5 +75,18 @@ describe('Create page builder', () => {
     );
     expect(processFn).not.toMatch(/\/publish/);
     expect(processFn).not.toMatch(/status:\s*'published'/);
+  });
+
+  test('keeps the processed page so people can come back after inspecting drafts', () => {
+    expect(src).toMatch(/query:\s*\{\s*setup/);
+    expect(src).toMatch(/findCreateAttempt/);
+    expect(src).toMatch(/Back to setup/);
+    expect(src).toMatch(/Open one to get back/);
+    expect(processed).toMatch(/View generated page/);
+    expect(processed).toMatch(/status:\s*'draft'/);
+    expect(processed).toMatch(/\/routes\?q=/);
+    expect(processed).toMatch(/come back here after you inspect/);
+    expect(attemptsSrc).toMatch(/findCreateAttempt/);
+    expect(attemptsSrc).toMatch(/stripCodes/);
   });
 });
