@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCompanyInfo} from '../../../redux/actions/AccountAction';
 
 const useStyles = makeStyles(() => ({
-  shopBtn: {
+  siteBtn: {
     textTransform: 'none',
     backgroundColor: '#ff9800',
     color: '#fff',
@@ -35,7 +35,7 @@ const LanguageSwitcher = (props) => {
   const {user} = useSelector(({auth}) => auth);
   const dispatch = useDispatch();
   const classes = useStyles(props);
-  const shopUrl = account?.clientUrl;
+  const siteUrl = account?.clientUrl;
 
   useEffect(() => {
     if (account == null || account == '') {
@@ -43,26 +43,26 @@ const LanguageSwitcher = (props) => {
     }
   }, [dispatch]);
 
-  const buttonProps = shopUrl
+  const buttonProps = siteUrl
     ? {
         component: 'a',
-        href: shopUrl,
+        href: siteUrl,
         target: '_blank',
         rel: 'noreferrer',
-        title: 'Open your live shop in a new tab',
+        title: 'Open the live site in a new tab',
       }
     : {
         disabled: true,
-        title: 'Add your store URL in Settings → Company first.',
+        title: 'Add your site URL in Settings → Company first.',
       };
 
   return (
     <Box style={{display: 'flex', alignItems: 'center'}}>
       <Button
-        className={classes.shopBtn}
-        aria-label='View shop'
+        className={classes.siteBtn}
+        aria-label='View site'
         {...buttonProps}>
-        View shop
+        View site
       </Button>
     </Box>
   );

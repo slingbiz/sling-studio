@@ -3,13 +3,14 @@ const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, 'index.js'), 'utf8');
 
-describe('Header View shop', () => {
-  test('opens the live shop URL, not a jargon Frontend label', () => {
-    expect(src).toMatch(/>\s*View shop\s*</);
-    expect(src).toMatch(/aria-label='View shop'/);
+describe('Header View site', () => {
+  test('opens the live site URL, not Frontend or shop', () => {
+    expect(src).toMatch(/>\s*View site\s*</);
+    expect(src).toMatch(/aria-label='View site'/);
     expect(src).toMatch(/account\?\.clientUrl/);
     expect(src).toMatch(/target:\s*['"]_blank['"]/);
     expect(src).not.toMatch(/>\s*Frontend\s*</);
+    expect(src).not.toMatch(/>\s*View shop\s*</);
   });
 
   test('uses signed-off Sling orange, not MUI uppercase', () => {
@@ -20,7 +21,7 @@ describe('Header View shop', () => {
     expect(src).not.toMatch(/textTransform:\s*['"]uppercase['"]/);
   });
 
-  test('does not send people to Studio when the shop URL is missing', () => {
+  test('does not send people to Studio when the site URL is missing', () => {
     expect(src).toMatch(/disabled:\s*true/);
     expect(src).toMatch(/Settings → Company/);
     expect(src).not.toMatch(/clientUrl \|\| '\/'/);
