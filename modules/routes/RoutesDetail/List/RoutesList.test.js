@@ -27,8 +27,9 @@ describe('Routes list', () => {
     expect(src).toMatch(/aria-label='Layout'/);
     expect(src).toMatch(/aria-label='Edit'/);
     expect(src).toMatch(/aria-label='Delete'/);
-    expect(src).not.toMatch(/onMouseOver/);
-    expect(src).not.toMatch(/Reroute/);
+    expect(src).toMatch(/boxShadow:\s*'none !important'/);
+    expect(src).toMatch(/variant='text'/);
+    expect(src).not.toMatch(/AppsHeader/);
   });
 
   test('add and edit pick a page template in one Members-style modal', () => {

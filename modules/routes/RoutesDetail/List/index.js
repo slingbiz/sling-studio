@@ -12,8 +12,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import AppsHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
-import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useDispatch, useSelector} from 'react-redux';
 import {addRoute, deleteRoute, fetchLayoutConfig, getRoutesList} from '../../../../redux/actions';
 import {FETCH_WARNING} from '../../../../shared/constants/ActionTypes';
@@ -94,8 +92,18 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '6px 10px',
+    minHeight: 0,
+    padding: '2px 6px',
+    lineHeight: 1.3,
+    backgroundColor: 'transparent',
+    boxShadow: 'none !important',
+    border: 0,
+    borderRadius: 6,
     fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {
+      backgroundColor: '#fff8f0',
+      boxShadow: 'none !important',
+    },
   },
   ghostBtn: {
     textTransform: 'none',
@@ -103,23 +111,37 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
     fontWeight: 500,
     minWidth: 0,
-    padding: '6px 10px',
+    minHeight: 0,
+    padding: '2px 6px',
+    lineHeight: 1.3,
+    backgroundColor: 'transparent',
+    boxShadow: 'none !important',
+    border: 0,
+    borderRadius: 6,
     fontFamily: 'Open Sans, sans-serif',
+    '&:hover': {
+      backgroundColor: '#fff8f0',
+      boxShadow: 'none !important',
+    },
+  },
+  tableGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.2fr) 220px',
+    gap: 16,
+    padding: '10px 8px',
+    alignItems: 'center',
   },
   tableHead: {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(220px, 1.6fr) minmax(160px, 1.2fr) minmax(160px, 1.2fr) auto',
-    gap: 12,
-    padding: '12px 8px 10px',
     color: '#6b6f76',
     fontSize: 14,
     fontWeight: 500,
+    borderBottom: '1px solid #eee',
   },
   sectionBar: {
     display: 'flex',
     alignItems: 'center',
     padding: '8px 10px',
-    margin: '0 -8px 0',
+    margin: '0 -8px 4px',
     background: '#f6f7f9',
     color: '#6b6f76',
     fontSize: 14,
@@ -127,12 +149,8 @@ const useStyles = makeStyles(() => ({
     borderRadius: 4,
   },
   row: {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(220px, 1.6fr) minmax(160px, 1.2fr) minmax(160px, 1.2fr) auto',
-    gap: 12,
-    alignItems: 'center',
-    padding: '12px 8px',
-    minHeight: 60,
+    minHeight: 56,
+    borderBottom: '1px solid #f3f3f3',
   },
   name: {
     fontSize: 16,
@@ -534,11 +552,6 @@ const RoutesList = () => {
 
   return (
     <>
-      <AppsHeader>
-        <Box fontWeight={Fonts.BOLD} component='h3'>
-          Routes
-        </Box>
-      </AppsHeader>
       <Box className={classes.page}>
         <Box className={classes.toolbar}>
           <Box className={classes.toolbarLeft}>
@@ -579,15 +592,15 @@ const RoutesList = () => {
           </Box>
         ) : (
           <>
-            <Box className={classes.tableHead}>
+            <Box className={classes.sectionBar}>Routes {visible.length}</Box>
+            <Box className={`${classes.tableGrid} ${classes.tableHead}`}>
               <span>URL</span>
               <span>Template</span>
               <span>Sample</span>
               <span />
             </Box>
-            <Box className={classes.sectionBar}>Routes {visible.length}</Box>
             {visible.length === 0 && (
-              <Box className={classes.row}>
+              <Box className={`${classes.tableGrid} ${classes.row}`}>
                 <Typography className={classes.cell} style={{color: '#6b6f76'}}>
                   {needle
                     ? 'No routes match this search.'
@@ -596,7 +609,7 @@ const RoutesList = () => {
               </Box>
             )}
             {visible.map((route) => (
-              <Box className={classes.row} key={route._id || route.url_string}>
+              <Box className={`${classes.tableGrid} ${classes.row}`} key={route._id || route.url_string}>
                 <Box minWidth={0}>
                   <Typography className={classes.name} noWrap>
                     {route.title || route.url_string}
@@ -611,6 +624,8 @@ const RoutesList = () => {
                 </Typography>
                 <Box className={classes.actions}>
                   <Button
+                    variant='text'
+                    disableRipple
                     className={classes.actionBtn}
                     aria-label='Preview'
                     onClick={() => handlePreview(route)}>
@@ -618,12 +633,18 @@ const RoutesList = () => {
                   </Button>
                   {route.page_template ? (
                     <Link href={`/pages/${route.page_template}/layout`} passHref legacyBehavior>
-                      <Button className={classes.actionBtn} aria-label='Layout'>
+                      <Button
+                        variant='text'
+                        disableRipple
+                        className={classes.actionBtn}
+                        aria-label='Layout'>
                         Layout
                       </Button>
                     </Link>
                   ) : (
                     <Button
+                      variant='text'
+                      disableRipple
                       className={classes.actionBtn}
                       aria-label='Layout'
                       onClick={() => handleLayout(route)}>
@@ -631,12 +652,16 @@ const RoutesList = () => {
                     </Button>
                   )}
                   <Button
+                    variant='text'
+                    disableRipple
                     className={classes.actionBtn}
                     aria-label='Edit'
                     onClick={() => openEdit(route)}>
                     Edit
                   </Button>
                   <Button
+                    variant='text'
+                    disableRipple
                     className={classes.ghostBtn}
                     aria-label='Delete'
                     onClick={() => {
