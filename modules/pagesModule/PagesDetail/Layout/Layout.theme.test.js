@@ -10,6 +10,7 @@ const layoutFiles = [
   'DragMeEdit.js',
   'EditLayout.js',
   'LayoutSettings.js',
+  'SelectBreakpoints.js',
   'TemplateProps.js',
   'DeviceVisibilitySwitches.js',
   'index.js',
@@ -21,6 +22,9 @@ const combined = layoutFiles.map(read).join('\n');
 const editView = read('LayoutEditView.js');
 const preview = read('WidgetLibraryPreview.js');
 const templateProps = read('TemplateProps.js');
+const settings = read('LayoutSettings.js');
+const breakpoints = read('SelectBreakpoints.js');
+const switches = read('DeviceVisibilitySwitches.js');
 
 describe('Layout editor 2026 ink restyle', () => {
   test('uses 2026 ink blue and Sling orange', () => {
@@ -57,5 +61,27 @@ describe('Layout editor 2026 ink restyle', () => {
     expect(read('DragMeEdit.js')).toMatch(/visibility:\s*['"]visible['"]/);
     expect(read('LayoutEditView.js')).toMatch(/opacity:\s*1/);
     expect(read('index.js')).toMatch(/Edit Layout/);
+  });
+
+  test('General Settings is a white card with ink labels and human breakpoints', () => {
+    const panel = settings + breakpoints + switches;
+    expect(panel).toMatch(/#ff9800/);
+    expect(panel).toMatch(/#163a5f/);
+    expect(breakpoints).toMatch(/Mobile \(sm\)/);
+    expect(breakpoints).toMatch(/Tablet \(md\)/);
+    expect(breakpoints).toMatch(/Desktop \(lg\)/);
+    expect(breakpoints).toMatch(/name=\{bp\.id\}/);
+    expect(settings).toMatch(/Click a widget on the canvas to edit settings/);
+    const accordionOpens = settings.match(/<Accordion\b[^>]*>/g) || [];
+    expect(accordionOpens.every((tag) => !/disabled=/.test(tag))).toBe(true);
+    expect(settings).not.toMatch(/color=['"]text\.secondary['"]/);
+    expect(breakpoints).not.toMatch(/color=['"]text\.secondary['"]/);
+    expect(switches).toMatch(/MuiFormControlLabel-label/);
+  });
+
+  test('widget library cards use a light ink shadow and 16px names', () => {
+    expect(editView).toMatch(/0 1px 3px rgba\(22,58,95,0\.12\)/);
+    expect(editView).toMatch(/widgetLabel:[\s\S]*fontSize:\s*16/);
+    expect(editView).toMatch(/#163a5f/);
   });
 });

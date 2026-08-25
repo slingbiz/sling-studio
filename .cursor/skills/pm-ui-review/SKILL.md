@@ -42,6 +42,7 @@ Pages (`/pages`) is the next surface to match the product.
 - Configure layout (`/pages/{id}/layout`): structure is good. Do not flatten it. Recolor widget blocks from default MUI/#0081CB blue to a 2026 ink blue (suggested `#163a5f` blocks, `#e8eef4` nests). Keep orange for Apply/primary. Not Linear purple. Not Material Blue 500.
 - Edit layout left library: show widget **previews**, not generic icons. Do not stack infinite live iframes (that already felt like a hang). Lazy/static thumbnails or capped previews.
 - Make Pages list, modal, layout header, settings panel match Members (search left, primary right, one loader, no hover-only Configure/Delete).
+- Edit Layout General Settings: white card on cream, ink 14px, human breakpoint labels (Mobile (sm)). Not cream-on-cream sm/md/lg.
 - Do not fake the Data tab Coming Soon. Hide or leave later — don’t ship a dead form.
 - Widget Props on the inspector already got Gallery pick — keep it.
 
@@ -87,3 +88,4 @@ Run every item against the changed screens and any screen that shares that state
 - Gallery search icon did nothing. Search must actually filter.
 - Layout widget library was icons, not previews. Show widget thumbnails, not generic icons — and do not stack infinite live iframes.
 - Add Template was default MUI. Members-style modal: cream fields, orange Save on the right, 14px.
+- Edit Layout General Settings was cream-on-cream with sm/md/lg. White card, ink 14px, human breakpoint labels (Mobile (sm)).

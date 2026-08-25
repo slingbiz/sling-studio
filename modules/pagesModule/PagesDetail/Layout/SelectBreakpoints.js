@@ -1,16 +1,19 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@material-ui/core/styles';
+
+const SLING_ORANGE = '#ff9800';
+const SLING_CREAM = '#fff8f0';
+const SLING_INK = '#163a5f';
 
 const mtBreakPoints = [
-  // {title: 'xs', id: 'xs'},
-  {title: 'sm', id: 'sm'},
-  {title: 'md', id: 'md'},
-  {title: 'lg', id: 'lg'},
-  // {title: 'xl', id: 'xl'},
+  {title: 'Mobile (sm)', id: 'sm'},
+  {title: 'Tablet (md)', id: 'md'},
+  {title: 'Desktop (lg)', id: 'lg'},
 ];
 const mtColumns = [
   {title: 1, id: 1},
@@ -27,37 +30,95 @@ const mtColumns = [
   {title: 12, id: 12},
 ];
 
-const SelectBreakpoints = ({classes, layoutWidth, handleWidth, disabled}) => (
-  <Box className={classes.layoutBox}>
-    {mtBreakPoints.map((bp) => {
-      return (
-        <FormControl key={`select-${bp.id}`} className={classes.formControl} disabled={disabled}>
-          <InputLabel shrink id={`${bp.id}-label`}>
-            {bp.title}
-          </InputLabel>
-          <Select
-            labelId={`${bp.id}-label`}
-            id={`${bp.id}`}
-            name={`${bp.id}`}
-            value={layoutWidth[bp.id]}
-            onChange={handleWidth}
-            displayEmpty
-            className={classes.selectEmpty}>
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            {mtColumns.map((v) => {
-              return (
-                <MenuItem key={v.id} value={v.id}>
-                  {v.id}
+const useStyles = makeStyles(() => ({
+  fieldWrap: {
+    marginBottom: 14,
+    width: '100%',
+    minWidth: 0,
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: SLING_INK,
+    marginBottom: 6,
+    display: 'block',
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  field: {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 8,
+      fontSize: 14,
+      background: SLING_CREAM,
+      fontFamily: 'Open Sans, sans-serif',
+      color: SLING_INK,
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#e6e6e6',
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: SLING_ORANGE,
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '10px 12px',
+      fontSize: 14,
+      color: SLING_INK,
+    },
+    '& .MuiOutlinedInput-root.Mui-disabled': {
+      background: SLING_CREAM,
+      color: SLING_INK,
+    },
+    '& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-input': {
+      color: SLING_INK,
+      opacity: 0.72,
+    },
+    '& .MuiSelect-icon': {
+      color: SLING_INK,
+    },
+  },
+}));
+
+const SelectBreakpoints = ({classes, layoutWidth, handleWidth, disabled}) => {
+  const fieldClasses = useStyles();
+  return (
+    <Box className={classes.layoutBox}>
+      {mtBreakPoints.map((bp) => {
+        return (
+          <Box key={`select-${bp.id}`} className={fieldClasses.fieldWrap}>
+            <Typography
+              className={fieldClasses.fieldLabel}
+              component='label'
+              htmlFor={bp.id}>
+              {bp.title}
+            </Typography>
+            <FormControl
+              variant='outlined'
+              className={fieldClasses.field}
+              disabled={disabled}
+              fullWidth>
+              <Select
+                id={bp.id}
+                name={bp.id}
+                value={layoutWidth[bp.id]}
+                onChange={handleWidth}
+                displayEmpty
+                variant='outlined'>
+                <MenuItem value=''>
+                  <em>None</em>
                 </MenuItem>
-              );
-            })}
-          </Select>
-          {/*<FormHelperText>sm info. </FormHelperText>*/}
-        </FormControl>
-      );
-    })}
-  </Box>
-);
+                {mtColumns.map((v) => {
+                  return (
+                    <MenuItem key={v.id} value={v.id}>
+                      {v.id}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+};
 export default SelectBreakpoints;

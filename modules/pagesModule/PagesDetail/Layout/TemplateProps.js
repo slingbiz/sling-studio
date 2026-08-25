@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
 const emptyPropsCopy = {
   fontSize: 14,
   fontFamily: 'Open Sans, sans-serif',
-  color: '#666',
+  color: '#163a5f',
   padding: '8px 4px',
   lineHeight: 1.5,
 };

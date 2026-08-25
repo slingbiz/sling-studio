@@ -2,7 +2,7 @@ import React from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import {withStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 
 const OrangeSwitch = withStyles({
   switchBase: {
@@ -20,36 +20,61 @@ const OrangeSwitch = withStyles({
   },
 })(Switch);
 
+const useStyles = makeStyles({
+  group: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 12,
+    marginTop: 8,
+  },
+  control: {
+    marginLeft: 0,
+    marginRight: 0,
+    '& .MuiFormControlLabel-label': {
+      fontSize: 14,
+      fontFamily: 'Open Sans, sans-serif',
+      fontWeight: 600,
+      color: '#163a5f',
+    },
+    '&.Mui-disabled .MuiFormControlLabel-label': {
+      color: '#163a5f',
+      opacity: 0.72,
+    },
+  },
+});
+
 const DeviceWidthMapper = {
-    'mobile' : 'sm',
-    'tablet': 'md',
-    'desktop': 'lg',
+  mobile: 'sm',
+  tablet: 'md',
+  desktop: 'lg',
 };
-export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus, disabled}) {
-  const [state, setState] = React.useState(switchProps); 
+export default function SwitchLabels({
+  switchProps,
+  hiddenStatus,
+  setHiddenStatus,
+  disabled,
+}) {
+  const classes = useStyles();
+  const [state, setState] = React.useState(switchProps);
 
   const handleChange = (name) => (event) => {
     setState({...state, [name]: event.target.checked});
     const deviceWidth = DeviceWidthMapper[name];
-    if(!event.target.checked && !hiddenStatus?.only?.includes(deviceWidth)){
-        hiddenStatus.only = [...hiddenStatus?.only, deviceWidth];
+    if (!event.target.checked && !hiddenStatus?.only?.includes(deviceWidth)) {
+      hiddenStatus.only = [...hiddenStatus?.only, deviceWidth];
     }
-    if(event.target.checked){
-        hiddenStatus.only = hiddenStatus?.only.filter(e => e !== deviceWidth);
+    if (event.target.checked) {
+      hiddenStatus.only = hiddenStatus?.only.filter((e) => e !== deviceWidth);
     }
     setHiddenStatus({...hiddenStatus});
   };
 
-  const labelStyle = {
-    fontSize: 14,
-    fontFamily: 'Open Sans, sans-serif',
-  };
-
   return (
-    <FormGroup row >
+    <FormGroup className={classes.group}>
       <FormControlLabel
         disabled={disabled}
-        style={labelStyle}
+        className={classes.control}
         control={
           <OrangeSwitch
             checked={state.mobile}
@@ -61,7 +86,7 @@ export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus
       />
       <FormControlLabel
         disabled={disabled}
-        style={labelStyle}
+        className={classes.control}
         control={
           <OrangeSwitch
             checked={state.tablet}
@@ -73,7 +98,7 @@ export default function SwitchLabels({switchProps, hiddenStatus, setHiddenStatus
       />
       <FormControlLabel
         disabled={disabled}
-        style={labelStyle}
+        className={classes.control}
         control={
           <OrangeSwitch
             checked={state.desktop}

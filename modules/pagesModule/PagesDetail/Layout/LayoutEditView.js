@@ -121,9 +121,9 @@ const useStyles = makeStyles((theme) => ({
   textTruncate: {
     padding: '10px 0',
   },
-  widgetName: {
+  widgetLabel: {
     padding: '8px 4px 0',
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Open Sans, sans-serif',
     fontWeight: 600,
     color: '#163a5f',
@@ -136,9 +136,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '8em',
     width: '100%',
     padding: 10,
-    boxShadow: 'none',
+    boxShadow: '0 1px 3px rgba(22,58,95,0.12), 0 1px 2px rgba(22,58,95,0.08)',
     backgroundColor: '#fff',
-    border: '1px solid #e6e6e6',
+    border: '1px solid #eee',
     borderRadius: 8,
     textAlign: 'center',
     justifyContent: 'flex-start',
@@ -563,7 +563,7 @@ const LayoutEditView = forwardRef((props, ref) => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}>
                                   <WidgetLibraryPreview item={item} />
-                                  <Box className={classes.widgetName}>
+                                  <Box className={classes.widgetLabel}>
                                     {item.name}
                                   </Box>
                                 </div>
