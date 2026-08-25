@@ -51,6 +51,9 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/placeholder='Search templates'/);
     expect(src).toMatch(/toolbarLeft/);
     expect(src).toMatch(/aria-label='Edit'/);
+    expect(src).toMatch(/actionBtn:[\s\S]*minHeight:\s*40/);
+    expect(src).toMatch(/actionBtn:[\s\S]*padding:\s*['"]8px 18px['"]/);
+    expect(src).not.toMatch(/actionBtn:[\s\S]*padding:\s*['"]2px 6px['"]/);
     expect(src).toMatch(/aria-label='Delete'/);
     expect(src).toMatch(/delete_outline/);
     expect(src).toMatch(/deleteIcon:[\s\S]*top:\s*8/);
