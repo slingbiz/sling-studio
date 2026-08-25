@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import {makeStyles} from '@material-ui/core/styles';
 import AppHeader from '../../../../@sling/core/AppsContainer/AppsHeader';
 import {Fonts} from '../../../../shared/constants/AppEnums';
@@ -88,19 +89,40 @@ const useStyles = makeStyles(() => ({
     padding: 0,
   },
   urlItem: {
-    padding: '8px 4px',
+    padding: '10px 12px',
     borderRadius: 8,
-    '&:hover': {background: SLING_CREAM},
+    background: '#fff',
+    border: '1px solid #eee',
+    marginBottom: 8,
+    boxSizing: 'border-box',
+    '&.MuiListItem-button:hover': {background: SLING_CREAM},
   },
   urlItemSelected: {
     background: SLING_CREAM,
+    border: '2px solid #ff9800',
+    '&.MuiListItem-button:hover': {background: SLING_CREAM},
   },
   urlText: {
     '& .MuiListItemText-primary': {
       fontSize: 14,
+      fontWeight: 400,
       color: SLING_INK,
       fontFamily: 'Open Sans, sans-serif',
     },
+  },
+  urlTextSelected: {
+    '& .MuiListItemText-primary': {
+      fontSize: 16,
+      fontWeight: 600,
+      color: SLING_INK,
+      fontFamily: 'Open Sans, sans-serif',
+    },
+  },
+  selectedCheck: {
+    color: '#ff9800',
+    fontSize: 18,
+    marginLeft: 8,
+    flexShrink: 0,
   },
   empty: {
     fontSize: 14,
@@ -214,19 +236,30 @@ const Preview = ({pageKey}) => {
               </Typography>
             ) : (
               <List className={classes.listRoot}>
-                {visibleUrls.map((item) => (
-                  <ListItem
-                    value={item}
-                    key={item}
-                    dense
-                    button
-                    className={`${classes.urlItem}${
-                      item === urlToPreview ? ` ${classes.urlItemSelected}` : ''
-                    }`}
-                    onClick={() => handleClick(item)}>
-                    <ListItemText className={classes.urlText} primary={item} />
-                  </ListItem>
-                ))}
+                {visibleUrls.map((item) => {
+                  const selected = item === urlToPreview;
+                  return (
+                    <ListItem
+                      value={item}
+                      key={item}
+                      dense
+                      button
+                      className={`${classes.urlItem}${
+                        selected ? ` ${classes.urlItemSelected}` : ''
+                      }`}
+                      onClick={() => handleClick(item)}>
+                      <ListItemText
+                        className={
+                          selected ? classes.urlTextSelected : classes.urlText
+                        }
+                        primary={item}
+                      />
+                      {selected ? (
+                        <CheckCircleIcon className={classes.selectedCheck} />
+                      ) : null}
+                    </ListItem>
+                  );
+                })}
               </List>
             )}
           </>
