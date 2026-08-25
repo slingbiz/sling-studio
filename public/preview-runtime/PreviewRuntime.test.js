@@ -33,4 +33,11 @@ describe('preview runtime scope', () => {
     expect(src).toMatch(/data-preview-error/);
     expect(src).toMatch(/function showError/);
   });
+
+  test('fills palette shade indexes and catches render errors from makeStyles', () => {
+    expect(src).toMatch(/function fillPaletteShades/);
+    expect(src).toMatch(/color\[400\] == null/);
+    expect(src).toMatch(/PreviewErrorBoundary/);
+    expect(src).toMatch(/componentDidCatch/);
+  });
 });

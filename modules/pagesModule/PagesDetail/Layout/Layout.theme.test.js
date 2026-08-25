@@ -71,6 +71,8 @@ describe('Layout editor 2026 ink restyle', () => {
     expect(editView).toMatch(/layoutConfig\?\.\[pageKey\]\?\.root/);
     expect(read('LayoutView.js')).toMatch(/layoutConfig\?\.\[pageKey\]\?\.root/);
     expect(read('EditLayout.js')).toMatch(/widgets \|\| \[\]/);
+    expect(read('EditLayout.js')).not.toMatch(/react-toastify/);
+    expect(editView).not.toMatch(/@material-ui\/lab\/Alert/);
   });
 
   test('widget bars keep one trash remove, not a second X on the row', () => {

@@ -15,10 +15,6 @@ import LayoutView from './LayoutEditView';
 import {getWidgets} from '../../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import _ from 'lodash';
-
 const useStyles = makeStyles((theme) => ({
   boxLayoutView: {padding: '1.5em'},
   appBar: {
@@ -155,18 +151,9 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
 
   const handleRootSave = async () => {
     childRef.current.saveLayoutConfig();
-    notify();
     await sleep(3000);
     handleClose();
   };
-
-  const notify = () =>
-    toast.info(`Updating Page Template '${_.upperFirst(pageKey)}'.`, {
-      position: 'bottom-right',
-      autoClose: 4000,
-      hideProgressBar: false,
-      closeOnClick: true,
-    });
 
   return (
     <Dialog
@@ -174,19 +161,6 @@ const EditLayout = ({open, setOpen, titleKey, pageKey}) => {
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover>
-        {/* Same as */}
-      </ToastContainer>
-
       <AppBar className={classes.appBar} color='default'>
         <Toolbar>
           <IconButton

@@ -8,6 +8,7 @@ import * as EmotionStyled from '@emotion/styled';
 import {Formik, Form, Field, useField} from 'formik';
 import * as Yup from 'yup';
 import {SLING_ORANGE, SLING_WIDGET_THEME} from './slingTheme';
+import {fillPaletteShades} from './widgetTheme';
 
 const DEFAULT_CORE_COMPONENTS = [
   'AppBar',
@@ -289,6 +290,7 @@ export const createScope = ({
 
   // Create theme instance
   const theme = MaterialStyles.createTheme(mergedTheme);
+  fillPaletteShades(theme.palette);
 
   const ThemeProvider =
     libraryMap['@material-ui/core'].ThemeProvider || MaterialStyles.ThemeProvider;

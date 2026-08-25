@@ -26,9 +26,7 @@ import {Fonts} from '../../../../shared/constants/AppEnums';
 import Hidden from '@material-ui/core/Hidden';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import LayoutSettings from './LayoutSettings';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
-import {FETCH_SUCCESS} from '../../../../shared/constants/ActionTypes';
+import {FETCH_SUCCESS, FETCH_WARNING} from '../../../../shared/constants/ActionTypes';
 import WidgetLibraryPreview, {
   LivePreviewGate,
   LAYOUT_WELL,
@@ -172,7 +170,6 @@ const LayoutEditView = forwardRef((props, ref) => {
   const [newCellSection, setNewCellSection] = useState('');
   const [newCellRowIndex, setNewCellRowIndex] = useState('');
   const [newWidgetCell, setNewWidgetCell] = useState(undefined);
-  const [snackOpen, setOpenSnack] = useState(false);
   const [isActiveTab, setIsActiveTab] = useState(false);
   const [settingsObj, setSettingsObj] = useState({});
   const [searchWidgets, setSearchWidgets] = useState(widgets);
@@ -191,6 +188,12 @@ const LayoutEditView = forwardRef((props, ref) => {
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {layoutConfig} = layoutData || {};
   const dispatch = useDispatch();
+  const setOpenSnack = () => {
+    dispatch({
+      type: FETCH_WARNING,
+      payload: 'Sling is running in Demo mode. Changes will not be saved.',
+    });
+  };
 
   useEffect(() => {
     if (!layoutData) {
@@ -764,18 +767,6 @@ const LayoutEditView = forwardRef((props, ref) => {
           </Card>
         </Grid>
       </DragDropContext>
-      <Snackbar
-        open={snackOpen}
-        anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnack(false)}>
-        <Alert
-          onClose={() => setOpenSnack(false)}
-          severity='error'
-          sx={{width: '100%'}}>
-          Sling is running in Demo mode. Changes will not be saved.
-        </Alert>
-      </Snackbar>
     </Grid>
   );
 });
