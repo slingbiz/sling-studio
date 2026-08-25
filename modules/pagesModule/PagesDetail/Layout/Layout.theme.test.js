@@ -66,6 +66,12 @@ describe('Layout editor 2026 ink restyle', () => {
     expect(read('index.js')).toMatch(/router\.query\?\.edit/);
   });
 
+  test('widget bars keep one trash remove, not a second X on the row', () => {
+    expect(editView).not.toMatch(/CloseOutlined/);
+    expect(editView).not.toMatch(/@material-ui\/icons\/Close/);
+    expect(read('DragMeEdit.js')).toMatch(/DeleteIcon/);
+  });
+
   test('General Settings is a white card with ink labels and human breakpoints', () => {
     const panel = settings + breakpoints + switches;
     expect(panel).toMatch(/#ff9800/);

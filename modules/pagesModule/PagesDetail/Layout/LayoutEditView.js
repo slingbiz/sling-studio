@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchLayoutConfig, setLayoutConfig} from '../../../../redux/actions';
 import Add from '@material-ui/icons/Add';
-import Delete from '@material-ui/icons/CloseOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import NewCellModal from './NewCellModal';
 import clsx from 'clsx';
@@ -245,20 +245,17 @@ const LayoutEditView = forwardRef((props, ref) => {
     const sectionFn = section.charAt(0).toUpperCase() + section.slice(1);
     const setSectionBlocks = sectionBlocksMap[`set${sectionFn}Blocks`];
 
-    sectionBlocks?.rows.map((v, k) => {
-      //If parentKey is empty, find and update the root body object.
-      if (!parentKey) {
-        //If row matches
-        if (rowKey === k) {
-          sectionBlocks.rows[k].cells = items.map((subObj) => {
-            return subObj.contents;
-          });
-        }
-      } else {
-        //Loop across all cells in each row and find the matching key with parentKey
+    if (!parentKey) {
+      const nextCells = items.map((subObj) => subObj.contents);
+      if (!nextCells.length) {
+        sectionBlocks?.rows?.splice(rowKey, 1);
+      } else if (sectionBlocks?.rows?.[rowKey]) {
+        sectionBlocks.rows[rowKey].cells = nextCells;
+      }
+    } else {
+      sectionBlocks?.rows.map((v, k) => {
         sectionBlocks.rows[k].cells.map((c, j) => {
           if (c.key === parentKey) {
-            //if matching parent key found, update the child document
             const cellInfo = sectionBlocks.rows[k].cells[j];
             cellInfo.rows[rowKey].cells = items.map((subObj) => {
               return subObj.contents;
@@ -266,8 +263,8 @@ const LayoutEditView = forwardRef((props, ref) => {
             sectionBlocks.rows[k].cells[j] = cellInfo;
           }
         });
-      }
-    });
+      });
+    }
     setSectionBlocks({...sectionBlocks});
   };
 
@@ -612,15 +609,17 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Header Blocks'}
                     />
                     <Box m={6} />
-                    <div className={classes.floatingButtons}>
-                      <Fab
-                        onClick={() => deleteRow('header', k)}
-                        className={clsx(classes.tinyBtn)}
-                        aria-label='Delete row'
-                        disableRipple>
-                        <Delete />
-                      </Fab>
-                    </div>
+                    {!(row?.cells?.length) && (
+                      <div className={classes.floatingButtons}>
+                        <Fab
+                          onClick={() => deleteRow('header', k)}
+                          className={clsx(classes.tinyBtn)}
+                          aria-label='Delete row'
+                          disableRipple>
+                          <DeleteIcon />
+                        </Fab>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -663,15 +662,17 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Body Blocks'}
                     />
                     <Box m={6} />
-                    <div className={classes.floatingButtons}>
-                      <Fab
-                        onClick={() => deleteRow('body', k)}
-                        className={clsx(classes.tinyBtn)}
-                        aria-label='Delete row'
-                        disableRipple>
-                        <Delete />
-                      </Fab>
-                    </div>
+                    {!(row?.cells?.length) && (
+                      <div className={classes.floatingButtons}>
+                        <Fab
+                          onClick={() => deleteRow('body', k)}
+                          className={clsx(classes.tinyBtn)}
+                          aria-label='Delete row'
+                          disableRipple>
+                          <DeleteIcon />
+                        </Fab>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -714,15 +715,17 @@ const LayoutEditView = forwardRef((props, ref) => {
                       typeLabel={'Footer Blocks'}
                     />
                     <Box m={6} />
-                    <div className={classes.floatingButtons}>
-                      <Fab
-                        onClick={() => deleteRow('footer', k)}
-                        className={clsx(classes.tinyBtn)}
-                        aria-label='Delete row'
-                        disableRipple>
-                        <Delete />
-                      </Fab>
-                    </div>
+                    {!(row?.cells?.length) && (
+                      <div className={classes.floatingButtons}>
+                        <Fab
+                          onClick={() => deleteRow('footer', k)}
+                          className={clsx(classes.tinyBtn)}
+                          aria-label='Delete row'
+                          disableRipple>
+                          <DeleteIcon />
+                        </Fab>
+                      </div>
+                    )}
                   </div>
                 );
               })}
