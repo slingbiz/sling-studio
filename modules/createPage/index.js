@@ -110,15 +110,20 @@ const useStyles = makeStyles(() => ({
     textAlign: 'left',
     height: 44,
     padding: '0 14px',
-    border: '1px solid #ffd59a',
-    background: SLING_CREAM,
-    color: '#7a4a00',
+    border: '1px solid #d5dde6',
+    background: '#fff',
+    color: '#163a5f',
     fontWeight: 500,
     fontSize: 14,
     borderRadius: 8,
     boxShadow: 'none',
     fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: '#ffe3b8', boxShadow: 'none'},
+    '&:hover': {backgroundColor: '#e8eef4', borderColor: '#163a5f', boxShadow: 'none'},
+  },
+  starterBtnSelected: {
+    backgroundColor: '#e8eef4',
+    borderColor: '#163a5f',
+    color: '#163a5f',
   },
   actions: {
     display: 'flex',
@@ -169,8 +174,8 @@ const useStyles = makeStyles(() => ({
     color: '#6b6f76',
   },
   streamPane: {
-    border: '1px solid #ffd59a',
-    background: SLING_CREAM,
+    border: '1px solid #d5dde6',
+    background: '#e8eef4',
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
@@ -585,7 +590,11 @@ const CreatePage = () => {
                 {STARTERS.map((item) => (
                   <Button
                     key={item.label}
-                    className={classes.starterBtn}
+                    className={
+                      prompt === item.prompt
+                        ? `${classes.starterBtn} ${classes.starterBtnSelected}`
+                        : classes.starterBtn
+                    }
                     onClick={() => setPrompt(item.prompt)}>
                     {item.label}
                   </Button>

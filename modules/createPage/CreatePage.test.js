@@ -24,6 +24,11 @@ describe('Create page builder', () => {
     expect(src).toMatch(/This page is broken into \$\{count\} widgets/);
     expect(src).not.toMatch(/Chip/);
     expect(src).not.toMatch(/—/);
+    expect(src).not.toMatch(/#ffd59a/);
+    expect(src).not.toMatch(/#7a4a00/);
+    expect(src).not.toMatch(/#ffe3b8/);
+    expect(src).toMatch(/starterBtnSelected/);
+    expect(src).toMatch(/#163a5f/);
     expect(contract).not.toMatch(/—/);
   });
 
