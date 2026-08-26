@@ -21,7 +21,7 @@ describe('Create page builder', () => {
     expect(src).toMatch(/placeholder='Describe this page'/);
     expect(src).not.toMatch(/I want a landing page/);
     expect(src).toMatch(/>\s*Generate\s*</);
-    expect(src).toMatch(/processing \? 'Processing…' : 'Process'/);
+    expect(src).toMatch(/processing \? 'Saving drafts…' : 'Process'/);
     expect(src).toMatch(/This page is broken into \$\{count\} widgets/);
     expect(src).not.toMatch(/Chip/);
     expect(src).not.toMatch(/—/);
@@ -41,13 +41,20 @@ describe('Create page builder', () => {
     expect(stream).toMatch(/followUp/);
   });
 
-  test('streams code live and paints sections as they arrive', () => {
+  test('progress is a modal with human updates, not a streaming terminal', () => {
+    expect(src).toMatch(/GenerateProgress/);
     expect(src).toMatch(/streamPageFromPrompt/);
-    expect(src).toMatch(/Streaming/);
-    expect(src).toMatch(/chars received/);
-    expect(src).toMatch(/The page appears here as each section finishes/);
+    expect(src).toMatch(/Creating this page/);
+    expect(src).toMatch(/Wrote \$\{labeled\.label\}/);
+    expect(src).toMatch(/Still writing widgets/);
+    expect(src).not.toMatch(/Waiting for the first lines/);
+    expect(src).not.toMatch(/chars received/);
+    const progress = fs.readFileSync(
+      path.join(__dirname, 'GenerateProgress.js'),
+      'utf8',
+    );
+    expect(progress).toMatch(/disableBackdropClick/);
     expect(stream).toMatch(/\/page\/generate\/stream/);
-    expect(stream).toMatch(/code_token/);
     expect(stream).toMatch(/onSection/);
   });
 
@@ -68,6 +75,9 @@ describe('Create page builder', () => {
     expect(actions).toMatch(/quiet:\s*true/);
     expect(actions).toMatch(/isNewRecord:\s*true/);
     expect(actions).toMatch(/SAVE_ROUTE/);
+    expect(actions).toMatch(/uniqueRoutePath/);
+    expect(actions).toMatch(/GET_ROUTES_LIST_API/);
+    expect(actions).not.toMatch(/page\?\.path \|\| pageKey/);
     expect(actions).toMatch(/publishGeneratedPage/);
     expect(actions).toMatch(/publishWidgetAction/);
     expect(processed).toMatch(/Publishing/);

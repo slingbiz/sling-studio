@@ -59,4 +59,21 @@ describe('section contract helpers', () => {
     });
     expect(buildLayoutRoot(widgets(6)).body.rows).toHaveLength(4);
   });
+
+  test('AI pages get a unique kebab URL and never take /', () => {
+    const {uniqueRoutePath} = require('./sectionContract');
+    expect(uniqueRoutePath({title: 'MoonBid', preferred: '/', taken: ['/']})).toBe(
+      '/moonbid',
+    );
+    expect(
+      uniqueRoutePath({
+        title: 'MoonBid',
+        preferred: '/moonbid',
+        taken: ['/', '/moonbid'],
+      }),
+    ).toBe('/moonbid-2');
+    expect(uniqueRoutePath({title: 'About', preferred: '/about', taken: []})).toBe(
+      '/about',
+    );
+  });
 });

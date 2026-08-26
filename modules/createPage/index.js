@@ -1,11 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import {Box, Button, TextField, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {useRouter} from 'next/router';
@@ -15,6 +9,7 @@ import {FETCH_ERROR} from '../../shared/constants/ActionTypes';
 import {createCopy, ensureWidgetLabel} from './sectionContract';
 import SectionPreview from './SectionPreview';
 import ProcessedSetup from './ProcessedSetup';
+import GenerateProgress from './GenerateProgress';
 import {streamPageFromPrompt} from './streamPageGenerate';
 import {
   findCreateAttempt,
@@ -23,7 +18,7 @@ import {
 } from './createAttempts';
 import {processGeneratedPage, publishGeneratedPage} from '../../redux/actions/CreatePage';
 import {resolveWidgetTheme} from '../aiBuilder/widgetTheme';
-import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
+import {SLING_CREAM, SLING_ORANGE} from '../aiBuilder/slingTheme';
 import {useAuthUser} from '../../@sling/utility/AppHooks';
 
 const STUDIO_INK = '#163a5f';
@@ -173,11 +168,6 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Open Sans, sans-serif',
     '&:hover': {backgroundColor: SLING_CREAM, boxShadow: 'none'},
   },
-  loader: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: 48,
-  },
   summary: {
     display: 'flex',
     alignItems: 'center',
@@ -189,47 +179,6 @@ const useStyles = makeStyles(() => ({
   summaryText: {
     fontSize: 14,
     color: '#6b6f76',
-  },
-  streamPane: {
-    border: '1px solid #d5dde6',
-    background: '#e8eef4',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
-  },
-  streamStatus: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    fontSize: 14,
-    color: SLING_INK,
-    fontFamily: 'Open Sans, sans-serif',
-  },
-  streamDot: {
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    background: SLING_ORANGE,
-    animation: '$pulse 1.2s ease-in-out infinite',
-  },
-  '@keyframes pulse': {
-    '0%': {opacity: 1},
-    '50%': {opacity: 0.35},
-    '100%': {opacity: 1},
-  },
-  streamCode: {
-    marginTop: 10,
-    maxHeight: 168,
-    overflow: 'auto',
-    background: SLING_INK,
-    color: SLING_CREAM,
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-    fontSize: 13,
-    lineHeight: 1.5,
-    padding: 12,
-    borderRadius: 6,
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
   },
   canvas: {
     border: '1px solid #e6e6e6',
@@ -321,14 +270,13 @@ const CreatePage = () => {
   const [streaming, setStreaming] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [publishing, setPublishing] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('');
-  const [streamText, setStreamText] = useState('');
+  const [progressLines, setProgressLines] = useState([]);
   const [result, setResult] = useState(null);
   const [done, setDone] = useState(null);
   const [view, setView] = useState('setup');
   const [attempts, setAttempts] = useState([]);
   const abortRef = useRef(null);
-  const streamLogRef = useRef(null);
+  const lastProgressRef = useRef(Date.now());
   const replaceOnSection = useRef(true);
   const setupId =
     typeof router.query?.setup === 'string' ? router.query.setup : '';
@@ -337,7 +285,16 @@ const CreatePage = () => {
     ? result.sections
     : done?.sections || [];
   const count = sections.length;
-  const visibleCode = streamText.split('\n').slice(-40).join('\n');
+
+  const pushProgress = (line) => {
+    const text = String(line || '').trim();
+    if (!text || /stream/i.test(text)) return;
+    lastProgressRef.current = Date.now();
+    setProgressLines((prev) => {
+      if (prev[prev.length - 1] === text) return prev;
+      return [...prev, text].slice(-12);
+    });
+  };
 
   const restoreAttempt = (item) => {
     if (!item) return;
@@ -388,17 +345,26 @@ const CreatePage = () => {
   }, [router.isReady, setupId, done?.pageKey, done?.id]);
 
   useEffect(() => {
-    if (streamLogRef.current) {
-      streamLogRef.current.scrollTop = streamLogRef.current.scrollHeight;
-    }
-  }, [streamText]);
+    if (!streaming) return undefined;
+    const idle = [
+      'Still writing widgets…',
+      'Laying out the page…',
+      'This usually takes a short minute…',
+    ];
+    let i = 0;
+    const timer = setInterval(() => {
+      if (Date.now() - lastProgressRef.current < 4000) return;
+      pushProgress(idle[i % idle.length]);
+      i += 1;
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [streaming]);
 
   const resetPreview = () => {
     abortRef.current?.abort();
     setStreaming(false);
     setResult(null);
-    setStreamText('');
-    setStatusMessage('');
+    setProgressLines([]);
     setDone(null);
     setView('setup');
     setFollowUp('');
@@ -415,28 +381,34 @@ const CreatePage = () => {
     abortRef.current = ac;
     setStreaming(true);
     setDone(null);
-    setStreamText('');
-    setStatusMessage(options.followUp ? 'Improving…' : 'Streaming…');
+    setProgressLines([
+      options.followUp ? 'Updating this page…' : 'Reading your description…',
+    ]);
+    lastProgressRef.current = Date.now();
     replaceOnSection.current = true;
     try {
       const data = await streamPageFromPrompt(
         nextPrompt,
         tenantTheme,
         {
-          onStatus: setStatusMessage,
-          onCodeToken: (text) => setStreamText((prev) => prev + text),
-          onPage: (page) =>
+          onStatus: pushProgress,
+          onPage: (page) => {
+            pushProgress(
+              page?.title ? `Named the page “${page.title}”` : 'Named the page',
+            );
             setResult((prev) => ({
               page,
               sections: replaceOnSection.current ? [] : prev?.sections || [],
-            })),
-          onSection: (section) =>
+            }));
+          },
+          onSection: (section) => {
+            const labeled = {
+              ...section,
+              label: ensureWidgetLabel(section.label),
+              name: ensureWidgetLabel(section.name || section.label),
+            };
+            pushProgress(`Wrote ${labeled.label}`);
             setResult((prev) => {
-              const labeled = {
-                ...section,
-                label: ensureWidgetLabel(section.label),
-                name: ensureWidgetLabel(section.name || section.label),
-              };
               if (replaceOnSection.current) {
                 replaceOnSection.current = false;
                 return {page: prev?.page || null, sections: [labeled]};
@@ -444,8 +416,10 @@ const CreatePage = () => {
               const current = prev?.sections || [];
               if (current.some((item) => item.id === labeled.id)) return prev;
               return {page: prev?.page || null, sections: [...current, labeled]};
-            }),
-          onComplete: (payload) =>
+            });
+          },
+          onComplete: (payload) => {
+            pushProgress('Page is ready to process');
             setResult({
               page: payload.page,
               sections: (payload.sections || []).map((section) => ({
@@ -453,7 +427,8 @@ const CreatePage = () => {
                 label: ensureWidgetLabel(section.label),
                 name: ensureWidgetLabel(section.name || section.label),
               })),
-            }),
+            });
+          },
         },
         ac.signal,
         options,
@@ -480,7 +455,7 @@ const CreatePage = () => {
 
   const generate = async () => {
     if (!prompt.trim() || prompt.trim().length < 5) return;
-    setResult({page: null, sections: []});
+    setResult(null);
     await runStream(prompt.trim());
   };
 
@@ -504,11 +479,13 @@ const CreatePage = () => {
   const processPage = async () => {
     if (!result?.page || !result.sections?.length) return;
     setProcessing(true);
+    setProgressLines(['Saving draft widgets…']);
     const saved = await dispatch(
       processGeneratedPage({
         page: result.page,
         sections: result.sections,
         prompt: prompt.trim(),
+        onStatus: pushProgress,
       }),
     );
     setProcessing(false);
@@ -543,7 +520,7 @@ const CreatePage = () => {
   };
 
   const working = streaming || processing;
-  const showBuilder = streaming || result;
+  const showBuilder = Boolean(result?.page || result?.sections?.length);
 
   return (
     <AppsContainer fullView>
@@ -670,9 +647,7 @@ const CreatePage = () => {
           <>
             <Box className={classes.summary}>
               <Typography className={classes.summaryText}>
-                {streaming
-                  ? statusMessage || 'Streaming…'
-                  : `This page is broken into ${count} widgets. Each one can be governed, given props, and published on its own.`}
+                {`This page is broken into ${count} widgets. Each one can be governed, given props, and published on its own.`}
               </Typography>
               <Box style={{display: 'flex', gap: 8}}>
                 <Button
@@ -685,74 +660,57 @@ const CreatePage = () => {
                   className={classes.primaryBtn}
                   onClick={processPage}
                   disabled={working || count < 5}>
-                  {processing ? 'Processing…' : 'Process'}
+                  {processing ? 'Saving drafts…' : 'Process'}
                 </Button>
               </Box>
             </Box>
-            {streaming && (
-              <Box className={classes.streamPane}>
-                <Box className={classes.streamStatus}>
-                  <Box className={classes.streamDot} />
-                  Streaming
-                  {streamText
-                    ? ` · ${streamText.length.toLocaleString()} chars received`
-                    : ''}
-                </Box>
-                <Box
-                  ref={streamLogRef}
-                  className={classes.streamCode}
-                  component='pre'>
-                  {visibleCode || 'Waiting for the first lines…'}
-                </Box>
-              </Box>
-            )}
-            {processing ? (
-              <Box className={classes.loader}>
-                <CircularProgress style={{color: SLING_ORANGE}} />
-              </Box>
-            ) : (
-              <Box className={classes.canvas}>
-                {count ? (
-                  sections.map((section) => (
-                    <SectionPreview
-                      key={section.id}
-                      section={section}
-                      themeOverrides={tenantTheme}
-                    />
-                  ))
-                ) : (
-                  <Typography className={classes.canvasHint}>
-                    The page appears here as each section finishes.
-                  </Typography>
-                )}
-              </Box>
-            )}
-            {!processing && (
-              <Box className={classes.followUp}>
-                <TextField
-                  className={classes.followField}
-                  variant='outlined'
-                  placeholder='Ask to change this page…'
-                  value={followUp}
-                  disabled={working || count < 5}
-                  onChange={(e) => setFollowUp(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      improve();
-                    }
-                  }}
-                />
-                <Button
-                  className={classes.primaryBtn}
-                  onClick={improve}
-                  disabled={working || count < 5 || !followUp.trim()}>
-                  Improve
-                </Button>
-              </Box>
-            )}
+            <Box className={classes.canvas}>
+              {count ? (
+                sections.map((section) => (
+                  <SectionPreview
+                    key={section.id}
+                    section={section}
+                    themeOverrides={tenantTheme}
+                  />
+                ))
+              ) : (
+                <Typography className={classes.canvasHint}>
+                  Widgets land here when the page is ready.
+                </Typography>
+              )}
+            </Box>
+            <Box className={classes.followUp}>
+              <TextField
+                className={classes.followField}
+                variant='outlined'
+                placeholder='Ask to change this page…'
+                value={followUp}
+                disabled={working || count < 5}
+                onChange={(e) => setFollowUp(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    improve();
+                  }
+                }}
+              />
+              <Button
+                className={classes.primaryBtn}
+                onClick={improve}
+                disabled={working || count < 5 || !followUp.trim()}>
+                Improve
+              </Button>
+            </Box>
           </>
         )}
+        <GenerateProgress
+          open={streaming || processing}
+          title={processing ? 'Saving drafts' : 'Creating this page'}
+          hint='A line lands here as each step finishes.'
+          lines={progressLines}
+          stopLabel={processing ? 'Working…' : 'Stop'}
+          onStop={processing ? undefined : resetPreview}
+        />
       </Box>
     </AppsContainer>
   );

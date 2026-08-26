@@ -105,12 +105,47 @@ export function buildLayoutRoot(savedWidgets) {
 }
 
 export function uniquePageKey(base) {
-  const slug =
-    String(base || 'page')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '') || 'page';
+  const slug = slugFromTitle(base);
   return `${slug}-${Date.now().toString(36)}`;
+}
+
+export function slugFromTitle(value) {
+  return (
+    String(value || '')
+      .toLowerCase()
+      .replace(/&/g, ' and ')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 48)
+      .replace(/-$/, '') || 'page'
+  );
+}
+
+export function uniqueRoutePath({title, key, preferred, taken = []} = {}) {
+  const takenSet = new Set(
+    (taken || []).map((item) => {
+      const raw = String(item || '').trim();
+      if (!raw || raw === '/') return '/';
+      return `/${raw.replace(/^\/+|\/+$/g, '')}`;
+    }),
+  );
+  const preferredRaw = String(preferred || '').trim();
+  const preferredPath =
+    preferredRaw && preferredRaw !== '/'
+      ? `/${preferredRaw
+          .replace(/^\/+|\/+$/g, '')
+          .toLowerCase()
+          .replace(/[^a-z0-9/-]+/g, '-')
+          .replace(/\/+/g, '/')}`
+      : '';
+  const slug = slugFromTitle(title || key || preferredPath.replace(/^\//, ''));
+  let base = preferredPath || `/${slug}`;
+  if (!base || base === '/') base = `/${slug}`;
+  if (base === '/') base = '/page';
+  if (!takenSet.has(base)) return base;
+  let n = 2;
+  while (takenSet.has(`${base}-${n}`)) n += 1;
+  return `${base}-${n}`;
 }
 
 export function uniqueWidgetKey(base, used) {

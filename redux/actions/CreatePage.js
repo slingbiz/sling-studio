@@ -3,13 +3,19 @@ import {
   SHOW_MESSAGE,
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
-import {AI_SERVICE_URL, SAVE_ROUTE, SET_CONFIG} from '../../shared/constants/Services';
+import {
+  AI_SERVICE_URL,
+  GET_ROUTES_LIST_API,
+  SAVE_ROUTE,
+  SET_CONFIG,
+} from '../../shared/constants/Services';
 import {publishWidgetAction, saveGeneratedWidget} from './Widgets';
 import {fetchLayoutConfig} from './Dashboard';
 import {getRoutesList} from './Route';
 import {
   buildLayoutRoot,
   uniquePageKey,
+  uniqueRoutePath,
   uniqueWidgetKey,
   ensureWidgetLabel,
 } from '../../modules/createPage/sectionContract';
@@ -39,12 +45,20 @@ export const generatePageFromPrompt = (prompt, themeConfig) => {
   };
 };
 
-export const processGeneratedPage = ({page, sections, prompt}) => {
+export const processGeneratedPage = ({page, sections, prompt, onStatus}) => {
   return async (dispatch) => {
+    const say = (message) => {
+      if (typeof onStatus === 'function') onStatus(message);
+    };
     try {
       const usedKeys = new Set();
       const savedWidgets = [];
-      for (const section of sections) {
+      for (const [index, section] of sections.entries()) {
+        say(
+          `Saving ${section.label || section.name || 'widget'} (${index + 1} of ${
+            sections.length
+          })`,
+        );
         const key = uniqueWidgetKey(section.key || section.id, usedKeys);
         const widget = await dispatch(
           saveGeneratedWidget(
@@ -68,6 +82,7 @@ export const processGeneratedPage = ({page, sections, prompt}) => {
         savedWidgets.push(widget);
       }
 
+      say('Creating the page template');
       const pageKey = uniquePageKey(page?.key || page?.title);
       const Api = await ApiAuth();
       if (!Api) {
@@ -88,7 +103,25 @@ export const processGeneratedPage = ({page, sections, prompt}) => {
       }
       dispatch(fetchLayoutConfig());
 
-      const path = page?.path?.startsWith('/') ? page.path : `/${page?.path || pageKey}`;
+      let taken = [];
+      try {
+        const listRes = await Api.post(`${GET_ROUTES_LIST_API}`, {
+          page: 0,
+          size: 200,
+        });
+        const bundle = listRes.data?.routesList || listRes.data || {};
+        const routes = Array.isArray(bundle) ? bundle : bundle.pageRoutes || [];
+        taken = routes.map((route) => route.url_string || route.url).filter(Boolean);
+      } catch (err) {
+        taken = [];
+      }
+      const path = uniqueRoutePath({
+        title: page?.title,
+        key: page?.key || pageKey,
+        preferred: page?.path,
+        taken,
+      });
+      say(`Adding the route ${path}`);
       const routeRes = await Api.post(`${SAVE_ROUTE}`, {
         name: page?.title || pageKey,
         keys: [],
