@@ -18,7 +18,8 @@ describe('Create page builder', () => {
     expect(src).toMatch(/component='h1'/);
     expect(src).toMatch(/textAlign:\s*['"]center['"]/);
     expect(src).toMatch(/gridTemplateColumns:\s*['"]1fr 1fr['"]/);
-    expect(src).toMatch(/I want a landing page/);
+    expect(src).toMatch(/placeholder='Describe this page'/);
+    expect(src).not.toMatch(/I want a landing page/);
     expect(src).toMatch(/>\s*Generate\s*</);
     expect(src).toMatch(/processing \? 'Processing…' : 'Process'/);
     expect(src).toMatch(/This page is broken into \$\{count\} widgets/);
@@ -102,5 +103,14 @@ describe('Create page builder', () => {
     expect(processed).toMatch(/marginTop:\s*['"]auto['"]/);
     expect(processed).toMatch(/<Tooltip/);
     expect(processed).not.toMatch(/ensureWidgetLabel/);
+  });
+
+  test('prompt field is a white Studio input with ink focus, not a cream AI box', () => {
+    const field = src.slice(src.indexOf('field:'), src.indexOf('starters:'));
+    expect(field).toMatch(/background:\s*['"]#fff['"]/);
+    expect(field).toMatch(/borderColor:\s*['"]#163a5f['"]/);
+    expect(field).not.toMatch(/SLING_CREAM/);
+    expect(field).not.toMatch(/SLING_ORANGE/);
+    expect(src).toMatch(/placeholder='Describe this page'/);
   });
 });

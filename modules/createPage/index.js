@@ -86,15 +86,22 @@ const useStyles = makeStyles(() => ({
     textAlign: 'left',
     '& .MuiOutlinedInput-root': {
       borderRadius: 8,
-      background: SLING_CREAM,
+      background: '#fff',
       fontSize: 14,
       fontFamily: 'Open Sans, sans-serif',
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#e6e6e6',
+      borderColor: '#d5dde6',
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: SLING_ORANGE,
+      borderColor: '#163a5f',
+    },
+    '& .MuiOutlinedInput-input': {
+      color: '#163a5f',
+    },
+    '& .MuiOutlinedInput-input::placeholder': {
+      color: '#6b6f76',
+      opacity: 1,
     },
   },
   starters: {
@@ -236,15 +243,22 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     '& .MuiOutlinedInput-root': {
       borderRadius: 8,
-      background: SLING_CREAM,
+      background: '#fff',
       fontSize: 14,
       fontFamily: 'Open Sans, sans-serif',
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#e6e6e6',
+      borderColor: '#d5dde6',
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: SLING_ORANGE,
+      borderColor: '#163a5f',
+    },
+    '& .MuiOutlinedInput-input': {
+      color: '#163a5f',
+    },
+    '& .MuiOutlinedInput-input::placeholder': {
+      color: '#6b6f76',
+      opacity: 1,
     },
   },
   recents: {
@@ -576,7 +590,7 @@ const CreatePage = () => {
                 variant='outlined'
                 multiline
                 rows={4}
-                placeholder='I want a landing page for…'
+                placeholder='Describe this page'
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown={(e) => {
