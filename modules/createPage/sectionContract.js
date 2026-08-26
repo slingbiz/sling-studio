@@ -42,23 +42,64 @@ export function normalizeLayoutRoot(root) {
   };
 }
 
+const FULL_WIDTH = {sm: 12, md: 12, lg: 12};
+const HALF_WIDTH = {sm: 12, md: 6, lg: 6};
+const THIRD_WIDTH = {sm: 12, md: 6, lg: 4};
+
+function cellFromWidget(widget, muiWidths) {
+  return {
+    key: widget.key,
+    type: widget.type || 'widget',
+    payload: {
+      muiWidths,
+      props: propsToPayload(widget.props),
+    },
+  };
+}
+
+export function layoutRowsFromWidgets(savedWidgets) {
+  const list = savedWidgets || [];
+  if (list.length < 3) {
+    return list.map((widget) => ({
+      cells: [cellFromWidget(widget, FULL_WIDTH)],
+    }));
+  }
+
+  const rows = [
+    {cells: [cellFromWidget(list[0], FULL_WIDTH)]},
+  ];
+  const middle = list.slice(1, -1);
+  let i = 0;
+  while (i < middle.length) {
+    const left = middle.length - i;
+    if (left === 1) {
+      rows.push({cells: [cellFromWidget(middle[i], FULL_WIDTH)]});
+      i += 1;
+    } else if (left === 3 || (left >= 5 && left % 2 === 1)) {
+      rows.push({
+        cells: middle
+          .slice(i, i + 3)
+          .map((widget) => cellFromWidget(widget, THIRD_WIDTH)),
+      });
+      i += 3;
+    } else {
+      rows.push({
+        cells: [
+          cellFromWidget(middle[i], HALF_WIDTH),
+          cellFromWidget(middle[i + 1], HALF_WIDTH),
+        ],
+      });
+      i += 2;
+    }
+  }
+  rows.push({cells: [cellFromWidget(list[list.length - 1], FULL_WIDTH)]});
+  return rows;
+}
+
 export function buildLayoutRoot(savedWidgets) {
   return normalizeLayoutRoot({
     header: {rows: []},
-    body: {
-      rows: (savedWidgets || []).map((widget) => ({
-        cells: [
-          {
-            key: widget.key,
-            type: widget.type || 'widget',
-            payload: {
-              muiWidths: {sm: 12, md: 12, lg: 12},
-              props: propsToPayload(widget.props),
-            },
-          },
-        ],
-      })),
-    },
+    body: {rows: layoutRowsFromWidgets(savedWidgets)},
     footer: {rows: []},
   });
 }
