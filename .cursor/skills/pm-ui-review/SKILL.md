@@ -45,6 +45,8 @@ Do not ship a people/list/settings screen that looks like a leftover form on a b
 - One loader per screen. InfoView is toasts only — do not overlay a second spinner on FETCH_START. Shared Loader is Sling orange, never MUI blue. Hydrating company info must not flash a page loader.
 - Header “View site” opens the live site (`clientUrl`) in a new tab. Never label it Frontend or View shop. If there is no site URL, disable it and point people to Settings → Company.
 - Create (`/create`) generates a page as 5 or 6 named sections in one AI call, streamed. Labels end with “widget”. After generate, people can ask follow-ups to improve the page. Process saves drafts (widgets + template + route) and then shows accordions: Route (entry URL), Widgets (tiles), Template (layout). Publish on that screen takes drafts live. Close returns to Create with recent pages. Hover is Studio chrome (`data-sling-section`): orange tile border + box shadow + label. Do not generate again on Process. Do not publish until they click Publish.
+- Add/Edit template is a Members-style modal (cream fields, orange Save on the right, 14px). Unique id is locked on edit so routes do not break. Title is required. Description is optional. No “Add Template Id”.
+- Edit Layout structure stays. Widget blocks are ink `#163a5f`, nests `#e8eef4`. Apply stays orange. Left library uses capped previews, not a wall of iframes. General Settings is a white card with Mobile (sm) / Tablet (md) / Desktop (lg).
 
 ## Buttons (signed off)
 
@@ -62,15 +64,9 @@ Never: `theme.palette.primary.main` / MUI blue contained, Linear purple, 12px, d
 
 ## What to do next: Pages
 
-Pages (`/pages`) is the next surface to match the product.
+Pages list and Add template are signed off. Remaining leftover MUI is inside Edit Layout.
 
-- Add Template modal: leftover MUI “Add Template Id”. Make it a Members-style modal (cream fields, orange Save on the right, 14px). Copy can stay human: unique id used by routes.
-- Configure layout (`/pages/{id}/layout`): structure is good. Do not flatten it. Recolor widget blocks from default MUI/#0081CB blue to a 2026 ink blue (suggested `#163a5f` blocks, `#e8eef4` nests). Keep orange for Apply/primary. Not Linear purple. Not Material Blue 500.
-- Edit layout left library: show widget **previews**, not generic icons. Do not stack infinite live iframes (that already felt like a hang). Lazy/static thumbnails or capped previews.
-- Page templates list is tiles with live storefront previews (search left, Add template right, one loader, 3-up on lg, default image while preview loads). Do not go back to the fake-thumb table.
-- Edit Layout General Settings: white card on cream, ink 14px, human breakpoint labels (Mobile (sm)). Not cream-on-cream sm/md/lg.
-- Data tab is gone, not later. Do not ship a Coming Soon Data page.
-- Widget Props inspector: labeled Source + Value cards; Add prop writes the widget schema and this placement. Gallery still picks image URLs. Do not ship a fake Add.
+- New cell modal (`NewCellModal`): default DialogTitle + MUI primary. Members-style cream fields, orange Save on the right, 14px. Do not flatten the canvas.
 
 ## Checklist
 
@@ -113,7 +109,8 @@ Run every item against the changed screens and any screen that shares that state
 - Media Constants save was a mock. Gallery is the library; hide Constants.
 - Gallery search icon did nothing. Search must actually filter.
 - Layout widget library was icons, not previews. Show widget thumbnails, not generic icons — and do not stack infinite live iframes.
-- Add Template was default MUI. Members-style modal: cream fields, orange Save on the right, 14px.
+- Add Template was default MUI. It is now Members-style; unique id is locked on edit.
+- New cell modal in Edit Layout was default MUI DialogTitle + primary blue.
 - Edit Layout General Settings was cream-on-cream with sm/md/lg. White card, ink 14px, human breakpoint labels (Mobile (sm)).
 - Default MUI contained primary (blue, ALL CAPS).
 - Data tab Coming Soon with a fake Save. The tab is gone; `/pages/{id}/data` opens Layout.

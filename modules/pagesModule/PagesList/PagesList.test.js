@@ -38,6 +38,8 @@ describe('Pages list + Add template modal', () => {
 
   test('modal keeps unique id, title, and description on a two-column grid', () => {
     expect(src).toMatch(/htmlFor='templateId'/);
+    expect(src).toMatch(/Unique id/);
+    expect(src).not.toMatch(/Unique ID/);
     expect(src).toMatch(/htmlFor='title'/);
     expect(src).toMatch(/htmlFor='description'/);
     expect(src).toMatch(/fields:[\s\S]*gridTemplateColumns:\s*['"]1fr 1fr['"]/);
@@ -45,6 +47,12 @@ describe('Pages list + Add template modal', () => {
     expect(src).toMatch(/addPageTemplate\(templateKey/);
     expect(src).toMatch(/>\s*Save\s*</);
     expect(src).toMatch(/>\s*Cancel\s*</);
+    expect(src).toMatch(/disabled=\{edit\}/);
+    expect(src).toMatch(/Routes already use this id/);
+    expect(src).toMatch(/Add an id and a title/);
+    expect(src).not.toMatch(/Please add valid values/);
+    expect(src).toMatch(/disabled=\{!String\(templateKey/);
+    expect(src).not.toMatch(/!meta\?\.description/);
   });
 
   test('search sits on the left; tile Edit and Delete show on hover', () => {

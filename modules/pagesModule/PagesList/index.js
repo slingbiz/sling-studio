@@ -256,7 +256,7 @@ const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     fontSize: 18,
     fontWeight: 700,
-    color: '#212121',
+    color: '#163a5f',
   },
   fields: {
     display: 'grid',
@@ -276,7 +276,7 @@ const useStyles = makeStyles((theme) => ({
   fieldLabel: {
     fontSize: 14,
     fontWeight: 600,
-    color: '#212121',
+    color: '#163a5f',
     marginBottom: 6,
     display: 'block',
   },
@@ -287,6 +287,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 14,
       background: '#fff8f0',
       fontFamily: 'Open Sans, sans-serif',
+    },
+    '& .MuiOutlinedInput-root.Mui-disabled': {
+      background: '#f4f5f8',
     },
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: '#e6e6e6',
@@ -360,19 +363,22 @@ const ModalPageTemplate = ({
       </Box>
       <DialogContent>
         <Typography className={classes.hint}>
-          Give it a unique id. Routes that use this template will point at that id.
+          {edit
+            ? 'Routes already use this id. You can change the title or description.'
+            : 'Give it a unique id. Routes that use this template will point at that id.'}
         </Typography>
         <Box className={classes.fields}>
           <Box className={classes.fieldWrap}>
             <Typography className={classes.fieldLabel} component='label' htmlFor='templateId'>
-              Unique ID
+              Unique id
             </Typography>
             <TextField
-              autoFocus
+              autoFocus={!edit}
               id='templateId'
               className={classes.dialogField}
               placeholder='newyear-sale'
               value={templateKey || ''}
+              disabled={edit}
               onChange={(e) => {
                 const modifiedKey = e.target.value
                   .replace(/[\W_-]/g, '-')
@@ -392,6 +398,7 @@ const ModalPageTemplate = ({
               className={classes.dialogField}
               placeholder='New Year sale'
               value={title || ''}
+              autoFocus={edit}
               onChange={(e) => setTitle(e.target.value)}
               variant='outlined'
               fullWidth
@@ -420,6 +427,7 @@ const ModalPageTemplate = ({
           </Button>
           <Button
             className={classes.primaryBtn}
+            disabled={!String(templateKey || '').trim() || !String(title || '').trim()}
             onClick={() => addPageTemplate(templateKey, {title, description})}>
             Save
           </Button>
@@ -476,10 +484,10 @@ const PageTemplatesList = () => {
   }, [dispatch, routesList.length]);
 
   const addPageTemplate = (pageKey, meta) => {
-    if (!pageKey || !meta?.title || !meta?.description) {
+    if (!pageKey || !meta?.title) {
       dispatch({
         type: FETCH_ERROR,
-        payload: 'Please add valid values for the new template',
+        payload: 'Add an id and a title.',
       });
       return;
     }
