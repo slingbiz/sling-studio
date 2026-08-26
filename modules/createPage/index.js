@@ -26,6 +26,8 @@ import {resolveWidgetTheme} from '../aiBuilder/widgetTheme';
 import {SLING_CREAM, SLING_INK, SLING_ORANGE} from '../aiBuilder/slingTheme';
 import {useAuthUser} from '../../@sling/utility/AppHooks';
 
+const STUDIO_INK = '#163a5f';
+
 const STARTERS = [
   {
     label: 'Clinic landing',
@@ -48,7 +50,7 @@ const STARTERS = [
 const useStyles = makeStyles(() => ({
   page: {
     padding: '28px 32px 40px',
-    background: '#fff',
+    background: SLING_CREAM,
     fontFamily: 'Open Sans, sans-serif',
     minHeight: '100%',
   },
@@ -65,9 +67,17 @@ const useStyles = makeStyles(() => ({
     margin: '0 auto',
     textAlign: 'center',
   },
+  promptCard: {
+    background: '#fff',
+    border: '1px solid #eee',
+    borderRadius: 12,
+    boxShadow: '0 1px 3px rgba(22,58,95,0.12), 0 1px 2px rgba(22,58,95,0.08)',
+    padding: '28px 28px 24px',
+    textAlign: 'center',
+  },
   heading: {
     margin: 0,
-    color: SLING_INK,
+    color: STUDIO_INK,
     fontWeight: 700,
     fontSize: 20,
     lineHeight: 1.3,
@@ -119,18 +129,18 @@ const useStyles = makeStyles(() => ({
     padding: '0 14px',
     border: '1px solid #d5dde6',
     background: '#fff',
-    color: '#163a5f',
+    color: STUDIO_INK,
     fontWeight: 500,
     fontSize: 14,
     borderRadius: 8,
     boxShadow: 'none',
     fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: '#e8eef4', borderColor: '#163a5f', boxShadow: 'none'},
+    '&:hover': {backgroundColor: '#e8eef4', borderColor: STUDIO_INK, boxShadow: 'none'},
   },
   starterBtnSelected: {
     backgroundColor: '#e8eef4',
-    borderColor: '#163a5f',
-    color: '#163a5f',
+    borderColor: STUDIO_INK,
+    color: STUDIO_INK,
   },
   actions: {
     display: 'flex',
@@ -262,13 +272,13 @@ const useStyles = makeStyles(() => ({
     },
   },
   recents: {
-    marginTop: 32,
+    marginTop: 24,
     textAlign: 'left',
   },
   recentsTitle: {
     fontSize: 14,
     fontWeight: 600,
-    color: SLING_INK,
+    color: STUDIO_INK,
     marginBottom: 8,
   },
   recentItem: {
@@ -283,12 +293,12 @@ const useStyles = makeStyles(() => ({
     background: '#fff',
     boxShadow: 'none',
     fontFamily: 'Open Sans, sans-serif',
-    '&:hover': {backgroundColor: SLING_CREAM, boxShadow: 'none'},
+    '&:hover': {backgroundColor: '#e8eef4', boxShadow: 'none'},
   },
   recentName: {
     fontSize: 14,
     fontWeight: 600,
-    color: SLING_INK,
+    color: STUDIO_INK,
   },
   recentMeta: {
     fontSize: 14,
@@ -579,48 +589,50 @@ const CreatePage = () => {
         ) : !showBuilder ? (
           <Box className={classes.emptyPage}>
             <Box className={classes.promptWrap}>
-              <Box component='h1' className={classes.heading}>
-                {createCopy.title}
-              </Box>
-              <Typography className={classes.description}>
-                {createCopy.description}
-              </Typography>
-              <TextField
-                className={classes.field}
-                variant='outlined'
-                multiline
-                rows={4}
-                placeholder='Describe this page'
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    generate();
-                  }
-                }}
-              />
-              <Box className={classes.starters}>
-                {STARTERS.map((item) => (
-                  <Button
-                    key={item.label}
-                    className={
-                      prompt === item.prompt
-                        ? `${classes.starterBtn} ${classes.starterBtnSelected}`
-                        : classes.starterBtn
+              <Box className={classes.promptCard}>
+                <Box component='h1' className={classes.heading}>
+                  {createCopy.title}
+                </Box>
+                <Typography className={classes.description}>
+                  {createCopy.description}
+                </Typography>
+                <TextField
+                  className={classes.field}
+                  variant='outlined'
+                  multiline
+                  rows={4}
+                  placeholder='Describe this page'
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      generate();
                     }
-                    onClick={() => setPrompt(item.prompt)}>
-                    {item.label}
+                  }}
+                />
+                <Box className={classes.starters}>
+                  {STARTERS.map((item) => (
+                    <Button
+                      key={item.label}
+                      className={
+                        prompt === item.prompt
+                          ? `${classes.starterBtn} ${classes.starterBtnSelected}`
+                          : classes.starterBtn
+                      }
+                      onClick={() => setPrompt(item.prompt)}>
+                      {item.label}
+                    </Button>
+                  ))}
+                </Box>
+                <Box className={classes.actions}>
+                  <Button
+                    className={classes.primaryBtn}
+                    onClick={generate}
+                    disabled={prompt.trim().length < 5}>
+                    Generate
                   </Button>
-                ))}
-              </Box>
-              <Box className={classes.actions}>
-                <Button
-                  className={classes.primaryBtn}
-                  onClick={generate}
-                  disabled={prompt.trim().length < 5}>
-                  Generate
-                </Button>
+                </Box>
               </Box>
               {attempts.length ? (
                 <Box className={classes.recents}>

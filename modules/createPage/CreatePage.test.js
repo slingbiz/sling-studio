@@ -113,4 +113,14 @@ describe('Create page builder', () => {
     expect(field).not.toMatch(/SLING_ORANGE/);
     expect(src).toMatch(/placeholder='Describe this page'/);
   });
+
+  test('empty Create sits on cream with a white prompt card, not a blank white page', () => {
+    const page = src.slice(src.indexOf('page:'), src.indexOf('emptyPage:'));
+    const card = src.slice(src.indexOf('promptCard:'), src.indexOf('heading:'));
+    expect(page).toMatch(/background:\s*SLING_CREAM/);
+    expect(card).toMatch(/background:\s*['"]#fff['"]/);
+    expect(card).toMatch(/boxShadow/);
+    expect(src).toMatch(/classes\.promptCard/);
+    expect(src).toMatch(/color:\s*STUDIO_INK/);
+  });
 });
