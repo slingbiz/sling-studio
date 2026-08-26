@@ -12,25 +12,6 @@ const useStyles = makeStyles((theme) => {
       overflow: 'hidden',
       transition: `width 280ms ${EASE}`,
 
-      [theme.breakpoints.up('lg')]: {
-        width: '5.5rem',
-        position: 'fixed',
-        left: 0,
-
-        '& .nav-item-text, & .nav-item-icon-arrow': {
-          opacity: 0,
-          visibility: 'hidden',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          transition: `opacity 120ms ${EASE}, visibility 120ms ${EASE}`,
-        },
-
-        '& .nav-item-header, & .user-info, & .collapse-children': {
-          display: 'none',
-        },
-      },
-
       [theme.breakpoints.up('xl')]: {
         width: '5.5rem',
       },
@@ -50,16 +31,6 @@ const useStyles = makeStyles((theme) => {
         transition: `margin 280ms ${EASE}`,
         display: 'block',
         flexShrink: 0,
-
-        [theme.breakpoints.up('lg')]: {
-          marginRight: '5px !important',
-          marginLeft: '5px !important',
-        },
-
-        [theme.breakpoints.up('xl')]: {
-          marginRight: '0 !important',
-          marginLeft: '0 !important',
-        },
       },
 
       '& .MuiListItemText-root': {
@@ -84,6 +55,63 @@ const useStyles = makeStyles((theme) => {
         },
       },
 
+      [theme.breakpoints.up('lg')]: {
+        width: '5.5rem',
+        position: 'fixed',
+        left: 0,
+
+        '& .nav-item-text, & .nav-item-icon-arrow': {
+          opacity: 0,
+          visibility: 'hidden',
+          position: 'absolute',
+          width: 0,
+          height: 0,
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          transition: `opacity 120ms ${EASE}, visibility 120ms ${EASE}`,
+        },
+
+        '& .ps__rail-y, & .ps__rail-x': {
+          display: 'none',
+        },
+
+        '& .nav-item-header, & .user-info, & .collapse-children': {
+          display: 'none',
+        },
+
+        '& .MuiListItemText-root': {
+          flex: '0 0 0',
+          minWidth: 0,
+          width: 0,
+          margin: 0,
+          padding: 0,
+          overflow: 'hidden',
+        },
+        '& .nav-item': {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 48,
+          minHeight: 48,
+          paddingLeft: 0,
+          paddingRight: 0,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        },
+        '& .nav-item-icon': {
+          marginLeft: '0 !important',
+          marginRight: '0 !important',
+        },
+        '& .nav-item > span': {
+          marginLeft: '0 !important',
+          marginRight: '0 !important',
+        },
+        '& .MuiIconButton-root': {
+          display: 'none',
+        },
+      },
+
       '&:hover': {
         [theme.breakpoints.up('lg')]: {
           width: '16rem',
@@ -91,10 +119,19 @@ const useStyles = makeStyles((theme) => {
           '& .nav-item-text, & .nav-item-icon-arrow': {
             opacity: 1,
             visibility: 'visible',
+            position: 'static',
+            width: 'auto',
+            height: 'auto',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             transition: `opacity 180ms ${EASE} 90ms, visibility 180ms ${EASE} 90ms`,
+          },
+
+          '& .MuiListItemText-root': {
+            flex: '1 1 auto',
+            width: 'auto',
+            minWidth: 0,
           },
 
           '& .nav-item-header, & .user-info, & .collapse-children': {
@@ -106,10 +143,22 @@ const useStyles = makeStyles((theme) => {
           },
 
           '& .nav-item': {
+            justifyContent: 'flex-start',
             width: 'calc(100% - 16px)',
             paddingLeft: 12,
+            paddingRight: 12,
             marginLeft: 8,
+            marginRight: 8,
             borderRadius: 8,
+          },
+          '& .nav-item > span': {
+            marginRight: '16px !important',
+          },
+          '& .MuiIconButton-root': {
+            display: 'inline-flex',
+          },
+          '& .ps__rail-y': {
+            display: 'block',
           },
           '& .collapse-children .nav-item': {
             paddingLeft: 36,

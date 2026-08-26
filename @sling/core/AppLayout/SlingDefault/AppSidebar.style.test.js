@@ -22,4 +22,13 @@ describe('SlingDefault mini rail hover', () => {
     expect(src).toMatch(/borderRadius: 8/);
     expect(src).not.toMatch(/30px 30px 0/);
   });
+
+  test('collapsed rail centers icons in a square tile', () => {
+    expect(src).toMatch(/justifyContent:\s*['"]center['"]/);
+    expect(src).toMatch(/marginLeft:\s*['"]auto['"]/);
+    expect(src).toMatch(/marginRight:\s*['"]auto['"]/);
+    expect(src).toMatch(/width:\s*48/);
+    expect(src).toMatch(/position:\s*['"]absolute['"]/);
+    expect(src).toMatch(/flex:\s*['"]0 0 0['"]/);
+  });
 });
