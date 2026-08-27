@@ -4,11 +4,11 @@ import {
 } from '../../shared/constants/ActionTypes';
 import ApiAuth from '../../@sling/services/ApiAuthConfig';
 import {
-  AI_SERVICE_URL,
   GET_ROUTES_LIST_API,
   SAVE_ROUTE,
   SET_CONFIG,
 } from '../../shared/constants/Services';
+import {getAiBase, generateHeaders, generateErrorMessage} from '../../shared/aiGenerate';
 import {publishWidgetAction, saveGeneratedWidget} from './Widgets';
 import {fetchLayoutConfig} from './Dashboard';
 import {getRoutesList} from './Route';
@@ -23,15 +23,15 @@ import {
 export const generatePageFromPrompt = (prompt, themeConfig) => {
   return async (dispatch) => {
     try {
-      const aiBase = (AI_SERVICE_URL || '').replace(/\/$/, '');
+      const aiBase = getAiBase();
       const aiRes = await fetch(`${aiBase}/page/generate`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: generateHeaders(),
         body: JSON.stringify({prompt, themeConfig}),
       });
       const data = await aiRes.json();
       if (!aiRes.ok) {
-        throw new Error(data.error || 'Could not generate this page. Try a clearer prompt.');
+        throw new Error(generateErrorMessage(aiRes, data));
       }
       if (!data.page || !Array.isArray(data.sections) || data.sections.length < 5) {
         throw new Error('That page did not split into sections. Try again.');

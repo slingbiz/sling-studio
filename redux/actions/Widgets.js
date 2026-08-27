@@ -14,7 +14,8 @@ import ApiAuth from '../../@sling/services/ApiAuthConfig';
 
 import React from 'react';
 import IntlMessages from '../../@sling/utility/IntlMessages';
-import {GET_WIDGETS, SERVICE_URL, AI_SERVICE_URL} from '../../shared/constants/Services';
+import {GET_WIDGETS, SERVICE_URL} from '../../shared/constants/Services';
+import {getAiBase, generateHeaders, generateErrorMessage} from '../../shared/aiGenerate';
 import {CreateWidget, UpdateWidget} from '../../@sling/services/widget/index';
 import {capital} from '../../@sling/utility/Utils';
 import {checkCodePolicy} from '../../modules/aiBuilder/codePolicy';
@@ -151,15 +152,15 @@ export const generateWidget = (prompt, themeConfig) => {
   return async (dispatch) => {
     dispatch({type: GENERATE_WIDGET_START});
     try {
-      const aiBase = (AI_SERVICE_URL || '').replace(/\/$/, '');
+      const aiBase = getAiBase();
       const aiRes = await fetch(`${aiBase}/widget/generate`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: generateHeaders(),
         body: JSON.stringify({prompt, themeConfig}),
       });
       const aiData = await aiRes.json();
       if (!aiRes.ok) {
-        throw new Error(aiData.error || 'AI generation failed');
+        throw new Error(generateErrorMessage(aiRes, aiData));
       }
 
       const Api = await ApiAuth();

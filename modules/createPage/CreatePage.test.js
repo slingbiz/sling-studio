@@ -55,6 +55,7 @@ describe('Create page builder', () => {
     );
     expect(progress).toMatch(/disableBackdropClick/);
     expect(stream).toMatch(/\/page\/generate\/stream/);
+    expect(stream).toMatch(/generateHeaders/);
     expect(stream).toMatch(/onSection/);
   });
 

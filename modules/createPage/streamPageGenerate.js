@@ -1,8 +1,4 @@
-import {AI_SERVICE_URL} from '../../shared/constants/Services';
-
-function getAiBase() {
-  return (AI_SERVICE_URL || '').replace(/\/$/, '');
-}
+import {getAiBase, generateHeaders, generateErrorMessage} from '../../shared/aiGenerate';
 
 async function readSse(res, callbacks, signal) {
   const reader = res.body.getReader();
@@ -65,7 +61,7 @@ async function generateOnce(prompt, themeConfig, signal, options = {}) {
   }
   const res = await fetch(`${aiBase}/page/generate`, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: generateHeaders(),
     body: JSON.stringify({
       prompt,
       themeConfig,
@@ -76,7 +72,7 @@ async function generateOnce(prompt, themeConfig, signal, options = {}) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.error || 'Could not generate this page. Try a clearer prompt.');
+    throw new Error(generateErrorMessage(res, data));
   }
   if (!data.page || !Array.isArray(data.sections) || data.sections.length < 5) {
     throw new Error('That page did not split into sections. Try again.');
@@ -92,7 +88,7 @@ export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, 
 
   const res = await fetch(`${aiBase}/page/generate/stream`, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: generateHeaders(),
     body: JSON.stringify({
       prompt,
       themeConfig,
@@ -113,7 +109,7 @@ export async function streamPageFromPrompt(prompt, themeConfig, callbacks = {}, 
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || `Generation failed (${res.status})`);
+    throw new Error(generateErrorMessage(res, data));
   }
 
   const complete = await readSse(res, callbacks, signal);

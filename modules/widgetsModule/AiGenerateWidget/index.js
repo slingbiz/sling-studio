@@ -23,7 +23,8 @@ import {useAuthUser} from '../../../@sling/utility/AppHooks';
 import {Form, Formik} from 'formik';
 import {useRouter} from 'next/router';
 import WidgetEditorTabs, {emptyProp} from '../WidgetEditor/WidgetEditorTabs';
-import {AI_SERVICE_URL, SERVICE_URL} from '../../../shared/constants/Services';
+import {SERVICE_URL} from '../../../shared/constants/Services';
+import {getAiBase, generateHeaders, generateErrorMessage} from '../../../shared/aiGenerate';
 import ApiAuth from '../../../@sling/services/ApiAuthConfig';
 import {SLING_ORANGE, SLING_CREAM} from '../../aiBuilder/slingTheme';
 import {resolveWidgetTheme} from '../../aiBuilder/widgetTheme';
@@ -233,7 +234,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getAiBaseUrl() {
-  return (AI_SERVICE_URL || '').replace(/\/$/, '');
+  return getAiBase();
 }
 
 function getApiBaseUrl() {
@@ -248,13 +249,13 @@ async function streamGenerate(prompt, themeConfig, callbacks) {
 
   const res = await fetch(`${baseUrl}/widget/generate/stream`, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: generateHeaders(),
     body: JSON.stringify({prompt, themeConfig}),
   });
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || `Generation failed (${res.status})`);
+    throw new Error(generateErrorMessage(res, data));
   }
 
   const reader = res.body.getReader();
