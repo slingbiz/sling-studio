@@ -178,7 +178,7 @@ const KeyCodeSetupForm = (props) => {
                 {/* <Box style={{marginBottom: 10}}> Note</Box> */}
                 <Box style={{marginBottom: 10, fontWeight: 600}}>
                   Note: Please copy and update API Key in the .env of your
-                  Sling FE repository.
+                  Sling CMS frontend repository.
                 </Box>{' '}
                 {/* <Box style={{marginBottom: 10}}>
                   This can also be copied later from the URL
@@ -197,9 +197,9 @@ const KeyCodeSetupForm = (props) => {
                   }}>
                   <Box sx={{fontSize: 18, fontWeight: '800'}}>Your Keys</Box>
                   <Box sx={{marginTop: 5, fontSize: 12, textAlign: 'justify'}}>
-                    Please use your secret key inside your Sling Client to
+                    Please use your secret key inside your Sling CMS client to
                     access activity from your dashboard. You can also view it
-                    from your Settings section on Sling Studio.
+                    from your Settings section on Sling CMS Studio.
                   </Box>
                 </Box>
                 <Card variant='elevation' className={classes.cardBody}>

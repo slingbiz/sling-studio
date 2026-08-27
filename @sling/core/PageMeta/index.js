@@ -13,7 +13,7 @@ const PageMeta = (props) => (
       property='og:description'
       content={props.desc}
     />
-    <meta property='og:site_name' content='Sling Dashboard' />
+    <meta property='og:site_name' content='Sling CMS' />
     <meta name='twitter:card' content='summary' />
     <meta name='twitter:title' content={props.title} />
     <meta name='twitter:description' content={props.desc} />
@@ -41,7 +41,7 @@ PageMeta.prototype = {
 };
 
 PageMeta.defaultProps = {
-  title: 'Sling - Studio Demo',
-  description: 'Sling - Frontend for your backend',
+  title: 'Sling CMS Studio',
+  description: 'Sling CMS — Frontend for your backend',
   image: `/images/sling-fe.jpg`,
 };

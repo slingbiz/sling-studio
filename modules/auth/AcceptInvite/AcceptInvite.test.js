@@ -24,6 +24,6 @@ describe('Accept invite', () => {
     expect(src).toMatch(/Log in/);
     expect(src).toMatch(/loggedInAsInvitee/);
     expect(src).toMatch(/localStorage.getItem\('user'\)/);
-    expect(src).toMatch(/You already have a Sling account/);
+    expect(src).toMatch(/You already have a Sling CMS account/);
   });
 });

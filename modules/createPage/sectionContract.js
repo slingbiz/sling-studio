@@ -1,7 +1,7 @@
 export const createCopy = {
   title: 'Create',
   description:
-    'Describe a page. We break it into widgets you govern, give props, and publish on their own. Each one stays in Sling, with the same restrictions as the rest of the CMS.',
+    'Describe a page. We break it into widgets you govern, give props, and publish on their own. Each one stays in Sling CMS, with the same restrictions as the rest of the product.',
 };
 
 export function ensureWidgetLabel(label) {

@@ -7,7 +7,7 @@ const SITE_URL =
     ? 'http://localhost:3000'
     : 'https://sling.biz/demo/dashboard';
 
-const defaultTitle = 'Sling Studio Demo';
+const defaultTitle = 'Sling CMS Studio';
 const defaultDescription = '';
 const defaultImage = `/images/sling-fe.jpg`;
 const defaultSep = ' | ';

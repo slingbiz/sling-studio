@@ -80,7 +80,7 @@ const RoutesList = ({titleKey, pageKey}) => {
               Manage Page Routes.
             </Typography>
             <Typography component='p' style={{fontSize: '1rem'}}>
-              Page Routes in Sling are route patterns or static urls which use
+              Page Routes in Sling CMS are route patterns or static urls which use
               a page template to render the Page.
             </Typography>
     

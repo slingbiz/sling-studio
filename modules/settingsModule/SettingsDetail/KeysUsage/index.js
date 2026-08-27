@@ -144,7 +144,7 @@ const KeyUsage = () => {
             onClick={() => window.open(`${process.env.GUIDE_URL}`, '_blank')}
             component='span'
             className={classes.linkGuide}>
-            Sling Key Usage and Frontend Setup.
+            Sling CMS Key Usage and Frontend Setup.
           </Typography>
         </Box>
     </Box>
