@@ -53,6 +53,8 @@ describe('Routes list', () => {
     expect(src).toMatch(/No routes yet/);
     expect(src).toMatch(/No routes match this search/);
     expect(src).toMatch(/Routes \{visible\.length\}/);
+    expect(src).toMatch(/<span>Created<\/span>/);
+    expect(src).toMatch(/formatCreated\(route\)/);
     expect(src).not.toMatch(/TaskListItem/);
     expect(src).not.toMatch(/CheckedTasksActions/);
   });

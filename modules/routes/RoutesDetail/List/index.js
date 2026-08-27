@@ -20,6 +20,7 @@ import {generateSlug} from 'random-word-slugs';
 import {getCompanyInfo} from '../../../../redux/actions/AccountAction';
 import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
 import {keysFromPattern, buildSample, samplesFromRoute} from './routePattern';
+import {formatCreated} from './routeCreated';
 import {useRouter} from 'next/router';
 
 const useStyles = makeStyles(() => ({
@@ -127,7 +128,7 @@ const useStyles = makeStyles(() => ({
   },
   tableGrid: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.2fr) 220px',
+    gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) 150px 220px',
     gap: 16,
     padding: '10px 8px',
     alignItems: 'center',
@@ -605,6 +606,7 @@ const RoutesList = () => {
               <span>URL</span>
               <span>Template</span>
               <span>Sample</span>
+              <span>Created</span>
               <span />
             </Box>
             {visible.length === 0 && (
@@ -629,6 +631,9 @@ const RoutesList = () => {
                 <Typography className={classes.cell}>{templateLabel(route.page_template)}</Typography>
                 <Typography className={classes.mutedCell}>
                   {route.sample_string || route.url_string || '—'}
+                </Typography>
+                <Typography className={classes.mutedCell} title={formatCreated(route)}>
+                  {formatCreated(route)}
                 </Typography>
                 <Box className={classes.actions}>
                   <Button
