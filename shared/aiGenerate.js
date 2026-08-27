@@ -1,6 +1,10 @@
-import {SERVICE_URL} from './constants/Services';
+import {SERVICE_URL, GENERATE_URL} from './constants/Services';
 
 export function getAiBase() {
+  const override = String(GENERATE_URL || '').replace(/\/$/, '');
+  if (override) {
+    return /\/v1\/ai$/i.test(override) ? override : `${override}/v1/ai`;
+  }
   const cms = String(SERVICE_URL || '').replace(/\/$/, '');
   return cms ? `${cms}/v1/ai` : '';
 }

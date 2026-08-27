@@ -10,6 +10,7 @@ const stream = fs.readFileSync(
 describe('Studio generate client', () => {
   test('Create talks to this CMS API with a Studio login, not api.baloon.dev', () => {
     expect(src).toMatch(/\/v1\/ai/);
+    expect(src).toMatch(/GENERATE_URL/);
     expect(src).toMatch(/Authorization/);
     expect(src).not.toMatch(/baloon/);
     expect(src).not.toMatch(/NEXT_PUBLIC_AI_SERVICE_URL/);

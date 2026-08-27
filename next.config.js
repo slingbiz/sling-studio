@@ -58,6 +58,7 @@ module.exports = (phase) => {
   if (!serviceUrl.endsWith('/')) {
     serviceUrl += '/';
   }
+  const generateUrl = process.env.NEXT_PUBLIC_GENERATE_URL || '';
 
   if (phase === PHASE_PRODUCTION_BUILD) {
     return {
@@ -67,6 +68,7 @@ module.exports = (phase) => {
       headers: sandboxHeaders,
       env: {
         SERVICE_URL: `${serviceUrl}`,
+        GENERATE_URL: `${generateUrl}`,
         INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,
         GET_WIDGETS: `${serviceUrl}v1/widgets/dash/getWidgets`,
         GET_MEDIA_API: `${serviceUrl}v1/media/dash/getMedia`,
@@ -87,6 +89,7 @@ module.exports = (phase) => {
     headers: sandboxHeaders,
     env: {
       SERVICE_URL: `${serviceUrl}`,
+      GENERATE_URL: `${generateUrl}`,
       INIT_CONFIG: `${serviceUrl}v1/dashboard/initConfig`,
       GET_WIDGETS: `${serviceUrl}v1/widgets/dash/getWidgets`,
       GET_MEDIA_API: `${serviceUrl}v1/media/dash/getMedia`,
