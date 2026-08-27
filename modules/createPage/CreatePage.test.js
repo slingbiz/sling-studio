@@ -54,6 +54,8 @@ describe('Create page builder', () => {
       'utf8',
     );
     expect(progress).toMatch(/disableBackdropClick/);
+    expect(progress).toMatch(/CircularProgress/);
+    expect(progress).toMatch(/aria-label='Loading'/);
     expect(stream).toMatch(/\/page\/generate\/stream/);
     expect(stream).toMatch(/generateHeaders/);
     expect(stream).toMatch(/onSection/);

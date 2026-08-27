@@ -1,5 +1,12 @@
 import React, {useEffect, useRef} from 'react';
-import {Box, Button, Dialog, DialogContent, Typography} from '@material-ui/core';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Typography,
+} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {SLING_CREAM, SLING_ORANGE} from '../aiBuilder/slingTheme';
 
@@ -61,19 +68,9 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Open Sans, sans-serif',
     '&:hover': {backgroundColor: SLING_CREAM, boxShadow: 'none'},
   },
-  pulse: {
-    display: 'inline-block',
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    background: SLING_ORANGE,
-    marginRight: 8,
-    animation: '$pulse 1.2s ease-in-out infinite',
-  },
-  '@keyframes pulse': {
-    '0%': {opacity: 1},
-    '50%': {opacity: 0.35},
-    '100%': {opacity: 1},
+  spinner: {
+    color: SLING_ORANGE,
+    marginRight: 10,
   },
 }));
 
@@ -93,9 +90,15 @@ const GenerateProgress = ({open, title, hint, lines, onStop, stopLabel}) => {
       disableBackdropClick
       disableEscapeKeyDown
       classes={{paper: classes.dialogPaper}}
-      aria-labelledby='create-progress-title'>
+      aria-labelledby='create-progress-title'
+      aria-busy={open}>
       <Box display='flex' alignItems='center' px={2} pt={1} pb={0.5}>
-        <Box className={classes.pulse} />
+        <CircularProgress
+          className={classes.spinner}
+          size={22}
+          thickness={5}
+          aria-label='Loading'
+        />
         <Typography className={classes.title} id='create-progress-title'>
           {title}
         </Typography>
