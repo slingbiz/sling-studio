@@ -19,7 +19,7 @@ const SlingEntryPage = () => {
         <Box textAlign='center' mb={5}>
           <img
             src={defaultImage}
-            alt='Sling Logo'
+            alt='Sling CMS Logo'
             style={{width: '150px', marginBottom: '20px'}}
           />
           <Typography

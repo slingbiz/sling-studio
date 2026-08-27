@@ -306,7 +306,7 @@ const rolePillClass = (classes, role) => {
 const inviteErrorCopy = (err) => {
   const message = err?.response?.data?.message || 'Invite failed';
   if (/Inviting existing accounts is not in v1/i.test(message)) {
-    return 'That person already has a Sling account. Send the invite — they join from the email.';
+    return 'That person already has a Sling CMS account. Send the invite — they join from the email.';
   }
   return message;
 };

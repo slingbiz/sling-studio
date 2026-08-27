@@ -153,7 +153,7 @@ const AcceptInvite = () => {
         ) : !email ? null : existingAccount ? (
           <>
             <Typography className={classes.copy}>
-              You already have a Sling account. Join this workspace — you will leave your current one.
+              You already have a Sling CMS account. Join this workspace — you will leave your current one.
             </Typography>
             <Button
               className={classes.btn}

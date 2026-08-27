@@ -191,7 +191,7 @@ const LayoutEditView = forwardRef((props, ref) => {
   const setOpenSnack = () => {
     dispatch({
       type: FETCH_WARNING,
-      payload: 'Sling is running in Demo mode. Changes will not be saved.',
+      payload: 'Sling CMS is running in Demo mode. Changes will not be saved.',
     });
   };
 

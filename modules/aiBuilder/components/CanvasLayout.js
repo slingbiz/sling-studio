@@ -533,7 +533,7 @@ const CanvasLayout = ({
               {policyViolations && policyViolations.length > 0 ? (
                 <Box className={classes.liveError}>
                   <Typography variant='subtitle2' gutterBottom>
-                    This widget was blocked by Sling's governance policy and
+                    This widget was blocked by Sling CMS's governance policy and
                     was never sent to preview:
                   </Typography>
                   {policyViolations.map((violation, index) => (

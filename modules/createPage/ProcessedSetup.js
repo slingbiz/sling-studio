@@ -253,7 +253,7 @@ const ProcessedSetup = ({
         </AccordionSummary>
         <AccordionDetails>
           <Typography className={classes.explain}>
-            The route is the entry point. People hit this URL, and Sling loads
+            The route is the entry point. People hit this URL, and Sling CMS loads
             the template behind it.
           </Typography>
           <Box className={classes.path}>{routePath}</Box>

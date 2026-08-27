@@ -11,7 +11,7 @@ describe('Settings → Keys & Usage', () => {
     expect(src).toMatch(/Copy API key/);
     expect(src).toMatch(/Copy client id/);
     expect(src).toMatch(/GUIDE_URL/);
-    expect(src).toMatch(/Sling Key Usage and Frontend Setup/);
+    expect(src).toMatch(/Sling CMS Key Usage and Frontend Setup/);
   });
 
   test('Copy is the primary action on the right in Sling orange', () => {
