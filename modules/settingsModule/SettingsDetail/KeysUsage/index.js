@@ -139,7 +139,9 @@ const KeyUsage = () => {
         </Box>
 
         <Box className={classes.guide}>
-          Learn more about the{' '}
+          Self-host: one company is automatic. A second company is a choice —
+          paste these two values into sling-fe/.env and restart the storefront.
+          Hosted sites always paste these after signup.{' '}
           <Typography
             onClick={() => window.open(`${process.env.GUIDE_URL}`, '_blank')}
             component='span'
