@@ -16,6 +16,7 @@ import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {getSigninInitialValues} from './signinInitialValues';
 
 const MyTextField = (props) => {
   const [field, meta] = useField(props);
@@ -110,10 +111,7 @@ const SigninJwtAuth = (props) => {
         flexDirection='column'>
         <Formik
           validateOnChange={true}
-          initialValues={{
-            email: 'demo@slingcms.com',
-            password: 'demo@slingcms.com',
-          }}
+          initialValues={getSigninInitialValues()}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
             setSubmitting(true);
