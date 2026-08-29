@@ -25,6 +25,7 @@ import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {getSigninInitialValues} from './signinInitialValues';
 import grey from '@material-ui/core/colors/grey';
 
 const MyTextField = (props) => {
@@ -130,10 +131,7 @@ const SigninFirebase = (props) => {
         flexDirection='column'>
         <Formik
           validateOnChange={true}
-          initialValues={{
-            email: 'demo@slingcms.com',
-            password: 'demo@slingcms.com',
-          }}
+          initialValues={getSigninInitialValues()}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
             setSubmitting(true);
