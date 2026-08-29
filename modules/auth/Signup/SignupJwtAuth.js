@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import {Checkbox} from '@material-ui/core';
 import {Form, Formik, useField} from 'formik';
 import * as yup from 'yup';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import InfoView from '../../../@sling/core/InfoView';
 import {onJwtUserSignUp} from '../../../redux/actions';
@@ -95,6 +95,7 @@ const validationSchema = yup.object({
 const SignupJwtAuth = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const signupError = useSelector(({common}) => common.error);
 
   const classes = useStyles(props);
   return (
@@ -221,6 +222,11 @@ const SignupJwtAuth = (props) => {
                   type='submit'>
                   <IntlMessages id='common.signup' />
                 </Button>
+                {signupError ? (
+                  <Box mt={2} color='error.main' fontSize={14}>
+                    {String(signupError)}
+                  </Box>
+                ) : null}
               </Box>
               <Box
                 mb={6}

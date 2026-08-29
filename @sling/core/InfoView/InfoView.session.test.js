@@ -10,6 +10,10 @@ describe('InfoView session toasts', () => {
     expect(src).toMatch(/401/);
   });
 
+  test('reopens the toast when error changes', () => {
+    expect(src).toMatch(/\[error, message, warning, _v\]/);
+  });
+
   test('does not paint a second overlay spinner on FETCH_START', () => {
     expect(src).not.toMatch(/loading && <Loader/);
     expect(src).not.toMatch(/<Loader\s*\/>/);
