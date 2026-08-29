@@ -65,9 +65,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyTextField = (props) => {
+const MyTextField = ({serverError, ...props}) => {
   const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
+  const errorText =
+    (meta.error && meta.touched ? meta.error : '') || serverError || '';
   return (
     <TextField
       {...props}
@@ -96,6 +97,10 @@ const SignupJwtAuth = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const signupError = useSelector(({common}) => common.error);
+  const signupErrorText = signupError ? String(signupError) : '';
+  const emailTakenError = /email already taken/i.test(signupErrorText)
+    ? signupErrorText
+    : '';
 
   const classes = useStyles(props);
   return (
@@ -154,6 +159,7 @@ const SignupJwtAuth = (props) => {
                   name='email'
                   variant='outlined'
                   className={classes.myTextFieldRoot}
+                  serverError={emailTakenError}
                 />
               </Box>
 
@@ -207,13 +213,7 @@ const SignupJwtAuth = (props) => {
                 </Box> */}
               </Box>
 
-              <Box
-                mb={6}
-                mt={6}
-                display='flex'
-                flexDirection={{xs: 'column', sm: 'row'}}
-                alignItems={{sm: 'center'}}
-                justifyContent={{sm: 'space-between'}}>
+              <Box mb={6} mt={6}>
                 <Button
                   variant='contained'
                   color='secondary'
@@ -222,9 +222,14 @@ const SignupJwtAuth = (props) => {
                   type='submit'>
                   <IntlMessages id='common.signup' />
                 </Button>
-                {signupError ? (
-                  <Box mt={2} color='error.main' fontSize={14}>
-                    {String(signupError)}
+                {signupErrorText && !emailTakenError ? (
+                  <Box
+                    mt={2}
+                    color='error.main'
+                    fontSize={14}
+                    width='100%'
+                    role='alert'>
+                    {signupErrorText}
                   </Box>
                 ) : null}
               </Box>
