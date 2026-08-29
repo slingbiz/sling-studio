@@ -61,6 +61,7 @@ const commonReducer = (state = INIT_STATE, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        _v: Date.now(),
         message: '',
         updatingContent: false,
       };

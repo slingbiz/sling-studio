@@ -24,7 +24,7 @@ const InfoView = () => {
 
   useEffect(() => {
     setOpen(true);
-  }, [message, warning, _v]);
+  }, [error, message, warning, _v]);
 
   const showMessage = () => {
     return (
