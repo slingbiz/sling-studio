@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
-import { companyRegistrationUrl, initialUrl } from '../../../shared/constants/AppConst';
+import { companyRegistrationUrl, initialUrl, isPublicAuthPath } from '../../../shared/constants/AppConst';
 import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../core/Loader';
 import {
@@ -56,7 +56,7 @@ const withData = (ComposedComponent) => (props) => {
           Router.push(
             companyRegistrationUrl + (queryParams ? '?' + queryParams : ''),
           );
-        } else if (pathname === '/signin' || pathname === '/signup') {
+        } else if (isPublicAuthPath(pathname)) {
           if (
             localStorage.getItem('accessToken') &&
             localStorage.getItem('accessToken') !== 'undefined' &&
@@ -66,8 +66,7 @@ const withData = (ComposedComponent) => (props) => {
           }
         }
       } else if (
-        pathname !== '/signup' &&
-        pathname !== '/signin' &&
+        !isPublicAuthPath(pathname) &&
         pathname !== '/forget-password' &&
         !String(pathname || '').startsWith('/invite')
       ) {

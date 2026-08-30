@@ -11,7 +11,12 @@ export const defaultUser = {
   photoURL: 'https://via.placeholder.com/150',
 };
 // export const initialUrl = '/account-setup'; // this url will open after login
-export const initialUrl = '/pages/'; // this url will open after login
+export const initialUrl = '/create'; // signed-in home
+
+export const isPublicAuthPath = (pathname) => {
+  const p = String(pathname || '').replace(/\/$/, '') || '/';
+  return p === '/' || p === '/signin' || p === '/signup';
+};
 export const emailVerificationUrl = '/pages/'; // this url will open after login
 export const signUpUrl = '/signup/'; // this url will open after login
 export const companyRegistrationUrl = '/account-setup/'; // this url will open after login

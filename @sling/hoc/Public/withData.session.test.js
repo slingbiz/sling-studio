@@ -8,9 +8,9 @@ describe('Public withData session', () => {
     expect(src).toMatch(/getItem\(\s*['"]accessToken['"]\s*\)/);
     expect(src).toMatch(/removeItem\(\s*['"]user['"]\s*\)/);
 
-    const signinPush = src.slice(src.indexOf("pathname === '/signin'"));
-    expect(signinPush).toMatch(/getItem\(\s*['"]accessToken['"]\s*\)/);
-    expect(signinPush).toMatch(/initialUrl/);
+    expect(src).toMatch(/isPublicAuthPath/);
+    expect(src).toMatch(/getItem\(\s*['"]accessToken['"]\s*\)/);
+    expect(src).toMatch(/initialUrl/);
   });
 
   test('invite accept stays public so a guest can join', () => {
