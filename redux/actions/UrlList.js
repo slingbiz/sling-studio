@@ -15,12 +15,9 @@ export const addURL = () => {
   const {messages} = appIntl();
   const urlList = [
     'https://www.freecodecamp.org/',
-    'https://sling.biz/frontend/dubai/women/clothes/products',
     'https://www.pexels.com/',
     'https://dev.to/',
     'https://www.stackbit.com/',
-    'https://airbnb-clone-typescript.vercel.app/',
-    'https://hulu-clone-nextjs-lilac.vercel.app/',
   ];
   return (dispatch) => {
     dispatch({type: FETCH_START});
@@ -49,12 +46,9 @@ export const addURL = () => {
 export const getUrlList = () => {
   const urlList = [
     'https://www.freecodecamp.org/',
-    'https://sling.biz/frontend/dubai/women/clothes/products',
     'https://www.pexels.com/',
     'https://dev.to/',
     'https://www.stackbit.com/',
-    'https://airbnb-clone-typescript.vercel.app/',
-    'https://hulu-clone-nextjs-lilac.vercel.app/',
   ];
   return (dispatch) => {
     dispatch({type: FETCH_START});
