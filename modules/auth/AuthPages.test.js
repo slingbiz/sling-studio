@@ -23,6 +23,15 @@ describe('login and signup look like Sling', () => {
     expect(form).not.toMatch(/Checkbox/);
   });
 
+  test('does not ship leftover Firebase login', () => {
+    expect(fs.existsSync(path.join(__dirname, 'Signin/SigninFirebase.js'))).toBe(
+      false,
+    );
+    expect(fs.existsSync(path.join(__dirname, 'Signup/SignupFirebase.js'))).toBe(
+      false,
+    );
+  });
+
   test('both pages share the cream shell', () => {
     expect(read('Signin/index.js')).toMatch(/AuthShell/);
     expect(read('Signup/index.js')).toMatch(/AuthShell/);
