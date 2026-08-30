@@ -13,6 +13,7 @@ import {
 const useStyles = makeStyles(() => ({
   page: {
     minHeight: '100vh',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

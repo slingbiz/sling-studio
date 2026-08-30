@@ -28,4 +28,17 @@ describe('login and signup look like Sling', () => {
     expect(read('Signup/index.js')).toMatch(/AuthShell/);
     expect(read('AuthShell.js')).toMatch(/SLING_CREAM|SLING_ORANGE|SLING_INK/);
   });
+
+  test('shell fills the page and centers the card', () => {
+    const shell = read('AuthShell.js');
+    expect(shell).toMatch(/width:\s*['"]100%['"]/);
+    expect(shell).toMatch(/alignItems:\s*['"]center['"]/);
+    expect(shell).toMatch(/justifyContent:\s*['"]center['"]/);
+    const layout = fs.readFileSync(
+      path.join(__dirname, '../../@sling/hoc/Public/AuthLayout.js'),
+      'utf8',
+    );
+    expect(layout).toMatch(/width:\s*['"]100%['"]/);
+    expect(layout).toMatch(/flexDirection:\s*['"]column['"]/);
+  });
 });

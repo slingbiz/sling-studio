@@ -7,9 +7,11 @@ const useStyle = makeStyles(() => ({
   appAuth: {
     flex: 1,
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    width: '100%',
+    minHeight: '100vh',
     position: 'relative',
-    // height: '100vh',
-    // backgroundColor: '#f3f4f6',
     backgroundSize: 'cover',
 
     '& .scrollbar-container': {
