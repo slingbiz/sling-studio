@@ -16,4 +16,10 @@ describe('Auth.js login token storage', () => {
       /localStorage\.setItem\(\s*['"]token['"]\s*,\s*response\.data\.token\s*\)/,
     );
   });
+
+  test('logout goes to login without painting 404', () => {
+    const signOut = src.slice(src.indexOf('export const onJwtAuthSignout'));
+    expect(signOut).toMatch(/location\.replace\(\s*['"]\/signin['"]\s*\)/);
+    expect(signOut).not.toMatch(/location\.href\s*=\s*['"]\/signin['"]/);
+  });
 });
