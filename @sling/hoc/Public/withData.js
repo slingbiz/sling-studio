@@ -75,7 +75,15 @@ const withData = (ComposedComponent) => (props) => {
     }
   }, [loading, user, newUser, queryParams, pathname, verifying]);
 
-  if (loading || verifying) return <Loader />;
+  const sendingSignedOutToLogin =
+    !verifying &&
+    !loading &&
+    !user &&
+    !isPublicAuthPath(pathname) &&
+    pathname !== '/forget-password' &&
+    !String(pathname || '').startsWith('/invite');
+
+  if (loading || verifying || sendingSignedOutToLogin) return <Loader />;
 
   return <ComposedComponent {...props} />;
 };

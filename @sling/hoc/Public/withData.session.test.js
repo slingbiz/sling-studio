@@ -9,6 +9,7 @@ describe('Public withData session', () => {
     expect(src).toMatch(/removeItem\(\s*['"]user['"]\s*\)/);
 
     expect(src).toMatch(/isPublicAuthPath/);
+    expect(src).toMatch(/sendingSignedOutToLogin/);
     expect(src).toMatch(/getItem\(\s*['"]accessToken['"]\s*\)/);
     expect(src).toMatch(/initialUrl/);
   });

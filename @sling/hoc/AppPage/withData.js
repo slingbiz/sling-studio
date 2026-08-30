@@ -52,7 +52,13 @@ const withData = (ComposedComponent) => (props) => {
     }
   }, [user, loading, newUser, queryParams, dispatch, pathname]);
 
-  if (loading) return <Loader />;
+  const sendingSignedOutToLogin =
+    !loading &&
+    !user &&
+    pathname !== '/signup' &&
+    pathname !== '/signin';
+
+  if (loading || sendingSignedOutToLogin) return <Loader />;
 
   return <ComposedComponent {...props} />;
 };

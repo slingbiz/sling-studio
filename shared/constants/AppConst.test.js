@@ -1,4 +1,4 @@
-const {initialUrl, isPublicAuthPath} = require('./AppConst');
+const {initialUrl, isPublicAuthPath, hasStudioSession} = require('./AppConst');
 
 describe('signed-in landing', () => {
   test('sends a signed-in person to Create', () => {
@@ -13,4 +13,9 @@ describe('signed-in landing', () => {
     expect(isPublicAuthPath('/create')).toBe(false);
     expect(isPublicAuthPath('/pages')).toBe(false);
   });
+
+  test('hasStudioSession is false without a token', () => {
+    expect(hasStudioSession()).toBe(false);
+  });
 });
+

@@ -9,7 +9,6 @@ import {
   SET_AUTH_TOKEN,
   UPDATE_NEW_SIGNUP,
   UPDATE_AUTH_USER,
-  SIGNOUT_AUTH_SUCCESS,
 } from '../../shared/constants/ActionTypes';
 import IntlMessages from '../../@sling/utility/IntlMessages';
 import React from 'react';
@@ -193,16 +192,11 @@ export const onJwtAuthSignout = () => {
     // Clear tokens from local storage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('newUser');
 
-    // Dispatch the sign-out action
-    dispatch({type: SIGNOUT_AUTH_SUCCESS});
-
-    dispatch({type: FETCH_SUCCESS});
-
-    // Redirect to login page
-    window.location.href = '/signin';
+    window.location.replace('/signin');
   };
 };
 
