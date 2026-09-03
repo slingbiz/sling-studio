@@ -10,6 +10,7 @@ import SelectBreakpoints from './SelectBreakpoints';
 import {initialWidth} from './NewCellModal';
 import DeviceVisibilitySwitches from './DeviceVisibilitySwitches';
 import TemplateProps from './TemplateProps';
+import {findSelectedWidget} from './findSelectedWidget';
 import {useSelector} from 'react-redux';
 
 const SLING_INK = '#163a5f';
@@ -139,7 +140,7 @@ const LayoutSettings = ({settingsObj}) => {
   const muiWidths = (payload && payload.muiWidths) || {};
   const muiHidden = (payload && payload.muiHidden) || {only: []};
 
-  const selectedWidget = (widgets || []).find((w) => w.key === key);
+  const selectedWidget = findSelectedWidget(widgets || [], key);
   if (selectedWidget) {
     (selectedWidget.props || []).forEach(
       ({name, propType, dataType, default: defaultVal}) => {
@@ -224,6 +225,7 @@ const LayoutSettings = ({settingsObj}) => {
         <TemplateProps
           cellProps={cellProps}
           disabled={controlsDisabled}
+          selectedKey={key}
           selectedWidget={selectedWidget}
         />
       </Box>

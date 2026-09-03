@@ -15,6 +15,12 @@ import {useDispatch} from 'react-redux';
 import GalleryPickerModal from '../../../media/GalleryPickerModal';
 import {isImageProp} from '../../../media/isImageProp';
 import {updateWidget} from '../../../../redux/actions';
+import {
+  applyPropToInstance,
+  canAddWidgetProp,
+  removeInstanceProp,
+  shouldUpdateWidgetSchema,
+} from './findSelectedWidget';
 
 const SLING_ORANGE = '#ff9800';
 const SLING_CREAM = '#fff8f0';
@@ -23,7 +29,11 @@ const SLING_INK = '#163a5f';
 const GALLERY_HELPER =
   'Pick an image from this workspace’s gallery. The URL is stored on the prop.';
 
-const ADD_PROP_HELPER = "This widget's code must read the new prop.";
+const ADD_PROP_HELPER =
+  'This page stores the value. The widget code must read this name.';
+
+const EMPTY_PROPS_COPY =
+  'Click Add prop to create a slot. This page stores the value. The widget code must read that name.';
 
 const SOURCE_OPTIONS = [
   {value: 'static', label: 'Static'},
@@ -132,13 +142,33 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     boxSizing: 'border-box',
   },
+  propCardHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 12,
+  },
   propName: {
     fontSize: 16,
     fontWeight: 600,
     color: SLING_INK,
     fontFamily: 'Open Sans, sans-serif',
-    marginBottom: 12,
+    marginBottom: 0,
     lineHeight: 1.35,
+  },
+  deleteBtn: {
+    textTransform: 'none',
+    color: SLING_ORANGE,
+    fontSize: 14,
+    fontWeight: 500,
+    borderRadius: 8,
+    fontFamily: 'Open Sans, sans-serif',
+    padding: '4px 8px',
+    minWidth: 0,
+    flexShrink: 0,
+    visibility: 'visible',
+    opacity: 1,
   },
   fieldWrap: {
     marginBottom: 12,
@@ -238,6 +268,7 @@ const useStyles = makeStyles(() => ({
 export default function TemplateProps({
   cellProps,
   disabled,
+  selectedKey,
   selectedWidget,
 }) {
   const classes = useStyles();
@@ -308,23 +339,9 @@ export default function TemplateProps({
       setAddError('A prop with this name already exists.');
       return;
     }
-    const widgetId = selectedWidget?._id || selectedWidget?.id;
-    if (!widgetId) {
-      setAddError('Select a widget on the canvas first.');
-      return;
-    }
-
     const dataType = addForm.dataType || 'string';
     const defaultVal = addForm.defaultValue;
     const instanceType = dataType === 'image' ? 'media' : 'static';
-    const schemaProp = {
-      name,
-      propType: 'static',
-      dataType,
-      default: defaultVal,
-    };
-    const namedProps = (selectedWidget.props || []).filter((p) => p && p.name);
-    const nextSchema = [...namedProps, schemaProp];
     const instance = {
       type: instanceType,
       dataType,
@@ -332,17 +349,41 @@ export default function TemplateProps({
       value: defaultVal,
     };
 
-    if (cellProps) {
-      cellProps[name] = instance;
-    }
+    applyPropToInstance(cellProps, name, instance);
     bump();
 
-    dispatch(updateWidget(widgetId, widgetUpdateBody(selectedWidget, nextSchema)));
+    if (shouldUpdateWidgetSchema(selectedWidget)) {
+      const widgetId = selectedWidget._id || selectedWidget.id;
+      const schemaProp = {
+        name,
+        propType: 'static',
+        dataType,
+        default: defaultVal,
+      };
+      const namedProps = (selectedWidget.props || []).filter((p) => p && p.name);
+      const nextSchema = [...namedProps, schemaProp];
+      dispatch(
+        updateWidget(widgetId, widgetUpdateBody(selectedWidget, nextSchema)),
+      );
+    }
     closeAdd();
   };
 
+  const handleDeleteProp = (propKey) => {
+    removeInstanceProp(cellProps, propKey);
+    bump();
+    if (!shouldUpdateWidgetSchema(selectedWidget)) return;
+    const widgetId = selectedWidget._id || selectedWidget.id;
+    const nextSchema = (selectedWidget.props || []).filter(
+      (p) => p && p.name && p.name !== propKey,
+    );
+    dispatch(
+      updateWidget(widgetId, widgetUpdateBody(selectedWidget, nextSchema)),
+    );
+  };
+
   const propKeys = Object.keys(propsMap);
-  const canAdd = !disabled && Boolean(selectedWidget?._id || selectedWidget?.id);
+  const canAdd = canAddWidgetProp({disabled, selectedKey});
 
   return (
     <Box className={classes.root}>
@@ -361,7 +402,7 @@ export default function TemplateProps({
       </Box>
 
       {propKeys.length === 0 ? (
-        <Box className={classes.emptyCopy}>This widget has no props yet.</Box>
+        <Box className={classes.emptyCopy}>{EMPTY_PROPS_COPY}</Box>
       ) : (
         propKeys.map((propKey) => {
           const propObj = propsMap[propKey] || {};
@@ -380,7 +421,15 @@ export default function TemplateProps({
 
           return (
             <Box key={propKey} className={classes.propCard}>
-              <Typography className={classes.propName}>{propKey}</Typography>
+              <Box className={classes.propCardHeader}>
+                <Typography className={classes.propName}>{propKey}</Typography>
+                <Button
+                  className={classes.deleteBtn}
+                  disabled={disabled}
+                  onClick={() => handleDeleteProp(propKey)}>
+                  Delete
+                </Button>
+              </Box>
               <Box className={classes.fieldWrap}>
                 <Typography
                   className={classes.fieldLabel}
