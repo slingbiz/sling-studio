@@ -11,7 +11,9 @@ describe('login and signup look like Sling', () => {
     expect(form).not.toMatch(/Remember Me|rememberMe/);
     expect(form).not.toMatch(/Checkbox/);
     expect(form).toMatch(/authButtonStyles|#ff9800/);
-    expect(form).toMatch(/Try the demo account/);
+    expect(form).toMatch(/Try demo credentials/);
+    expect(form).toMatch(/HOSTED_DEMO_EMAIL|demo@slingcms\.com/);
+    expect(form).toMatch(/getHostedDemoValues/);
   });
 
   test('signup keeps email-taken under the email field', () => {
