@@ -1,7 +1,8 @@
 import React from 'react';
 import PreviewIframe from './PreviewIframe';
+import NotLivePreview from './NotLivePreview';
 
-const Mobile = ({urlToPreview}) => {
+const Mobile = ({urlToPreview, notLive, onNavigate}) => {
   return (
     <div class='marvel-device iphone-x'>
       <div class='notch'>
@@ -20,7 +21,11 @@ const Mobile = ({urlToPreview}) => {
       </div>
       <div class='inner-shadow'></div>
       <div class='screen'>
-        <PreviewIframe urlToPreview={urlToPreview} />
+        {notLive ? (
+          <NotLivePreview onNavigate={onNavigate} />
+        ) : (
+          <PreviewIframe urlToPreview={urlToPreview} />
+        )}
       </div>
     </div>
   );

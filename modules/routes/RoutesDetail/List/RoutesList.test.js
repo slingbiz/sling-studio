@@ -63,6 +63,13 @@ describe('Routes list', () => {
     expect(src).toMatch(/\/pages\/\$\{route\.page_template\}\/layout/);
     expect(src).not.toMatch(/from '.*EditLayout'/);
   });
+
+  test('unpublished widgets get a not-live empty state instead of a white live iframe', () => {
+    expect(src).toMatch(/isRoutePreviewLive/);
+    expect(src).toMatch(/notLive=\{previewNotLive\}/);
+    expect(src).toMatch(/getWidgets\(\{quiet: true, size: 1000\}\)/);
+    expect(src).not.toMatch(/status:\s*'published'/);
+  });
 });
 
 describe('Routes module', () => {

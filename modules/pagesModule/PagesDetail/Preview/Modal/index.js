@@ -99,7 +99,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const PreviewModal = ({ open, setOpen, urlToPreview }) => {
+const PreviewModal = ({ open, setOpen, urlToPreview, notLive }) => {
   const classes = useStyles();
   const [screenMode, setScreenMode] = useState('DESKTOP');
 
@@ -179,9 +179,27 @@ const PreviewModal = ({ open, setOpen, urlToPreview }) => {
       >
         <Grid item xs={12}>
           <Box my={5}>
-            {screenMode === 'DESKTOP' && <Desktop urlToPreview={urlToPreview} />}
-            {screenMode === 'TABLET' && <Tablet urlToPreview={urlToPreview} />}
-            {screenMode === 'MOBILE' && <Mobile urlToPreview={urlToPreview} />}
+            {screenMode === 'DESKTOP' && (
+              <Desktop
+                urlToPreview={urlToPreview}
+                notLive={notLive}
+                onNavigate={handleClose}
+              />
+            )}
+            {screenMode === 'TABLET' && (
+              <Tablet
+                urlToPreview={urlToPreview}
+                notLive={notLive}
+                onNavigate={handleClose}
+              />
+            )}
+            {screenMode === 'MOBILE' && (
+              <Mobile
+                urlToPreview={urlToPreview}
+                notLive={notLive}
+                onNavigate={handleClose}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>

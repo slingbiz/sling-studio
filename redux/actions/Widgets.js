@@ -104,6 +104,7 @@ export const getWidgets = (filters) => {
             append: Boolean(append),
           },
         });
+        return widgets;
       } else {
         console.log('[getWidgets] Error');
         dispatch({

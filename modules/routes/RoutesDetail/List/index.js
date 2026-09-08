@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {addRoute, deleteRoute, fetchLayoutConfig, getRoutesList} from '../../../../redux/actions';
+import {addRoute, deleteRoute, fetchLayoutConfig, getRoutesList, getWidgets} from '../../../../redux/actions';
 import {FETCH_WARNING} from '../../../../shared/constants/ActionTypes';
 import Link from 'next/link';
 import {generateSlug} from 'random-word-slugs';
@@ -22,6 +22,8 @@ import PreviewModal from '../../../pagesModule/PagesDetail/Preview/Modal';
 import {keysFromPattern, buildSample, samplesFromRoute} from './routePattern';
 import {formatCreated} from './routeCreated';
 import {useRouter} from 'next/router';
+import {loadCreateAttempts} from '../../../createPage/createAttempts';
+import {isRoutePreviewLive} from './routePreviewLive';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -444,6 +446,7 @@ const RoutesList = () => {
   const layoutData = useSelector(({dashboard}) => dashboard.layoutData);
   const {account} = useSelector(({account}) => account);
   const {user} = useSelector(({auth}) => auth);
+  const {widgets} = useSelector(({widgets}) => widgets);
 
   const [loaded, setLoaded] = useState(false);
   const [query, setQuery] = useState('');
@@ -453,6 +456,7 @@ const RoutesList = () => {
   const [routeToDelete, setRouteToDelete] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [urlToPreview, setUrlToPreview] = useState('');
+  const [previewNotLive, setPreviewNotLive] = useState(false);
 
   useEffect(() => {
     if (typeof router.query?.q === 'string' && router.query.q) {
@@ -525,7 +529,7 @@ const RoutesList = () => {
     dispatch(addRoute(payload));
   };
 
-  const handlePreview = (route) => {
+  const handlePreview = async (route) => {
     const {clientUrl} = account || {};
     if (!clientUrl) {
       dispatch({
@@ -539,6 +543,15 @@ const RoutesList = () => {
     url = url.replace(/<.*?>/g, slug);
     const slash = url.startsWith('/') || clientUrl.endsWith('/') ? '' : '/';
     setUrlToPreview(`${clientUrl}${slash}${url}`);
+
+    const root = layoutData?.layoutConfig?.[route.page_template]?.root;
+    let widgetList = Array.isArray(widgets) ? widgets : [];
+    if (!widgetList.length) {
+      const fetched = await dispatch(getWidgets({quiet: true, size: 1000}));
+      widgetList = Array.isArray(fetched) ? fetched : widgetList;
+    }
+    const live = isRoutePreviewLive(route, root, widgetList, loadCreateAttempts());
+    setPreviewNotLive(!live);
     setPreviewOpen(true);
   };
 
@@ -593,7 +606,12 @@ const RoutesList = () => {
           onSave={handleSave}
           classes={classes}
         />
-        <PreviewModal open={previewOpen} setOpen={setPreviewOpen} urlToPreview={urlToPreview} />
+        <PreviewModal
+          open={previewOpen}
+          setOpen={setPreviewOpen}
+          urlToPreview={urlToPreview}
+          notLive={previewNotLive}
+        />
 
         {!loaded ? (
           <Box className={classes.loader}>
