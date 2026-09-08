@@ -14,12 +14,15 @@ import IntlMessages from '../../../@sling/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {makeStyles} from '@material-ui/core/styles';
 import {
+  HOSTED_DEMO_EMAIL,
   getHostedDemoValues,
   getSigninInitialValues,
   isLocalStudioApi,
 } from './signinInitialValues';
 import {
+  SLING_CREAM,
   SLING_MUTED,
+  SLING_ORANGE,
   authButtonStyles,
   authFieldStyles,
   authLinkStyles,
@@ -69,14 +72,27 @@ const useStyles = makeStyles(() => ({
   },
   link: authLinkStyles,
   demo: {
-    ...authLinkStyles,
-    display: 'inline-block',
-    marginTop: 4,
+    width: '100%',
+    height: 44,
     marginBottom: 16,
-    background: 'none',
-    border: 'none',
-    padding: 0,
-    fontFamily: 'inherit',
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: 'Open Sans, Helvetica Neue, Arial, sans-serif',
+    textTransform: 'none',
+    borderRadius: 8,
+    boxShadow: 'none',
+    backgroundColor: '#fff',
+    color: SLING_ORANGE,
+    border: `1px solid ${SLING_ORANGE}`,
+    '&:hover': {
+      backgroundColor: SLING_CREAM,
+      boxShadow: 'none',
+    },
+  },
+  demoHint: {
+    margin: '-8px 0 16px',
+    fontSize: 14,
+    color: SLING_MUTED,
   },
 }));
 
@@ -103,12 +119,17 @@ const SigninJwtAuth = () => {
         {({isSubmitting, setValues}) => (
           <Form className={classes.formRoot} noValidate autoComplete='off'>
             {showDemo ? (
-              <button
-                type='button'
-                className={classes.demo}
-                onClick={() => setValues(getHostedDemoValues())}>
-                Try the demo account
-              </button>
+              <>
+                <Button
+                  type='button'
+                  className={classes.demo}
+                  onClick={() => setValues(getHostedDemoValues())}>
+                  Try demo credentials
+                </Button>
+                <Box className={classes.demoHint}>
+                  Fills {HOSTED_DEMO_EMAIL}
+                </Box>
+              </>
             ) : null}
             <Box mb={2.5}>
               <MyTextField

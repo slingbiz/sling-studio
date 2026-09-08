@@ -5,7 +5,7 @@ const {
   isLocalStudioApi,
 } = require('./signinInitialValues');
 
-describe('login starts empty', () => {
+describe('login starts empty; demo is a fill action', () => {
   test('localhost API gets empty fields', () => {
     expect(isLocalStudioApi('http://localhost:10001')).toBe(true);
     expect(getSigninInitialValues('http://localhost:10001')).toEqual({
