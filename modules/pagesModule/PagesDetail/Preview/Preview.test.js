@@ -49,4 +49,13 @@ describe('Page template Preview', () => {
     expect(iframeSrc).toMatch(/about:blank/);
     expect(iframeSrc).toMatch(/opacity: loading \|\| failed \? 0 : 1/);
   });
+
+  test('unpublished preview can skip the live iframe', () => {
+    const desktopSrc = fs.readFileSync(
+      path.join(__dirname, 'Modal/Desktop.js'),
+      'utf8',
+    );
+    expect(desktopSrc).toMatch(/notLive/);
+    expect(desktopSrc).toMatch(/NotLivePreview/);
+  });
 });
